@@ -1,8 +1,11 @@
 # PENNY – Software Specification (v0.1 Draft)
 
 **Owner:** Aldo Ruiz Luna (CEO)
+
 **Author:** MADFAM CEO’s Executive Assistant
+
 **Status:** Draft for review
+
 **Scope:** MVP → v1.0 multi‑tenant, white‑label‑ready assistant platform
 
 ---
