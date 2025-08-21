@@ -66,58 +66,67 @@ PENNY is a multi‑tenant, extensible, AI‑first workbench that pairs a convers
 ## 4) System Architecture
 
 ```mermaid
-flowchart LR
-  subgraph Client
-    A[Web App (Chat + Artifact Viewer)]
+graph LR
+  %% Explicit subgraph IDs and titles to satisfy GitHub's Mermaid parser
+  subgraph C[Client]
+    APP[Web App — Chat & Artifact Viewer]
   end
-
-  subgraph Edge
+  
+  
+  subgraph E[Edge]
     WS[WebSocket Streaming]
-    API[REST/GraphQL API]
+    API[REST / GraphQL API]
   end
-
-  A <---> WS
-  A <---> API
-
-  subgraph Core Backend
+  
+  
+  APP <-->|stream| WS
+  APP <-->|http| API
+  
+  
+  subgraph B[Core Backend]
     CB[Conversation Service]
-    PM[Prompt/Policy Manager]
-    TL[Tool Router]
+    PM[Prompt & Policy Manager]
+    TR[Tool Router]
     AR[Artifact Registry]
-    AU[AuthN/AuthZ + RBAC]
+    AUTH[AuthN/AuthZ · RBAC]
     LOG[Audit & Telemetry]
   end
-
+  
+  
   API --> CB
   WS --> CB
   CB <--> PM
-  CB <--> TL
-  TL <--> AR
-  AU --> API
+  CB <--> TR
+  TR <--> AR
+  AUTH --> API
   CB --> LOG
-  TL --> LOG
-
-  subgraph Model Layer
+  TR --> LOG
+  
+  
+  subgraph M[Model Layer]
     ORCH[Model Orchestrator]
-    LLM1[(Local LLMs)]
-    LLM2[(External Providers)]
+    LLM1((Local LLMs))
+    LLM2((External Providers))
     RET[(Vector Store)]
   end
-
+  
+  
   PM <--> ORCH
   ORCH <--> LLM1
   ORCH <--> LLM2
   CB <--> RET
-
-  subgraph Tools & Data
-    DS[(Datasources: ERP/CRM/DBs)]
-    CODE[Code Sandbox]
-    INT[Integrations (Jira, Slack, Email, WebSearch)]
+  
+  
+  subgraph T[Tools & Data]
+    DS[(Datasources: ERP / CRM / DBs)]
+    CODE[[Code Sandbox]]
+    INT[[Integrations: Jira · Slack · Email · WebSearch]]
   end
-
-  TL <--> DS
-  TL <--> CODE
-  TL <--> INT
+  
+  
+  TR <--> DS
+  TR <--> CODE
+  TR <--> INT
 ```
 
 ### 4.1 Components (contracts & highlights)
