@@ -1,0 +1,45 @@
+{
+  "name": "@penny/web",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext ts,tsx",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist .vite"
+  },
+  "dependencies": {
+    "@penny/shared": "workspace:*",
+    "@penny/ui": "workspace:*",
+    "@penny/api-client": "workspace:*",
+    "@tanstack/react-query": "^5.17.19",
+    "@tanstack/react-router": "^1.16.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "zustand": "^4.5.0",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.1",
+    "lucide-react": "^0.314.0",
+    "react-markdown": "^9.0.1",
+    "rehype-highlight": "^7.0.0",
+    "remark-gfm": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.10",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.33",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.11",
+    "vitest": "^1.2.1"
+  }
+}

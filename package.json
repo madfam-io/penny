@@ -1,0 +1,60 @@
+{
+  "name": "@penny/root",
+  "version": "0.0.1",
+  "description": "PENNY - Multi-tenant AI-first workbench platform",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "tools/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "prepare": "husky install",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "turbo run build --filter='./packages/*' && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "@commitlint/cli": "^18.6.0",
+    "@commitlint/config-conventional": "^18.6.0",
+    "@types/node": "^20.11.5",
+    "eslint": "^8.56.0",
+    "husky": "^9.0.10",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.2.4",
+    "turbo": "^1.11.3",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madfam-io/penny.git"
+  },
+  "keywords": [
+    "ai",
+    "assistant",
+    "enterprise",
+    "multi-tenant",
+    "saas"
+  ],
+  "author": "MADFAM IO",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/madfam-io/penny/issues"
+  },
+  "homepage": "https://github.com/madfam-io/penny#readme"
+}

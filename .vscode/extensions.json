@@ -1,0 +1,19 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "prisma.prisma",
+    "ms-vscode.vscode-typescript-next",
+    "streetsidesoftware.code-spell-checker",
+    "usernamehw.errorlens",
+    "wix.vscode-import-cost",
+    "christian-kohler.path-intellisense",
+    "formulahendry.auto-rename-tag",
+    "github.copilot",
+    "eamodio.gitlens",
+    "ms-azuretools.vscode-docker",
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
+    "redhat.vscode-yaml"
+  ]
+}

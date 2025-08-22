@@ -1,0 +1,27 @@
+{
+  "name": "@penny/telemetry",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "tsc -b --watch",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "lint": "eslint src --ext ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@penny/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "typescript": "^5.3.3"
+  }
+}
