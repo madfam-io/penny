@@ -1,4 +1,6 @@
-// Placeholder for telemetry package
+export * from './metrics/index.js';
+
+// Re-export telemetry for backwards compatibility
 export const telemetry = {
   init: async () => {
     console.log('Telemetry initialized');

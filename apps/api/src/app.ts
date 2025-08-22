@@ -10,6 +10,7 @@ import { errorHandler } from './plugins/error-handler.js';
 import { requestContext } from './plugins/request-context.js';
 import { authentication } from './plugins/authentication.js';
 import { telemetry } from './plugins/telemetry.js';
+import metrics from './plugins/metrics.js';
 
 import healthRoutes from './routes/health.js';
 import authRoutes from './routes/auth.js';
@@ -116,6 +117,7 @@ export async function createServer() {
   await server.register(errorHandler);
   await server.register(requestContext);
   await server.register(telemetry);
+  await server.register(metrics);
   await server.register(authentication);
 
   // Routes
