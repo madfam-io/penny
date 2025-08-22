@@ -1,9 +1,9 @@
 import type { FastifyPluginAsync } from 'fastify';
 import type { FastifyRequest } from 'fastify';
 import { z } from 'zod';
-import jwt from 'jsonwebtoken';
 import { prisma } from '@penny/database';
 import { generateId } from '@penny/shared';
+import { getJWTService } from '@penny/security';
 import { ModelOrchestrator } from '@penny/core';
 import { ToolExecutor, ToolRegistry, registerBuiltinTools } from '@penny/core';
 import Redis from 'ioredis';
@@ -53,6 +53,7 @@ interface WebSocketClient {
   tenantId: string;
   conversationId?: string;
   isAuthenticated: boolean;
+  subscriber?: Redis;
 }
 
 const clients = new Map<any, WebSocketClient>();
@@ -87,10 +88,8 @@ const wsRoutes: FastifyPluginAsync = async (fastify) => {
             case 'authenticate': {
               try {
                 // Verify JWT token
-                const payload = jwt.verify(
-                  parsed.token,
-                  process.env.JWT_SECRET!
-                ) as any;
+                const jwtService = getJWTService();
+                const payload = await jwtService.verifyToken(parsed.token);
 
                 // Update client info
                 client.userId = payload.userId;
@@ -111,13 +110,13 @@ const wsRoutes: FastifyPluginAsync = async (fastify) => {
                 );
 
                 subscriber.on('message', (channel, message) => {
-                  connection.socket.send(message);
+                  if (connection.socket.readyState === connection.socket.OPEN) {
+                    connection.socket.send(message);
+                  }
                 });
 
-                connection.socket.on('close', () => {
-                  subscriber.unsubscribe();
-                  subscriber.disconnect();
-                });
+                // Store subscriber reference for cleanup
+                client.subscriber = subscriber;
               } catch (error) {
                 connection.socket.send(JSON.stringify({
                   type: 'error',
@@ -181,11 +180,20 @@ const wsRoutes: FastifyPluginAsync = async (fastify) => {
                   conversationId,
                 }));
 
-                // Get conversation context
+                // Get conversation context with user information
                 const recentMessages = await prisma.message.findMany({
                   where: { conversationId },
                   orderBy: { createdAt: 'desc' },
                   take: 10,
+                  include: {
+                    user: {
+                      select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                      },
+                    },
+                  },
                 });
 
                 // Generate response
@@ -336,11 +344,21 @@ const wsRoutes: FastifyPluginAsync = async (fastify) => {
       });
 
       connection.socket.on('close', () => {
+        const client = clients.get(connection.socket);
+        if (client?.subscriber) {
+          client.subscriber.unsubscribe();
+          client.subscriber.disconnect();
+        }
         clients.delete(connection.socket);
       });
 
       connection.socket.on('error', (error) => {
         console.error('WebSocket error:', error);
+        const client = clients.get(connection.socket);
+        if (client?.subscriber) {
+          client.subscriber.unsubscribe();
+          client.subscriber.disconnect();
+        }
         clients.delete(connection.socket);
       });
     }

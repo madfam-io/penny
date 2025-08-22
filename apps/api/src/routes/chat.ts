@@ -2,6 +2,7 @@ import type { FastifyPluginAsync } from 'fastify';
 import { z } from 'zod';
 import { Role, createMessageSchema, type ConversationId } from '@penny/shared';
 import type { WebSocket } from 'ws';
+import { validateRequest, paginationSchema, idParamSchema } from '../middleware/validation.js';
 
 const routes: FastifyPluginAsync = async (fastify) => {
   // List conversations
@@ -14,14 +15,24 @@ const routes: FastifyPluginAsync = async (fastify) => {
         type: 'object',
         properties: {
           workspaceId: { type: 'string' },
+          page: { type: 'number', minimum: 1 },
           limit: { type: 'number', minimum: 1, maximum: 100 },
-          offset: { type: 'number', minimum: 0 },
+          sortBy: { type: 'string' },
+          sortOrder: { type: 'string', enum: ['asc', 'desc'] },
         },
       },
     },
-    preHandler: fastify.authenticate,
+    preHandler: [
+      fastify.authenticate,
+      validateRequest({
+        querystring: paginationSchema.extend({
+          workspaceId: z.string().optional(),
+        }),
+      }),
+    ],
   }, async (request, reply) => {
-    const { workspaceId, limit = 20, offset = 0 } = request.query as any;
+    const { workspaceId, page, limit, sortBy, sortOrder } = request.query as any;
+    const offset = (page - 1) * limit;
 
     // TODO: Fetch from database
     return {
@@ -33,6 +44,12 @@ const routes: FastifyPluginAsync = async (fastify) => {
   });
 
   // Create conversation
+  const createConversationSchema = z.object({
+    workspaceId: z.string(),
+    title: z.string().optional(),
+    metadata: z.record(z.any()).optional(),
+  });
+
   fastify.post('/', {
     schema: {
       description: 'Create a new conversation',
@@ -48,9 +65,13 @@ const routes: FastifyPluginAsync = async (fastify) => {
         required: ['workspaceId'],
       },
     },
-    preHandler: [fastify.authenticate, fastify.authorize([Role.CREATOR, Role.MANAGER, Role.ADMIN])],
+    preHandler: [
+      fastify.authenticate,
+      fastify.authorize([Role.CREATOR, Role.MANAGER, Role.ADMIN]),
+      validateRequest({ body: createConversationSchema }),
+    ],
   }, async (request, reply) => {
-    const body = request.body as any;
+    const body = request.body as z.infer<typeof createConversationSchema>;
 
     // TODO: Create in database
     const conversationId = 'conv_' + Date.now();
@@ -80,9 +101,16 @@ const routes: FastifyPluginAsync = async (fastify) => {
         required: ['conversationId'],
       },
     },
-    preHandler: fastify.authenticate,
+    preHandler: [
+      fastify.authenticate,
+      validateRequest({
+        params: z.object({
+          conversationId: z.string(),
+        }),
+      }),
+    ],
   }, async (request, reply) => {
-    const { conversationId } = request.params as any;
+    const { conversationId } = request.params as { conversationId: string };
 
     // TODO: Fetch from database
     return {
@@ -109,10 +137,18 @@ const routes: FastifyPluginAsync = async (fastify) => {
         required: ['conversationId'],
       },
     },
-    preHandler: fastify.authenticate,
+    preHandler: [
+      fastify.authenticate,
+      validateRequest({
+        params: z.object({
+          conversationId: z.string(),
+        }),
+        body: createMessageSchema,
+      }),
+    ],
   }, async (request, reply) => {
-    const { conversationId } = request.params as any;
-    const body = createMessageSchema.parse(request.body);
+    const { conversationId } = request.params as { conversationId: string };
+    const body = request.body as z.infer<typeof createMessageSchema>;
 
     // TODO: Process message and generate response
     const messageId = 'msg_' + Date.now();

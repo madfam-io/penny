@@ -5,6 +5,7 @@ import { StorageService } from '@penny/core';
 import { generateId } from '@penny/shared';
 import { prisma } from '@penny/database';
 import multipart from '@fastify/multipart';
+import { validateFileUpload } from '../../middleware/validation.js';
 
 // Initialize storage service
 const storage = new StorageService({
@@ -72,6 +73,13 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
             chunks.push(chunk);
           }
           const buffer = Buffer.concat(chunks);
+
+          // Validate file before upload
+          validateFileUpload({
+            filename: file.filename,
+            mimetype: file.mimetype,
+            size: buffer.length,
+          });
 
           // Upload file
           const storageObject = await storage.upload(

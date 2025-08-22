@@ -185,6 +185,8 @@ model Message {
   replies             Message[]           @relation("MessageReplies")
   artifacts           Artifact[]
   
+  // Composite index for efficient conversation message queries
+  @@index([conversationId, createdAt(sort: Desc)])
   @@index([conversationId])
   @@index([userId])
   @@index([createdAt])
@@ -291,6 +293,10 @@ model ToolExecution {
   
   tool                Tool                @relation(fields: [toolId], references: [id], onDelete: Cascade)
   
+  // Composite indexes for common query patterns
+  @@index([userId, status, startedAt(sort: Desc)])
+  @@index([toolId, status])
+  @@index([conversationId, startedAt(sort: Desc)])
   @@index([toolId])
   @@index([userId])
   @@index([conversationId])

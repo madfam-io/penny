@@ -2,6 +2,7 @@ import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
+import compress from '@fastify/compress';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import websocket from '@fastify/websocket';
@@ -70,6 +71,13 @@ export async function createServer() {
     redis: process.env.REDIS_URL ? new URL(process.env.REDIS_URL).toString() : undefined,
   });
 
+  // Response compression
+  await server.register(compress, {
+    global: true,
+    threshold: 1024, // Only compress responses > 1KB
+    encodings: ['gzip', 'deflate', 'br'],
+  });
+
   // WebSocket support
   await server.register(websocket);
 
@@ -118,6 +126,7 @@ export async function createServer() {
   await server.register(requestContext);
   await server.register(telemetry);
   await server.register(metrics);
+  await server.register(import('./plugins/cache.js'));
   await server.register(authentication);
 
   // Routes

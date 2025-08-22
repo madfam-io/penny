@@ -48,6 +48,9 @@ export class ToolExecutor extends EventEmitter {
     if (config.enableSandbox) {
       this.sandbox = new ToolSandbox();
     }
+    
+    // Set up periodic cleanup for stale executions
+    this.setupExecutionCleanup();
   }
 
   async execute(
@@ -365,5 +368,19 @@ export class ToolExecutor extends EventEmitter {
       pending: this.queue.pending,
       running: this.executions.size,
     };
+  }
+
+  private setupExecutionCleanup(): void {
+    // Clean up stale executions every 5 minutes
+    setInterval(() => {
+      const staleTime = Date.now() - 3600000; // 1 hour ago
+      
+      for (const [id, execution] of this.executions) {
+        if (execution.startedAt.getTime() < staleTime) {
+          console.warn(`Cleaning up stale execution: ${id}`);
+          this.executions.delete(id);
+        }
+      }
+    }, 300000); // Every 5 minutes
   }
 }

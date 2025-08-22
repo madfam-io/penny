@@ -31,7 +31,8 @@
     "vm2": "^3.9.19",
     "axios": "^1.6.7",
     "@aws-sdk/client-s3": "^3.507.0",
-    "@aws-sdk/s3-request-presigner": "^3.507.0"
+    "@aws-sdk/s3-request-presigner": "^3.507.0",
+    "lru-cache": "^10.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.5",
