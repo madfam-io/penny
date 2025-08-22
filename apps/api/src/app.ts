@@ -14,8 +14,10 @@ import { telemetry } from './plugins/telemetry.js';
 import healthRoutes from './routes/health.js';
 import authRoutes from './routes/auth.js';
 import chatRoutes from './routes/chat.js';
-import toolRoutes from './routes/tools.js';
+import toolRoutes from './routes/tools/index.js';
 import artifactRoutes from './routes/artifacts.js';
+import fileRoutes from './routes/files/index.js';
+import wsRoutes from './routes/ws/index.js';
 
 import { logger } from './utils/logger.js';
 
@@ -122,6 +124,8 @@ export async function createServer() {
   await server.register(chatRoutes, { prefix: '/api/v1/chat' });
   await server.register(toolRoutes, { prefix: '/api/v1/tools' });
   await server.register(artifactRoutes, { prefix: '/api/v1/artifacts' });
+  await server.register(fileRoutes, { prefix: '/api/v1/files' });
+  await server.register(wsRoutes); // WebSocket routes don't need a prefix
 
   // Default 404 handler
   server.setNotFoundHandler((request, reply) => {
