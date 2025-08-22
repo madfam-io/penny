@@ -1,0 +1,404 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==================== TENANT & USER ====================
+
+model Tenant {
+  id                  String              @id @default(cuid())
+  name                String
+  slug                String              @unique
+  logo                String?
+  favicon             String?
+  primaryColor        String              @default("#3b82f6")
+  customCss           String?
+  settings            Json                @default("{}")
+  features            Json                @default("{}")
+  limits              Json                @default("{}")
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  users               User[]
+  workspaces          Workspace[]
+  conversations       Conversation[]
+  artifacts           Artifact[]
+  tools               Tool[]
+  datasources         DataSource[]
+  apiKeys             ApiKey[]
+  auditLogs           AuditLog[]
+  usageMetrics        UsageMetric[]
+  
+  @@index([slug])
+}
+
+model User {
+  id                  String              @id @default(cuid())
+  tenantId            String
+  email               String
+  emailVerified       DateTime?
+  name                String
+  passwordHash        String?
+  avatar              String?
+  locale              String              @default("en")
+  timezone            String              @default("UTC")
+  theme               String              @default("system")
+  preferences         Json                @default("{}")
+  lastLoginAt         DateTime?
+  isActive            Boolean             @default(true)
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  tenant              Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  roles               UserRole[]
+  sessions            Session[]
+  conversations       Conversation[]
+  messages            Message[]
+  artifacts           Artifact[]
+  apiKeys             ApiKey[]
+  auditLogs           AuditLog[]
+  
+  @@unique([tenantId, email])
+  @@index([tenantId])
+  @@index([email])
+}
+
+model Role {
+  id                  String              @id @default(cuid())
+  name                String
+  description         String?
+  permissions         Json                @default("[]")
+  isSystem            Boolean             @default(false)
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  users               UserRole[]
+  
+  @@unique([name])
+}
+
+model UserRole {
+  id                  String              @id @default(cuid())
+  userId              String
+  roleId              String
+  workspaceId         String?
+  assignedAt          DateTime            @default(now())
+  assignedBy          String?
+  
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role                Role                @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  workspace           Workspace?          @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, roleId, workspaceId])
+  @@index([userId])
+  @@index([roleId])
+  @@index([workspaceId])
+}
+
+model Session {
+  id                  String              @id @default(cuid())
+  userId              String
+  token               String              @unique
+  refreshToken        String              @unique
+  ipAddress           String?
+  userAgent           String?
+  deviceId            String?
+  expiresAt           DateTime
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([token])
+  @@index([refreshToken])
+}
+
+// ==================== WORKSPACE & COLLABORATION ====================
+
+model Workspace {
+  id                  String              @id @default(cuid())
+  tenantId            String
+  name                String
+  description         String?
+  isDefault           Boolean             @default(false)
+  settings            Json                @default("{}")
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  tenant              Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  conversations       Conversation[]
+  userRoles           UserRole[]
+  
+  @@unique([tenantId, name])
+  @@index([tenantId])
+}
+
+// ==================== CONVERSATIONS & MESSAGES ====================
+
+model Conversation {
+  id                  String              @id @default(cuid())
+  tenantId            String
+  workspaceId         String
+  userId              String
+  title               String?
+  summary             String?
+  metadata            Json                @default("{}")
+  isArchived          Boolean             @default(false)
+  archivedAt          DateTime?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  tenant              Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  workspace           Workspace           @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages            Message[]
+  artifacts           Artifact[]
+  memories            Memory[]
+  
+  @@index([tenantId])
+  @@index([workspaceId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Message {
+  id                  String              @id @default(cuid())
+  conversationId      String
+  userId              String?
+  role                String              // user, assistant, system, tool
+  content             String
+  metadata            Json                @default("{}")
+  parentMessageId     String?
+  toolCalls           Json?
+  tokenCount          Int                 @default(0)
+  createdAt           DateTime            @default(now())
+  
+  conversation        Conversation        @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user                User?               @relation(fields: [userId], references: [id], onDelete: SetNull)
+  parentMessage       Message?            @relation("MessageReplies", fields: [parentMessageId], references: [id])
+  replies             Message[]           @relation("MessageReplies")
+  artifacts           Artifact[]
+  
+  @@index([conversationId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Memory {
+  id                  String              @id @default(cuid())
+  conversationId      String
+  key                 String
+  value               String
+  embedding           Unsupported("vector")?
+  metadata            Json                @default("{}")
+  expiresAt           DateTime?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  conversation        Conversation        @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  
+  @@unique([conversationId, key])
+  @@index([conversationId])
+  @@index([expiresAt])
+}
+
+// ==================== ARTIFACTS ====================
+
+model Artifact {
+  id                  String              @id @default(cuid())
+  tenantId            String
+  conversationId      String?
+  messageId           String?
+  userId              String
+  type                String              // text, markdown, chart, dashboard, image, document
+  mimeType            String
+  name                String
+  description         String?
+  content             Json?               // For small artifacts
+  storageUrl          String?             // For large artifacts
+  size                Int                 @default(0)
+  metadata            Json                @default("{}")
+  parentArtifactId    String?
+  version             Int                 @default(1)
+  isPublic            Boolean             @default(false)
+  viewCount           Int                 @default(0)
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  tenant              Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  conversation        Conversation?       @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  message             Message?            @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parentArtifact      Artifact?           @relation("ArtifactVersions", fields: [parentArtifactId], references: [id])
+  versions            Artifact[]          @relation("ArtifactVersions")
+  
+  @@index([tenantId])
+  @@index([conversationId])
+  @@index([messageId])
+  @@index([userId])
+  @@index([type])
+  @@index([createdAt])
+}
+
+// ==================== TOOLS & INTEGRATIONS ====================
+
+model Tool {
+  id                  String              @id @default(cuid())
+  tenantId            String?
+  name                String              @unique
+  displayName         String
+  description         String
+  category            String
+  icon                String?
+  schema              Json                // JSON Schema for parameters
+  config              Json                @default("{}")
+  isSystem            Boolean             @default(false)
+  isEnabled           Boolean             @default(true)
+  requiresAuth        Boolean             @default(false)
+  requiresConfirm     Boolean             @default(false)
+  maxExecutions       Int?
+  timeout             Int                 @default(30000)
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  tenant              Tenant?             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  executions          ToolExecution[]
+  
+  @@index([tenantId])
+  @@index([category])
+  @@index([isEnabled])
+}
+
+model ToolExecution {
+  id                  String              @id @default(cuid())
+  toolId              String
+  userId              String
+  conversationId      String?
+  status              String              // pending, running, completed, failed
+  parameters          Json
+  result              Json?
+  error               String?
+  startedAt           DateTime            @default(now())
+  completedAt         DateTime?
+  duration            Int?                // milliseconds
+  metadata            Json                @default("{}")
+  
+  tool                Tool                @relation(fields: [toolId], references: [id], onDelete: Cascade)
+  
+  @@index([toolId])
+  @@index([userId])
+  @@index([conversationId])
+  @@index([status])
+  @@index([startedAt])
+}
+
+// ==================== DATA SOURCES ====================
+
+model DataSource {
+  id                  String              @id @default(cuid())
+  tenantId            String
+  name                String
+  type                String              // postgres, mysql, bigquery, snowflake, api
+  config              Json                // Encrypted connection details
+  isActive            Boolean             @default(true)
+  lastSyncAt          DateTime?
+  syncSchedule        String?             // Cron expression
+  metadata            Json                @default("{}")
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  tenant              Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  documents           Document[]
+  
+  @@unique([tenantId, name])
+  @@index([tenantId])
+  @@index([type])
+}
+
+model Document {
+  id                  String              @id @default(cuid())
+  dataSourceId        String
+  externalId          String?
+  title               String
+  content             String
+  contentHash         String
+  embedding           Unsupported("vector")?
+  metadata            Json                @default("{}")
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  dataSource          DataSource          @relation(fields: [dataSourceId], references: [id], onDelete: Cascade)
+  
+  @@unique([dataSourceId, externalId])
+  @@index([dataSourceId])
+  @@index([contentHash])
+}
+
+// ==================== API & SECURITY ====================
+
+model ApiKey {
+  id                  String              @id @default(cuid())
+  tenantId            String
+  userId              String
+  name                String
+  keyHash             String              @unique
+  lastUsedAt          DateTime?
+  expiresAt           DateTime?
+  scopes              Json                @default("[]")
+  metadata            Json                @default("{}")
+  createdAt           DateTime            @default(now())
+  
+  tenant              Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([tenantId])
+  @@index([userId])
+  @@index([keyHash])
+  @@index([expiresAt])
+}
+
+// ==================== MONITORING & AUDIT ====================
+
+model AuditLog {
+  id                  String              @id @default(cuid())
+  tenantId            String
+  userId              String?
+  action              String
+  resource            String
+  resourceId          String?
+  metadata            Json                @default("{}")
+  ipAddress           String?
+  userAgent           String?
+  timestamp           DateTime            @default(now())
+  
+  tenant              Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user                User?               @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  @@index([tenantId])
+  @@index([userId])
+  @@index([action])
+  @@index([resource])
+  @@index([timestamp])
+}
+
+model UsageMetric {
+  id                  String              @id @default(cuid())
+  tenantId            String
+  metric              String              // tokens, messages, tools, storage
+  value               Int
+  unit                String              // count, bytes, milliseconds
+  metadata            Json                @default("{}")
+  timestamp           DateTime            @default(now())
+  
+  tenant              Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  
+  @@index([tenantId])
+  @@index([metric])
+  @@index([timestamp])
+}

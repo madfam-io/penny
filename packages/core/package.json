@@ -1,5 +1,5 @@
 {
-  "name": "@penny/database",
+  "name": "@penny/core",
   "version": "0.0.1",
   "type": "module",
   "main": "./dist/index.js",
@@ -11,27 +11,27 @@
     }
   },
   "scripts": {
-    "build": "prisma generate && tsc -b",
+    "build": "tsc -b",
     "dev": "tsc -b --watch",
     "clean": "rm -rf dist *.tsbuildinfo",
     "lint": "eslint src --ext ts",
     "typecheck": "tsc --noEmit",
-    "db:generate": "prisma generate",
-    "db:push": "prisma db push",
-    "db:migrate": "prisma migrate dev",
-    "db:migrate:create": "prisma migrate dev --create-only",
-    "db:migrate:deploy": "prisma migrate deploy",
-    "db:seed": "tsx prisma/seed.ts",
-    "db:studio": "prisma studio"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@penny/shared": "workspace:*",
-    "@prisma/client": "^5.8.1"
+    "@penny/database": "workspace:*",
+    "@penny/security": "workspace:*",
+    "openai": "^4.26.0",
+    "@anthropic-ai/sdk": "^0.16.1",
+    "zod": "^3.22.4",
+    "p-queue": "^8.0.1",
+    "ioredis": "^5.3.2"
   },
   "devDependencies": {
     "@types/node": "^20.11.5",
-    "prisma": "^5.8.1",
-    "tsx": "^4.7.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.1"
   }
 }

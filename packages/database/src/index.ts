@@ -1,9 +1,4 @@
-// Placeholder for database package
-export const database = {
-  connect: async () => {
-    console.log('Database connected');
-  },
-  disconnect: async () => {
-    console.log('Database disconnected');
-  },
-};
+export * from './client.js';
+export * from './types.js';
+export * from './utils.js';
+export * from './tenant.js';
