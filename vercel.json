@@ -52,16 +52,6 @@
       "maxDuration": 30
     }
   },
-  "crons": [
-    {
-      "path": "/api/cron/cleanup",
-      "schedule": "0 2 * * *"
-    },
-    {
-      "path": "/api/cron/metrics",
-      "schedule": "*/5 * * * *"
-    }
-  ],
   "env": {
     "NEXT_PUBLIC_API_URL": "@railway_api_url",
     "NEXT_PUBLIC_WS_URL": "@railway_ws_url",

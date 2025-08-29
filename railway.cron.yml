@@ -1,0 +1,43 @@
+# Railway Cron Job Configuration
+# This file defines cron jobs that run on Railway, not Vercel
+# Vercel only hosts the frontend; Railway handles all backend services
+
+cron_jobs:
+  # Daily cleanup job - runs at 2:00 AM UTC
+  cleanup:
+    service: worker
+    command: "npm run job:cleanup"
+    schedule: "0 2 * * *"
+    description: "Clean up expired sessions, old logs, and temporary data"
+    
+  # Metrics collection - runs every 5 minutes
+  metrics:
+    service: worker
+    command: "npm run job:metrics"
+    schedule: "*/5 * * * *"
+    description: "Collect and aggregate platform metrics"
+    
+  # Usage calculation - runs hourly
+  usage:
+    service: worker
+    command: "npm run job:usage"
+    schedule: "0 * * * *"
+    description: "Calculate tenant usage for billing"
+    
+  # Invoice generation - runs monthly on the 1st at midnight
+  invoices:
+    service: worker
+    command: "npm run job:invoices"
+    schedule: "0 0 1 * *"
+    description: "Generate monthly invoices for all tenants"
+    
+  # Webhook retries - runs every 30 minutes
+  webhooks:
+    service: worker
+    command: "npm run job:webhooks"
+    schedule: "*/30 * * * *"
+    description: "Retry failed webhook deliveries"
+
+# Note: These cron jobs are configured in Railway's dashboard
+# or via Railway CLI, not through this file directly.
+# This file serves as documentation and source of truth.

@@ -43,6 +43,12 @@
     
     "start:test": "NODE_ENV=test turbo run start --parallel",
     
+    "job:cleanup": "node apps/worker/dist/jobs/cleanup.js",
+    "job:metrics": "node apps/worker/dist/jobs/metrics.js",
+    "job:usage": "node apps/worker/dist/jobs/calculateUsage.js",
+    "job:invoices": "node apps/worker/dist/jobs/generateInvoices.js",
+    "job:webhooks": "node apps/worker/dist/jobs/invokeWebhook.js",
+    
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
