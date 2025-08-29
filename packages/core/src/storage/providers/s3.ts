@@ -43,13 +43,8 @@ export class S3StorageProvider implements StorageProvider {
     });
   }
 
-  async upload(
-    file: UploadFile,
-    options?: UploadOptions,
-  ): Promise<StorageObject> {
-    const key = options?.folder 
-      ? `${options.folder}/${file.filename}`
-      : file.filename;
+  async upload(file: UploadFile, options?: UploadOptions): Promise<StorageObject> {
+    const key = options?.folder ? `${options.folder}/${file.filename}` : file.filename;
 
     const command = new PutObjectCommand({
       Bucket: this.bucket,
@@ -59,7 +54,7 @@ export class S3StorageProvider implements StorageProvider {
       ContentLength: file.size,
       ACL: options?.acl,
       Metadata: options?.metadata,
-      Tagging: options?.tags 
+      Tagging: options?.tags
         ? Object.entries(options.tags)
             .map(([k, v]) => `${k}=${v}`)
             .join('&')
@@ -78,21 +73,16 @@ export class S3StorageProvider implements StorageProvider {
     };
   }
 
-  async download(
-    key: string,
-    options?: DownloadOptions,
-  ): Promise<Buffer> {
+  async download(key: string, options?: DownloadOptions): Promise<Buffer> {
     const command = new GetObjectCommand({
       Bucket: this.bucket,
       Key: key,
       VersionId: options?.version,
-      Range: options?.range 
-        ? `bytes=${options.range.start}-${options.range.end}`
-        : undefined,
+      Range: options?.range ? `bytes=${options.range.start}-${options.range.end}` : undefined,
     });
 
     const response = await this.client.send(command);
-    
+
     if (!response.Body) {
       throw new Error('No body in response');
     }
@@ -102,7 +92,7 @@ export class S3StorageProvider implements StorageProvider {
     for await (const chunk of response.Body as any) {
       chunks.push(chunk);
     }
-    
+
     return Buffer.concat(chunks);
   }
 
@@ -146,10 +136,7 @@ export class S3StorageProvider implements StorageProvider {
     });
   }
 
-  async list(
-    prefix: string,
-    options?: ListOptions,
-  ): Promise<StorageObject[]> {
+  async list(prefix: string, options?: ListOptions): Promise<StorageObject[]> {
     const command = new ListObjectsV2Command({
       Bucket: this.bucket,
       Prefix: prefix,
@@ -159,8 +146,8 @@ export class S3StorageProvider implements StorageProvider {
     });
 
     const response = await this.client.send(command);
-    
-    return (response.Contents || []).map(obj => ({
+
+    return (response.Contents || []).map((obj) => ({
       key: obj.Key!,
       size: obj.Size!,
       etag: obj.ETag?.replace(/"/g, '') || '',

@@ -30,7 +30,7 @@ const handler: ToolHandler = async (params, context) => {
     // Install packages if specified
     if (job.packages && job.packages.length > 0) {
       await fs.writeFile(requirementsPath, job.packages.join('\n'));
-      
+
       await new Promise<void>((resolve, reject) => {
         const pip = spawn('pip', ['install', '-r', requirementsPath, '--target', tempDir], {
           cwd: tempDir,
@@ -90,12 +90,16 @@ const handler: ToolHandler = async (params, context) => {
               output,
               exitCode: code,
             },
-            artifacts: output ? [{
-              type: 'text',
-              name: 'Python Output',
-              content: output,
-              mimeType: 'text/plain',
-            }] : [],
+            artifacts: output
+              ? [
+                  {
+                    type: 'text',
+                    name: 'Python Output',
+                    content: output,
+                    mimeType: 'text/plain',
+                  },
+                ]
+              : [],
             usage: {
               credits: 5,
               duration: Date.now(),

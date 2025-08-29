@@ -8,13 +8,13 @@ import { sendSlackMessage, getSlackChannels, getSlackUsers } from './slack.js';
 export function registerBuiltinTools(registry: ToolRegistry): void {
   // Analytics tools
   registry.register(getCompanyKPIsTool);
-  
+
   // Visualization tools
   registry.register(loadDashboardTool);
 
   // Productivity tools
   registry.register(createJiraTicketTool);
-  
+
   // Communication tools
   registry.register(sendSlackMessage);
   registry.register(getSlackChannels);

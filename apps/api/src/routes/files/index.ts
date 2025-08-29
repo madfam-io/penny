@@ -9,17 +9,20 @@ import { validateFileUpload } from '../../middleware/validation.js';
 
 // Initialize storage service
 const storage = new StorageService({
-  provider: process.env.STORAGE_PROVIDER as any || 'local',
+  provider: (process.env.STORAGE_PROVIDER as any) || 'local',
   local: {
     basePath: process.env.STORAGE_LOCAL_PATH || './uploads',
     baseUrl: process.env.API_URL || 'http://localhost:3000/api/v1',
   },
-  s3: process.env.STORAGE_PROVIDER === 's3' ? {
-    bucket: process.env.S3_BUCKET!,
-    region: process.env.S3_REGION!,
-    accessKeyId: process.env.S3_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
-  } : undefined,
+  s3:
+    process.env.STORAGE_PROVIDER === 's3'
+      ? {
+          bucket: process.env.S3_BUCKET!,
+          region: process.env.S3_REGION!,
+          accessKeyId: process.env.S3_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
+        }
+      : undefined,
   encryption: {
     enabled: process.env.STORAGE_ENCRYPTION === 'true',
   },
@@ -93,7 +96,7 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
               tenantId: request.user.tenantId,
               userId: request.user.id,
               folder: file.fieldname || 'uploads',
-            }
+            },
           );
 
           uploaded.push({
@@ -101,11 +104,9 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
             filename: file.filename,
             size: buffer.length,
             mimeType: file.mimetype,
-            url: await storage.getUrl(
-              storageObject.key,
-              request.user.tenantId,
-              { expiresIn: 3600 }
-            ),
+            url: await storage.getUrl(storageObject.key, request.user.tenantId, {
+              expiresIn: 3600,
+            }),
           });
         } catch (error: any) {
           uploaded.push({
@@ -116,7 +117,7 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
       }
 
       return { files: uploaded };
-    }
+    },
   );
 
   // List files
@@ -160,19 +161,15 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
           size: file.size,
           mimeType: file.mimeType,
           createdAt: file.createdAt,
-          url: await storage.getUrl(
-            file.storageKey,
-            request.user.tenantId,
-            { expiresIn: 3600 }
-          ),
-        }))
+          url: await storage.getUrl(file.storageKey, request.user.tenantId, { expiresIn: 3600 }),
+        })),
       );
 
       return {
         files: filesWithUrls,
         nextCursor: files.length === limit ? files[files.length - 1].id : null,
       };
-    }
+    },
   );
 
   // Get file details
@@ -214,13 +211,9 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
         encrypted: file.encrypted,
         createdAt: file.createdAt,
         metadata: file.metadata,
-        url: await storage.getUrl(
-          file.storageKey,
-          request.user.tenantId,
-          { expiresIn: 3600 }
-        ),
+        url: await storage.getUrl(file.storageKey, request.user.tenantId, { expiresIn: 3600 }),
       };
-    }
+    },
   );
 
   // Download file
@@ -255,17 +248,11 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
       }
 
       try {
-        const buffer = await storage.download(
-          file.storageKey,
-          request.user.tenantId,
-        );
+        const buffer = await storage.download(file.storageKey, request.user.tenantId);
 
         return reply
           .type(file.mimeType)
-          .header(
-            'Content-Disposition',
-            `attachment; filename="${file.filename}"`
-          )
+          .header('Content-Disposition', `attachment; filename="${file.filename}"`)
           .send(buffer);
       } catch (error: any) {
         return reply.code(500).send({
@@ -273,7 +260,7 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
           message: error.message,
         });
       }
-    }
+    },
   );
 
   // Delete file
@@ -316,7 +303,7 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
           message: error.message,
         });
       }
-    }
+    },
   );
 };
 

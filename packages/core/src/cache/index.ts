@@ -16,7 +16,7 @@ export class CacheService {
   constructor(config: CacheConfig) {
     this.redis = config.redis;
     this.defaultTTL = config.defaultTTL || 3600; // 1 hour default
-    
+
     // Initialize in-memory LRU cache
     this.memoryCache = new LRUCache({
       max: config.memoryMaxSize || 1000,
@@ -32,13 +32,13 @@ export class CacheService {
   // Conversation cache methods
   async getConversation(id: string): Promise<Conversation | null> {
     const cacheKey = `conv:${id}`;
-    
+
     // L1: Memory cache
     const memCached = this.memoryCache.get(cacheKey);
     if (memCached) {
       return memCached;
     }
-    
+
     // L2: Redis cache
     const redisCached = await this.redis.get(cacheKey);
     if (redisCached) {
@@ -46,14 +46,14 @@ export class CacheService {
       this.memoryCache.set(cacheKey, conversation);
       return conversation;
     }
-    
+
     return null;
   }
 
   async setConversation(conversation: Conversation, ttl?: number): Promise<void> {
     const cacheKey = `conv:${conversation.id}`;
     const serialized = JSON.stringify(conversation);
-    
+
     // Set in both caches
     this.memoryCache.set(cacheKey, conversation);
     await this.redis.setex(cacheKey, ttl || this.defaultTTL, serialized);
@@ -65,33 +65,36 @@ export class CacheService {
       `conv:${conversationId}:messages`,
       `conv:${conversationId}:artifacts`,
     ];
-    
+
     // Clear from memory cache
-    keys.forEach(key => this.memoryCache.delete(key));
-    
+    keys.forEach((key) => this.memoryCache.delete(key));
+
     // Clear from Redis
     if (keys.length > 0) {
       await this.redis.del(...keys);
     }
-    
+
     // Publish invalidation event for distributed cache
-    await this.redis.publish('cache:invalidate', JSON.stringify({
-      type: 'conversation',
-      id: conversationId,
-      keys,
-    }));
+    await this.redis.publish(
+      'cache:invalidate',
+      JSON.stringify({
+        type: 'conversation',
+        id: conversationId,
+        keys,
+      }),
+    );
   }
 
   // Message cache methods
   async getRecentMessages(conversationId: string, limit = 50): Promise<Message[] | null> {
     const cacheKey = `conv:${conversationId}:messages:${limit}`;
-    
+
     // Check memory cache first
     const memCached = this.memoryCache.get(cacheKey);
     if (memCached) {
       return memCached;
     }
-    
+
     // Check Redis
     const redisCached = await this.redis.get(cacheKey);
     if (redisCached) {
@@ -99,14 +102,14 @@ export class CacheService {
       this.memoryCache.set(cacheKey, messages);
       return messages;
     }
-    
+
     return null;
   }
 
   async setRecentMessages(conversationId: string, messages: Message[], limit = 50): Promise<void> {
     const cacheKey = `conv:${conversationId}:messages:${limit}`;
     const serialized = JSON.stringify(messages);
-    
+
     this.memoryCache.set(cacheKey, messages);
     await this.redis.setex(cacheKey, 300, serialized); // 5 minute TTL for messages
   }
@@ -114,26 +117,26 @@ export class CacheService {
   // User cache methods
   async getUser(userId: string): Promise<User | null> {
     const cacheKey = `user:${userId}`;
-    
+
     const memCached = this.memoryCache.get(cacheKey);
     if (memCached) {
       return memCached;
     }
-    
+
     const redisCached = await this.redis.get(cacheKey);
     if (redisCached) {
       const user = JSON.parse(redisCached);
       this.memoryCache.set(cacheKey, user);
       return user;
     }
-    
+
     return null;
   }
 
   async setUser(user: User, ttl?: number): Promise<void> {
     const cacheKey = `user:${user.id}`;
     const serialized = JSON.stringify(user);
-    
+
     this.memoryCache.set(cacheKey, user);
     await this.redis.setex(cacheKey, ttl || this.defaultTTL, serialized);
   }
@@ -141,7 +144,7 @@ export class CacheService {
   // Session cache methods
   async getSession(token: string): Promise<any | null> {
     const cacheKey = `session:${token}`;
-    
+
     // Sessions should be in Redis only (not in memory cache)
     const session = await this.redis.get(cacheKey);
     return session ? JSON.parse(session) : null;
@@ -159,25 +162,25 @@ export class CacheService {
   // Model provider cache
   async getModelProviders(): Promise<any[] | null> {
     const cacheKey = 'models:providers';
-    
+
     const cached = this.memoryCache.get(cacheKey);
     if (cached) {
       return cached;
     }
-    
+
     const redisCached = await this.redis.get(cacheKey);
     if (redisCached) {
       const providers = JSON.parse(redisCached);
       this.memoryCache.set(cacheKey, providers);
       return providers;
     }
-    
+
     return null;
   }
 
   async setModelProviders(providers: any[], ttl = 3600): Promise<void> {
     const cacheKey = 'models:providers';
-    
+
     this.memoryCache.set(cacheKey, providers);
     await this.redis.setex(cacheKey, ttl, JSON.stringify(providers));
   }
@@ -185,19 +188,19 @@ export class CacheService {
   // API response cache
   async getCachedResponse(key: string): Promise<any | null> {
     const cacheKey = `api:${key}`;
-    
+
     const cached = this.memoryCache.get(cacheKey);
     if (cached) {
       return cached;
     }
-    
+
     const redisCached = await this.redis.get(cacheKey);
     return redisCached ? JSON.parse(redisCached) : null;
   }
 
   async setCachedResponse(key: string, data: any, ttl = 300): Promise<void> {
     const cacheKey = `api:${key}`;
-    
+
     this.memoryCache.set(cacheKey, data);
     await this.redis.setex(cacheKey, ttl, JSON.stringify(data));
   }
@@ -205,7 +208,7 @@ export class CacheService {
   // Query result cache
   async getCachedQuery(queryHash: string): Promise<any | null> {
     const cacheKey = `query:${queryHash}`;
-    
+
     const cached = await this.redis.get(cacheKey);
     return cached ? JSON.parse(cached) : null;
   }
@@ -226,14 +229,14 @@ export class CacheService {
       this.memoryCache.clear();
       return;
     }
-    
+
     // Clear matching keys from memory cache
     for (const key of this.memoryCache.keys()) {
       if (key.includes(pattern)) {
         this.memoryCache.delete(key);
       }
     }
-    
+
     // Clear from Redis (be careful with this in production)
     const keys = await this.redis.keys(`*${pattern}*`);
     if (keys.length > 0) {
@@ -257,13 +260,13 @@ export class CacheService {
   // Set up distributed cache invalidation
   private setupInvalidationListener(): void {
     const subscriber = this.redis.duplicate();
-    
+
     subscriber.subscribe('cache:invalidate');
-    
+
     subscriber.on('message', (channel, message) => {
       try {
         const event = JSON.parse(message);
-        
+
         // Clear from local memory cache
         if (event.keys && Array.isArray(event.keys)) {
           event.keys.forEach((key: string) => {

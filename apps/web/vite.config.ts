@@ -6,12 +6,13 @@ import { visualizer } from 'rollup-plugin-visualizer';
 export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
-    mode === 'analyze' && visualizer({
-      open: true,
-      filename: 'dist/stats.html',
-      gzipSize: true,
-      brotliSize: true,
-    }),
+    mode === 'analyze' &&
+      visualizer({
+        open: true,
+        filename: 'dist/stats.html',
+        gzipSize: true,
+        brotliSize: true,
+      }),
   ].filter(Boolean),
   resolve: {
     alias: {
@@ -40,14 +41,16 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks: {
           'react-vendor': ['react', 'react-dom'],
-          'router': ['@tanstack/react-router'],
-          'query': ['@tanstack/react-query'],
+          router: ['@tanstack/react-router'],
+          query: ['@tanstack/react-query'],
           'ui-vendor': ['@penny/ui', 'lucide-react'],
-          'markdown': ['react-markdown', 'rehype-highlight', 'remark-gfm'],
-          'state': ['zustand'],
+          markdown: ['react-markdown', 'rehype-highlight', 'remark-gfm'],
+          state: ['zustand'],
         },
         chunkFileNames: (chunkInfo) => {
-          const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/').pop() : 'chunk';
+          const facadeModuleId = chunkInfo.facadeModuleId
+            ? chunkInfo.facadeModuleId.split('/').pop()
+            : 'chunk';
           return `js/[name]-${facadeModuleId}-[hash].js`;
         },
         entryFileNames: 'js/[name]-[hash].js',

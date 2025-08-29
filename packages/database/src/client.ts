@@ -6,9 +6,7 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient(prismaConfig);
+export const prisma = globalForPrisma.prisma ?? new PrismaClient(prismaConfig);
 
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma;
@@ -50,7 +48,7 @@ prisma.$use(async (params, next) => {
   if (params.model && tenantScopedModels.includes(params.model)) {
     // Get tenant from context (this would be set by the request handler)
     const tenantId = (params.args as any)?.__tenantId;
-    
+
     if (tenantId) {
       // Remove the __tenantId from args
       delete (params.args as any).__tenantId;
@@ -59,7 +57,7 @@ prisma.$use(async (params, next) => {
       if (['findUnique', 'findFirst', 'findMany', 'count', 'aggregate'].includes(params.action)) {
         params.args = params.args || {};
         params.args.where = params.args.where || {};
-        
+
         if (params.model === 'Tenant') {
           params.args.where.id = tenantId;
         } else {
@@ -71,7 +69,7 @@ prisma.$use(async (params, next) => {
       if (params.action === 'create') {
         params.args = params.args || {};
         params.args.data = params.args.data || {};
-        
+
         if (params.model !== 'Tenant') {
           params.args.data.tenantId = tenantId;
         }
@@ -81,7 +79,7 @@ prisma.$use(async (params, next) => {
       if (['update', 'updateMany', 'delete', 'deleteMany'].includes(params.action)) {
         params.args = params.args || {};
         params.args.where = params.args.where || {};
-        
+
         if (params.model !== 'Tenant') {
           params.args.where.tenantId = tenantId;
         }
@@ -97,12 +95,12 @@ export function getTenantPrisma(tenantId: TenantId) {
   return new Proxy(prisma, {
     get(target, prop) {
       const value = target[prop as keyof typeof target];
-      
+
       if (typeof value === 'object' && value !== null) {
         return new Proxy(value, {
           get(modelTarget, modelProp) {
             const modelValue = modelTarget[modelProp as keyof typeof modelTarget];
-            
+
             if (typeof modelValue === 'function') {
               return (...args: any[]) => {
                 // Add tenant ID to the arguments
@@ -112,12 +110,12 @@ export function getTenantPrisma(tenantId: TenantId) {
                 return modelValue.apply(modelTarget, args);
               };
             }
-            
+
             return modelValue;
           },
         });
       }
-      
+
       return value;
     },
   }) as PrismaClient;

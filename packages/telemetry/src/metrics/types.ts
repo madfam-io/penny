@@ -6,7 +6,7 @@ export interface MetricPoint {
   unit?: MetricUnit;
 }
 
-export type MetricUnit = 
+export type MetricUnit =
   | 'count'
   | 'bytes'
   | 'milliseconds'
@@ -67,7 +67,7 @@ export interface MetricCollector {
   gauge(name: string, help?: string): Gauge;
   histogram(name: string, help?: string, buckets?: number[]): Histogram;
   timer(name: string, help?: string): Timer;
-  
+
   // Batch operations
   collectMetrics(): MetricPoint[];
   reset(): void;

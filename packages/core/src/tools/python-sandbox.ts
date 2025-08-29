@@ -196,7 +196,7 @@ print(json.dumps(result))
   private async runInDocker(
     scriptPath: string,
     workDir: string,
-    context: any
+    context: any,
   ): Promise<PythonExecutionResult> {
     return new Promise((resolve, reject) => {
       const dockerArgs = [
@@ -206,17 +206,20 @@ print(json.dumps(result))
         `--memory=${this.config.memoryLimit}`,
         `--cpus=${this.config.cpuLimit}`,
         '--read-only',
-        '-v', `${workDir}:/workspace:ro`,
-        '-w', '/workspace',
+        '-v',
+        `${workDir}:/workspace:ro`,
+        '-w',
+        '/workspace',
         this.config.dockerImage!,
-        'python', 'script.py',
+        'python',
+        'script.py',
       ];
 
       const proc = spawn('docker', dockerArgs);
-      
+
       let stdout = '';
       let stderr = '';
-      
+
       const timeout = setTimeout(() => {
         proc.kill('SIGTERM');
         reject(new Error('Execution timeout'));
@@ -232,7 +235,7 @@ print(json.dumps(result))
 
       proc.on('close', (code) => {
         clearTimeout(timeout);
-        
+
         try {
           // Parse JSON output from wrapped code
           const result = JSON.parse(stdout);
@@ -259,10 +262,7 @@ print(json.dumps(result))
     });
   }
 
-  private async runLocal(
-    scriptPath: string,
-    workDir: string
-  ): Promise<PythonExecutionResult> {
+  private async runLocal(scriptPath: string, workDir: string): Promise<PythonExecutionResult> {
     // Fallback for local execution without Docker
     return new Promise((resolve, reject) => {
       const proc = spawn('python3', [scriptPath], {
@@ -291,7 +291,7 @@ print(json.dumps(result))
 
       proc.on('close', (code) => {
         clearTimeout(timeout);
-        
+
         try {
           const result = JSON.parse(stdout);
           resolve({
@@ -318,24 +318,25 @@ print(json.dumps(result))
 
   private async processArtifacts(workDir: string, executionId: string): Promise<any[]> {
     const artifacts = [];
-    
+
     try {
       // Read any generated files
       const files = await fs.readdir(workDir);
-      
+
       for (const file of files) {
         if (file === 'script.py') continue;
-        
+
         const filePath = path.join(workDir, file);
         const stats = await fs.stat(filePath);
-        
-        if (stats.isFile() && stats.size < 10 * 1024 * 1024) { // Max 10MB
+
+        if (stats.isFile() && stats.size < 10 * 1024 * 1024) {
+          // Max 10MB
           const content = await fs.readFile(filePath);
           const ext = path.extname(file).toLowerCase();
-          
+
           let type = 'document';
           let mimeType = 'application/octet-stream';
-          
+
           if (['.png', '.jpg', '.jpeg', '.gif'].includes(ext)) {
             type = 'image';
             mimeType = `image/${ext.slice(1)}`;
@@ -346,13 +347,13 @@ print(json.dumps(result))
             type = 'data';
             mimeType = 'application/json';
           }
-          
+
           // Upload to storage
           const storageKey = `python-artifacts/${executionId}/${file}`;
           const url = await this.storage.upload(storageKey, content, {
             contentType: mimeType,
           });
-          
+
           artifacts.push({
             type,
             name: file,
@@ -365,7 +366,7 @@ print(json.dumps(result))
     } catch (error) {
       console.error('Error processing artifacts:', error);
     }
-    
+
     return artifacts;
   }
 
@@ -379,7 +380,7 @@ print(json.dumps(result))
 
   async validateCode(code: string): Promise<{ valid: boolean; errors?: string[] }> {
     const errors: string[] = [];
-    
+
     // Check for dangerous patterns
     const dangerousPatterns = [
       /import\s+os/,
@@ -392,13 +393,13 @@ print(json.dumps(result))
       /globals\s*\(/,
       /locals\s*\(/,
     ];
-    
+
     for (const pattern of dangerousPatterns) {
       if (pattern.test(code)) {
         errors.push(`Dangerous pattern detected: ${pattern.source}`);
       }
     }
-    
+
     // Check for network access attempts
     const networkPatterns = [
       /import\s+socket/,
@@ -407,13 +408,13 @@ print(json.dumps(result))
       /requests\.get/,
       /requests\.post/,
     ];
-    
+
     for (const pattern of networkPatterns) {
       if (pattern.test(code)) {
         errors.push(`Network access not allowed: ${pattern.source}`);
       }
     }
-    
+
     return {
       valid: errors.length === 0,
       errors: errors.length > 0 ? errors : undefined,

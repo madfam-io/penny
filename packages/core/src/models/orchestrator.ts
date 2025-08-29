@@ -32,17 +32,17 @@ export class ModelOrchestrator {
   constructor(config: ModelOrchestratorConfig = {}) {
     // Initialize providers
     this.initializeProviders(config.providers);
-    
+
     // Initialize router
     this.router = new ModelRouter(this.providers);
-    
+
     // Initialize queue for rate limiting
     this.queue = new PQueue({
       concurrency: config.maxConcurrency || 10,
       interval: 1000,
       intervalCap: 50,
     });
-    
+
     // Initialize Redis if provided
     this.redis = config.redis;
   }
@@ -52,14 +52,14 @@ export class ModelOrchestrator {
     if (process.env.OPENAI_API_KEY) {
       this.providers.set('openai', new OpenAIProvider());
     }
-    
+
     if (process.env.ANTHROPIC_API_KEY) {
       this.providers.set('anthropic', new AnthropicProvider());
     }
-    
+
     // Always include mock provider for development
     this.providers.set('mock', new MockProvider());
-    
+
     // Add custom providers
     if (customProviders) {
       Object.entries(customProviders).forEach(([name, provider]) => {
@@ -70,39 +70,39 @@ export class ModelOrchestrator {
 
   async listAvailableModels(tenantId?: TenantId): Promise<ModelInfo[]> {
     const cacheKey = `models:${tenantId || 'global'}`;
-    
+
     // Check cache
     if (this.modelCache.has(cacheKey)) {
       const cached = this.modelCache.get(cacheKey)!;
       return cached;
     }
-    
+
     // Get tenant settings if provided
     let enabledProviders: string[] = Array.from(this.providers.keys());
     if (tenantId) {
       const tenant = await prisma.tenant.findUnique({
         where: { id: tenantId },
       });
-      
+
       if (tenant?.settings && typeof tenant.settings === 'object') {
         const settings = tenant.settings as any;
         if (settings.features?.enabledModels) {
           // Filter providers based on enabled models
-          enabledProviders = enabledProviders.filter(provider => 
-            settings.features.enabledModels.some((model: string) => 
-              model.toLowerCase().includes(provider)
-            )
+          enabledProviders = enabledProviders.filter((provider) =>
+            settings.features.enabledModels.some((model: string) =>
+              model.toLowerCase().includes(provider),
+            ),
           );
         }
       }
     }
-    
+
     // Fetch models from enabled providers
     const allModels: ModelInfo[] = [];
-    
+
     for (const [name, provider] of this.providers) {
       if (!enabledProviders.includes(name)) continue;
-      
+
       try {
         const isAvailable = await provider.isAvailable();
         if (isAvailable) {
@@ -113,11 +113,11 @@ export class ModelOrchestrator {
         console.error(`Failed to list models from ${name}:`, error);
       }
     }
-    
+
     // Cache results
     this.modelCache.set(cacheKey, allModels);
     setTimeout(() => this.modelCache.delete(cacheKey), this.cacheExpiry);
-    
+
     return allModels;
   }
 
@@ -132,17 +132,17 @@ export class ModelOrchestrator {
     return this.queue.add(async () => {
       // Track start time for metrics
       const startTime = Date.now();
-      
+
       try {
         // Route to appropriate provider
         const provider = await this.router.selectProvider(request, options.tenantId);
         if (!provider) {
           throw new Error('No available provider for request');
         }
-        
+
         // Generate completion
         const response = await provider.generateCompletion(request);
-        
+
         // Track usage metrics
         if (options.tenantId && response.usage) {
           await this.trackUsage(
@@ -153,19 +153,19 @@ export class ModelOrchestrator {
             Date.now() - startTime,
           );
         }
-        
+
         return response;
       } catch (error) {
         // Log error
         console.error('Model completion error:', error);
-        
+
         // Try fallback if available
         const fallbackProvider = await this.router.getFallbackProvider(request, options.tenantId);
         if (fallbackProvider) {
           console.log(`Falling back to ${fallbackProvider.name}`);
           return fallbackProvider.generateCompletion(request);
         }
-        
+
         throw error;
       }
     });
@@ -182,20 +182,20 @@ export class ModelOrchestrator {
     // Note: Streaming bypasses the queue to avoid blocking
     const startTime = Date.now();
     let tokenCount = 0;
-    
+
     try {
       // Route to appropriate provider
       const provider = await this.router.selectProvider(request, options.tenantId);
       if (!provider) {
         throw new Error('No available provider for request');
       }
-      
+
       // Generate stream
       for await (const chunk of provider.generateStream(request)) {
         tokenCount++; // Approximate token count
         yield chunk;
       }
-      
+
       // Track usage metrics (approximate)
       if (options.tenantId) {
         await this.trackUsage(
@@ -250,15 +250,12 @@ export class ModelOrchestrator {
           },
         ],
       });
-      
+
       // Update Redis counters if available
       if (this.redis) {
         const dayKey = new Date().toISOString().split('T')[0];
-        const keys = [
-          `usage:${tenantId}:${dayKey}:tokens`,
-          `usage:${tenantId}:${dayKey}:requests`,
-        ];
-        
+        const keys = [`usage:${tenantId}:${dayKey}:tokens`, `usage:${tenantId}:${dayKey}:requests`];
+
         await this.redis
           .multi()
           .incrby(keys[0], usage.totalTokens)
@@ -272,34 +269,37 @@ export class ModelOrchestrator {
     }
   }
 
-  async getUsageStats(tenantId: TenantId, date?: Date): Promise<{
+  async getUsageStats(
+    tenantId: TenantId,
+    date?: Date,
+  ): Promise<{
     tokens: number;
     requests: number;
     cost: number;
   }> {
     const targetDate = date || new Date();
     const dayKey = targetDate.toISOString().split('T')[0];
-    
+
     if (this.redis) {
       const [tokens, requests] = await this.redis.mget(
         `usage:${tenantId}:${dayKey}:tokens`,
         `usage:${tenantId}:${dayKey}:requests`,
       );
-      
+
       return {
         tokens: parseInt(tokens || '0', 10),
         requests: parseInt(requests || '0', 10),
         cost: 0, // TODO: Calculate based on model pricing
       };
     }
-    
+
     // Fallback to database
     const startOfDay = new Date(targetDate);
     startOfDay.setHours(0, 0, 0, 0);
-    
+
     const endOfDay = new Date(targetDate);
     endOfDay.setHours(23, 59, 59, 999);
-    
+
     const metrics = await prisma.usageMetric.aggregate({
       where: {
         tenantId,
@@ -313,7 +313,7 @@ export class ModelOrchestrator {
         value: true,
       },
     });
-    
+
     return {
       tokens: metrics._sum.value || 0,
       requests: 0, // TODO: Count from database

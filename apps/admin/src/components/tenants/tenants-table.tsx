@@ -82,7 +82,7 @@ export function TenantsTable({ searchQuery }: { searchQuery: string }) {
   const filteredTenants = tenants.filter(
     (tenant) =>
       tenant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tenant.slug.toLowerCase().includes(searchQuery.toLowerCase())
+      tenant.slug.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
@@ -104,26 +104,18 @@ export function TenantsTable({ searchQuery }: { searchQuery: string }) {
             <TableCell>
               <div>
                 <div className="font-medium">{tenant.name}</div>
-                <div className="text-sm text-muted-foreground">
-                  {tenant.slug}
-                </div>
+                <div className="text-sm text-muted-foreground">{tenant.slug}</div>
               </div>
             </TableCell>
             <TableCell>
-              <Badge variant={planColors[tenant.plan]}>
-                {tenant.plan.toUpperCase()}
-              </Badge>
+              <Badge variant={planColors[tenant.plan]}>{tenant.plan.toUpperCase()}</Badge>
             </TableCell>
             <TableCell>
-              <Badge variant={statusColors[tenant.status]}>
-                {tenant.status}
-              </Badge>
+              <Badge variant={statusColors[tenant.status]}>{tenant.status}</Badge>
             </TableCell>
             <TableCell>{tenant.users}</TableCell>
             <TableCell>{tenant.storage} GB</TableCell>
-            <TableCell>
-              {format(tenant.createdAt, 'MMM d, yyyy')}
-            </TableCell>
+            <TableCell>{format(tenant.createdAt, 'MMM d, yyyy')}</TableCell>
             <TableCell className="text-right">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

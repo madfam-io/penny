@@ -29,20 +29,13 @@ interface MetricsChartProps {
 export function MetricsChart({ metric }: MetricsChartProps) {
   const data = metric === 'latency' ? latencyData : errorData;
   const color = metric === 'latency' ? '#8884d8' : '#ff7c7c';
-  const formatter = metric === 'latency' 
-    ? (value: number) => `${value}ms`
-    : (value: number) => `${value}%`;
+  const formatter =
+    metric === 'latency' ? (value: number) => `${value}ms` : (value: number) => `${value}%`;
 
   return (
     <ResponsiveContainer width="100%" height={200}>
       <LineChart data={data}>
-        <XAxis
-          dataKey="time"
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-        />
+        <XAxis dataKey="time" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
         <YAxis
           stroke="#888888"
           fontSize={12}
@@ -51,13 +44,7 @@ export function MetricsChart({ metric }: MetricsChartProps) {
           tickFormatter={formatter}
         />
         <Tooltip formatter={formatter} />
-        <Line
-          type="monotone"
-          dataKey="value"
-          stroke={color}
-          strokeWidth={2}
-          dot={false}
-        />
+        <Line type="monotone" dataKey="value" stroke={color} strokeWidth={2} dot={false} />
       </LineChart>
     </ResponsiveContainer>
   );

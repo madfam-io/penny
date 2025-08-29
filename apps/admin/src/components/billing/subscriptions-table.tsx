@@ -98,9 +98,7 @@ export function SubscriptionsTable() {
       <TableBody>
         {subscriptions.map((subscription) => (
           <TableRow key={subscription.id}>
-            <TableCell className="font-medium">
-              {subscription.tenant}
-            </TableCell>
+            <TableCell className="font-medium">{subscription.tenant}</TableCell>
             <TableCell>
               <Badge variant={planColors[subscription.plan]}>
                 {subscription.plan.toUpperCase()}
@@ -117,9 +115,7 @@ export function SubscriptionsTable() {
             <TableCell>
               {subscription.users}/{subscription.maxUsers}
             </TableCell>
-            <TableCell>
-              {format(subscription.currentPeriodEnd, 'MMM d, yyyy')}
-            </TableCell>
+            <TableCell>{format(subscription.currentPeriodEnd, 'MMM d, yyyy')}</TableCell>
             <TableCell className="text-right">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

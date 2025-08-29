@@ -27,14 +27,9 @@ export class LocalStorageProvider implements StorageProvider {
     this.baseUrl = config.baseUrl;
   }
 
-  async upload(
-    file: UploadFile,
-    options?: UploadOptions,
-  ): Promise<StorageObject> {
-    const key = options?.folder 
-      ? path.join(options.folder, file.filename)
-      : file.filename;
-    
+  async upload(file: UploadFile, options?: UploadOptions): Promise<StorageObject> {
+    const key = options?.folder ? path.join(options.folder, file.filename) : file.filename;
+
     const fullPath = path.join(this.basePath, key);
     const dir = path.dirname(fullPath);
 
@@ -45,9 +40,7 @@ export class LocalStorageProvider implements StorageProvider {
     await fs.writeFile(fullPath, file.buffer);
 
     // Calculate etag
-    const etag = createHash('md5')
-      .update(file.buffer)
-      .digest('hex');
+    const etag = createHash('md5').update(file.buffer).digest('hex');
 
     return {
       key,
@@ -59,10 +52,7 @@ export class LocalStorageProvider implements StorageProvider {
     };
   }
 
-  async download(
-    key: string,
-    options?: DownloadOptions,
-  ): Promise<Buffer> {
+  async download(key: string, options?: DownloadOptions): Promise<Buffer> {
     const fullPath = path.join(this.basePath, key);
 
     if (options?.range) {
@@ -70,11 +60,11 @@ export class LocalStorageProvider implements StorageProvider {
       const { start, end } = options.range;
       const stream = createReadStream(fullPath, { start, end });
       const chunks: Buffer[] = [];
-      
+
       for await (const chunk of stream) {
         chunks.push(chunk);
       }
-      
+
       return Buffer.concat(chunks);
     }
 
@@ -99,36 +89,33 @@ export class LocalStorageProvider implements StorageProvider {
   async getUrl(key: string, options?: UrlOptions): Promise<string> {
     // For local storage, return a URL that goes through our API
     const url = new URL(path.join(this.baseUrl, 'files', key));
-    
+
     if (options?.download) {
       url.searchParams.set('download', 'true');
     }
-    
+
     if (options?.filename) {
       url.searchParams.set('filename', options.filename);
     }
-    
+
     if (options?.expiresIn) {
-      const expires = Date.now() + (options.expiresIn * 1000);
+      const expires = Date.now() + options.expiresIn * 1000;
       url.searchParams.set('expires', String(expires));
     }
-    
+
     return url.toString();
   }
 
-  async list(
-    prefix: string,
-    options?: ListOptions,
-  ): Promise<StorageObject[]> {
+  async list(prefix: string, options?: ListOptions): Promise<StorageObject[]> {
     const fullPath = path.join(this.basePath, prefix);
     const results: StorageObject[] = [];
 
     async function* walk(dir: string): AsyncGenerator<string> {
       const entries = await fs.readdir(dir, { withFileTypes: true });
-      
+
       for (const entry of entries) {
         const entryPath = path.join(dir, entry.name);
-        
+
         if (entry.isDirectory()) {
           yield* walk(entryPath);
         } else {
@@ -145,14 +132,14 @@ export class LocalStorageProvider implements StorageProvider {
 
       const key = path.relative(this.basePath, filePath);
       const stats = await fs.stat(filePath);
-      
+
       results.push({
         key,
         size: stats.size,
         etag: '', // Would need to calculate
         lastModified: stats.mtime,
       });
-      
+
       count++;
     }
 

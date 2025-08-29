@@ -1,6 +1,18 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Tabs, TabsContent, TabsList, TabsTrigger, Badge, Button } from '@penny/ui';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Badge,
+  Button,
+} from '@penny/ui';
 import { DollarSign, TrendingUp, CreditCard, FileText, Download } from 'lucide-react';
 import { RevenueChart } from '@/components/billing/revenue-chart';
 import { SubscriptionsTable } from '@/components/billing/subscriptions-table';
@@ -54,16 +66,12 @@ export default function BillingPage() {
         {stats.map((stat) => (
           <Card key={stat.title}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                {stat.title}
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
               <stat.icon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stat.value}</div>
-              <p className="text-xs text-muted-foreground">
-                {stat.change}
-              </p>
+              <p className="text-xs text-muted-foreground">{stat.change}</p>
             </CardContent>
           </Card>
         ))}
@@ -72,9 +80,7 @@ export default function BillingPage() {
       <Card>
         <CardHeader>
           <CardTitle>Revenue Overview</CardTitle>
-          <CardDescription>
-            Monthly recurring revenue over the last 12 months
-          </CardDescription>
+          <CardDescription>Monthly recurring revenue over the last 12 months</CardDescription>
         </CardHeader>
         <CardContent>
           <RevenueChart />
@@ -92,9 +98,7 @@ export default function BillingPage() {
           <Card>
             <CardHeader>
               <CardTitle>Active Subscriptions</CardTitle>
-              <CardDescription>
-                Manage tenant subscriptions and plans
-              </CardDescription>
+              <CardDescription>Manage tenant subscriptions and plans</CardDescription>
             </CardHeader>
             <CardContent>
               <SubscriptionsTable />
@@ -106,9 +110,7 @@ export default function BillingPage() {
           <Card>
             <CardHeader>
               <CardTitle>Invoices</CardTitle>
-              <CardDescription>
-                View and manage billing invoices
-              </CardDescription>
+              <CardDescription>View and manage billing invoices</CardDescription>
             </CardHeader>
             <CardContent>
               <InvoicesTable />
@@ -120,9 +122,7 @@ export default function BillingPage() {
           <Card>
             <CardHeader>
               <CardTitle>Payment Methods</CardTitle>
-              <CardDescription>
-                Stored payment methods for all tenants
-              </CardDescription>
+              <CardDescription>Stored payment methods for all tenants</CardDescription>
             </CardHeader>
             <CardContent>
               <PaymentMethodsTable />

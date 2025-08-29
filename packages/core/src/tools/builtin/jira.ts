@@ -45,13 +45,17 @@ const handler: ToolHandler = async (params, context) => {
           description: {
             type: 'doc',
             version: 1,
-            content: [{
-              type: 'paragraph',
-              content: [{
-                type: 'text',
-                text: ticketData.description,
-              }],
-            }],
+            content: [
+              {
+                type: 'paragraph',
+                content: [
+                  {
+                    type: 'text',
+                    text: ticketData.description,
+                  },
+                ],
+              },
+            ],
           },
           issuetype: { name: ticketData.issueType },
           priority: { name: ticketData.priority },
@@ -60,20 +64,20 @@ const handler: ToolHandler = async (params, context) => {
           }),
           ...(ticketData.labels && { labels: ticketData.labels }),
           ...(ticketData.components && {
-            components: ticketData.components.map(c => ({ name: c })),
+            components: ticketData.components.map((c) => ({ name: c })),
           }),
           ...ticketData.customFields,
         },
       },
       {
         headers: {
-          'Authorization': `Basic ${Buffer.from(
-            `${auth.email}:${auth.apiToken}`
-          ).toString('base64')}`,
-          'Accept': 'application/json',
+          Authorization: `Basic ${Buffer.from(`${auth.email}:${auth.apiToken}`).toString(
+            'base64',
+          )}`,
+          Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
 
     const ticketKey = response.data.key;
@@ -86,20 +90,21 @@ const handler: ToolHandler = async (params, context) => {
         id: response.data.id,
         url: ticketUrl,
       },
-      artifacts: [{
-        type: 'link',
-        name: `Jira Ticket: ${ticketKey}`,
-        content: ticketUrl,
-        mimeType: 'text/uri-list',
-      }],
+      artifacts: [
+        {
+          type: 'link',
+          name: `Jira Ticket: ${ticketKey}`,
+          content: ticketUrl,
+          mimeType: 'text/uri-list',
+        },
+      ],
       usage: {
         credits: 2,
         apiCalls: 1,
       },
     };
   } catch (error: any) {
-    const isRetryable = error.response?.status >= 500 || 
-                       error.code === 'ECONNREFUSED';
+    const isRetryable = error.response?.status >= 500 || error.code === 'ECONNREFUSED';
 
     return {
       success: false,

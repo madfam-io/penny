@@ -2,14 +2,19 @@
 
 ## Executive Summary
 
-After analyzing the PENNY platform codebase, I've identified several critical performance issues and optimization opportunities across database queries, caching, API response times, frontend performance, memory management, concurrent request handling, queue processing, and WebSocket performance.
+After analyzing the PENNY platform codebase, I've identified several critical performance issues and
+optimization opportunities across database queries, caching, API response times, frontend
+performance, memory management, concurrent request handling, queue processing, and WebSocket
+performance.
 
 ## 1. Database Query Optimization & N+1 Query Issues
 
 ### Critical Issues Found:
 
 #### N+1 Query Problems
+
 1. **Missing Eager Loading in WebSocket Handler** (`/apps/api/src/routes/ws/index.ts:185-189`):
+
    ```typescript
    const recentMessages = await prisma.message.findMany({
      where: { conversationId },
@@ -17,25 +22,30 @@ After analyzing the PENNY platform codebase, I've identified several critical pe
      take: 10,
    });
    ```
+
    - Missing `include: { user: true }` for user information
    - Will cause N+1 queries if user data is needed later
 
 2. **Inefficient File Listing** (`/apps/api/src/routes/files/index.ts:148-161`):
+
    ```typescript
    const filesWithUrls = await Promise.all(
      files.map(async (file) => ({
        // ... generates signed URLs for each file sequentially
-     }))
+     })),
    );
    ```
+
    - Generates signed URLs sequentially for each file
    - Should batch URL generation or use pre-signed URLs
 
 3. **Missing Indexes**:
-   - `Message` table queries by `conversationId` and `createdAt` together but only has separate indexes
+   - `Message` table queries by `conversationId` and `createdAt` together but only has separate
+     indexes
    - `ToolExecution` table lacks composite indexes for common query patterns
 
 ### Recommendations:
+
 ```prisma
 // Add composite indexes
 model Message {
@@ -51,6 +61,7 @@ model ToolExecution {
 ## 2. Caching Strategy Issues
 
 ### Current State:
+
 - Basic Redis integration exists but severely underutilized
 - Model cache in orchestrator only caches model listings (1 hour TTL)
 - No caching for:
@@ -63,17 +74,18 @@ model ToolExecution {
 ### Recommendations:
 
 1. **Implement Multi-Layer Caching**:
+
 ```typescript
 // Example: Conversation cache service
 class ConversationCache {
   private redis: Redis;
   private memoryCache: LRUCache<string, Conversation>;
-  
+
   async getConversation(id: string): Promise<Conversation | null> {
     // L1: Memory cache (microseconds)
     const memCached = this.memoryCache.get(id);
     if (memCached) return memCached;
-    
+
     // L2: Redis cache (milliseconds)
     const redisCached = await this.redis.get(`conv:${id}`);
     if (redisCached) {
@@ -81,30 +93,31 @@ class ConversationCache {
       this.memoryCache.set(id, conv);
       return conv;
     }
-    
+
     // L3: Database (10s of milliseconds)
     const conv = await prisma.conversation.findUnique({
       where: { id },
-      include: { 
-        messages: { 
-          take: 50, 
+      include: {
+        messages: {
+          take: 50,
           orderBy: { createdAt: 'desc' },
-          include: { user: true }
-        }
-      }
+          include: { user: true },
+        },
+      },
     });
-    
+
     if (conv) {
       await this.redis.setex(`conv:${id}`, 3600, JSON.stringify(conv));
       this.memoryCache.set(id, conv);
     }
-    
+
     return conv;
   }
 }
 ```
 
 2. **Cache Invalidation Strategy**:
+
 ```typescript
 // Implement cache-aside pattern with smart invalidation
 class CacheInvalidator {
@@ -112,15 +125,18 @@ class CacheInvalidator {
     const keys = [
       `conv:${conversationId}`,
       `conv:${conversationId}:messages`,
-      `conv:${conversationId}:artifacts`
+      `conv:${conversationId}:artifacts`,
     ];
     await this.redis.del(...keys);
-    
+
     // Publish invalidation event for distributed cache
-    await this.redis.publish('cache:invalidate', JSON.stringify({
-      type: 'conversation',
-      id: conversationId
-    }));
+    await this.redis.publish(
+      'cache:invalidate',
+      JSON.stringify({
+        type: 'conversation',
+        id: conversationId,
+      }),
+    );
   }
 }
 ```
@@ -137,33 +153,35 @@ class CacheInvalidator {
 ### Recommendations:
 
 1. **Enable Compression**:
+
 ```typescript
 // In apps/api/src/app.ts
 await fastify.register(compress, {
   global: true,
   threshold: 1024, // Only compress responses > 1KB
-  encodings: ['gzip', 'deflate', 'br']
+  encodings: ['gzip', 'deflate', 'br'],
 });
 ```
 
 2. **Implement Response Caching**:
+
 ```typescript
 // API response cache decorator
 function cacheResponse(ttl: number = 300) {
-  return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
-    
-    descriptor.value = async function(...args: any[]) {
+
+    descriptor.value = async function (...args: any[]) {
       const cacheKey = `api:${propertyKey}:${JSON.stringify(args)}`;
       const cached = await redis.get(cacheKey);
-      
+
       if (cached) {
         return JSON.parse(cached);
       }
-      
+
       const result = await originalMethod.apply(this, args);
       await redis.setex(cacheKey, ttl, JSON.stringify(result));
-      
+
       return result;
     };
   };
@@ -182,6 +200,7 @@ function cacheResponse(ttl: number = 300) {
 ### Recommendations:
 
 1. **Configure Code Splitting**:
+
 ```typescript
 // vite.config.ts
 export default defineConfig({
@@ -191,17 +210,18 @@ export default defineConfig({
         manualChunks: {
           'react-vendor': ['react', 'react-dom'],
           'ui-vendor': ['@penny/ui'],
-          'markdown': ['react-markdown', 'rehype-highlight', 'remark-gfm'],
-          'query': ['@tanstack/react-query', '@tanstack/react-router']
-        }
-      }
+          markdown: ['react-markdown', 'rehype-highlight', 'remark-gfm'],
+          query: ['@tanstack/react-query', '@tanstack/react-router'],
+        },
+      },
     },
-    chunkSizeWarningLimit: 500
-  }
+    chunkSizeWarningLimit: 500,
+  },
 });
 ```
 
 2. **Implement Route-Based Code Splitting**:
+
 ```typescript
 // Lazy load routes
 const ConversationView = lazy(() => import('./views/ConversationView'));
@@ -210,6 +230,7 @@ const Analytics = lazy(() => import('./views/Analytics'));
 ```
 
 3. **Add Bundle Analyzer**:
+
 ```bash
 npm install -D rollup-plugin-visualizer
 ```
@@ -241,7 +262,8 @@ connection.socket.on('close', () => {
 // Add periodic cleanup for stale executions
 setInterval(() => {
   for (const [id, execution] of this.executions) {
-    if (Date.now() - execution.startedAt.getTime() > 3600000) { // 1 hour
+    if (Date.now() - execution.startedAt.getTime() > 3600000) {
+      // 1 hour
       this.executions.delete(id);
     }
   }
@@ -259,6 +281,7 @@ setInterval(() => {
 ### Recommendations:
 
 1. **Configure Prisma Connection Pool**:
+
 ```typescript
 // packages/database/src/client.ts
 export const prisma = new PrismaClient({
@@ -273,22 +296,21 @@ export const prisma = new PrismaClient({
     max: 10,
     idleTimeoutMillis: 30000,
     acquireTimeoutMillis: 30000,
-  }
+  },
 });
 ```
 
 2. **Implement Redis Connection Pool**:
+
 ```typescript
 // Create Redis pool
-const redisPool = new Redis.Cluster([
-  { host: 'localhost', port: 6379 }
-], {
+const redisPool = new Redis.Cluster([{ host: 'localhost', port: 6379 }], {
   redisOptions: {
     connectionPool: {
       min: 5,
-      max: 50
-    }
-  }
+      max: 50,
+    },
+  },
 });
 ```
 
@@ -304,6 +326,7 @@ const redisPool = new Redis.Cluster([
 ### Recommendations:
 
 1. **Implement BullMQ for Robust Queue Processing**:
+
 ```typescript
 import { Queue, Worker, QueueScheduler } from 'bullmq';
 
@@ -313,7 +336,7 @@ const highPriorityQueue = new Queue('high-priority', {
   defaultJobOptions: {
     removeOnComplete: 100,
     removeOnFail: 1000,
-  }
+  },
 });
 
 const normalQueue = new Queue('normal', {
@@ -323,21 +346,25 @@ const normalQueue = new Queue('normal', {
     backoff: {
       type: 'exponential',
       delay: 2000,
-    }
-  }
+    },
+  },
 });
 
 // Worker with concurrency control
-const worker = new Worker('normal', async (job) => {
-  return await processJob(job);
-}, {
-  connection: redis,
-  concurrency: 10,
-  limiter: {
-    max: 100,
-    duration: 60000, // 100 jobs per minute
-  }
-});
+const worker = new Worker(
+  'normal',
+  async (job) => {
+    return await processJob(job);
+  },
+  {
+    connection: redis,
+    concurrency: 10,
+    limiter: {
+      max: 100,
+      duration: 60000, // 100 jobs per minute
+    },
+  },
+);
 ```
 
 ## 8. Real-time WebSocket Performance
@@ -352,23 +379,24 @@ const worker = new Worker('normal', async (job) => {
 ### Recommendations:
 
 1. **Implement WebSocket Rooms**:
+
 ```typescript
 class WebSocketManager {
   private rooms = new Map<string, Set<WebSocket>>();
-  
+
   joinRoom(roomId: string, socket: WebSocket) {
     if (!this.rooms.has(roomId)) {
       this.rooms.set(roomId, new Set());
     }
     this.rooms.get(roomId)!.add(socket);
   }
-  
+
   broadcast(roomId: string, message: any) {
     const room = this.rooms.get(roomId);
     if (!room) return;
-    
+
     const data = JSON.stringify(message);
-    room.forEach(socket => {
+    room.forEach((socket) => {
       if (socket.readyState === WebSocket.OPEN) {
         socket.send(data);
       }
@@ -378,19 +406,20 @@ class WebSocketManager {
 ```
 
 2. **Add Message Batching**:
+
 ```typescript
 class MessageBatcher {
   private batch: any[] = [];
   private timer: NodeJS.Timeout | null = null;
-  
+
   add(message: any) {
     this.batch.push(message);
-    
+
     if (!this.timer) {
       this.timer = setTimeout(() => this.flush(), 50); // 50ms batch window
     }
   }
-  
+
   flush() {
     if (this.batch.length > 0) {
       this.send({ type: 'batch', messages: this.batch });
@@ -404,6 +433,7 @@ class MessageBatcher {
 ## Performance Monitoring Implementation
 
 ### Add APM Integration:
+
 ```typescript
 // Install monitoring
 import { PrometheusExporter } from '@opentelemetry/exporter-prometheus';
@@ -455,6 +485,7 @@ const dbQueryDuration = meter.createHistogram('db_query_duration', {
 ## Expected Performance Improvements
 
 With these optimizations implemented:
+
 - **API Response Time**: 50-70% reduction
 - **Database Query Time**: 60-80% reduction
 - **Frontend Load Time**: 40-60% reduction
@@ -465,6 +496,7 @@ With these optimizations implemented:
 ## Monitoring & Validation
 
 Implement performance benchmarks:
+
 ```bash
 # API load testing
 artillery quick --count 100 --num 10 http://localhost:3000/api/v1/conversations
@@ -477,6 +509,7 @@ npm run build -- --analyze
 ```
 
 Track these KPIs:
+
 - P95 API response time < 200ms
 - Database query time < 50ms
 - Time to Interactive (TTI) < 3s

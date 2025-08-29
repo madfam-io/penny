@@ -1,10 +1,5 @@
 import type { TenantId } from '@penny/shared';
-import type {
-  ModelProvider,
-  CompletionRequest,
-  ModelRoutingPolicy,
-  RoutingRule,
-} from './types.js';
+import type { ModelProvider, CompletionRequest, ModelRoutingPolicy, RoutingRule } from './types.js';
 
 export class ModelRouter {
   private providers: Map<string, ModelProvider>;
@@ -52,10 +47,10 @@ export class ModelRouter {
   ): Promise<ModelProvider | null> {
     // Get routing policy (could be tenant-specific in the future)
     const policy = await this.getRoutingPolicy(tenantId);
-    
+
     // Apply routing rules
     const selectedModel = this.applyRoutingRules(request, policy);
-    
+
     // Find provider for the selected model
     return this.findProviderForModel(selectedModel);
   }
@@ -65,7 +60,7 @@ export class ModelRouter {
     tenantId?: TenantId,
   ): Promise<ModelProvider | null> {
     const policy = await this.getRoutingPolicy(tenantId);
-    
+
     for (const fallbackModel of policy.fallbackModels) {
       const provider = await this.findProviderForModel(fallbackModel);
       if (provider) {
@@ -75,7 +70,7 @@ export class ModelRouter {
         }
       }
     }
-    
+
     return null;
   }
 
@@ -84,20 +79,17 @@ export class ModelRouter {
     return this.defaultPolicy;
   }
 
-  private applyRoutingRules(
-    request: CompletionRequest,
-    policy: ModelRoutingPolicy,
-  ): string {
+  private applyRoutingRules(request: CompletionRequest, policy: ModelRoutingPolicy): string {
     // Sort rules by priority
     const sortedRules = [...policy.rules].sort((a, b) => a.priority - b.priority);
-    
+
     // Check each rule
     for (const rule of sortedRules) {
       if (this.evaluateCondition(request, rule.condition)) {
         return rule.model;
       }
     }
-    
+
     // Use requested model if no rules match
     return request.model || policy.defaultModel;
   }
@@ -110,23 +102,23 @@ export class ModelRouter {
       case 'complexity':
         const complexity = this.calculateComplexity(request);
         return this.compareValues(complexity, condition.operator, condition.value);
-      
+
       case 'capability':
         const hasCapability = this.checkCapability(request, condition.value);
         return hasCapability;
-      
+
       case 'cost':
         const estimatedCost = this.estimateCost(request);
         return this.compareValues(estimatedCost, condition.operator, condition.value);
-      
+
       case 'latency':
         // Could check historical latency data
         return false;
-      
+
       case 'language':
         const language = this.detectLanguage(request);
         return this.compareValues(language, condition.operator, condition.value);
-      
+
       default:
         return false;
     }
@@ -138,28 +130,27 @@ export class ModelRouter {
       (sum, msg) => sum + (typeof msg.content === 'string' ? msg.content.length : 0),
       0,
     );
-    
+
     const hasTools = request.tools && request.tools.length > 0;
     const hasManyMessages = request.messages.length > 10;
-    
+
     let complexity = messageLength / 10000; // Normalize by 10k chars
     if (hasTools) complexity += 0.3;
     if (hasManyMessages) complexity += 0.2;
-    
+
     return Math.min(complexity, 1.0);
   }
 
   private checkCapability(request: CompletionRequest, capability: string): boolean {
     switch (capability) {
       case 'vision':
-        return request.messages.some(msg => 
-          Array.isArray(msg.content) && 
-          msg.content.some(c => c.type === 'image_url')
+        return request.messages.some(
+          (msg) => Array.isArray(msg.content) && msg.content.some((c) => c.type === 'image_url'),
         );
-      
+
       case 'function_calling':
         return request.tools !== undefined && request.tools.length > 0;
-      
+
       default:
         return false;
     }
@@ -171,7 +162,7 @@ export class ModelRouter {
       (sum, msg) => sum + (typeof msg.content === 'string' ? msg.content.length / 4 : 0),
       0,
     );
-    
+
     // Assume average cost of $0.002 per 1k tokens
     return (estimatedTokens / 1000) * 0.002;
   }
@@ -179,14 +170,14 @@ export class ModelRouter {
   private detectLanguage(request: CompletionRequest): string {
     // Simple language detection (in production, use a proper library)
     const text = request.messages
-      .map(msg => typeof msg.content === 'string' ? msg.content : '')
+      .map((msg) => (typeof msg.content === 'string' ? msg.content : ''))
       .join(' ');
-    
+
     // Check for common non-English characters
     if (/[\u4e00-\u9fa5]/.test(text)) return 'zh'; // Chinese
     if (/[\u3040-\u309f\u30a0-\u30ff]/.test(text)) return 'ja'; // Japanese
     if (/[\u0600-\u06ff]/.test(text)) return 'ar'; // Arabic
-    
+
     return 'en';
   }
 
@@ -216,19 +207,19 @@ export class ModelRouter {
     for (const [name, provider] of this.providers) {
       try {
         const models = await provider.listModels();
-        if (models.some(m => m.id === modelId)) {
+        if (models.some((m) => m.id === modelId)) {
           return provider;
         }
       } catch (error) {
         console.error(`Error checking provider ${name}:`, error);
       }
     }
-    
+
     // Special handling for mock models
     if (modelId.startsWith('mock-')) {
       return this.providers.get('mock') || null;
     }
-    
+
     return null;
   }
 }

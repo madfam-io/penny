@@ -63,7 +63,7 @@ export class AnthropicProvider implements ModelProvider {
       },
     ];
 
-    return models.map(model => ({
+    return models.map((model) => ({
       ...model,
       provider: this.name,
       capabilities: {
@@ -77,8 +77,8 @@ export class AnthropicProvider implements ModelProvider {
 
   async generateCompletion(request: CompletionRequest): Promise<CompletionResponse> {
     try {
-      const systemMessage = request.messages.find(m => m.role === 'system');
-      const otherMessages = request.messages.filter(m => m.role !== 'system');
+      const systemMessage = request.messages.find((m) => m.role === 'system');
+      const otherMessages = request.messages.filter((m) => m.role !== 'system');
 
       const response = await this.client.messages.create({
         model: request.model,
@@ -99,8 +99,8 @@ export class AnthropicProvider implements ModelProvider {
 
   async *generateStream(request: CompletionRequest): AsyncGenerator<CompletionChunk> {
     try {
-      const systemMessage = request.messages.find(m => m.role === 'system');
-      const otherMessages = request.messages.filter(m => m.role !== 'system');
+      const systemMessage = request.messages.find((m) => m.role === 'system');
+      const otherMessages = request.messages.filter((m) => m.role !== 'system');
 
       const stream = await this.client.messages.create({
         model: request.model,
@@ -124,8 +124,8 @@ export class AnthropicProvider implements ModelProvider {
 
   private convertMessages(messages: Message[]): Anthropic.MessageParam[] {
     return messages
-      .filter(m => m.role !== 'system')
-      .map(msg => {
+      .filter((m) => m.role !== 'system')
+      .map((msg) => {
         if (msg.role === 'tool') {
           return {
             role: 'user',
@@ -142,7 +142,7 @@ export class AnthropicProvider implements ModelProvider {
         if (Array.isArray(msg.content)) {
           return {
             role: msg.role === 'assistant' ? 'assistant' : 'user',
-            content: msg.content.map(c => {
+            content: msg.content.map((c) => {
               if (c.type === 'text') {
                 return { type: 'text', text: c.text! };
               } else {
@@ -167,7 +167,7 @@ export class AnthropicProvider implements ModelProvider {
   }
 
   private convertTools(tools: any[]): Anthropic.Tool[] {
-    return tools.map(tool => ({
+    return tools.map((tool) => ({
       name: tool.function.name,
       description: tool.function.description || '',
       input_schema: tool.function.parameters || { type: 'object', properties: {} },
@@ -177,7 +177,7 @@ export class AnthropicProvider implements ModelProvider {
   private convertResponse(response: Anthropic.Message, model: string): CompletionResponse {
     const toolCalls = response.content
       .filter((c): c is Anthropic.ToolUseBlock => c.type === 'tool_use')
-      .map(tc => ({
+      .map((tc) => ({
         id: tc.id,
         type: 'function' as const,
         function: {
@@ -188,7 +188,7 @@ export class AnthropicProvider implements ModelProvider {
 
     const textContent = response.content
       .filter((c): c is Anthropic.TextBlock => c.type === 'text')
-      .map(c => c.text)
+      .map((c) => c.text)
       .join('\n');
 
     return {
@@ -196,15 +196,18 @@ export class AnthropicProvider implements ModelProvider {
       object: 'chat.completion',
       created: Date.now() / 1000,
       model,
-      choices: [{
-        index: 0,
-        message: {
-          role: 'assistant',
-          content: textContent,
-          toolCalls: toolCalls.length > 0 ? toolCalls : undefined,
+      choices: [
+        {
+          index: 0,
+          message: {
+            role: 'assistant',
+            content: textContent,
+            toolCalls: toolCalls.length > 0 ? toolCalls : undefined,
+          },
+          finishReason:
+            response.stop_reason === 'end_turn' ? 'stop' : (response.stop_reason as any),
         },
-        finishReason: response.stop_reason === 'end_turn' ? 'stop' : response.stop_reason as any,
-      }],
+      ],
       usage: {
         promptTokens: response.usage.input_tokens,
         completionTokens: response.usage.output_tokens,
@@ -229,11 +232,13 @@ export class AnthropicProvider implements ModelProvider {
       object: 'chat.completion.chunk',
       created: Date.now() / 1000,
       model,
-      choices: [{
-        index: 0,
-        delta,
-        finishReason: chunk.type === 'message_stop' ? 'stop' : null,
-      }],
+      choices: [
+        {
+          index: 0,
+          delta,
+          finishReason: chunk.type === 'message_stop' ? 'stop' : null,
+        },
+      ],
     };
   }
 
@@ -248,10 +253,6 @@ export class AnthropicProvider implements ModelProvider {
         retryable,
       );
     }
-    return new ModelError(
-      error.message || 'Unknown error',
-      'unknown_error',
-      this.name,
-    );
+    return new ModelError(error.message || 'Unknown error', 'unknown_error', this.name);
   }
 }

@@ -1,6 +1,7 @@
 # PENNY Documentation
 
-Welcome to the PENNY documentation. This guide covers everything you need to know about deploying, configuring, and using the PENNY AI Workbench platform.
+Welcome to the PENNY documentation. This guide covers everything you need to know about deploying,
+configuring, and using the PENNY AI Workbench platform.
 
 ## 📚 Documentation Structure
 

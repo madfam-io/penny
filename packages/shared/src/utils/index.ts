@@ -16,7 +16,7 @@ export const generateId = (prefix?: string): string => {
   return prefix ? `${prefix}_${id}` : id;
 };
 
-export const sleep = (ms: number): Promise<void> => 
+export const sleep = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 export const retry = async <T>(
@@ -29,7 +29,7 @@ export const retry = async <T>(
   } = {},
 ): Promise<T> => {
   const { attempts = 3, delay = 1000, backoff = 2, onError } = options;
-  
+
   for (let i = 0; i < attempts; i++) {
     try {
       return await fn();
@@ -39,7 +39,7 @@ export const retry = async <T>(
       await sleep(delay * Math.pow(backoff, i));
     }
   }
-  
+
   throw new Error('Retry failed');
 };
 
@@ -56,7 +56,7 @@ export const debounce = <T extends (...args: any[]) => any>(
   delay: number,
 ): ((...args: Parameters<T>) => void) => {
   let timeoutId: NodeJS.Timeout;
-  
+
   return (...args: Parameters<T>) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => fn(...args), delay);

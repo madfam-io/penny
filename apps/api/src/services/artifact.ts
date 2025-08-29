@@ -26,37 +26,30 @@ export class ArtifactService {
   private redis: Redis;
 
   constructor(storageConfig?: any, redisUrl?: string) {
-    this.storage = new StorageService(storageConfig || {
-      provider: process.env.STORAGE_PROVIDER || 'local',
-      bucket: process.env.S3_BUCKET_NAME || 'penny-artifacts',
-      endpoint: process.env.S3_ENDPOINT,
-      accessKeyId: process.env.S3_ACCESS_KEY_ID,
-      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-      region: process.env.S3_REGION || 'us-east-1',
-    });
-    
+    this.storage = new StorageService(
+      storageConfig || {
+        provider: process.env.STORAGE_PROVIDER || 'local',
+        bucket: process.env.S3_BUCKET_NAME || 'penny-artifacts',
+        endpoint: process.env.S3_ENDPOINT,
+        accessKeyId: process.env.S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+        region: process.env.S3_REGION || 'us-east-1',
+      },
+    );
+
     this.redis = new Redis(redisUrl || process.env.REDIS_URL || 'redis://localhost:6379');
   }
 
   async createArtifact(params: CreateArtifactParams) {
-    const {
-      type,
-      name,
-      content,
-      mimeType,
-      metadata,
-      conversationId,
-      messageId,
-      userId,
-      tenantId,
-    } = params;
+    const { type, name, content, mimeType, metadata, conversationId, messageId, userId, tenantId } =
+      params;
 
     const artifactId = generateId('art');
-    
+
     // Determine storage strategy based on artifact type and size
     let storageUrl: string | null = null;
     let storedContent = content;
-    
+
     if (this.shouldStoreExternally(type, content)) {
       // Store large artifacts in object storage
       const fileName = `${tenantId}/${artifactId}/${name.toLowerCase().replace(/\s+/g, '-')}`;
@@ -69,7 +62,7 @@ export class ArtifactService {
           type,
         },
       });
-      
+
       // Store reference instead of content
       storedContent = {
         url: storageUrl,
@@ -105,7 +98,7 @@ export class ArtifactService {
         JSON.stringify({
           type: 'artifact.created',
           data: artifact,
-        })
+        }),
       );
     }
 
@@ -121,10 +114,7 @@ export class ArtifactService {
       where: {
         id: artifactId,
         tenantId,
-        OR: [
-          { userId },
-          { sharedWith: { some: { userId } } },
-        ],
+        OR: [{ userId }, { sharedWith: { some: { userId } } }],
       },
     });
 
@@ -148,7 +138,7 @@ export class ArtifactService {
     artifactId: string,
     params: UpdateArtifactParams,
     userId: string,
-    tenantId: string
+    tenantId: string,
   ) {
     // Verify ownership
     const existing = await prisma.artifact.findFirst({
@@ -166,18 +156,18 @@ export class ArtifactService {
     // Handle content update
     let storageUrl = existing.storageUrl;
     let storedContent = params.content;
-    
+
     if (params.content && this.shouldStoreExternally(existing.type, params.content)) {
       // Update external storage
       if (existing.storageUrl) {
         await this.storage.delete(existing.storageUrl);
       }
-      
+
       const fileName = `${tenantId}/${artifactId}/${params.name || existing.name}`;
       storageUrl = await this.storage.upload(fileName, params.content, {
         contentType: existing.mimeType,
       });
-      
+
       storedContent = {
         url: storageUrl,
         size: JSON.stringify(params.content).length,
@@ -207,7 +197,7 @@ export class ArtifactService {
         JSON.stringify({
           type: 'artifact.updated',
           data: artifact,
-        })
+        }),
       );
     }
 
@@ -248,7 +238,7 @@ export class ArtifactService {
         JSON.stringify({
           type: 'artifact.deleted',
           data: { id: artifactId },
-        })
+        }),
       );
     }
   }
@@ -261,17 +251,14 @@ export class ArtifactService {
       type?: string;
       limit?: number;
       offset?: number;
-    }
+    },
   ) {
     const { conversationId, type, limit = 20, offset = 0 } = options || {};
 
     const where: any = {
       tenantId,
       deletedAt: null,
-      OR: [
-        { userId },
-        { sharedWith: { some: { userId } } },
-      ],
+      OR: [{ userId }, { sharedWith: { some: { userId } } }],
     };
 
     if (conversationId) {
@@ -328,23 +315,25 @@ export class ArtifactService {
       JSON.stringify({
         type: 'artifact.shared',
         data: { artifactId, sharedBy: ownerId },
-      })
+      }),
     );
   }
 
   async getArtifactVersions(artifactId: string, userId: string, tenantId: string) {
     // In production, implement version tracking
     const artifact = await this.getArtifact(artifactId, userId, tenantId);
-    return [{
-      version: artifact.version,
-      createdAt: artifact.createdAt,
-      updatedAt: artifact.updatedAt,
-    }];
+    return [
+      {
+        version: artifact.version,
+        createdAt: artifact.createdAt,
+        updatedAt: artifact.updatedAt,
+      },
+    ];
   }
 
   async generateSignedUrl(artifactId: string, userId: string, tenantId: string) {
     const artifact = await this.getArtifact(artifactId, userId, tenantId);
-    
+
     if (!artifact.storageUrl) {
       throw new Error('Artifact has no external storage');
     }
@@ -362,7 +351,7 @@ export class ArtifactService {
   private shouldStoreExternally(type: string, content: any): boolean {
     const contentSize = JSON.stringify(content).length;
     const threshold = 100 * 1024; // 100KB
-    
+
     // Always store images and large content externally
     return type === 'image' || contentSize > threshold;
   }
@@ -376,7 +365,7 @@ export class ArtifactService {
       image: 'image/png',
       code: 'text/plain',
     };
-    
+
     return mimeTypes[type] || 'application/octet-stream';
   }
 

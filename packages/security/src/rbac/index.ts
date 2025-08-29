@@ -57,9 +57,7 @@ const DEFAULT_PERMISSIONS: RolePermissions[] = [
   },
   {
     role: Role.ADMIN,
-    permissions: [
-      { resource: '*', action: '*', scope: 'tenant' },
-    ],
+    permissions: [{ resource: '*', action: '*', scope: 'tenant' }],
   },
 ];
 
@@ -69,7 +67,7 @@ export class RBACService {
   constructor(customPermissions?: RolePermissions[]) {
     this.permissions = new Map();
     const permissions = customPermissions || DEFAULT_PERMISSIONS;
-    
+
     for (const rolePermission of permissions) {
       this.permissions.set(rolePermission.role, rolePermission.permissions);
     }
@@ -88,14 +86,14 @@ export class RBACService {
   ): boolean {
     for (const role of userRoles) {
       const rolePermissions = this.permissions.get(role) || [];
-      
+
       for (const permission of rolePermissions) {
         if (this.matchesPermission(permission, resource, action, context)) {
           return true;
         }
       }
     }
-    
+
     return false;
   }
 
@@ -114,17 +112,17 @@ export class RBACService {
     if (permission.resource !== '*' && permission.resource !== resource) {
       return false;
     }
-    
+
     // Check action match
     if (permission.action !== '*' && permission.action !== action) {
       return false;
     }
-    
+
     // Check scope
     if (permission.scope === 'own' && context.ownerId !== context.userId) {
       return false;
     }
-    
+
     // Workspace and tenant scopes are handled by data filtering
     return true;
   }
@@ -136,10 +134,10 @@ export class RBACService {
   getAllPermissions(roles: Role[]): Permission[] {
     const allPermissions: Permission[] = [];
     const seen = new Set<string>();
-    
+
     for (const role of roles) {
       const rolePermissions = this.permissions.get(role) || [];
-      
+
       for (const permission of rolePermissions) {
         const key = `${permission.resource}:${permission.action}:${permission.scope || 'any'}`;
         if (!seen.has(key)) {
@@ -148,7 +146,7 @@ export class RBACService {
         }
       }
     }
-    
+
     return allPermissions;
   }
 }

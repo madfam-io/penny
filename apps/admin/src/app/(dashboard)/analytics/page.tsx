@@ -1,6 +1,16 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/ui';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@penny/ui';
 import { UsageChart } from '@/components/analytics/usage-chart';
 import { ModelUsage } from '@/components/analytics/model-usage';
 import { CostBreakdown } from '@/components/analytics/cost-breakdown';
@@ -11,9 +21,7 @@ export default function AnalyticsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Analytics</h1>
-        <p className="text-muted-foreground">
-          Platform usage analytics and insights
-        </p>
+        <p className="text-muted-foreground">Platform usage analytics and insights</p>
       </div>
 
       <Tabs defaultValue="usage" className="space-y-4">
@@ -29,21 +37,17 @@ export default function AnalyticsPage() {
             <Card>
               <CardHeader>
                 <CardTitle>API Usage</CardTitle>
-                <CardDescription>
-                  API requests over the last 30 days
-                </CardDescription>
+                <CardDescription>API requests over the last 30 days</CardDescription>
               </CardHeader>
               <CardContent>
                 <UsageChart />
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader>
                 <CardTitle>Top Tenants</CardTitle>
-                <CardDescription>
-                  Most active tenants by API usage
-                </CardDescription>
+                <CardDescription>Most active tenants by API usage</CardDescription>
               </CardHeader>
               <CardContent>
                 <TopTenants />
@@ -56,9 +60,7 @@ export default function AnalyticsPage() {
           <Card>
             <CardHeader>
               <CardTitle>Cost Breakdown</CardTitle>
-              <CardDescription>
-                Infrastructure and service costs by category
-              </CardDescription>
+              <CardDescription>Infrastructure and service costs by category</CardDescription>
             </CardHeader>
             <CardContent>
               <CostBreakdown />
@@ -70,9 +72,7 @@ export default function AnalyticsPage() {
           <Card>
             <CardHeader>
               <CardTitle>Model Usage</CardTitle>
-              <CardDescription>
-                AI model usage distribution and trends
-              </CardDescription>
+              <CardDescription>AI model usage distribution and trends</CardDescription>
             </CardHeader>
             <CardContent>
               <ModelUsage />
@@ -92,7 +92,7 @@ export default function AnalyticsPage() {
                 <p className="text-sm text-muted-foreground">-12% from last week</p>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader>
                 <CardTitle>Error Rate</CardTitle>
@@ -103,7 +103,7 @@ export default function AnalyticsPage() {
                 <p className="text-sm text-muted-foreground">-0.1% from last week</p>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader>
                 <CardTitle>Uptime</CardTitle>

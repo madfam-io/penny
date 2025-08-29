@@ -15,7 +15,7 @@ export class ToolRegistry {
     if (this.tools.has(tool.name)) {
       throw new Error(`Tool ${tool.name} is already registered`);
     }
-    
+
     this.tools.set(tool.name, tool);
   }
 
@@ -46,34 +46,24 @@ export class ToolRegistry {
     const enabledTools = settings?.features?.enabledTools || [];
 
     // Filter tools based on tenant settings
-    return this.list().filter(tool => 
-      enabledTools.includes(tool.name) || 
-      enabledTools.includes('*')
+    return this.list().filter(
+      (tool) => enabledTools.includes(tool.name) || enabledTools.includes('*'),
     );
   }
 
-  async listForUser(
-    tenantId: TenantId,
-    userId: string,
-    roles: Role[],
-  ): Promise<ToolDefinition[]> {
+  async listForUser(tenantId: TenantId, userId: string, roles: Role[]): Promise<ToolDefinition[]> {
     // Get tools available for tenant
     const tenantTools = await this.listForTenant(tenantId);
 
     // Filter based on user permissions
-    return tenantTools.filter(tool => {
+    return tenantTools.filter((tool) => {
       const requiredPermissions = tool.config?.permissions || ['tool:execute'];
-      
-      return requiredPermissions.every(permission => 
-        this.rbac.canAccess(
-          roles,
-          'tool',
-          'execute',
-          {
-            tenantId,
-            userId: userId as any,
-          },
-        )
+
+      return requiredPermissions.every((permission) =>
+        this.rbac.canAccess(roles, 'tool', 'execute', {
+          tenantId,
+          userId: userId as any,
+        }),
       );
     });
   }
@@ -91,32 +81,24 @@ export class ToolRegistry {
 
     // Check if tool is enabled for tenant
     const tenantTools = await this.listForTenant(tenantId);
-    if (!tenantTools.some(t => t.name === toolName)) {
+    if (!tenantTools.some((t) => t.name === toolName)) {
       return false;
     }
 
     // Check user permissions
-    return this.rbac.canAccess(
-      roles,
-      'tool',
-      'execute',
-      {
-        tenantId,
-        userId: userId as any,
-      },
-    );
+    return this.rbac.canAccess(roles, 'tool', 'execute', {
+      tenantId,
+      userId: userId as any,
+    });
   }
 
-  async getToolConfig(
-    toolName: string,
-    tenantId: TenantId,
-  ): Promise<Record<string, any> | null> {
+  async getToolConfig(toolName: string, tenantId: TenantId): Promise<Record<string, any> | null> {
     const dbTool = await prisma.tool.findFirst({
       where: {
         name: toolName,
         OR: [
           { tenantId: null }, // System tools
-          { tenantId },       // Tenant-specific tools
+          { tenantId }, // Tenant-specific tools
         ],
       },
       orderBy: {
@@ -124,7 +106,7 @@ export class ToolRegistry {
       },
     });
 
-    return dbTool?.config as Record<string, any> || null;
+    return (dbTool?.config as Record<string, any>) || null;
   }
 
   async updateToolConfig(

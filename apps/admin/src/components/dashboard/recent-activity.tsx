@@ -69,13 +69,14 @@ export function RecentActivity() {
           <Avatar className="h-9 w-9">
             <AvatarImage src={activity.user.avatar || ''} alt={activity.user.name} />
             <AvatarFallback>
-              {activity.user.name.split(' ').map(n => n[0]).join('')}
+              {activity.user.name
+                .split(' ')
+                .map((n) => n[0])
+                .join('')}
             </AvatarFallback>
           </Avatar>
           <div className="ml-4 space-y-1">
-            <p className="text-sm font-medium leading-none">
-              {activity.user.name}
-            </p>
+            <p className="text-sm font-medium leading-none">{activity.user.name}</p>
             <p className="text-sm text-muted-foreground">
               {activity.action} <span className="font-medium">{activity.target}</span>
             </p>

@@ -84,19 +84,13 @@ export function InvoicesTable() {
       <TableBody>
         {invoices.map((invoice) => (
           <TableRow key={invoice.id}>
-            <TableCell className="font-medium">
-              {invoice.number}
-            </TableCell>
+            <TableCell className="font-medium">{invoice.number}</TableCell>
             <TableCell>{invoice.tenant}</TableCell>
             <TableCell>${invoice.amount.toLocaleString()}</TableCell>
             <TableCell>
-              <Badge variant={statusColors[invoice.status]}>
-                {invoice.status}
-              </Badge>
+              <Badge variant={statusColors[invoice.status]}>{invoice.status}</Badge>
             </TableCell>
-            <TableCell>
-              {format(invoice.dueDate, 'MMM d, yyyy')}
-            </TableCell>
+            <TableCell>{format(invoice.dueDate, 'MMM d, yyyy')}</TableCell>
             <TableCell>
               {invoice.paidDate ? format(invoice.paidDate, 'MMM d, yyyy') : '-'}
             </TableCell>

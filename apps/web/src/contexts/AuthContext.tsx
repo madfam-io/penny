@@ -28,9 +28,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Check if user is authenticated on mount
     if (state.token) {
       // TODO: Validate token and fetch user data
-      setState(prev => ({ ...prev, isLoading: false }));
+      setState((prev) => ({ ...prev, isLoading: false }));
     } else {
-      setState(prev => ({ ...prev, isLoading: false }));
+      setState((prev) => ({ ...prev, isLoading: false }));
     }
   }, []);
 
@@ -47,10 +47,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const data = await response.json();
-      
+
       localStorage.setItem('token', data.token);
       localStorage.setItem('refreshToken', data.refreshToken);
-      
+
       setState({
         user: data.user,
         token: data.token,
@@ -68,7 +68,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await fetch('/api/v1/auth/logout', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${state.token}`,
+          Authorization: `Bearer ${state.token}`,
         },
       });
     } catch (error) {
@@ -103,11 +103,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const data = await response.json();
-      
+
       localStorage.setItem('token', data.token);
       localStorage.setItem('refreshToken', data.refreshToken);
-      
-      setState(prev => ({
+
+      setState((prev) => ({
         ...prev,
         token: data.token,
       }));

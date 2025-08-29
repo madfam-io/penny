@@ -1,7 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input } from '@penny/ui';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Input,
+} from '@penny/ui';
 import { Plus, Search } from 'lucide-react';
 import { TenantsTable } from '@/components/tenants/tenants-table';
 import { CreateTenantDialog } from '@/components/tenants/create-tenant-dialog';
@@ -15,9 +23,7 @@ export default function TenantsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Tenants</h1>
-          <p className="text-muted-foreground">
-            Manage tenant organizations and their settings
-          </p>
+          <p className="text-muted-foreground">Manage tenant organizations and their settings</p>
         </div>
         <Button onClick={() => setIsCreateOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
@@ -46,10 +52,7 @@ export default function TenantsPage() {
         </CardContent>
       </Card>
 
-      <CreateTenantDialog 
-        open={isCreateOpen} 
-        onOpenChange={setIsCreateOpen} 
-      />
+      <CreateTenantDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} />
     </div>
   );
 }

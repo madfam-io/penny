@@ -1,6 +1,7 @@
 # API Reference
 
-PENNY provides a comprehensive REST API for all platform functionality. This document covers authentication, endpoints, and usage examples.
+PENNY provides a comprehensive REST API for all platform functionality. This document covers
+authentication, endpoints, and usage examples.
 
 ## Base URL
 
@@ -26,6 +27,7 @@ Content-Type: application/json
 ```
 
 Response:
+
 ```json
 {
   "token": "eyJhbGciOiJIUzI1NiIs...",
@@ -64,6 +66,7 @@ Content-Type: application/json
 ```
 
 Response:
+
 ```json
 {
   "id": "conv_123",
@@ -81,6 +84,7 @@ Authorization: Bearer {token}
 ```
 
 Response:
+
 ```json
 {
   "conversations": [
@@ -117,6 +121,7 @@ Content-Type: application/json
 ```
 
 Response:
+
 ```json
 {
   "id": "msg_123",
@@ -137,6 +142,7 @@ Accept: text/event-stream
 ```
 
 Response (Server-Sent Events):
+
 ```
 event: chunk
 data: {"content": "Here's an optimized version", "delta": "Here's"}
@@ -161,6 +167,7 @@ Authorization: Bearer {token}
 ```
 
 Response:
+
 ```json
 {
   "tools": [
@@ -202,6 +209,7 @@ Content-Type: application/json
 ```
 
 Response:
+
 ```json
 {
   "success": true,
@@ -241,6 +249,7 @@ Content-Type: application/pdf
 ```
 
 Response:
+
 ```json
 {
   "files": [
@@ -277,15 +286,18 @@ Authorization: Bearer {token}
 const ws = new WebSocket('wss://api.penny.ai/ws');
 
 // Authenticate
-ws.send(JSON.stringify({
-  type: 'authenticate',
-  token: 'your-jwt-token'
-}));
+ws.send(
+  JSON.stringify({
+    type: 'authenticate',
+    token: 'your-jwt-token',
+  }),
+);
 ```
 
 ### Message Types
 
 #### Send Message
+
 ```json
 {
   "type": "message",
@@ -295,6 +307,7 @@ ws.send(JSON.stringify({
 ```
 
 #### Receive Streaming Response
+
 ```json
 {
   "type": "assistant_chunk",
@@ -305,6 +318,7 @@ ws.send(JSON.stringify({
 ```
 
 #### Tool Execution
+
 ```json
 {
   "type": "tool_execute",
@@ -389,13 +403,14 @@ Content-Type: application/json
 API rate limits are enforced per tenant:
 
 | Plan       | Requests/min | Requests/day | AI Tokens/day |
-|------------|--------------|--------------|---------------|
+| ---------- | ------------ | ------------ | ------------- |
 | Free       | 20           | 1,000        | 10,000        |
 | Starter    | 60           | 10,000       | 100,000       |
 | Pro        | 200          | 50,000       | 500,000       |
 | Enterprise | Unlimited    | Unlimited    | Custom        |
 
 Rate limit headers:
+
 ```http
 X-RateLimit-Limit: 60
 X-RateLimit-Remaining: 45
@@ -419,6 +434,7 @@ Standard error format:
 ```
 
 Common error codes:
+
 - `UNAUTHORIZED` - Invalid or missing token
 - `FORBIDDEN` - Insufficient permissions
 - `NOT_FOUND` - Resource not found
@@ -435,19 +451,19 @@ import { PennyClient } from '@penny/sdk';
 
 const client = new PennyClient({
   apiKey: 'your-api-key',
-  baseUrl: 'https://api.penny.ai/v1'
+  baseUrl: 'https://api.penny.ai/v1',
 });
 
 // Send a message
 const response = await client.conversations.sendMessage({
   conversationId: 'conv_123',
-  content: 'Hello AI!'
+  content: 'Hello AI!',
 });
 
 // Stream response
 const stream = await client.conversations.streamMessage({
   conversationId: 'conv_123',
-  content: 'Write a story'
+  content: 'Write a story',
 });
 
 for await (const chunk of stream) {
@@ -511,14 +527,8 @@ Configure webhooks to receive real-time events:
 const crypto = require('crypto');
 
 function verifyWebhook(payload, signature, secret) {
-  const expected = crypto
-    .createHmac('sha256', secret)
-    .update(payload)
-    .digest('hex');
-  
-  return crypto.timingSafeEqual(
-    Buffer.from(signature),
-    Buffer.from(expected)
-  );
+  const expected = crypto.createHmac('sha256', secret).update(payload).digest('hex');
+
+  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
 }
 ```

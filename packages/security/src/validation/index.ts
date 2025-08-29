@@ -5,7 +5,7 @@ export const emailSchema = z
   .string()
   .email()
   .max(255)
-  .transform(email => email.toLowerCase());
+  .transform((email) => email.toLowerCase());
 
 export const passwordSchema = z
   .string()
@@ -20,15 +20,16 @@ export const usernameSchema = z
   .string()
   .min(3)
   .max(30)
-  .regex(/^[a-zA-Z0-9_-]+$/, 'Username can only contain letters, numbers, underscores, and hyphens');
+  .regex(
+    /^[a-zA-Z0-9_-]+$/,
+    'Username can only contain letters, numbers, underscores, and hyphens',
+  );
 
 export const uuidSchema = z.string().uuid();
 
 export const urlSchema = z.string().url();
 
-export const phoneSchema = z
-  .string()
-  .regex(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number format');
+export const phoneSchema = z.string().regex(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number format');
 
 // Input sanitization helpers
 export function sanitizeInput<T>(
@@ -59,16 +60,12 @@ export function sanitizePath(path: string): string {
   // Remove any path traversal attempts
   return path
     .split('/')
-    .filter(segment => segment !== '..' && segment !== '.')
+    .filter((segment) => segment !== '..' && segment !== '.')
     .join('/');
 }
 
 // Rate limiting key generator
-export function getRateLimitKey(
-  resource: string,
-  identifier: string,
-  window: number,
-): string {
+export function getRateLimitKey(resource: string, identifier: string, window: number): string {
   const timestamp = Math.floor(Date.now() / window) * window;
   return `rate_limit:${resource}:${identifier}:${timestamp}`;
 }

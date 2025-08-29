@@ -37,7 +37,9 @@ export async function createServer() {
   // Core plugins
   await server.register(cors, {
     origin: (origin, cb) => {
-      const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS?.split(',') || ['http://localhost:5173'];
+      const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS?.split(',') || [
+        'http://localhost:5173',
+      ];
       if (!origin || allowedOrigins.includes(origin)) {
         cb(null, true);
       } else {

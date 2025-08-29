@@ -41,10 +41,10 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     setIsLoading(false);
     onOpenChange(false);
     // Reset form
@@ -65,11 +65,9 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Invite New User</DialogTitle>
-            <DialogDescription>
-              Send an invitation to join the platform
-            </DialogDescription>
+            <DialogDescription>Send an invitation to join the platform</DialogDescription>
           </DialogHeader>
-          
+
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="email">Email Address</Label>
@@ -82,7 +80,7 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
                 required
               />
             </div>
-            
+
             <div className="grid gap-2">
               <Label htmlFor="name">Full Name</Label>
               <Input
@@ -92,7 +90,7 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
                 placeholder="John Doe"
               />
             </div>
-            
+
             <div className="grid gap-2">
               <Label htmlFor="tenant">Tenant</Label>
               <Select
@@ -109,7 +107,7 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
                 </SelectContent>
               </Select>
             </div>
-            
+
             <div className="grid gap-2">
               <Label htmlFor="workspace">Workspace (Optional)</Label>
               <Select
@@ -126,7 +124,7 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
                 </SelectContent>
               </Select>
             </div>
-            
+
             <div className="grid gap-2">
               <Label htmlFor="role">Role</Label>
               <Select
@@ -144,20 +142,18 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
                 </SelectContent>
               </Select>
             </div>
-            
+
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="sendWelcomeEmail"
                 checked={formData.sendWelcomeEmail}
-                onCheckedChange={(checked) => 
+                onCheckedChange={(checked) =>
                   setFormData({ ...formData, sendWelcomeEmail: checked as boolean })
                 }
               />
-              <Label htmlFor="sendWelcomeEmail">
-                Send welcome email with login instructions
-              </Label>
+              <Label htmlFor="sendWelcomeEmail">Send welcome email with login instructions</Label>
             </div>
-            
+
             {formData.sendWelcomeEmail && (
               <div className="grid gap-2">
                 <Label htmlFor="customMessage">Custom Message (Optional)</Label>
@@ -171,7 +167,7 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
               </div>
             )}
           </div>
-          
+
           <DialogFooter>
             <Button
               type="button"

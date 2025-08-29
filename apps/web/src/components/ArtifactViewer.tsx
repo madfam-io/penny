@@ -1,5 +1,15 @@
 import { useState, useEffect } from 'react';
-import { X, Download, Maximize2, Share2, RefreshCw, TrendingUp, Users, DollarSign, Activity } from 'lucide-react';
+import {
+  X,
+  Download,
+  Maximize2,
+  Share2,
+  RefreshCw,
+  TrendingUp,
+  Users,
+  DollarSign,
+  Activity,
+} from 'lucide-react';
 import { cn } from '../utils/cn';
 
 export interface Artifact {
@@ -19,13 +29,18 @@ interface ArtifactViewerProps {
   className?: string;
 }
 
-export default function ArtifactViewer({ artifact, onClose, onFullscreen, className }: ArtifactViewerProps) {
+export default function ArtifactViewer({
+  artifact,
+  onClose,
+  onFullscreen,
+  className,
+}: ArtifactViewerProps) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [viewMode, setViewMode] = useState<'inline' | 'fullscreen'>('inline');
 
   if (!artifact) {
     return (
-      <div className={cn("h-full flex items-center justify-center", className)}>
+      <div className={cn('h-full flex items-center justify-center', className)}>
         <p className="text-gray-500 dark:text-gray-400">No artifact selected</p>
       </div>
     );
@@ -40,17 +55,17 @@ export default function ArtifactViewer({ artifact, onClose, onFullscreen, classN
   const handleDownload = () => {
     // Create download link
     const dataStr = JSON.stringify(artifact.content, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-    
+    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
     const exportFileDefaultName = `${artifact.name.toLowerCase().replace(/\s+/g, '-')}.json`;
-    
+
     const linkElement = document.createElement('a');
     linkElement.setAttribute('href', dataUri);
     linkElement.setAttribute('download', exportFileDefaultName);
     linkElement.click();
   };
   return (
-    <div className={cn("h-full flex flex-col bg-white dark:bg-gray-800", className)}>
+    <div className={cn('h-full flex flex-col bg-white dark:bg-gray-800', className)}>
       {/* Header */}
       <div className="h-16 px-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center gap-3">
@@ -61,31 +76,33 @@ export default function ArtifactViewer({ artifact, onClose, onFullscreen, classN
             {artifact.type}
           </span>
         </div>
-        
+
         <div className="flex items-center gap-2">
-          <button 
+          <button
             onClick={handleRefresh}
             className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             disabled={isRefreshing}
           >
-            <RefreshCw className={cn(
-              "h-5 w-5 text-gray-600 dark:text-gray-400",
-              isRefreshing && "animate-spin"
-            )} />
+            <RefreshCw
+              className={cn(
+                'h-5 w-5 text-gray-600 dark:text-gray-400',
+                isRefreshing && 'animate-spin',
+              )}
+            />
           </button>
-          <button 
+          <button
             onClick={() => {}}
             className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           >
             <Share2 className="h-5 w-5 text-gray-600 dark:text-gray-400" />
           </button>
-          <button 
+          <button
             onClick={handleDownload}
             className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           >
             <Download className="h-5 w-5 text-gray-600 dark:text-gray-400" />
           </button>
-          <button 
+          <button
             onClick={onFullscreen}
             className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           >
@@ -116,7 +133,7 @@ export default function ArtifactViewer({ artifact, onClose, onFullscreen, classN
 // Dashboard Renderer Component
 function DashboardRenderer({ content }: { content: any }) {
   const widgets = content?.widgets || [];
-  
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {widgets.map((widget: any, index: number) => (
@@ -130,10 +147,14 @@ function DashboardRenderer({ content }: { content: any }) {
 function WidgetRenderer({ widget }: { widget: any }) {
   const getIcon = () => {
     switch (widget.title?.toLowerCase()) {
-      case 'revenue': return <DollarSign className="h-5 w-5" />;
-      case 'customers': return <Users className="h-5 w-5" />;
-      case 'efficiency': return <Activity className="h-5 w-5" />;
-      default: return <TrendingUp className="h-5 w-5" />;
+      case 'revenue':
+        return <DollarSign className="h-5 w-5" />;
+      case 'customers':
+        return <Users className="h-5 w-5" />;
+      case 'efficiency':
+        return <Activity className="h-5 w-5" />;
+      default:
+        return <TrendingUp className="h-5 w-5" />;
     }
   };
 
@@ -141,22 +162,27 @@ function WidgetRenderer({ widget }: { widget: any }) {
     return (
       <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
-            {widget.title}
-          </h3>
+          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">{widget.title}</h3>
           <span className="text-gray-400">{getIcon()}</span>
         </div>
         <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">
           {formatValue(widget.value, widget.format)}
         </p>
         {widget.change !== undefined && (
-          <p className={cn(
-            "mt-1 text-sm",
-            widget.inverse 
-              ? widget.change < 0 ? "text-green-600" : "text-red-600"
-              : widget.change > 0 ? "text-green-600" : "text-red-600"
-          )}>
-            {widget.change > 0 ? '+' : ''}{widget.change}%
+          <p
+            className={cn(
+              'mt-1 text-sm',
+              widget.inverse
+                ? widget.change < 0
+                  ? 'text-green-600'
+                  : 'text-red-600'
+                : widget.change > 0
+                  ? 'text-green-600'
+                  : 'text-red-600',
+            )}
+          >
+            {widget.change > 0 ? '+' : ''}
+            {widget.change}%
           </p>
         )}
       </div>
@@ -233,14 +259,17 @@ function ChartRenderer({ content }: { content: any }) {
 // Table Renderer Component
 function TableRenderer({ content }: { content: any }) {
   const { columns = [], rows = [] } = content;
-  
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
         <thead className="bg-gray-50 dark:bg-gray-900">
           <tr>
             {columns.map((col: string, i: number) => (
-              <th key={i} className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              <th
+                key={i}
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+              >
                 {col}
               </th>
             ))}
@@ -250,7 +279,10 @@ function TableRenderer({ content }: { content: any }) {
           {rows.map((row: any[], i: number) => (
             <tr key={i}>
               {row.map((cell: any, j: number) => (
-                <td key={j} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                <td
+                  key={j}
+                  className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100"
+                >
                   {cell}
                 </td>
               ))}
@@ -279,14 +311,15 @@ function DocumentRenderer({ content }: { content: any }) {
 
 // Code Renderer Component
 function CodeRenderer({ content }: { content: any }) {
-  const code = typeof content === 'string' ? content : content.code || JSON.stringify(content, null, 2);
+  const code =
+    typeof content === 'string' ? content : content.code || JSON.stringify(content, null, 2);
   const language = content.language || 'javascript';
-  
+
   return (
     <div className="bg-gray-900 rounded-lg p-4">
       <div className="flex items-center justify-between mb-2">
         <span className="text-xs text-gray-400">{language}</span>
-        <button 
+        <button
           onClick={() => navigator.clipboard.writeText(code)}
           className="text-xs text-gray-400 hover:text-gray-200"
         >
@@ -304,14 +337,10 @@ function CodeRenderer({ content }: { content: any }) {
 function ImageRenderer({ content }: { content: any }) {
   const src = typeof content === 'string' ? content : content.url || content.src;
   const alt = content.alt || 'Generated image';
-  
+
   return (
     <div className="flex items-center justify-center">
-      <img 
-        src={src} 
-        alt={alt}
-        className="max-w-full h-auto rounded-lg shadow-lg"
-      />
+      <img src={src} alt={alt} className="max-w-full h-auto rounded-lg shadow-lg" />
     </div>
   );
 }

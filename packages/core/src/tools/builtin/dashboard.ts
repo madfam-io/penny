@@ -3,15 +3,21 @@ import type { ToolDefinition, ToolHandler, ToolResult } from '../types.js';
 import { prisma } from '@penny/database';
 
 const dashboardSchema = z.object({
-  slug: z.string().describe('Dashboard identifier (e.g., "company-health", "sales-funnel", "ops-incidents")'),
-  filters: z.object({
-    dateRange: z.object({
-      start: z.string().datetime().optional(),
-      end: z.string().datetime().optional(),
-    }).optional(),
-    segments: z.array(z.string()).optional(),
-    metrics: z.array(z.string()).optional(),
-  }).optional(),
+  slug: z
+    .string()
+    .describe('Dashboard identifier (e.g., "company-health", "sales-funnel", "ops-incidents")'),
+  filters: z
+    .object({
+      dateRange: z
+        .object({
+          start: z.string().datetime().optional(),
+          end: z.string().datetime().optional(),
+        })
+        .optional(),
+      segments: z.array(z.string()).optional(),
+      metrics: z.array(z.string()).optional(),
+    })
+    .optional(),
   refresh: z.boolean().default(false).describe('Force refresh data from sources'),
 });
 
@@ -128,27 +134,29 @@ const handler: ToolHandler = async (params, context) => {
         filters: filters || {},
         timestamp: new Date().toISOString(),
       },
-      artifacts: [{
-        type: 'dashboard',
-        name: template.name,
-        content: {
-          ...template,
-          data: dashboardData,
-          interactive: true,
-          controls: {
-            dateRange: true,
-            filters: true,
-            export: true,
-            refresh: true,
+      artifacts: [
+        {
+          type: 'dashboard',
+          name: template.name,
+          content: {
+            ...template,
+            data: dashboardData,
+            interactive: true,
+            controls: {
+              dateRange: true,
+              filters: true,
+              export: true,
+              refresh: true,
+            },
+          },
+          mimeType: 'application/vnd.penny.dashboard+json',
+          metadata: {
+            slug,
+            refreshedAt: new Date().toISOString(),
+            cacheKey: `dashboard:${slug}:${context.tenantId}`,
           },
         },
-        mimeType: 'application/vnd.penny.dashboard+json',
-        metadata: {
-          slug,
-          refreshedAt: new Date().toISOString(),
-          cacheKey: `dashboard:${slug}:${context.tenantId}`,
-        },
-      }],
+      ],
       usage: {
         credits: 2,
         duration: 200,
@@ -166,13 +174,9 @@ const handler: ToolHandler = async (params, context) => {
   }
 };
 
-async function generateDashboardData(
-  template: any,
-  filters: any,
-  context: any
-): Promise<any> {
+async function generateDashboardData(template: any, filters: any, context: any): Promise<any> {
   const data: any = {};
-  
+
   // Generate data for each widget
   for (const widget of template.widgets) {
     switch (widget.type) {
@@ -202,7 +206,7 @@ async function generateDashboardData(
         break;
     }
   }
-  
+
   return data;
 }
 
@@ -225,14 +229,14 @@ function generateMetricData(id: string): any {
     'burn-rate': { value: 890000, change: -8.3, format: 'currency', inverse: true },
     runway: { value: 18, change: 12.5, format: 'number', unit: 'months' },
   };
-  
+
   return metrics[id] || { value: 0, change: 0, format: 'number' };
 }
 
 function generateChartData(id: string, filters: any): any {
   const points = 30;
   const data = [];
-  
+
   for (let i = 0; i < points; i++) {
     const date = new Date();
     date.setDate(date.getDate() - (points - i));
@@ -241,7 +245,7 @@ function generateChartData(id: string, filters: any): any {
       y: Math.round(Math.random() * 100000 + 50000),
     });
   }
-  
+
   return {
     type: id.includes('trend') ? 'line' : id.includes('breakdown') ? 'pie' : 'bar',
     data,
@@ -311,10 +315,26 @@ function generateTimelineData(): any {
   const now = Date.now();
   return {
     events: [
-      { time: new Date(now - 3600000).toISOString(), type: 'warning', message: 'High CPU usage detected' },
-      { time: new Date(now - 7200000).toISOString(), type: 'error', message: 'Database connection timeout' },
-      { time: new Date(now - 10800000).toISOString(), type: 'info', message: 'Deployment completed successfully' },
-      { time: new Date(now - 14400000).toISOString(), type: 'success', message: 'All systems operational' },
+      {
+        time: new Date(now - 3600000).toISOString(),
+        type: 'warning',
+        message: 'High CPU usage detected',
+      },
+      {
+        time: new Date(now - 7200000).toISOString(),
+        type: 'error',
+        message: 'Database connection timeout',
+      },
+      {
+        time: new Date(now - 10800000).toISOString(),
+        type: 'info',
+        message: 'Deployment completed successfully',
+      },
+      {
+        time: new Date(now - 14400000).toISOString(),
+        type: 'success',
+        message: 'All systems operational',
+      },
     ],
   };
 }
@@ -323,9 +343,21 @@ function generateListData(id: string): any {
   if (id === 'alerts') {
     return {
       items: [
-        { level: 'warning', message: 'Revenue trending 5% below target', timestamp: new Date().toISOString() },
-        { level: 'info', message: 'New customer segment showing 20% growth', timestamp: new Date().toISOString() },
-        { level: 'success', message: 'Customer satisfaction score improved to 92%', timestamp: new Date().toISOString() },
+        {
+          level: 'warning',
+          message: 'Revenue trending 5% below target',
+          timestamp: new Date().toISOString(),
+        },
+        {
+          level: 'info',
+          message: 'New customer segment showing 20% growth',
+          timestamp: new Date().toISOString(),
+        },
+        {
+          level: 'success',
+          message: 'Customer satisfaction score improved to 92%',
+          timestamp: new Date().toISOString(),
+        },
       ],
     };
   }

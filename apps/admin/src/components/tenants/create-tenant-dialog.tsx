@@ -40,10 +40,10 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     setIsLoading(false);
     onOpenChange(false);
     // Reset form
@@ -75,7 +75,7 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
               Set up a new tenant organization with initial configuration
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="name">Organization Name</Label>
@@ -93,7 +93,7 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
                 required
               />
             </div>
-            
+
             <div className="grid gap-2">
               <Label htmlFor="slug">URL Slug</Label>
               <Input
@@ -108,7 +108,7 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
                 This will be used in URLs: {formData.slug || 'your-org'}.penny.ai
               </p>
             </div>
-            
+
             <div className="grid gap-2">
               <Label htmlFor="plan">Subscription Plan</Label>
               <Select
@@ -126,7 +126,7 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
                 </SelectContent>
               </Select>
             </div>
-            
+
             <div className="grid gap-2">
               <Label htmlFor="adminEmail">Admin Email</Label>
               <Input
@@ -138,7 +138,7 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
                 required
               />
             </div>
-            
+
             <div className="grid gap-2">
               <Label htmlFor="adminName">Admin Name</Label>
               <Input
@@ -149,32 +149,28 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
                 required
               />
             </div>
-            
+
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <Label htmlFor="enableSso">Enable SSO</Label>
                 <Switch
                   id="enableSso"
                   checked={formData.enableSso}
-                  onCheckedChange={(checked) => 
-                    setFormData({ ...formData, enableSso: checked })
-                  }
+                  onCheckedChange={(checked) => setFormData({ ...formData, enableSso: checked })}
                 />
               </div>
-              
+
               <div className="flex items-center justify-between">
                 <Label htmlFor="enableMfa">Require MFA</Label>
                 <Switch
                   id="enableMfa"
                   checked={formData.enableMfa}
-                  onCheckedChange={(checked) => 
-                    setFormData({ ...formData, enableMfa: checked })
-                  }
+                  onCheckedChange={(checked) => setFormData({ ...formData, enableMfa: checked })}
                 />
               </div>
             </div>
           </div>
-          
+
           <DialogFooter>
             <Button
               type="button"

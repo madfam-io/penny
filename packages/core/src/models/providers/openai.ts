@@ -32,10 +32,10 @@ export class OpenAIProvider implements ModelProvider {
 
   async listModels(): Promise<ModelInfo[]> {
     const models = await this.client.models.list();
-    
+
     return models.data
-      .filter(model => model.id.includes('gpt'))
-      .map(model => ({
+      .filter((model) => model.id.includes('gpt'))
+      .map((model) => ({
         id: model.id,
         name: model.id,
         provider: this.name,
@@ -104,7 +104,7 @@ export class OpenAIProvider implements ModelProvider {
   }
 
   private convertMessages(messages: Message[]): OpenAI.Chat.ChatCompletionMessageParam[] {
-    return messages.map(msg => {
+    return messages.map((msg) => {
       if (msg.role === 'tool') {
         return {
           role: 'tool',
@@ -117,7 +117,7 @@ export class OpenAIProvider implements ModelProvider {
         return {
           role: msg.role as any,
           content: msg.content as string,
-          tool_calls: msg.toolCalls.map(tc => ({
+          tool_calls: msg.toolCalls.map((tc) => ({
             id: tc.id,
             type: tc.type,
             function: tc.function,
@@ -134,7 +134,7 @@ export class OpenAIProvider implements ModelProvider {
   }
 
   private convertTools(tools: Tool[]): OpenAI.Chat.ChatCompletionTool[] {
-    return tools.map(tool => ({
+    return tools.map((tool) => ({
       type: tool.type,
       function: {
         name: tool.function.name,
@@ -150,12 +150,12 @@ export class OpenAIProvider implements ModelProvider {
       object: response.object,
       created: response.created,
       model: response.model,
-      choices: response.choices.map(choice => ({
+      choices: response.choices.map((choice) => ({
         index: choice.index,
         message: {
           role: choice.message.role,
           content: choice.message.content || '',
-          toolCalls: choice.message.tool_calls?.map(tc => ({
+          toolCalls: choice.message.tool_calls?.map((tc) => ({
             id: tc.id,
             type: tc.type,
             function: tc.function,
@@ -163,11 +163,13 @@ export class OpenAIProvider implements ModelProvider {
         },
         finishReason: choice.finish_reason as any,
       })),
-      usage: response.usage ? {
-        promptTokens: response.usage.prompt_tokens,
-        completionTokens: response.usage.completion_tokens,
-        totalTokens: response.usage.total_tokens,
-      } : undefined,
+      usage: response.usage
+        ? {
+            promptTokens: response.usage.prompt_tokens,
+            completionTokens: response.usage.completion_tokens,
+            totalTokens: response.usage.total_tokens,
+          }
+        : undefined,
       systemFingerprint: response.system_fingerprint || undefined,
     };
   }
@@ -178,12 +180,12 @@ export class OpenAIProvider implements ModelProvider {
       object: chunk.object,
       created: chunk.created,
       model: chunk.model,
-      choices: chunk.choices.map(choice => ({
+      choices: chunk.choices.map((choice) => ({
         index: choice.index,
         delta: {
           role: choice.delta.role as any,
           content: choice.delta.content,
-          toolCalls: choice.delta.tool_calls?.map(tc => ({
+          toolCalls: choice.delta.tool_calls?.map((tc) => ({
             id: tc.id!,
             type: tc.type!,
             function: tc.function!,
@@ -205,11 +207,7 @@ export class OpenAIProvider implements ModelProvider {
         retryable,
       );
     }
-    return new ModelError(
-      error.message || 'Unknown error',
-      'unknown_error',
-      this.name,
-    );
+    return new ModelError(error.message || 'Unknown error', 'unknown_error', this.name);
   }
 
   private getContextLength(model: string): number {

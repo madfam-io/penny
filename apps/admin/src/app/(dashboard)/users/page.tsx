@@ -1,7 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/ui';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Input,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@penny/ui';
 import { Plus, Search, Upload, Download } from 'lucide-react';
 import { UsersTable } from '@/components/users/users-table';
 import { InviteUserDialog } from '@/components/users/invite-user-dialog';
@@ -17,9 +29,7 @@ export default function UsersPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Users</h1>
-          <p className="text-muted-foreground">
-            Manage users across all tenants and workspaces
-          </p>
+          <p className="text-muted-foreground">Manage users across all tenants and workspaces</p>
         </div>
         <div className="flex space-x-2">
           <Button variant="outline" onClick={() => setIsBulkImportOpen(true)}>
@@ -46,9 +56,7 @@ export default function UsersPage() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle>User Directory</CardTitle>
-                <CardDescription>
-                  View and manage all users on the platform
-                </CardDescription>
+                <CardDescription>View and manage all users on the platform</CardDescription>
               </div>
               <Button variant="outline" size="sm">
                 <Download className="mr-2 h-4 w-4" />
@@ -83,15 +91,9 @@ export default function UsersPage() {
         </Card>
       </Tabs>
 
-      <InviteUserDialog 
-        open={isInviteOpen} 
-        onOpenChange={setIsInviteOpen} 
-      />
-      
-      <BulkImportDialog
-        open={isBulkImportOpen}
-        onOpenChange={setIsBulkImportOpen}
-      />
+      <InviteUserDialog open={isInviteOpen} onOpenChange={setIsInviteOpen} />
+
+      <BulkImportDialog open={isBulkImportOpen} onOpenChange={setIsBulkImportOpen} />
     </div>
   );
 }

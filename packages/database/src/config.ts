@@ -4,11 +4,11 @@ import { PrismaClient } from '@prisma/client';
 const connectionPoolConfig = {
   // Connection pool settings
   connection_limit: parseInt(process.env.DATABASE_POOL_LIMIT || '10'),
-  
+
   // Prisma-specific settings via connection string
   // These will be appended to the DATABASE_URL
   pgbouncer: process.env.DATABASE_USE_PGBOUNCER === 'true',
-  
+
   // Timeout settings
   connect_timeout: parseInt(process.env.DATABASE_CONNECT_TIMEOUT || '30'),
   pool_timeout: parseInt(process.env.DATABASE_POOL_TIMEOUT || '30'),
@@ -21,20 +21,20 @@ export function buildDatabaseUrl(): string {
   if (!baseUrl) {
     throw new Error('DATABASE_URL environment variable is required');
   }
-  
+
   const url = new URL(baseUrl);
-  
+
   // Add connection pool parameters
   url.searchParams.set('connection_limit', connectionPoolConfig.connection_limit.toString());
   url.searchParams.set('connect_timeout', connectionPoolConfig.connect_timeout.toString());
   url.searchParams.set('pool_timeout', connectionPoolConfig.pool_timeout.toString());
   url.searchParams.set('statement_timeout', connectionPoolConfig.statement_timeout.toString());
-  
+
   // PgBouncer compatibility mode
   if (connectionPoolConfig.pgbouncer) {
     url.searchParams.set('pgbouncer', 'true');
   }
-  
+
   return url.toString();
 }
 
@@ -45,8 +45,6 @@ export const prismaConfig = {
       url: buildDatabaseUrl(),
     },
   },
-  log: process.env.NODE_ENV === 'development' 
-    ? ['query', 'info', 'warn', 'error']
-    : ['error'],
+  log: process.env.NODE_ENV === 'development' ? ['query', 'info', 'warn', 'error'] : ['error'],
   errorFormat: process.env.NODE_ENV === 'development' ? 'pretty' : 'minimal',
 };

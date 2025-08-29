@@ -1,7 +1,24 @@
 // HTML sanitization utilities
 const ALLOWED_TAGS = [
-  'p', 'br', 'strong', 'em', 'u', 's', 'a', 'ul', 'ol', 'li',
-  'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'code', 'pre',
+  'p',
+  'br',
+  'strong',
+  'em',
+  'u',
+  's',
+  'a',
+  'ul',
+  'ol',
+  'li',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'blockquote',
+  'code',
+  'pre',
 ];
 
 const ALLOWED_ATTRIBUTES = {
@@ -39,12 +56,12 @@ export function sanitizeFilename(filename: string): string {
 export function sanitizeUrl(url: string): string {
   try {
     const parsed = new URL(url);
-    
+
     // Only allow http(s) protocols
     if (!['http:', 'https:'].includes(parsed.protocol)) {
       throw new Error('Invalid protocol');
     }
-    
+
     return parsed.toString();
   } catch {
     return '';
@@ -56,14 +73,14 @@ export function redactSensitiveData(
   sensitiveKeys = ['password', 'token', 'secret', 'key', 'authorization'],
 ): Record<string, any> {
   const result = { ...data };
-  
+
   for (const key in result) {
-    if (sensitiveKeys.some(sensitive => key.toLowerCase().includes(sensitive))) {
+    if (sensitiveKeys.some((sensitive) => key.toLowerCase().includes(sensitive))) {
       result[key] = '[REDACTED]';
     } else if (typeof result[key] === 'object' && result[key] !== null) {
       result[key] = redactSensitiveData(result[key], sensitiveKeys);
     }
   }
-  
+
   return result;
 }

@@ -1,6 +1,9 @@
 // Placeholder for API client
 export class PennyAPIClient {
-  constructor(private baseURL: string, private token?: string) {}
+  constructor(
+    private baseURL: string,
+    private token?: string,
+  ) {}
 
   async login(email: string, password: string) {
     const response = await fetch(`${this.baseURL}/api/v1/auth/login`, {

@@ -100,17 +100,15 @@ export function UsersTable({ searchQuery, status }: UsersTableProps) {
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.tenant.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     const matchesStatus = status === 'all' || user.status === status;
-    
+
     return matchesSearch && matchesStatus;
   });
 
   const toggleUserSelection = (userId: string) => {
     setSelectedUsers((prev) =>
-      prev.includes(userId)
-        ? prev.filter((id) => id !== userId)
-        : [...prev, userId]
+      prev.includes(userId) ? prev.filter((id) => id !== userId) : [...prev, userId],
     );
   };
 
@@ -126,9 +124,7 @@ export function UsersTable({ searchQuery, status }: UsersTableProps) {
     <div>
       {selectedUsers.length > 0 && (
         <div className="mb-4 flex items-center gap-2 p-4 bg-muted rounded-lg">
-          <span className="text-sm font-medium">
-            {selectedUsers.length} user(s) selected
-          </span>
+          <span className="text-sm font-medium">{selectedUsers.length} user(s) selected</span>
           <Button size="sm" variant="outline">
             <Mail className="mr-2 h-4 w-4" />
             Send Email
@@ -176,31 +172,26 @@ export function UsersTable({ searchQuery, status }: UsersTableProps) {
                   <Avatar>
                     <AvatarImage src={user.avatar} alt={user.name} />
                     <AvatarFallback>
-                      {user.name.split(' ').map(n => n[0]).join('')}
+                      {user.name
+                        .split(' ')
+                        .map((n) => n[0])
+                        .join('')}
                     </AvatarFallback>
                   </Avatar>
                   <div>
                     <div className="font-medium">{user.name}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {user.email}
-                    </div>
+                    <div className="text-sm text-muted-foreground">{user.email}</div>
                   </div>
                 </div>
               </TableCell>
               <TableCell>{user.tenant}</TableCell>
               <TableCell>
-                <Badge variant={roleColors[user.role]}>
-                  {user.role.toUpperCase()}
-                </Badge>
+                <Badge variant={roleColors[user.role]}>{user.role.toUpperCase()}</Badge>
               </TableCell>
               <TableCell>
-                <Badge variant={statusColors[user.status]}>
-                  {user.status}
-                </Badge>
+                <Badge variant={statusColors[user.status]}>{user.status}</Badge>
               </TableCell>
-              <TableCell>
-                {format(user.lastActive, 'MMM d, h:mm a')}
-              </TableCell>
+              <TableCell>{format(user.lastActive, 'MMM d, h:mm a')}</TableCell>
               <TableCell>
                 {user.mfaEnabled && (
                   <Badge variant="outline" className="text-green-600">

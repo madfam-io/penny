@@ -84,10 +84,7 @@ export enum ArtifactType {
 }
 
 // Input types
-export type CreateUserInput = Omit<
-  Prisma.UserCreateInput,
-  'tenant' | 'createdAt' | 'updatedAt'
-> & {
+export type CreateUserInput = Omit<Prisma.UserCreateInput, 'tenant' | 'createdAt' | 'updatedAt'> & {
   tenantId: string;
 };
 

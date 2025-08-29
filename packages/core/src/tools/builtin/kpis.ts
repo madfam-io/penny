@@ -8,30 +8,42 @@ const kpiSchema = z.object({
   id: z.string().optional(),
   startDate: z.string().datetime().optional(),
   endDate: z.string().datetime().optional(),
-  metrics: z.array(z.enum([
-    'revenue',
-    'mrr',
-    'arr',
-    'churn_rate',
-    'customer_count',
-    'average_revenue_per_user',
-    'customer_acquisition_cost',
-    'lifetime_value',
-    'profit_margin',
-    'operational_efficiency',
-  ])).optional(),
+  metrics: z
+    .array(
+      z.enum([
+        'revenue',
+        'mrr',
+        'arr',
+        'churn_rate',
+        'customer_count',
+        'average_revenue_per_user',
+        'customer_acquisition_cost',
+        'lifetime_value',
+        'profit_margin',
+        'operational_efficiency',
+      ]),
+    )
+    .optional(),
   groupBy: z.enum(['day', 'week', 'month', 'quarter', 'year']).optional(),
 });
 
 const handler: ToolHandler = async (params, context) => {
-  const { period, unit, id, startDate, endDate, metrics, groupBy = 'month' } = kpiSchema.parse(params);
+  const {
+    period,
+    unit,
+    id,
+    startDate,
+    endDate,
+    metrics,
+    groupBy = 'month',
+  } = kpiSchema.parse(params);
 
   try {
     // Calculate date range based on period
     const now = new Date();
     let periodStart: Date;
     let periodEnd = now;
-    
+
     if (period === 'custom' && startDate && endDate) {
       periodStart = new Date(startDate);
       periodEnd = new Date(endDate);
@@ -53,7 +65,7 @@ const handler: ToolHandler = async (params, context) => {
     // Generate comprehensive KPI data
     const multiplier = period === 'MTD' ? 1 : period === 'QTD' ? 3 : 12;
     const baseRevenue = 1250000;
-    
+
     const mockData = {
       period: {
         type: period,
@@ -70,7 +82,7 @@ const handler: ToolHandler = async (params, context) => {
         mrr: 125000,
         arr: 1500000,
         churn_rate: 0.045,
-        customer_count: 450 + (multiplier * 30),
+        customer_count: 450 + multiplier * 30,
         average_revenue_per_user: 2780,
         customer_acquisition_cost: 1200,
         lifetime_value: 25000,
@@ -116,58 +128,60 @@ const handler: ToolHandler = async (params, context) => {
     return {
       success: true,
       data: mockData,
-      artifacts: [{
-        type: 'dashboard',
-        name: `KPI Dashboard - ${period}`,
-        content: {
-          layout: 'grid',
-          widgets: [
-            {
-              type: 'metric',
-              title: 'Revenue',
-              value: mockData.metrics.revenue,
-              change: mockData.trend.revenue,
-              format: 'currency',
-            },
-            {
-              type: 'metric',
-              title: 'Customers',
-              value: mockData.metrics.customer_count,
-              change: mockData.trend.customer_count,
-              format: 'number',
-            },
-            {
-              type: 'chart',
-              title: 'Revenue Trend',
-              chartType: 'line',
-              data: generateTrendData(30, baseRevenue / 30),
-            },
-            {
-              type: 'chart',
-              title: 'Revenue by Segment',
-              chartType: 'pie',
-              data: mockData.breakdown.revenue_by_segment,
-            },
-            {
-              type: 'gauge',
-              title: 'Profit Margin',
-              value: mockData.metrics.profit_margin * 100,
-              min: 0,
-              max: 50,
-              thresholds: [10, 20, 30],
-            },
-            {
-              type: 'metric',
-              title: 'Churn Rate',
-              value: mockData.metrics.churn_rate,
-              change: mockData.trend.churn_rate,
-              format: 'percentage',
-              inverse: true, // Lower is better
-            },
-          ],
+      artifacts: [
+        {
+          type: 'dashboard',
+          name: `KPI Dashboard - ${period}`,
+          content: {
+            layout: 'grid',
+            widgets: [
+              {
+                type: 'metric',
+                title: 'Revenue',
+                value: mockData.metrics.revenue,
+                change: mockData.trend.revenue,
+                format: 'currency',
+              },
+              {
+                type: 'metric',
+                title: 'Customers',
+                value: mockData.metrics.customer_count,
+                change: mockData.trend.customer_count,
+                format: 'number',
+              },
+              {
+                type: 'chart',
+                title: 'Revenue Trend',
+                chartType: 'line',
+                data: generateTrendData(30, baseRevenue / 30),
+              },
+              {
+                type: 'chart',
+                title: 'Revenue by Segment',
+                chartType: 'pie',
+                data: mockData.breakdown.revenue_by_segment,
+              },
+              {
+                type: 'gauge',
+                title: 'Profit Margin',
+                value: mockData.metrics.profit_margin * 100,
+                min: 0,
+                max: 50,
+                thresholds: [10, 20, 30],
+              },
+              {
+                type: 'metric',
+                title: 'Churn Rate',
+                value: mockData.metrics.churn_rate,
+                change: mockData.trend.churn_rate,
+                format: 'percentage',
+                inverse: true, // Lower is better
+              },
+            ],
+          },
+          mimeType: 'application/vnd.penny.dashboard+json',
         },
-        mimeType: 'application/vnd.penny.dashboard+json',
-      }],
+      ],
       usage: {
         credits: 1,
         duration: 150,
@@ -186,7 +200,7 @@ const handler: ToolHandler = async (params, context) => {
 };
 
 // Helper function to generate trend data
-function generateTrendData(points: number, baseValue: number): Array<{x: string; y: number}> {
+function generateTrendData(points: number, baseValue: number): Array<{ x: string; y: number }> {
   const data = [];
   const now = new Date();
   for (let i = 0; i < points; i++) {
@@ -203,7 +217,8 @@ function generateTrendData(points: number, baseValue: number): Array<{x: string;
 export const getCompanyKPIsTool: ToolDefinition = {
   name: 'get_company_kpis',
   displayName: 'Get Company KPIs',
-  description: 'Retrieve comprehensive key performance indicators for specified period and business unit',
+  description:
+    'Retrieve comprehensive key performance indicators for specified period and business unit',
   category: 'analytics',
   icon: 'chart-line',
   schema: kpiSchema,

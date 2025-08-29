@@ -94,7 +94,7 @@ export function searchWhere(searchTerm?: string, fields?: string[]) {
   }
 
   return {
-    OR: fields.map(field => ({
+    OR: fields.map((field) => ({
       [field]: {
         contains: searchTerm,
         mode: 'insensitive' as const,
@@ -104,11 +104,7 @@ export function searchWhere(searchTerm?: string, fields?: string[]) {
 }
 
 // Date range helper
-export function dateRangeWhere(
-  field: string,
-  startDate?: Date | string,
-  endDate?: Date | string,
-) {
+export function dateRangeWhere(field: string, startDate?: Date | string, endDate?: Date | string) {
   const where: any = {};
 
   if (startDate) {
@@ -123,11 +119,7 @@ export function dateRangeWhere(
 }
 
 // Bulk operation helpers
-export async function bulkCreate<T>(
-  model: any,
-  data: T[],
-  batchSize = 100,
-): Promise<number> {
+export async function bulkCreate<T>(model: any, data: T[], batchSize = 100): Promise<number> {
   let created = 0;
 
   for (let i = 0; i < data.length; i += batchSize) {

@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { 
-  MessageSquare, 
-  LayoutDashboard, 
-  Bot, 
-  FileText, 
+import {
+  MessageSquare,
+  LayoutDashboard,
+  Bot,
+  FileText,
   Settings,
   Plus,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 

@@ -45,11 +45,7 @@ async function main() {
     {
       name: 'viewer',
       description: 'View-only access',
-      permissions: [
-        'conversation:read',
-        'artifact:read',
-        'dashboard:read',
-      ],
+      permissions: ['conversation:read', 'artifact:read', 'dashboard:read'],
       isSystem: true,
     },
   ];

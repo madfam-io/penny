@@ -2,7 +2,8 @@
 
 ## Overview
 
-PENNY is built as a modern, cloud-native application using a microservices architecture. The platform is designed for scalability, security, and extensibility.
+PENNY is built as a modern, cloud-native application using a microservices architecture. The
+platform is designed for scalability, security, and extensibility.
 
 ## System Architecture
 
@@ -51,6 +52,7 @@ PENNY is built as a modern, cloud-native application using a microservices archi
 ### 1. Frontend Applications
 
 #### Web Application (React + Vite)
+
 - **Purpose**: Main user interface for AI interactions
 - **Technologies**: React 18, TypeScript, Tailwind CSS, Zustand
 - **Key Features**:
@@ -60,6 +62,7 @@ PENNY is built as a modern, cloud-native application using a microservices archi
   - File management
 
 #### Admin Dashboard (Next.js 14)
+
 - **Purpose**: Platform administration and monitoring
 - **Technologies**: Next.js 14, React, TypeScript, Tailwind CSS
 - **Key Features**:
@@ -72,6 +75,7 @@ PENNY is built as a modern, cloud-native application using a microservices archi
 ### 2. Backend Services
 
 #### API Gateway
+
 - **Framework**: Fastify
 - **Responsibilities**:
   - Request routing
@@ -83,24 +87,26 @@ PENNY is built as a modern, cloud-native application using a microservices archi
 #### Core Services
 
 ##### Model Orchestration Service
+
 ```typescript
 interface ModelOrchestrator {
   providers: Map<string, ModelProvider>;
   router: ModelRouter;
   queue: PQueue;
-  
+
   generateCompletion(request: CompletionRequest): Promise<CompletionResponse>;
   generateStream(request: CompletionRequest): AsyncGenerator<CompletionChunk>;
 }
 ```
 
 ##### Tool Execution Engine
+
 ```typescript
 interface ToolExecutor {
   registry: ToolRegistry;
   executor: ToolExecutor;
   sandbox: ToolSandbox;
-  
+
   execute(toolName: string, params: any): Promise<ToolResult>;
 }
 ```
@@ -108,6 +114,7 @@ interface ToolExecutor {
 ### 3. Data Layer
 
 #### PostgreSQL Database
+
 - **Purpose**: Primary data store
 - **Features**:
   - Multi-tenant data isolation
@@ -116,6 +123,7 @@ interface ToolExecutor {
   - JSONB for flexible schemas
 
 #### Redis
+
 - **Purpose**: Caching and real-time features
 - **Use Cases**:
   - Session storage
@@ -124,6 +132,7 @@ interface ToolExecutor {
   - Model response caching
 
 #### pgvector
+
 - **Purpose**: Vector embeddings storage
 - **Use Cases**:
   - Semantic search
@@ -275,17 +284,20 @@ graph LR
 ## Performance Optimizations
 
 ### API Gateway
+
 - Request coalescing for duplicate AI calls
 - Response streaming for real-time updates
 - Connection pooling for database
 
 ### Frontend
+
 - Code splitting and lazy loading
 - Service Worker for offline capability
 - Virtual scrolling for large lists
 - Optimistic UI updates
 
 ### Database
+
 - Indexed columns for common queries
 - Partitioned tables for time-series data
 - Read replicas for analytics queries
@@ -294,11 +306,13 @@ graph LR
 ## Disaster Recovery
 
 ### Backup Strategy
+
 - **Database**: Daily automated backups with point-in-time recovery
 - **File Storage**: Cross-region replication
 - **Configuration**: Version controlled in Git
 
 ### High Availability
+
 - Multi-AZ deployment
 - Auto-scaling groups
 - Health checks and automatic recovery

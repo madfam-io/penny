@@ -57,11 +57,11 @@ export class RedisConnectionPool {
 
   private async initializePool(): Promise<void> {
     const promises: Promise<void>[] = [];
-    
+
     for (let i = 0; i < this.config.minConnections; i++) {
       promises.push(this.createConnection());
     }
-    
+
     await Promise.all(promises);
   }
 
@@ -71,7 +71,7 @@ export class RedisConnectionPool {
     }
 
     const connection = new Redis(this.redisOptions);
-    
+
     // Set up connection event handlers
     connection.on('error', (err) => {
       console.error('Redis connection error:', err);
@@ -89,9 +89,9 @@ export class RedisConnectionPool {
         this.availableConnections.push(connection);
         resolve();
       });
-      
+
       connection.once('error', reject);
-      
+
       // Timeout for connection
       setTimeout(() => {
         reject(new Error('Redis connection timeout'));
@@ -157,7 +157,7 @@ export class RedisConnectionPool {
     // Check if connection is still healthy
     if (connection.status !== 'ready') {
       this.removeConnection(connection);
-      
+
       // Try to maintain minimum connections
       if (this.connections.length < this.config.minConnections) {
         this.createConnection().catch(console.error);
@@ -177,8 +177,10 @@ export class RedisConnectionPool {
 
     // Set idle timeout
     setTimeout(() => {
-      if (this.availableConnections.includes(connection) && 
-          this.connections.length > this.config.minConnections) {
+      if (
+        this.availableConnections.includes(connection) &&
+        this.connections.length > this.config.minConnections
+      ) {
         this.removeConnection(connection);
       }
     }, this.config.idleTimeout);
@@ -203,13 +205,13 @@ export class RedisConnectionPool {
     this.waitingQueue = [];
 
     // Close all connections
-    const promises = this.connections.map(conn => {
+    const promises = this.connections.map((conn) => {
       conn.removeAllListeners();
       return conn.quit();
     });
 
     await Promise.all(promises);
-    
+
     this.connections = [];
     this.availableConnections = [];
   }

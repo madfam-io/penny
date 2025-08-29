@@ -68,7 +68,7 @@ export async function createTenant(input: CreateTenantInput) {
       const crypto = new CryptoService(
         Buffer.from(process.env.MASTER_ENCRYPTION_KEY || 'change-this-32-byte-key-in-prod!'),
       );
-      
+
       const passwordHash = await crypto.hashPassword(input.adminPassword);
 
       const adminUser = await tx.user.create({
@@ -188,11 +188,7 @@ export async function updateTenantSettings(
   }
 }
 
-export async function getTenantUsageMetrics(
-  tenantId: TenantId,
-  startDate?: Date,
-  endDate?: Date,
-) {
+export async function getTenantUsageMetrics(tenantId: TenantId, startDate?: Date, endDate?: Date) {
   try {
     const where: Prisma.UsageMetricWhereInput = {
       tenantId,

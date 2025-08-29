@@ -86,9 +86,7 @@ export function PaymentMethodsTable() {
       <TableBody>
         {paymentMethods.map((method) => (
           <TableRow key={method.id}>
-            <TableCell className="font-medium">
-              {method.tenant}
-            </TableCell>
+            <TableCell className="font-medium">{method.tenant}</TableCell>
             <TableCell>
               <div className="flex items-center gap-2">
                 {method.type === 'card' ? (
@@ -101,29 +99,25 @@ export function PaymentMethodsTable() {
             </TableCell>
             <TableCell>
               {method.type === 'card' ? (
-                <span>{method.brand} ****{method.last4}</span>
+                <span>
+                  {method.brand} ****{method.last4}
+                </span>
               ) : (
                 <span>****{method.last4}</span>
               )}
             </TableCell>
             <TableCell>
               {method.expiryMonth && method.expiryYear ? (
-                <span>{method.expiryMonth.toString().padStart(2, '0')}/{method.expiryYear}</span>
+                <span>
+                  {method.expiryMonth.toString().padStart(2, '0')}/{method.expiryYear}
+                </span>
               ) : (
                 '-'
               )}
             </TableCell>
-            <TableCell>
-              {method.isDefault && (
-                <Badge variant="default">Default</Badge>
-              )}
-            </TableCell>
+            <TableCell>{method.isDefault && <Badge variant="default">Default</Badge>}</TableCell>
             <TableCell className="text-right">
-              <Button
-                variant="ghost"
-                size="icon"
-                disabled={method.isDefault}
-              >
+              <Button variant="ghost" size="icon" disabled={method.isDefault}>
                 <Trash className="h-4 w-4" />
               </Button>
             </TableCell>

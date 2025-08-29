@@ -59,7 +59,7 @@ const authOptions: NextAuthOptions = {
             name: user.name,
             image: user.avatar,
             tenantId: user.tenantId,
-            roles: user.roles.map(ur => ur.role.name),
+            roles: user.roles.map((ur) => ur.role.name),
           };
         } catch (error) {
           console.error('Auth error:', error);

@@ -12,7 +12,7 @@ export interface ToolDefinition {
   config?: ToolConfig;
 }
 
-export type ToolCategory = 
+export type ToolCategory =
   | 'analytics'
   | 'productivity'
   | 'communication'
@@ -33,10 +33,7 @@ export interface ToolConfig {
   cost?: number; // internal cost units
 }
 
-export type ToolHandler = (
-  params: any,
-  context: ToolContext,
-) => Promise<ToolResult>;
+export type ToolHandler = (params: any, context: ToolContext) => Promise<ToolResult>;
 
 export interface ToolContext {
   tenantId: TenantId;

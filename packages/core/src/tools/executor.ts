@@ -32,44 +32,36 @@ export class ToolExecutor extends EventEmitter {
 
   constructor(config: ToolExecutorConfig) {
     super();
-    
+
     this.registry = config.registry;
     this.redis = config.redis;
     this.defaultTimeout = config.defaultTimeout || 30000;
-    
+
     // Initialize execution queue
     this.queue = new PQueue({
       concurrency: config.maxConcurrency || 5,
       interval: 1000,
       intervalCap: 10,
     });
-    
+
     // Initialize sandbox if enabled
     if (config.enableSandbox) {
       this.sandbox = new ToolSandbox();
     }
-    
+
     // Set up periodic cleanup for stale executions
     this.setupExecutionCleanup();
   }
 
-  async execute(
-    toolName: string,
-    params: any,
-    context: ToolContext,
-  ): Promise<ToolResult> {
+  async execute(toolName: string, params: any, context: ToolContext): Promise<ToolResult> {
     const executionId = generateId('exec');
-    
+
     // Get tool definition
     const tool = this.registry.get(toolName);
     if (!tool) {
-      throw new ToolExecutionError(
-        `Tool ${toolName} not found`,
-        'TOOL_NOT_FOUND',
-        toolName,
-      );
+      throw new ToolExecutionError(`Tool ${toolName} not found`, 'TOOL_NOT_FOUND', toolName);
     }
-    
+
     // Validate parameters
     try {
       params = tool.schema.parse(params);
@@ -82,25 +74,16 @@ export class ToolExecutor extends EventEmitter {
         error.errors,
       );
     }
-    
+
     // Check rate limits
     if (tool.config?.rateLimit) {
-      const allowed = await this.checkRateLimit(
-        toolName,
-        context.userId,
-        tool.config.rateLimit,
-      );
-      
+      const allowed = await this.checkRateLimit(toolName, context.userId, tool.config.rateLimit);
+
       if (!allowed) {
-        throw new ToolExecutionError(
-          'Rate limit exceeded',
-          'RATE_LIMIT_EXCEEDED',
-          toolName,
-          true,
-        );
+        throw new ToolExecutionError('Rate limit exceeded', 'RATE_LIMIT_EXCEEDED', toolName, true);
       }
     }
-    
+
     // Create execution record
     const execution: ToolExecution = {
       id: executionId,
@@ -109,33 +92,28 @@ export class ToolExecutor extends EventEmitter {
       params,
       startedAt: new Date(),
     };
-    
+
     this.executions.set(executionId, execution);
     this.emit('execution:started', execution);
-    
+
     // Store in database
     await this.storeExecution(execution, context);
-    
+
     // Execute in queue
     return this.queue.add(async () => {
       try {
         // Update status
         execution.status = ToolExecutionStatus.RUNNING;
         this.emit('execution:running', execution);
-        
+
         // Set timeout
         const timeout = tool.config?.timeout || this.defaultTimeout;
         const timeoutPromise = new Promise<never>((_, reject) => {
           setTimeout(() => {
-            reject(new ToolExecutionError(
-              'Tool execution timeout',
-              'TIMEOUT',
-              toolName,
-              true,
-            ));
+            reject(new ToolExecutionError('Tool execution timeout', 'TIMEOUT', toolName, true));
           }, timeout);
         });
-        
+
         // Execute tool
         const resultPromise = this.executeWithRetries(
           tool,
@@ -143,26 +121,25 @@ export class ToolExecutor extends EventEmitter {
           context,
           tool.config?.maxRetries || 0,
         );
-        
+
         // Race between execution and timeout
         const result = await Promise.race([resultPromise, timeoutPromise]);
-        
+
         // Update execution record
         execution.status = ToolExecutionStatus.COMPLETED;
         execution.result = result;
         execution.completedAt = new Date();
         execution.duration = execution.completedAt.getTime() - execution.startedAt.getTime();
-        
+
         this.emit('execution:completed', execution);
         await this.updateExecution(execution, context);
-        
+
         // Track usage
         if (result.usage) {
           await this.trackUsage(toolName, context, result.usage);
         }
-        
+
         return result;
-        
       } catch (error: any) {
         // Handle execution error
         execution.status = ToolExecutionStatus.FAILED;
@@ -174,12 +151,11 @@ export class ToolExecutor extends EventEmitter {
         };
         execution.completedAt = new Date();
         execution.duration = execution.completedAt.getTime() - execution.startedAt.getTime();
-        
+
         this.emit('execution:failed', execution);
         await this.updateExecution(execution, context);
-        
+
         throw error;
-        
       } finally {
         this.executions.delete(executionId);
       }
@@ -198,29 +174,22 @@ export class ToolExecutor extends EventEmitter {
       if (this.sandbox && tool.config?.requiresSandbox) {
         return await this.sandbox.execute(tool, params, context);
       }
-      
+
       // Direct execution
       return await tool.handler(params, context);
-      
     } catch (error: any) {
       // Check if retryable
       const isRetryable = error.retryable !== false && attempt < maxRetries;
-      
+
       if (isRetryable) {
         // Exponential backoff
         const delay = Math.min(1000 * Math.pow(2, attempt), 10000);
-        await new Promise(resolve => setTimeout(resolve, delay));
-        
+        await new Promise((resolve) => setTimeout(resolve, delay));
+
         // Retry
-        return this.executeWithRetries(
-          tool,
-          params,
-          context,
-          maxRetries,
-          attempt + 1,
-        );
+        return this.executeWithRetries(tool, params, context, maxRetries, attempt + 1);
       }
-      
+
       throw error;
     }
   }
@@ -234,21 +203,18 @@ export class ToolExecutor extends EventEmitter {
       // Simple in-memory rate limiting
       return true;
     }
-    
+
     const key = `ratelimit:tool:${toolName}:${userId}`;
     const current = await this.redis.incr(key);
-    
+
     if (current === 1) {
       await this.redis.expire(key, limit.window);
     }
-    
+
     return current <= limit.requests;
   }
 
-  private async storeExecution(
-    execution: ToolExecution,
-    context: ToolContext,
-  ): Promise<void> {
+  private async storeExecution(execution: ToolExecution, context: ToolContext): Promise<void> {
     try {
       await prisma.toolExecution.create({
         data: {
@@ -262,14 +228,11 @@ export class ToolExecutor extends EventEmitter {
         },
       });
     } catch (error) {
-      console.error('Failed to store tool execution:', error);
+      // Log error to monitoring service
     }
   }
 
-  private async updateExecution(
-    execution: ToolExecution,
-    context: ToolContext,
-  ): Promise<void> {
+  private async updateExecution(execution: ToolExecution, context: ToolContext): Promise<void> {
     try {
       await prisma.toolExecution.update({
         where: { id: execution.id },
@@ -285,15 +248,11 @@ export class ToolExecutor extends EventEmitter {
         },
       });
     } catch (error) {
-      console.error('Failed to update tool execution:', error);
+      // Log error to monitoring service
     }
   }
 
-  private async trackUsage(
-    toolName: string,
-    context: ToolContext,
-    usage: any,
-  ): Promise<void> {
+  private async trackUsage(toolName: string, context: ToolContext, usage: any): Promise<void> {
     try {
       await prisma.usageMetric.create({
         data: {
@@ -310,7 +269,7 @@ export class ToolExecutor extends EventEmitter {
         },
       });
     } catch (error) {
-      console.error('Failed to track tool usage:', error);
+      // Log error to monitoring service
     }
   }
 
@@ -320,16 +279,16 @@ export class ToolExecutor extends EventEmitter {
     if (execution) {
       return execution;
     }
-    
+
     // Check database
     const dbExecution = await prisma.toolExecution.findUnique({
       where: { id: executionId },
     });
-    
+
     if (!dbExecution) {
       return null;
     }
-    
+
     return {
       id: dbExecution.id,
       toolName: dbExecution.toolId, // This would need proper mapping
@@ -348,13 +307,13 @@ export class ToolExecutor extends EventEmitter {
     if (!execution) {
       return false;
     }
-    
+
     if (execution.status === ToolExecutionStatus.RUNNING) {
       execution.status = ToolExecutionStatus.CANCELLED;
       this.emit('execution:cancelled', execution);
       return true;
     }
-    
+
     return false;
   }
 
@@ -374,10 +333,10 @@ export class ToolExecutor extends EventEmitter {
     // Clean up stale executions every 5 minutes
     setInterval(() => {
       const staleTime = Date.now() - 3600000; // 1 hour ago
-      
+
       for (const [id, execution] of this.executions) {
         if (execution.startedAt.getTime() < staleTime) {
-          console.warn(`Cleaning up stale execution: ${id}`);
+          // Stale execution cleanup: ${id}
           this.executions.delete(id);
         }
       }

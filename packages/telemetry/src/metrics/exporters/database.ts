@@ -18,7 +18,7 @@ export class DatabaseExporter implements MetricExporter {
 
   async export(metrics: MetricPoint[]): Promise<void> {
     const batches = this.createBatches(metrics, this.config.batchSize!);
-    
+
     for (const batch of batches) {
       await this.saveBatch(batch);
     }
@@ -26,18 +26,18 @@ export class DatabaseExporter implements MetricExporter {
 
   private createBatches(metrics: MetricPoint[], batchSize: number): MetricPoint[][] {
     const batches: MetricPoint[][] = [];
-    
+
     for (let i = 0; i < metrics.length; i += batchSize) {
       batches.push(metrics.slice(i, i + batchSize));
     }
-    
+
     return batches;
   }
 
   private async saveBatch(metrics: MetricPoint[]): Promise<void> {
     try {
       await prisma.metric.createMany({
-        data: metrics.map(metric => ({
+        data: metrics.map((metric) => ({
           name: metric.name,
           value: metric.value,
           timestamp: metric.timestamp,
@@ -46,7 +46,7 @@ export class DatabaseExporter implements MetricExporter {
           tenantId: this.config.tenantId || metric.tags?.tenant_id,
         })),
       });
-      
+
       // Aggregate usage metrics for billing
       await this.aggregateUsageMetrics(metrics);
     } catch (error) {
@@ -58,23 +58,23 @@ export class DatabaseExporter implements MetricExporter {
   private async aggregateUsageMetrics(metrics: MetricPoint[]): Promise<void> {
     // Group metrics by tenant and type
     const usageByTenant = new Map<string, Map<string, number>>();
-    
+
     for (const metric of metrics) {
       const tenantId = this.config.tenantId || metric.tags?.tenant_id;
       if (!tenantId) continue;
-      
+
       // Only aggregate specific usage metrics
       if (this.isUsageMetric(metric.name)) {
         if (!usageByTenant.has(tenantId)) {
           usageByTenant.set(tenantId, new Map());
         }
-        
+
         const tenantUsage = usageByTenant.get(tenantId)!;
         const current = tenantUsage.get(metric.name) || 0;
         tenantUsage.set(metric.name, current + metric.value);
       }
     }
-    
+
     // Update usage metrics in database
     for (const [tenantId, usage] of usageByTenant) {
       for (const [metricName, value] of usage) {
@@ -103,8 +103,8 @@ export class DatabaseExporter implements MetricExporter {
       'storage_bytes_used',
       'api_requests_total',
     ];
-    
-    return usageMetrics.some(metric => name.includes(metric));
+
+    return usageMetrics.some((metric) => name.includes(metric));
   }
 
   private getUsageUnit(metricName: string): string {

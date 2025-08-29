@@ -31,11 +31,12 @@ export function SystemHealth() {
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium">{metric.name}</span>
             <span className={`text-sm ${getStatusColor(metric.status)}`}>
-              {metric.value}{metric.unit}
+              {metric.value}
+              {metric.unit}
             </span>
           </div>
-          <Progress 
-            value={metric.unit === '%' ? metric.value : (metric.value / 200) * 100} 
+          <Progress
+            value={metric.unit === '%' ? metric.value : (metric.value / 200) * 100}
             className="h-2"
           />
         </div>

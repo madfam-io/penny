@@ -25,11 +25,7 @@ export class ToolSandbox {
     };
   }
 
-  async execute(
-    tool: ToolDefinition,
-    params: any,
-    context: ToolContext,
-  ): Promise<ToolResult> {
+  async execute(tool: ToolDefinition, params: any, context: ToolContext): Promise<ToolResult> {
     // For now, use VM2 for JavaScript execution
     // In production, consider using Docker containers or WebAssembly
     const vm = new VM({

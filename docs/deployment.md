@@ -57,8 +57,8 @@ services:
   nginx:
     image: nginx:alpine
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./ssl:/etc/nginx/ssl
@@ -94,9 +94,9 @@ metadata:
   name: penny-config
   namespace: penny
 data:
-  API_URL: "https://api.penny.ai"
-  REDIS_URL: "redis://redis:6379"
-  MULTI_TENANT_MODE: "true"
+  API_URL: 'https://api.penny.ai'
+  REDIS_URL: 'redis://redis:6379'
+  MULTI_TENANT_MODE: 'true'
 ```
 
 #### PostgreSQL Deployment
@@ -120,32 +120,32 @@ spec:
         app: postgres
     spec:
       containers:
-      - name: postgres
-        image: pgvector/pgvector:pg15
-        env:
-        - name: POSTGRES_DB
-          value: penny
-        - name: POSTGRES_USER
-          value: postgres
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: password
-        ports:
-        - containerPort: 5432
-        volumeMounts:
-        - name: postgres-storage
-          mountPath: /var/lib/postgresql/data
+        - name: postgres
+          image: pgvector/pgvector:pg15
+          env:
+            - name: POSTGRES_DB
+              value: penny
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
   volumeClaimTemplates:
-  - metadata:
-      name: postgres-storage
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "gp3"
-      resources:
-        requests:
-          storage: 100Gi
+    - metadata:
+        name: postgres-storage
+      spec:
+        accessModes: ['ReadWriteOnce']
+        storageClassName: 'gp3'
+        resources:
+          requests:
+            storage: 100Gi
 ```
 
 #### API Deployment
@@ -168,45 +168,45 @@ spec:
         app: api
     spec:
       containers:
-      - name: api
-        image: penny/api:latest
-        env:
-        - name: DATABASE_URL
-          valueFrom:
-            secretKeyRef:
-              name: api-secrets
-              key: database-url
-        - name: JWT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: api-secrets
-              key: jwt-secret
-        - name: ENCRYPTION_KEY
-          valueFrom:
-            secretKeyRef:
-              name: api-secrets
-              key: encryption-key
-        ports:
-        - containerPort: 3000
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3000
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /health/ready
-            port: 3000
-          initialDelaySeconds: 5
-          periodSeconds: 5
-        resources:
-          requests:
-            cpu: 500m
-            memory: 512Mi
-          limits:
-            cpu: 2000m
-            memory: 2Gi
+        - name: api
+          image: penny/api:latest
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: database-url
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: jwt-secret
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: encryption-key
+          ports:
+            - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 2000m
+              memory: 2Gi
 ```
 
 #### Autoscaling
@@ -226,18 +226,18 @@ spec:
   minReplicas: 3
   maxReplicas: 20
   metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 70
-  - type: Resource
-    resource:
-      name: memory
-      target:
-        type: Utilization
-        averageUtilization: 80
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
 ```
 
 ### 3. AWS Deployment
@@ -253,17 +253,17 @@ provider "aws" {
 # VPC
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
-  
+
   name = "penny-vpc"
   cidr = "10.0.0.0/16"
-  
+
   azs             = ["${var.aws_region}a", "${var.aws_region}b", "${var.aws_region}c"]
   private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
-  
+
   enable_nat_gateway = true
   enable_vpn_gateway = true
-  
+
   tags = {
     Terraform = "true"
     Environment = var.environment
@@ -273,27 +273,27 @@ module "vpc" {
 # RDS PostgreSQL
 resource "aws_db_instance" "postgres" {
   identifier = "penny-postgres"
-  
+
   engine            = "postgres"
   engine_version    = "15.4"
   instance_class    = "db.r6g.xlarge"
   allocated_storage = 100
   storage_encrypted = true
-  
+
   db_name  = "penny"
   username = "postgres"
   password = var.db_password
-  
+
   vpc_security_group_ids = [aws_security_group.postgres.id]
   db_subnet_group_name   = aws_db_subnet_group.postgres.name
-  
+
   backup_retention_period = 30
   backup_window          = "03:00-04:00"
   maintenance_window     = "sun:04:00-sun:05:00"
-  
+
   skip_final_snapshot = false
   deletion_protection = true
-  
+
   tags = {
     Name = "penny-postgres"
     Environment = var.environment
@@ -308,13 +308,13 @@ resource "aws_elasticache_cluster" "redis" {
   num_cache_nodes      = 1
   parameter_group_name = "default.redis7"
   port                 = 6379
-  
+
   subnet_group_name = aws_elasticache_subnet_group.redis.name
   security_group_ids = [aws_security_group.redis.id]
-  
+
   snapshot_retention_limit = 7
   snapshot_window         = "03:00-05:00"
-  
+
   tags = {
     Name = "penny-redis"
     Environment = var.environment
@@ -324,12 +324,12 @@ resource "aws_elasticache_cluster" "redis" {
 # ECS Cluster
 resource "aws_ecs_cluster" "main" {
   name = "penny-cluster"
-  
+
   setting {
     name  = "containerInsights"
     value = "enabled"
   }
-  
+
   tags = {
     Name = "penny-cluster"
     Environment = var.environment
@@ -343,10 +343,10 @@ resource "aws_lb" "main" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
   subnets            = module.vpc.public_subnets
-  
+
   enable_deletion_protection = true
   enable_http2              = true
-  
+
   tags = {
     Name = "penny-alb"
     Environment = var.environment
@@ -419,21 +419,21 @@ sudo certbot renew --dry-run
 server {
     listen 443 ssl http2;
     server_name api.penny.ai;
-    
+
     ssl_certificate /etc/letsencrypt/live/penny.ai/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/penny.ai/privkey.pem;
-    
+
     # SSL configuration
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384;
     ssl_prefer_server_ciphers off;
-    
+
     # Security headers
     add_header Strict-Transport-Security "max-age=63072000" always;
     add_header X-Frame-Options "DENY" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-XSS-Protection "1; mode=block" always;
-    
+
     location / {
         proxy_pass http://api:3000;
         proxy_http_version 1.1;
@@ -475,14 +475,13 @@ const execAsync = promisify(exec);
 async function safelyMigrate() {
   // 1. Create migration lock
   await execAsync('npm run db:lock:acquire');
-  
+
   try {
     // 2. Run migrations
     await execAsync('npm run db:migrate:deploy');
-    
+
     // 3. Verify schema
     await execAsync('npm run db:validate');
-    
   } finally {
     // 4. Release lock
     await execAsync('npm run db:lock:release');
@@ -505,11 +504,11 @@ scrape_configs:
     static_configs:
       - targets: ['api:3000']
     metrics_path: '/metrics'
-    
+
   - job_name: 'penny-postgres'
     static_configs:
       - targets: ['postgres-exporter:9187']
-      
+
   - job_name: 'penny-redis'
     static_configs:
       - targets: ['redis-exporter:9121']
@@ -518,6 +517,7 @@ scrape_configs:
 ### Grafana Dashboards
 
 Import these dashboard IDs:
+
 - **Application Metrics**: 13659
 - **PostgreSQL**: 9628
 - **Redis**: 11835
@@ -571,23 +571,23 @@ app.get('/health', async (req, res) => {
     redis: 'ok',
     storage: 'ok',
   };
-  
+
   try {
     // Check database
     await prisma.$queryRaw`SELECT 1`;
   } catch (error) {
     checks.database = 'error';
   }
-  
+
   try {
     // Check Redis
     await redis.ping();
   } catch (error) {
     checks.redis = 'error';
   }
-  
-  const allOk = Object.values(checks).every(status => status === 'ok');
-  
+
+  const allOk = Object.values(checks).every((status) => status === 'ok');
+
   res.status(allOk ? 200 : 503).json({
     status: allOk ? 'healthy' : 'unhealthy',
     checks,
@@ -614,21 +614,23 @@ sudo ufw enable
 
 ```typescript
 // Security middleware
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'"],
-      imgSrc: ["'self'", "data:", "https:"],
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'"],
+        imgSrc: ["'self'", 'data:', 'https:'],
+      },
     },
-  },
-  hsts: {
-    maxAge: 31536000,
-    includeSubDomains: true,
-    preload: true,
-  },
-}));
+    hsts: {
+      maxAge: 31536000,
+      includeSubDomains: true,
+      preload: true,
+    },
+  }),
+);
 ```
 
 ### 3. Database Security
@@ -678,28 +680,31 @@ ANALYZE messages;
 ### Common Issues
 
 1. **High Memory Usage**
+
    ```bash
    # Check memory usage
    docker stats
-   
+
    # Increase Node.js memory
    NODE_OPTIONS="--max-old-space-size=4096"
    ```
 
 2. **Database Connection Errors**
+
    ```bash
    # Check connection pool
    SELECT count(*) FROM pg_stat_activity;
-   
+
    # Increase pool size
    DATABASE_POOL_MAX=200
    ```
 
 3. **Redis Memory Issues**
+
    ```bash
    # Check memory usage
    redis-cli INFO memory
-   
+
    # Set memory policy
    redis-cli CONFIG SET maxmemory-policy allkeys-lru
    ```

@@ -51,7 +51,6 @@ const authentication: FastifyPluginAsync = async (fastify) => {
       request.context.tenantId = payload.tid as any;
       request.context.roles = payload.roles;
       request.context.sessionId = payload.sessionId;
-
     } catch (error) {
       if (error instanceof AuthenticationError) {
         throw error;
@@ -64,12 +63,12 @@ const authentication: FastifyPluginAsync = async (fastify) => {
   fastify.decorate('authorize', function (allowedRoles: Role[]) {
     return async function (request: FastifyRequest) {
       const userRoles = request.context.roles || [];
-      
-      const hasPermission = allowedRoles.some(role => userRoles.includes(role));
-      
+
+      const hasPermission = allowedRoles.some((role) => userRoles.includes(role));
+
       if (!hasPermission) {
         throw new AuthorizationError(
-          `Insufficient permissions. Required roles: ${allowedRoles.join(', ')}`
+          `Insufficient permissions. Required roles: ${allowedRoles.join(', ')}`,
         );
       }
     };

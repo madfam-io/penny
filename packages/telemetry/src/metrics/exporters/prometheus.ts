@@ -25,23 +25,23 @@ export class PrometheusExporter implements MetricExporter {
     for (const [name, points] of processedMetrics) {
       // Add help text
       lines.push(`# HELP ${name} ${name}`);
-      
+
       // Add type
       const type = this.inferType(name);
       lines.push(`# TYPE ${name} ${type}`);
-      
+
       // Add metric values
       for (const point of points) {
         const labels = this.formatLabels(point.tags);
         const timestamp = point.timestamp.getTime();
-        
+
         if (labels) {
           lines.push(`${name}{${labels}} ${point.value} ${timestamp}`);
         } else {
           lines.push(`${name} ${point.value} ${timestamp}`);
         }
       }
-      
+
       lines.push(''); // Empty line between metrics
     }
 
@@ -72,10 +72,7 @@ export class PrometheusExporter implements MetricExporter {
   }
 
   private escapeValue(value: string): string {
-    return value
-      .replace(/\\/g, '\\\\')
-      .replace(/"/g, '\\"')
-      .replace(/\n/g, '\\n');
+    return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
   }
 }
 
@@ -88,9 +85,7 @@ export const prometheusPlugin: FastifyPluginAsync<{ exporter: PrometheusExporter
 
   fastify.get('/metrics', async (request: FastifyRequest, reply: FastifyReply) => {
     const metrics = exporter.formatMetrics();
-    
-    reply
-      .type('text/plain; version=0.0.4')
-      .send(metrics);
+
+    reply.type('text/plain; version=0.0.4').send(metrics);
   });
 };

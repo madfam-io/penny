@@ -1,10 +1,12 @@
 # Contributing to PENNY
 
-Thank you for your interest in contributing to PENNY! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to PENNY! This document provides guidelines and
+instructions for contributing.
 
 ## Code of Conduct
 
-By participating in this project, you agree to abide by our Code of Conduct. Please read [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) before contributing.
+By participating in this project, you agree to abide by our Code of Conduct. Please read
+[CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) before contributing.
 
 ## Getting Started
 
@@ -46,6 +48,7 @@ git commit -m "feat(api): add new endpoint for tool execution"
 ```
 
 Types:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation
@@ -89,17 +92,21 @@ Follow the prompts to describe your changes.
 ## Pull Request Guidelines
 
 ### PR Title
+
 Follow conventional commits format:
+
 - `feat(scope): description`
 - `fix(scope): description`
 
 ### PR Description
+
 - Describe what changed and why
 - Link related issues
 - Include screenshots for UI changes
 - List breaking changes
 
 ### PR Checklist
+
 - [ ] Tests pass
 - [ ] Documentation updated
 - [ ] Changeset added
@@ -110,18 +117,21 @@ Follow conventional commits format:
 ## Code Style
 
 ### TypeScript
+
 - Use strict mode
 - Prefer interfaces over types
 - Document complex functions
 - Use meaningful variable names
 
 ### React
+
 - Functional components only
 - Custom hooks for logic
 - Proper error boundaries
 - Accessibility first
 
 ### General
+
 - No magic numbers
 - DRY principle
 - SOLID principles
@@ -130,6 +140,7 @@ Follow conventional commits format:
 ## Testing
 
 ### Unit Tests
+
 ```typescript
 describe('calculateTotal', () => {
   it('should calculate sum correctly', () => {
@@ -139,9 +150,11 @@ describe('calculateTotal', () => {
 ```
 
 ### Integration Tests
+
 Test complete flows with mocked dependencies.
 
 ### E2E Tests
+
 Test critical user journeys.
 
 ## Documentation
@@ -168,6 +181,7 @@ Test critical user journeys.
 ## Recognition
 
 Contributors are recognized in:
+
 - CONTRIBUTORS.md
 - Release notes
 - Project website

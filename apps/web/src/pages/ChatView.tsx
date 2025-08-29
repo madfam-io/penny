@@ -21,7 +21,8 @@ export default function ChatView() {
     {
       id: '1',
       role: 'assistant',
-      content: 'Hello! I\'m PENNY, your AI assistant. I can help you with data analysis, create dashboards, and much more. How can I assist you today?',
+      content:
+        "Hello! I'm PENNY, your AI assistant. I can help you with data analysis, create dashboards, and much more. How can I assist you today?",
       timestamp: new Date(),
     },
   ]);
@@ -48,7 +49,7 @@ export default function ChatView() {
       timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
@@ -57,7 +58,8 @@ export default function ChatView() {
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: 'I understand you want to analyze some data. Let me help you with that. Here\'s a dashboard showing your company KPIs for this month.',
+        content:
+          "I understand you want to analyze some data. Let me help you with that. Here's a dashboard showing your company KPIs for this month.",
         timestamp: new Date(),
         artifacts: [
           {
@@ -67,7 +69,7 @@ export default function ChatView() {
           },
         ],
       };
-      setMessages(prev => [...prev, assistantMessage]);
+      setMessages((prev) => [...prev, assistantMessage]);
       setIsLoading(false);
     }, 1500);
   };
@@ -75,10 +77,7 @@ export default function ChatView() {
   return (
     <div className="flex h-full">
       {/* Chat section */}
-      <div className={cn(
-        'flex flex-col',
-        selectedArtifact ? 'w-1/2' : 'w-full'
-      )}>
+      <div className={cn('flex flex-col', selectedArtifact ? 'w-1/2' : 'w-full')}>
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map((message) => (
@@ -88,14 +87,14 @@ export default function ChatView() {
               onArtifactClick={setSelectedArtifact}
             />
           ))}
-          
+
           {isLoading && (
             <div className="flex items-center gap-2 text-gray-500">
               <Loader2 className="h-4 w-4 animate-spin" />
               <span className="text-sm">PENNY is thinking...</span>
             </div>
           )}
-          
+
           <div ref={messagesEndRef} />
         </div>
 
@@ -105,7 +104,7 @@ export default function ChatView() {
             <button className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
               <Paperclip className="h-5 w-5 text-gray-600 dark:text-gray-400" />
             </button>
-            
+
             <div className="flex-1">
               <textarea
                 value={input}
@@ -121,7 +120,7 @@ export default function ChatView() {
                 rows={1}
               />
             </div>
-            
+
             <button
               onClick={handleSend}
               disabled={!input.trim() || isLoading}
@@ -129,7 +128,7 @@ export default function ChatView() {
                 'p-2 rounded-lg transition-colors',
                 input.trim() && !isLoading
                   ? 'bg-brand-500 hover:bg-brand-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed',
               )}
             >
               <Send className="h-5 w-5" />
@@ -141,10 +140,7 @@ export default function ChatView() {
       {/* Artifact viewer */}
       {selectedArtifact && (
         <div className="w-1/2 border-l border-gray-200 dark:border-gray-700">
-          <ArtifactViewer
-            artifactId={selectedArtifact}
-            onClose={() => setSelectedArtifact(null)}
-          />
+          <ArtifactViewer artifactId={selectedArtifact} onClose={() => setSelectedArtifact(null)} />
         </div>
       )}
     </div>

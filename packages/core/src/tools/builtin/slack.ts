@@ -8,16 +8,24 @@ const slackMessageSchema = z.object({
   channel: z.string().describe('Channel name (e.g., "#general") or user ID'),
   text: z.string().describe('Message text (supports markdown)'),
   thread_ts: z.string().optional().describe('Thread timestamp to reply to'),
-  attachments: z.array(z.object({
-    title: z.string().optional(),
-    text: z.string().optional(),
-    color: z.string().optional(),
-    fields: z.array(z.object({
-      title: z.string(),
-      value: z.string(),
-      short: z.boolean().optional(),
-    })).optional(),
-  })).optional(),
+  attachments: z
+    .array(
+      z.object({
+        title: z.string().optional(),
+        text: z.string().optional(),
+        color: z.string().optional(),
+        fields: z
+          .array(
+            z.object({
+              title: z.string(),
+              value: z.string(),
+              short: z.boolean().optional(),
+            }),
+          )
+          .optional(),
+      }),
+    )
+    .optional(),
   blocks: z.array(z.any()).optional().describe('Rich message blocks'),
   unfurl_links: z.boolean().default(true),
   unfurl_media: z.boolean().default(true),
@@ -58,99 +66,84 @@ class SlackClient {
 
   private getHeaders() {
     return {
-      'Authorization': `Bearer ${this.token}`,
+      Authorization: `Bearer ${this.token}`,
       'Content-Type': 'application/json',
     };
   }
 
   async postMessage(params: any) {
-    const response = await axios.post(
-      `${this.baseUrl}/chat.postMessage`,
-      params,
-      { headers: this.getHeaders() }
-    );
-    
+    const response = await axios.post(`${this.baseUrl}/chat.postMessage`, params, {
+      headers: this.getHeaders(),
+    });
+
     if (!response.data.ok) {
       throw new Error(response.data.error || 'Failed to send message');
     }
-    
+
     return response.data;
   }
 
   async getChannels(limit: number = 100, cursor?: string) {
-    const response = await axios.get(
-      `${this.baseUrl}/conversations.list`,
-      {
-        params: {
-          limit,
-          cursor,
-          exclude_archived: true,
-          types: 'public_channel,private_channel',
-        },
-        headers: this.getHeaders(),
-      }
-    );
-    
+    const response = await axios.get(`${this.baseUrl}/conversations.list`, {
+      params: {
+        limit,
+        cursor,
+        exclude_archived: true,
+        types: 'public_channel,private_channel',
+      },
+      headers: this.getHeaders(),
+    });
+
     if (!response.data.ok) {
       throw new Error(response.data.error || 'Failed to get channels');
     }
-    
+
     return response.data;
   }
 
   async getChannelHistory(channel: string, limit: number = 20) {
-    const response = await axios.get(
-      `${this.baseUrl}/conversations.history`,
-      {
-        params: { channel, limit },
-        headers: this.getHeaders(),
-      }
-    );
-    
+    const response = await axios.get(`${this.baseUrl}/conversations.history`, {
+      params: { channel, limit },
+      headers: this.getHeaders(),
+    });
+
     if (!response.data.ok) {
       throw new Error(response.data.error || 'Failed to get channel history');
     }
-    
+
     return response.data;
   }
 
   async getUsers(limit: number = 100, cursor?: string) {
-    const response = await axios.get(
-      `${this.baseUrl}/users.list`,
-      {
-        params: { limit, cursor },
-        headers: this.getHeaders(),
-      }
-    );
-    
+    const response = await axios.get(`${this.baseUrl}/users.list`, {
+      params: { limit, cursor },
+      headers: this.getHeaders(),
+    });
+
     if (!response.data.ok) {
       throw new Error(response.data.error || 'Failed to get users');
     }
-    
+
     return response.data;
   }
 
   async uploadFile(params: any) {
     const formData = new FormData();
-    Object.keys(params).forEach(key => {
+    Object.keys(params).forEach((key) => {
       formData.append(key, params[key]);
     });
 
-    const response = await axios.post(
-      `${this.baseUrl}/files.upload`,
-      formData,
-      {
-        headers: {
-          'Authorization': `Bearer ${this.token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    );
-    
+    const response = await axios.post(`${this.baseUrl}/files.upload`, formData, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
     if (!response.data.ok) {
       throw new Error(response.data.error || 'Failed to upload file');
     }
-    
+
     return response.data;
   }
 }
@@ -179,16 +172,18 @@ const sendMessageHandler: ToolHandler = async (params, context) => {
           ts: Date.now().toString(),
           mock: true,
         },
-        artifacts: [{
-          type: 'document',
-          name: 'Slack Message',
-          content: {
-            channel: message.channel,
-            text: message.text,
-            sent_at: new Date().toISOString(),
+        artifacts: [
+          {
+            type: 'document',
+            name: 'Slack Message',
+            content: {
+              channel: message.channel,
+              text: message.text,
+              sent_at: new Date().toISOString(),
+            },
+            mimeType: 'application/json',
           },
-          mimeType: 'application/json',
-        }],
+        ],
       };
     }
 
@@ -228,17 +223,19 @@ const sendMessageHandler: ToolHandler = async (params, context) => {
         ts: result.ts,
         message: result.message,
       },
-      artifacts: [{
-        type: 'document',
-        name: 'Slack Message Sent',
-        content: {
-          channel: message.channel,
-          text: message.text,
-          timestamp: result.ts,
-          permalink: result.permalink,
+      artifacts: [
+        {
+          type: 'document',
+          name: 'Slack Message Sent',
+          content: {
+            channel: message.channel,
+            text: message.text,
+            timestamp: result.ts,
+            permalink: result.permalink,
+          },
+          mimeType: 'application/json',
         },
-        mimeType: 'application/json',
-      }],
+      ],
       usage: {
         credits: 1,
         duration: 500,
@@ -300,20 +297,22 @@ const getChannelsHandler: ToolHandler = async (params, context) => {
             })),
             cursor: result.response_metadata?.next_cursor,
           },
-          artifacts: [{
-            type: 'table',
-            name: 'Slack Channels',
-            content: {
-              columns: ['Name', 'Type', 'Members', 'Topic'],
-              rows: result.channels.map((ch: any) => [
-                ch.name,
-                ch.is_private ? 'Private' : 'Public',
-                ch.num_members || 0,
-                ch.topic?.value || '',
-              ]),
+          artifacts: [
+            {
+              type: 'table',
+              name: 'Slack Channels',
+              content: {
+                columns: ['Name', 'Type', 'Members', 'Topic'],
+                rows: result.channels.map((ch: any) => [
+                  ch.name,
+                  ch.is_private ? 'Private' : 'Public',
+                  ch.num_members || 0,
+                  ch.topic?.value || '',
+                ]),
+              },
+              mimeType: 'application/json',
             },
-            mimeType: 'application/json',
-          }],
+          ],
         };
 
       case 'history':
@@ -394,22 +393,24 @@ const getUsersHandler: ToolHandler = async (params, context) => {
               is_owner: user.is_owner,
             })),
         },
-        artifacts: [{
-          type: 'table',
-          name: 'Slack Users',
-          content: {
-            columns: ['Name', 'Real Name', 'Email', 'Title'],
-            rows: result.members
-              .filter((user: any) => !user.is_bot && !user.deleted)
-              .map((user: any) => [
-                user.name,
-                user.real_name || '',
-                user.profile?.email || '',
-                user.profile?.title || '',
-              ]),
+        artifacts: [
+          {
+            type: 'table',
+            name: 'Slack Users',
+            content: {
+              columns: ['Name', 'Real Name', 'Email', 'Title'],
+              rows: result.members
+                .filter((user: any) => !user.is_bot && !user.deleted)
+                .map((user: any) => [
+                  user.name,
+                  user.real_name || '',
+                  user.profile?.email || '',
+                  user.profile?.title || '',
+                ]),
+            },
+            mimeType: 'application/json',
           },
-          mimeType: 'application/json',
-        }],
+        ],
       };
     }
 

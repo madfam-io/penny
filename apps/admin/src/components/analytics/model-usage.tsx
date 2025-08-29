@@ -14,13 +14,7 @@ export function ModelUsage() {
   return (
     <ResponsiveContainer width="100%" height={300}>
       <BarChart data={data}>
-        <XAxis
-          dataKey="model"
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-        />
+        <XAxis dataKey="model" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
         <YAxis
           stroke="#888888"
           fontSize={12}

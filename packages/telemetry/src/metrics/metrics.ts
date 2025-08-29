@@ -132,7 +132,7 @@ class TimerImpl implements Timer {
 
   start(): TimerEnd {
     const startTime = Date.now();
-    
+
     return (options?: MetricOptions) => {
       const duration = Date.now() - startTime;
       this.histogram.observe(duration, options);
@@ -154,17 +154,17 @@ export class MetricsCollector implements MetricCollector {
 
   constructor(config: MetricConfig = {}) {
     this.config = config;
-    
+
     // Start runtime metrics collection if enabled
     if (config.enableRuntimeMetrics) {
       this.collectRuntimeMetrics();
     }
-    
+
     // Start process metrics collection if enabled
     if (config.enableProcessMetrics) {
       this.collectProcessMetrics();
     }
-    
+
     // Start automatic export if exporters are configured
     if (config.exporters && config.exportInterval) {
       this.startAutoExport();
@@ -173,42 +173,42 @@ export class MetricsCollector implements MetricCollector {
 
   counter(name: string, help = ''): Counter {
     const fullName = this.getFullName(name);
-    
+
     if (!this.counters.has(fullName)) {
       this.counters.set(fullName, new CounterImpl(fullName, help));
     }
-    
+
     return this.counters.get(fullName)!;
   }
 
   gauge(name: string, help = ''): Gauge {
     const fullName = this.getFullName(name);
-    
+
     if (!this.gauges.has(fullName)) {
       this.gauges.set(fullName, new GaugeImpl(fullName, help));
     }
-    
+
     return this.gauges.get(fullName)!;
   }
 
   histogram(name: string, help = '', buckets?: number[]): Histogram {
     const fullName = this.getFullName(name);
-    
+
     if (!this.histograms.has(fullName)) {
       this.histograms.set(fullName, new HistogramImpl(fullName, help, buckets));
     }
-    
+
     return this.histograms.get(fullName)!;
   }
 
   timer(name: string, help = ''): Timer {
     const fullName = this.getFullName(name);
-    
+
     if (!this.timers.has(fullName)) {
       const histogram = this.histogram(`${name}_duration`, help);
       this.timers.set(fullName, new TimerImpl(histogram));
     }
-    
+
     return this.timers.get(fullName)!;
   }
 
@@ -242,7 +242,7 @@ export class MetricsCollector implements MetricCollector {
     // Collect histograms
     for (const [name, histogram] of this.histograms) {
       const stats = histogram.getStats();
-      
+
       metrics.push({
         name: `${name}_count`,
         value: stats.count,
@@ -250,7 +250,7 @@ export class MetricsCollector implements MetricCollector {
         tags: defaultTags,
         unit: 'count',
       });
-      
+
       metrics.push({
         name: `${name}_sum`,
         value: stats.sum,
@@ -258,7 +258,7 @@ export class MetricsCollector implements MetricCollector {
         tags: defaultTags,
         unit: 'milliseconds',
       });
-      
+
       // Add percentiles
       for (const [percentile, value] of Object.entries({
         p50: stats.p50,
@@ -293,12 +293,12 @@ export class MetricsCollector implements MetricCollector {
   private collectRuntimeMetrics(): void {
     setInterval(() => {
       const memUsage = process.memoryUsage();
-      
+
       this.gauge('nodejs_heap_used_bytes').set(memUsage.heapUsed);
       this.gauge('nodejs_heap_total_bytes').set(memUsage.heapTotal);
       this.gauge('nodejs_external_memory_bytes').set(memUsage.external);
       this.gauge('nodejs_rss_bytes').set(memUsage.rss);
-      
+
       if (global.gc) {
         const gcStats = (global as any).gc.getStatistics();
         this.counter('nodejs_gc_runs_total').increment(gcStats.numberOfGCs);
@@ -312,7 +312,7 @@ export class MetricsCollector implements MetricCollector {
       this.gauge('process_cpu_user_seconds_total').set(process.cpuUsage().user / 1000000);
       this.gauge('process_cpu_system_seconds_total').set(process.cpuUsage().system / 1000000);
       this.gauge('process_uptime_seconds').set(process.uptime());
-      
+
       // System metrics
       this.gauge('system_cpu_count').set(os.cpus().length);
       this.gauge('system_load_average_1m').set(os.loadavg()[0]);
@@ -330,7 +330,7 @@ export class MetricsCollector implements MetricCollector {
 
     this.exportInterval = setInterval(async () => {
       const metrics = this.collectMetrics();
-      
+
       for (const exporter of this.config.exporters!) {
         try {
           await exporter.export(metrics);

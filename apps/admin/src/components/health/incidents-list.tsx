@@ -70,34 +70,27 @@ export function IncidentsList() {
       ) : (
         incidents.map((incident) => {
           const Icon = statusIcons[incident.status];
-          
+
           return (
-            <div
-              key={incident.id}
-              className="flex items-start gap-4 p-4 rounded-lg border"
-            >
-              <Icon className={`h-5 w-5 mt-1 ${
-                incident.status === 'resolved' ? 'text-green-600' : 'text-yellow-600'
-              }`} />
-              
+            <div key={incident.id} className="flex items-start gap-4 p-4 rounded-lg border">
+              <Icon
+                className={`h-5 w-5 mt-1 ${
+                  incident.status === 'resolved' ? 'text-green-600' : 'text-yellow-600'
+                }`}
+              />
+
               <div className="flex-1 space-y-1">
                 <div className="flex items-start justify-between">
                   <div>
                     <h4 className="font-medium">{incident.title}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {incident.description}
-                    </p>
+                    <p className="text-sm text-muted-foreground">{incident.description}</p>
                   </div>
                   <div className="flex gap-2">
-                    <Badge variant={severityColors[incident.severity]}>
-                      {incident.severity}
-                    </Badge>
-                    <Badge variant="outline">
-                      {incident.service}
-                    </Badge>
+                    <Badge variant={severityColors[incident.severity]}>{incident.severity}</Badge>
+                    <Badge variant="outline">{incident.service}</Badge>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <span>
                     Started {formatDistanceToNow(incident.startedAt, { addSuffix: true })}

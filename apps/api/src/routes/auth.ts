@@ -22,160 +22,180 @@ const refreshSchema = z.object({
 
 const routes: FastifyPluginAsync = async (fastify) => {
   const cryptoService = new CryptoService(
-    Buffer.from(process.env.MASTER_ENCRYPTION_KEY || 'change-this-32-byte-key-in-prod!')
+    Buffer.from(process.env.MASTER_ENCRYPTION_KEY || 'change-this-32-byte-key-in-prod!'),
   );
 
-  fastify.post('/signup', {
-    schema: {
-      description: 'Create new tenant and admin user',
-      tags: ['auth'],
-      body: {
-        type: 'object',
-        properties: {
-          email: { type: 'string' },
-          password: { type: 'string' },
-          name: { type: 'string' },
-          tenantName: { type: 'string' },
+  fastify.post(
+    '/signup',
+    {
+      schema: {
+        description: 'Create new tenant and admin user',
+        tags: ['auth'],
+        body: {
+          type: 'object',
+          properties: {
+            email: { type: 'string' },
+            password: { type: 'string' },
+            name: { type: 'string' },
+            tenantName: { type: 'string' },
+          },
+          required: ['email', 'password', 'name', 'tenantName'],
         },
-        required: ['email', 'password', 'name', 'tenantName'],
       },
     },
-  }, async (request, reply) => {
-    const body = signupSchema.parse(request.body);
+    async (request, reply) => {
+      const body = signupSchema.parse(request.body);
 
-    // TODO: Implement actual signup logic with database
-    // For now, return mock response
-    const mockUserId = 'usr_' + Date.now();
-    const mockTenantId = 'tnt_' + Date.now();
+      // TODO: Implement actual signup logic with database
+      // For now, return mock response
+      const mockUserId = 'usr_' + Date.now();
+      const mockTenantId = 'tnt_' + Date.now();
 
-    const token = fastify.jwt.sign({
-      sub: mockUserId,
-      tid: mockTenantId,
-      roles: [Role.ADMIN],
-      sessionId: 'ses_' + Date.now(),
-    });
-
-    return {
-      user: {
-        id: mockUserId,
-        email: body.email,
-        name: body.name,
+      const token = fastify.jwt.sign({
+        sub: mockUserId,
+        tid: mockTenantId,
         roles: [Role.ADMIN],
-      },
-      tenant: {
-        id: mockTenantId,
-        name: body.tenantName,
-      },
-      token,
-      refreshToken: cryptoService.generateToken(),
-    };
-  });
+        sessionId: 'ses_' + Date.now(),
+      });
 
-  fastify.post('/login', {
-    schema: {
-      description: 'Login with email and password',
-      tags: ['auth'],
-      body: {
-        type: 'object',
-        properties: {
-          email: { type: 'string' },
-          password: { type: 'string' },
-          tenantId: { type: 'string' },
+      return {
+        user: {
+          id: mockUserId,
+          email: body.email,
+          name: body.name,
+          roles: [Role.ADMIN],
         },
-        required: ['email', 'password'],
+        tenant: {
+          id: mockTenantId,
+          name: body.tenantName,
+        },
+        token,
+        refreshToken: cryptoService.generateToken(),
+      };
+    },
+  );
+
+  fastify.post(
+    '/login',
+    {
+      schema: {
+        description: 'Login with email and password',
+        tags: ['auth'],
+        body: {
+          type: 'object',
+          properties: {
+            email: { type: 'string' },
+            password: { type: 'string' },
+            tenantId: { type: 'string' },
+          },
+          required: ['email', 'password'],
+        },
       },
     },
-  }, async (request, reply) => {
-    const body = loginSchema.parse(request.body);
+    async (request, reply) => {
+      const body = loginSchema.parse(request.body);
 
-    // TODO: Implement actual login logic with database
-    // For now, return mock response
-    const mockUserId = 'usr_' + Date.now();
-    const mockTenantId = body.tenantId || 'tnt_' + Date.now();
+      // TODO: Implement actual login logic with database
+      // For now, return mock response
+      const mockUserId = 'usr_' + Date.now();
+      const mockTenantId = body.tenantId || 'tnt_' + Date.now();
 
-    const token = fastify.jwt.sign({
-      sub: mockUserId,
-      tid: mockTenantId,
-      roles: [Role.CREATOR],
-      sessionId: 'ses_' + Date.now(),
-    });
-
-    return {
-      user: {
-        id: mockUserId,
-        email: body.email,
-        name: 'Mock User',
+      const token = fastify.jwt.sign({
+        sub: mockUserId,
+        tid: mockTenantId,
         roles: [Role.CREATOR],
-      },
-      token,
-      refreshToken: cryptoService.generateToken(),
-    };
-  });
+        sessionId: 'ses_' + Date.now(),
+      });
 
-  fastify.post('/refresh', {
-    schema: {
-      description: 'Refresh access token',
-      tags: ['auth'],
-      body: {
-        type: 'object',
-        properties: {
-          refreshToken: { type: 'string' },
+      return {
+        user: {
+          id: mockUserId,
+          email: body.email,
+          name: 'Mock User',
+          roles: [Role.CREATOR],
         },
-        required: ['refreshToken'],
+        token,
+        refreshToken: cryptoService.generateToken(),
+      };
+    },
+  );
+
+  fastify.post(
+    '/refresh',
+    {
+      schema: {
+        description: 'Refresh access token',
+        tags: ['auth'],
+        body: {
+          type: 'object',
+          properties: {
+            refreshToken: { type: 'string' },
+          },
+          required: ['refreshToken'],
+        },
       },
     },
-  }, async (request, reply) => {
-    const body = refreshSchema.parse(request.body);
+    async (request, reply) => {
+      const body = refreshSchema.parse(request.body);
 
-    // TODO: Implement actual refresh logic
-    // For now, return mock response
-    const token = fastify.jwt.sign({
-      sub: 'usr_mock',
-      tid: 'tnt_mock',
-      roles: [Role.CREATOR],
-      sessionId: 'ses_' + Date.now(),
-    });
+      // TODO: Implement actual refresh logic
+      // For now, return mock response
+      const token = fastify.jwt.sign({
+        sub: 'usr_mock',
+        tid: 'tnt_mock',
+        roles: [Role.CREATOR],
+        sessionId: 'ses_' + Date.now(),
+      });
 
-    return {
-      token,
-      refreshToken: cryptoService.generateToken(),
-    };
-  });
-
-  fastify.post('/logout', {
-    schema: {
-      description: 'Logout and invalidate session',
-      tags: ['auth'],
-      security: [{ bearerAuth: [] }],
+      return {
+        token,
+        refreshToken: cryptoService.generateToken(),
+      };
     },
-    preHandler: fastify.authenticate,
-  }, async (request, reply) => {
-    // TODO: Implement session invalidation
-    return { success: true };
-  });
+  );
 
-  fastify.get('/me', {
-    schema: {
-      description: 'Get current user info',
-      tags: ['auth'],
-      security: [{ bearerAuth: [] }],
+  fastify.post(
+    '/logout',
+    {
+      schema: {
+        description: 'Logout and invalidate session',
+        tags: ['auth'],
+        security: [{ bearerAuth: [] }],
+      },
+      preHandler: fastify.authenticate,
     },
-    preHandler: fastify.authenticate,
-  }, async (request, reply) => {
-    // TODO: Fetch actual user data from database
-    return {
-      user: {
-        id: request.context.userId,
-        email: 'user@example.com',
-        name: 'Current User',
-        roles: request.context.roles,
+    async (request, reply) => {
+      // TODO: Implement session invalidation
+      return { success: true };
+    },
+  );
+
+  fastify.get(
+    '/me',
+    {
+      schema: {
+        description: 'Get current user info',
+        tags: ['auth'],
+        security: [{ bearerAuth: [] }],
       },
-      tenant: {
-        id: request.context.tenantId,
-        name: 'Current Tenant',
-      },
-    };
-  });
+      preHandler: fastify.authenticate,
+    },
+    async (request, reply) => {
+      // TODO: Fetch actual user data from database
+      return {
+        user: {
+          id: request.context.userId,
+          email: 'user@example.com',
+          name: 'Current User',
+          roles: request.context.roles,
+        },
+        tenant: {
+          id: request.context.tenantId,
+          name: 'Current Tenant',
+        },
+      };
+    },
+  );
 };
 
 export default routes;

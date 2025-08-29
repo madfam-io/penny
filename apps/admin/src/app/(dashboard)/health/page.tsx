@@ -1,6 +1,15 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Badge, Alert, AlertDescription } from '@penny/ui';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Badge,
+  Alert,
+  AlertDescription,
+} from '@penny/ui';
 import { Activity, Database, Server, Wifi, AlertTriangle, CheckCircle } from 'lucide-react';
 import { ServiceStatus } from '@/components/health/service-status';
 import { MetricsChart } from '@/components/health/metrics-chart';
@@ -38,15 +47,13 @@ const services = [
 ];
 
 export default function HealthPage() {
-  const hasIssues = services.some(s => s.status !== 'operational');
+  const hasIssues = services.some((s) => s.status !== 'operational');
 
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">System Health</h1>
-        <p className="text-muted-foreground">
-          Monitor system status and performance metrics
-        </p>
+        <p className="text-muted-foreground">Monitor system status and performance metrics</p>
       </div>
 
       {hasIssues ? (
@@ -75,9 +82,7 @@ export default function HealthPage() {
         <Card>
           <CardHeader>
             <CardTitle>Response Time</CardTitle>
-            <CardDescription>
-              API response times over the last 24 hours
-            </CardDescription>
+            <CardDescription>API response times over the last 24 hours</CardDescription>
           </CardHeader>
           <CardContent>
             <MetricsChart metric="latency" />
@@ -87,9 +92,7 @@ export default function HealthPage() {
         <Card>
           <CardHeader>
             <CardTitle>Error Rate</CardTitle>
-            <CardDescription>
-              Error rate percentage over the last 24 hours
-            </CardDescription>
+            <CardDescription>Error rate percentage over the last 24 hours</CardDescription>
           </CardHeader>
           <CardContent>
             <MetricsChart metric="errors" />
@@ -100,9 +103,7 @@ export default function HealthPage() {
       <Card>
         <CardHeader>
           <CardTitle>Recent Incidents</CardTitle>
-          <CardDescription>
-            System incidents and their resolution status
-          </CardDescription>
+          <CardDescription>System incidents and their resolution status</CardDescription>
         </CardHeader>
         <CardContent>
           <IncidentsList />

@@ -35,7 +35,7 @@ export class ConversationService {
 
   async createConversation(params: CreateConversationParams) {
     const { userId, tenantId, title, workspaceId, metadata } = params;
-    
+
     const conversation = await prisma.conversation.create({
       data: {
         id: generateId('conv'),
@@ -59,14 +59,14 @@ export class ConversationService {
 
     // Cache conversation metadata
     await this.cacheConversation(conversation);
-    
+
     // Emit event for real-time updates
     await this.redis.publish(
       `tenant:${tenantId}:conversations`,
       JSON.stringify({
         type: 'conversation.created',
         data: conversation,
-      })
+      }),
     );
 
     return conversation;
@@ -81,10 +81,7 @@ export class ConversationService {
       where: {
         id: conversationId,
         tenantId,
-        OR: [
-          { userId },
-          { sharedWith: { some: { userId } } },
-        ],
+        OR: [{ userId }, { sharedWith: { some: { userId } } }],
       },
       include: {
         user: {
@@ -119,20 +116,21 @@ export class ConversationService {
     return conversation;
   }
 
-  async listConversations(userId: string, tenantId: string, options?: {
-    workspaceId?: string;
-    limit?: number;
-    offset?: number;
-    search?: string;
-  }) {
+  async listConversations(
+    userId: string,
+    tenantId: string,
+    options?: {
+      workspaceId?: string;
+      limit?: number;
+      offset?: number;
+      search?: string;
+    },
+  ) {
     const { workspaceId, limit = 20, offset = 0, search } = options || {};
 
     const where: Prisma.ConversationWhereInput = {
       tenantId,
-      OR: [
-        { userId },
-        { sharedWith: { some: { userId } } },
-      ],
+      OR: [{ userId }, { sharedWith: { some: { userId } } }],
     };
 
     if (workspaceId) {
@@ -185,21 +183,24 @@ export class ConversationService {
         metadata: metadata || {},
       },
       include: {
-        user: role === 'user' ? {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            avatar: true,
-          },
-        } : undefined,
+        user:
+          role === 'user'
+            ? {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                  avatar: true,
+                },
+              }
+            : undefined,
       },
     });
 
     // Update conversation's last activity
     await prisma.conversation.update({
       where: { id: conversationId },
-      data: { 
+      data: {
         updatedAt: new Date(),
         lastMessageAt: new Date(),
       },
@@ -214,7 +215,7 @@ export class ConversationService {
       JSON.stringify({
         type: 'message.created',
         data: message,
-      })
+      }),
     );
 
     return message;
@@ -240,17 +241,20 @@ export class ConversationService {
       JSON.stringify({
         type: 'message.updated',
         data: message,
-      })
+      }),
     );
 
     return message;
   }
 
-  async getMessages(conversationId: string, options?: {
-    limit?: number;
-    before?: string;
-    after?: string;
-  }) {
+  async getMessages(
+    conversationId: string,
+    options?: {
+      limit?: number;
+      before?: string;
+      after?: string;
+    },
+  ) {
     const { limit = 50, before, after } = options || {};
 
     // Try cache first for recent messages
@@ -314,7 +318,7 @@ export class ConversationService {
     // Soft delete
     await prisma.conversation.update({
       where: { id: conversationId },
-      data: { 
+      data: {
         deletedAt: new Date(),
       },
     });
@@ -328,7 +332,7 @@ export class ConversationService {
       JSON.stringify({
         type: 'conversation.deleted',
         data: { id: conversationId },
-      })
+      }),
     );
   }
 
@@ -349,7 +353,7 @@ export class ConversationService {
       JSON.stringify({
         type: 'conversation.shared',
         data: conversation,
-      })
+      }),
     );
   }
 
@@ -364,12 +368,13 @@ export class ConversationService {
     if (messages.length === 0) return 'New Conversation';
 
     // Extract key terms from first user message
-    const firstUserMessage = messages.find(m => m.role === 'user');
+    const firstUserMessage = messages.find((m) => m.role === 'user');
     if (!firstUserMessage) return 'New Conversation';
 
     // Simple title generation - in production, use AI
     const words = firstUserMessage.content.split(' ').slice(0, 5);
-    const title = words.join(' ') + (words.length < firstUserMessage.content.split(' ').length ? '...' : '');
+    const title =
+      words.join(' ') + (words.length < firstUserMessage.content.split(' ').length ? '...' : '');
 
     await prisma.conversation.update({
       where: { id: conversationId },
@@ -400,23 +405,23 @@ export class ConversationService {
 
   private async cacheMessages(conversationId: string, messages: any[]) {
     if (messages.length === 0) return;
-    
+
     const key = `conversation:${conversationId}:messages`;
     const pipeline = this.redis.pipeline();
-    
+
     pipeline.del(key);
-    messages.forEach(msg => {
+    messages.forEach((msg) => {
       pipeline.rpush(key, JSON.stringify(msg));
     });
     pipeline.expire(key, 3600);
-    
+
     await pipeline.exec();
   }
 
   private async getCachedMessages(conversationId: string) {
     const key = `conversation:${conversationId}:messages`;
     const cached = await this.redis.lrange(key, 0, -1);
-    return cached.map(c => JSON.parse(c));
+    return cached.map((c) => JSON.parse(c));
   }
 
   private async invalidateMessageCache(conversationId: string) {
@@ -425,10 +430,7 @@ export class ConversationService {
   }
 
   private async clearConversationCache(conversationId: string) {
-    const keys = [
-      `conversation:${conversationId}`,
-      `conversation:${conversationId}:messages`,
-    ];
+    const keys = [`conversation:${conversationId}`, `conversation:${conversationId}:messages`];
     await this.redis.del(...keys);
   }
 

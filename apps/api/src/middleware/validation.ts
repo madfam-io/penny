@@ -26,11 +26,7 @@ export function validateRequest(schema: {
   params?: z.ZodSchema;
   headers?: z.ZodSchema;
 }) {
-  return async (
-    request: FastifyRequest,
-    reply: FastifyReply,
-    done: HookHandlerDoneFunction
-  ) => {
+  return async (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) => {
     try {
       // Validate and sanitize body
       if (schema.body && request.body) {
@@ -61,7 +57,7 @@ export function validateRequest(schema: {
           error: {
             code: 'VALIDATION_ERROR',
             message: 'Invalid request data',
-            details: error.errors.map(err => ({
+            details: error.errors.map((err) => ({
               path: err.path.join('.'),
               message: err.message,
               code: err.code,
@@ -80,11 +76,11 @@ function sanitizeRequestData(data: any): any {
   if (typeof data === 'string') {
     return sanitizeInput(data);
   }
-  
+
   if (Array.isArray(data)) {
-    return data.map(item => sanitizeRequestData(item));
+    return data.map((item) => sanitizeRequestData(item));
   }
-  
+
   if (data && typeof data === 'object') {
     const sanitized: any = {};
     for (const [key, value] of Object.entries(data)) {
@@ -97,14 +93,18 @@ function sanitizeRequestData(data: any): any {
     }
     return sanitized;
   }
-  
+
   return data;
 }
 
 // Content security validation
-export function validateContentSecurity(request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
+export function validateContentSecurity(
+  request: FastifyRequest,
+  reply: FastifyReply,
+  done: HookHandlerDoneFunction,
+) {
   const contentType = request.headers['content-type'];
-  
+
   // Prevent XXE attacks
   if (contentType?.includes('xml')) {
     reply.code(415).send({
@@ -115,7 +115,7 @@ export function validateContentSecurity(request: FastifyRequest, reply: FastifyR
     });
     return;
   }
-  
+
   // Validate JSON depth to prevent DoS
   if (contentType?.includes('json') && request.body) {
     const depth = getObjectDepth(request.body);
@@ -129,7 +129,7 @@ export function validateContentSecurity(request: FastifyRequest, reply: FastifyR
       return;
     }
   }
-  
+
   done();
 }
 
@@ -138,13 +138,13 @@ function getObjectDepth(obj: any): number {
   if (obj === null || typeof obj !== 'object') {
     return 0;
   }
-  
+
   const values = Array.isArray(obj) ? obj : Object.values(obj);
   if (values.length === 0) {
     return 1;
   }
-  
-  return 1 + Math.max(...values.map(v => getObjectDepth(v)));
+
+  return 1 + Math.max(...values.map((v) => getObjectDepth(v)));
 }
 
 // File upload validation
@@ -158,17 +158,29 @@ export const fileUploadSchema = z.object({
 export function validateFileUpload(file: any) {
   // Check file extension
   const allowedExtensions = [
-    '.jpg', '.jpeg', '.png', '.gif', '.webp', // Images
-    '.pdf', '.doc', '.docx', '.txt', // Documents
-    '.csv', '.xlsx', '.xls', // Spreadsheets
-    '.json', '.xml', '.yaml', '.yml', // Data files
+    '.jpg',
+    '.jpeg',
+    '.png',
+    '.gif',
+    '.webp', // Images
+    '.pdf',
+    '.doc',
+    '.docx',
+    '.txt', // Documents
+    '.csv',
+    '.xlsx',
+    '.xls', // Spreadsheets
+    '.json',
+    '.xml',
+    '.yaml',
+    '.yml', // Data files
   ];
-  
+
   const ext = file.filename.toLowerCase().substring(file.filename.lastIndexOf('.'));
   if (!allowedExtensions.includes(ext)) {
     throw new Error(`File type ${ext} is not allowed`);
   }
-  
+
   // Validate MIME type matches extension
   const mimeTypeMap: Record<string, string[]> = {
     '.jpg': ['image/jpeg'],
@@ -188,11 +200,11 @@ export function validateFileUpload(file: any) {
     '.yaml': ['application/x-yaml', 'text/yaml'],
     '.yml': ['application/x-yaml', 'text/yaml'],
   };
-  
+
   const allowedMimeTypes = mimeTypeMap[ext];
   if (!allowedMimeTypes?.includes(file.mimetype)) {
     throw new Error('File MIME type does not match extension');
   }
-  
+
   return true;
 }

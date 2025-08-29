@@ -107,6 +107,7 @@ docker-compose down
 ### 1. Access the Admin Dashboard
 
 Navigate to `http://localhost:3001` and login with:
+
 - Email: `admin@penny.ai`
 - Password: `admin123`
 
@@ -135,13 +136,16 @@ Users can access the main application at `http://localhost:5173`
 PENNY supports multiple deployment modes:
 
 #### Single Tenant Mode
+
 Set in `apps/api/.env`:
+
 ```env
 MULTI_TENANT_MODE=false
 DEFAULT_TENANT_ID="default"
 ```
 
 #### Multi-tenant with Subdomains
+
 ```env
 MULTI_TENANT_MODE=true
 TENANT_RESOLUTION=subdomain
@@ -149,6 +153,7 @@ BASE_DOMAIN=penny.local
 ```
 
 #### Multi-tenant with Path Prefix
+
 ```env
 MULTI_TENANT_MODE=true
 TENANT_RESOLUTION=path
@@ -175,6 +180,7 @@ AI_RATE_LIMIT_PER_DAY=1000
 ### Storage Configuration
 
 #### Local Storage
+
 ```env
 STORAGE_PROVIDER=local
 STORAGE_LOCAL_PATH=./uploads
@@ -182,6 +188,7 @@ STORAGE_BASE_URL=http://localhost:3000
 ```
 
 #### AWS S3
+
 ```env
 STORAGE_PROVIDER=s3
 S3_BUCKET=penny-uploads
@@ -195,6 +202,7 @@ S3_SECRET_ACCESS_KEY=...
 ### Health Check
 
 Check system health:
+
 ```bash
 curl http://localhost:3000/health
 ```
@@ -202,6 +210,7 @@ curl http://localhost:3000/health
 ### Metrics
 
 Access Prometheus metrics:
+
 ```bash
 curl http://localhost:3000/metrics
 ```
@@ -211,11 +220,13 @@ curl http://localhost:3000/metrics
 ### Database Connection Issues
 
 1. Ensure PostgreSQL is running:
+
    ```bash
    pg_isready
    ```
 
 2. Check database exists:
+
    ```bash
    psql -U postgres -c "SELECT 1 FROM pg_database WHERE datname='penny'"
    ```
@@ -228,6 +239,7 @@ curl http://localhost:3000/metrics
 ### Redis Connection Issues
 
 1. Check Redis is running:
+
    ```bash
    redis-cli ping
    ```
@@ -240,6 +252,7 @@ curl http://localhost:3000/metrics
 ### Port Conflicts
 
 If ports are already in use, modify in respective `.env` files:
+
 - API: `PORT=3000`
 - Web: `VITE_PORT=5173`
 - Admin: `NEXT_PUBLIC_PORT=3001`

@@ -41,39 +41,38 @@ export class CryptoService {
     const salt = randomBytes(this.config.saltLength);
     const key = this.deriveKey(tenantId, salt);
     const iv = randomBytes(this.config.ivLength);
-    
+
     const cipher = createCipheriv(this.config.algorithm, key, iv);
-    const encrypted = Buffer.concat([
-      cipher.update(plaintext, 'utf8'),
-      cipher.final(),
-    ]);
-    
+    const encrypted = Buffer.concat([cipher.update(plaintext, 'utf8'), cipher.final()]);
+
     const tag = cipher.getAuthTag();
     const combined = Buffer.concat([salt, iv, tag, encrypted]);
-    
+
     return combined.toString('base64url');
   }
 
   async decrypt(encryptedData: string, tenantId: TenantId): Promise<string> {
     const combined = Buffer.from(encryptedData, 'base64url');
-    
+
     const salt = combined.subarray(0, this.config.saltLength);
-    const iv = combined.subarray(this.config.saltLength, this.config.saltLength + this.config.ivLength);
+    const iv = combined.subarray(
+      this.config.saltLength,
+      this.config.saltLength + this.config.ivLength,
+    );
     const tag = combined.subarray(
       this.config.saltLength + this.config.ivLength,
       this.config.saltLength + this.config.ivLength + this.config.tagLength,
     );
-    const encrypted = combined.subarray(this.config.saltLength + this.config.ivLength + this.config.tagLength);
-    
+    const encrypted = combined.subarray(
+      this.config.saltLength + this.config.ivLength + this.config.tagLength,
+    );
+
     const key = this.deriveKey(tenantId, salt);
     const decipher = createDecipheriv(this.config.algorithm, key, iv);
     decipher.setAuthTag(tag);
-    
-    const decrypted = Buffer.concat([
-      decipher.update(encrypted),
-      decipher.final(),
-    ]);
-    
+
+    const decrypted = Buffer.concat([decipher.update(encrypted), decipher.final()]);
+
     return decrypted.toString('utf8');
   }
 
@@ -92,7 +91,7 @@ export class CryptoService {
   private deriveKey(tenantId: TenantId, salt: Buffer): Buffer {
     const context = Buffer.from(`penny-tenant-${tenantId}`);
     const info = Buffer.concat([context, salt]);
-    
+
     return createHash('sha256')
       .update(Buffer.concat([this.masterKey, info]))
       .digest()

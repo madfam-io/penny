@@ -39,10 +39,7 @@ export class StorageService {
     }
   }
 
-  async upload(
-    file: UploadFile,
-    options: UploadOptions,
-  ): Promise<StorageObject> {
+  async upload(file: UploadFile, options: UploadOptions): Promise<StorageObject> {
     // Validate file
     this.validateFile(file);
 
@@ -53,10 +50,7 @@ export class StorageService {
     let uploadBuffer = file.buffer;
     if (this.config.encryption?.enabled && options.encryption !== false) {
       uploadBuffer = Buffer.from(
-        await this.crypto.encrypt(
-          file.buffer.toString('base64'),
-          options.tenantId,
-        ),
+        await this.crypto.encrypt(file.buffer.toString('base64'), options.tenantId),
       );
     }
 
@@ -84,11 +78,7 @@ export class StorageService {
     return storageObject;
   }
 
-  async download(
-    key: string,
-    tenantId: TenantId,
-    options?: DownloadOptions,
-  ): Promise<Buffer> {
+  async download(key: string, tenantId: TenantId, options?: DownloadOptions): Promise<Buffer> {
     // Check access permissions
     const file = await prisma.file.findFirst({
       where: {
@@ -106,10 +96,7 @@ export class StorageService {
 
     // Decrypt if encrypted
     if (file.encrypted) {
-      const decrypted = await this.crypto.decrypt(
-        buffer.toString(),
-        tenantId,
-      );
+      const decrypted = await this.crypto.decrypt(buffer.toString(), tenantId);
       buffer = Buffer.from(decrypted, 'base64');
     }
 
@@ -139,11 +126,7 @@ export class StorageService {
     });
   }
 
-  async getUrl(
-    key: string,
-    tenantId: TenantId,
-    options?: UrlOptions,
-  ): Promise<string> {
+  async getUrl(key: string, tenantId: TenantId, options?: UrlOptions): Promise<string> {
     // Check access permissions
     const file = await prisma.file.findFirst({
       where: {
@@ -165,19 +148,15 @@ export class StorageService {
     return this.provider.getUrl(key, options);
   }
 
-  async list(
-    prefix: string,
-    tenantId: TenantId,
-    options?: ListOptions,
-  ): Promise<StorageObject[]> {
+  async list(prefix: string, tenantId: TenantId, options?: ListOptions): Promise<StorageObject[]> {
     // Build tenant-specific prefix
     const tenantPrefix = `tenants/${tenantId}/${prefix}`;
-    
+
     // List from storage
     const objects = await this.provider.list(tenantPrefix, options);
 
     // Filter based on database records for access control
-    const keys = objects.map(obj => obj.key);
+    const keys = objects.map((obj) => obj.key);
     const files = await prisma.file.findMany({
       where: {
         storageKey: { in: keys },
@@ -186,8 +165,8 @@ export class StorageService {
       },
     });
 
-    const allowedKeys = new Set(files.map(f => f.storageKey));
-    return objects.filter(obj => allowedKeys.has(obj.key));
+    const allowedKeys = new Set(files.map((f) => f.storageKey));
+    return objects.filter((obj) => allowedKeys.has(obj.key));
   }
 
   private validateFile(file: UploadFile): void {
@@ -196,33 +175,22 @@ export class StorageService {
 
     // Check file size
     if (limits.maxFileSize && file.size > limits.maxFileSize) {
-      throw new Error(
-        `File size ${file.size} exceeds maximum of ${limits.maxFileSize}`,
-      );
+      throw new Error(`File size ${file.size} exceeds maximum of ${limits.maxFileSize}`);
     }
 
     // Check mime type
-    if (limits.allowedMimeTypes && 
-        !limits.allowedMimeTypes.includes(file.mimeType)) {
-      throw new Error(
-        `File type ${file.mimeType} is not allowed`,
-      );
+    if (limits.allowedMimeTypes && !limits.allowedMimeTypes.includes(file.mimeType)) {
+      throw new Error(`File type ${file.mimeType} is not allowed`);
     }
 
     // Check extension
     const ext = path.extname(file.filename).toLowerCase();
-    if (limits.blockedExtensions && 
-        limits.blockedExtensions.includes(ext)) {
-      throw new Error(
-        `File extension ${ext} is blocked`,
-      );
+    if (limits.blockedExtensions && limits.blockedExtensions.includes(ext)) {
+      throw new Error(`File extension ${ext} is blocked`);
     }
   }
 
-  private generateKey(
-    filename: string,
-    options: UploadOptions,
-  ): string {
+  private generateKey(filename: string, options: UploadOptions): string {
     const ext = path.extname(filename);
     const hash = createHash('sha256')
       .update(filename + Date.now())

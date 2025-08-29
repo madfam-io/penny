@@ -28,18 +28,22 @@ const toolRoutes: FastifyPluginAsync = async (fastify) => {
         tags: ['tools'],
         summary: 'List available tools',
         response: {
-          200: z.array(z.object({
-            name: z.string(),
-            displayName: z.string(),
-            description: z.string(),
-            category: z.string(),
-            icon: z.string().optional(),
-            config: z.object({
-              requiresAuth: z.boolean().optional(),
-              requiresConfirmation: z.boolean().optional(),
-              cost: z.number().optional(),
-            }).optional(),
-          })),
+          200: z.array(
+            z.object({
+              name: z.string(),
+              displayName: z.string(),
+              description: z.string(),
+              category: z.string(),
+              icon: z.string().optional(),
+              config: z
+                .object({
+                  requiresAuth: z.boolean().optional(),
+                  requiresConfirmation: z.boolean().optional(),
+                  cost: z.number().optional(),
+                })
+                .optional(),
+            }),
+          ),
         },
       },
     },
@@ -50,7 +54,7 @@ const toolRoutes: FastifyPluginAsync = async (fastify) => {
         request.user.roles,
       );
 
-      return tools.map(tool => ({
+      return tools.map((tool) => ({
         name: tool.name,
         displayName: tool.displayName,
         description: tool.description,
@@ -62,7 +66,7 @@ const toolRoutes: FastifyPluginAsync = async (fastify) => {
           cost: tool.config?.cost,
         },
       }));
-    }
+    },
   );
 
   // Get tool details
@@ -112,7 +116,7 @@ const toolRoutes: FastifyPluginAsync = async (fastify) => {
         schema: tool.schema._def,
         config: tool.config,
       };
-    }
+    },
   );
 
   // Execute tool
@@ -180,7 +184,7 @@ const toolRoutes: FastifyPluginAsync = async (fastify) => {
 
         throw error;
       }
-    }
+    },
   );
 
   // Get execution status
@@ -210,7 +214,7 @@ const toolRoutes: FastifyPluginAsync = async (fastify) => {
       // TODO: Verify user has access to this execution
 
       return execution;
-    }
+    },
   );
 
   // Cancel execution
@@ -238,7 +242,7 @@ const toolRoutes: FastifyPluginAsync = async (fastify) => {
       }
 
       return { success: true };
-    }
+    },
   );
 
   // Get queue status (admin only)
@@ -261,7 +265,7 @@ const toolRoutes: FastifyPluginAsync = async (fastify) => {
       }
 
       return executor.getQueueStatus();
-    }
+    },
   );
 };
 

@@ -6,7 +6,7 @@ import { ZodError } from 'zod';
 const errorHandler: FastifyPluginAsync = async (fastify) => {
   fastify.setErrorHandler((error, request, reply) => {
     const { validation, statusCode = 500 } = error;
-    
+
     // Log error
     if (statusCode >= 500) {
       request.log.error({ err: error, requestId: request.id }, 'Server error');

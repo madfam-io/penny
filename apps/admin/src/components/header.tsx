@@ -1,7 +1,18 @@
 'use client';
 
 import { useSession, signOut } from 'next-auth/react';
-import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, Avatar, AvatarFallback, AvatarImage } from '@penny/ui';
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@penny/ui';
 import { Bell, Moon, Sun, User, LogOut } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
@@ -16,7 +27,7 @@ export function Header() {
           Welcome back, {session?.user?.name || 'Admin'}
         </h2>
       </div>
-      
+
       <div className="flex items-center space-x-4">
         <Button
           variant="ghost"
@@ -27,12 +38,12 @@ export function Header() {
           <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>
         </Button>
-        
+
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-5 w-5" />
           <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
         </Button>
-        
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -48,9 +59,7 @@ export function Header() {
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-medium leading-none">{session?.user?.name}</p>
-                <p className="text-xs leading-none text-muted-foreground">
-                  {session?.user?.email}
-                </p>
+                <p className="text-xs leading-none text-muted-foreground">{session?.user?.email}</p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />

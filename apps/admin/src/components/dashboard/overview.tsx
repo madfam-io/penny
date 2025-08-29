@@ -16,13 +16,7 @@ export function Overview() {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <LineChart data={data}>
-        <XAxis
-          dataKey="name"
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-        />
+        <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
         <YAxis
           stroke="#888888"
           fontSize={12}
@@ -31,13 +25,7 @@ export function Overview() {
           tickFormatter={(value) => `${value}`}
         />
         <Tooltip />
-        <Line
-          type="monotone"
-          dataKey="total"
-          stroke="#8884d8"
-          strokeWidth={2}
-          dot={false}
-        />
+        <Line type="monotone" dataKey="total" stroke="#8884d8" strokeWidth={2} dot={false} />
       </LineChart>
     </ResponsiveContainer>
   );

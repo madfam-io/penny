@@ -9,16 +9,19 @@ const telemetry: FastifyPluginAsync = async (fastify) => {
 
   fastify.addHook('onResponse', async (request, reply) => {
     const duration = Date.now() - (request.startTime || Date.now());
-    
+
     // Log request metrics
-    request.log.info({
-      method: request.method,
-      url: request.url,
-      statusCode: reply.statusCode,
-      duration,
-      tenantId: request.context?.tenantId,
-      userId: request.context?.userId,
-    }, 'Request completed');
+    request.log.info(
+      {
+        method: request.method,
+        url: request.url,
+        statusCode: reply.statusCode,
+        duration,
+        tenantId: request.context?.tenantId,
+        userId: request.context?.userId,
+      },
+      'Request completed',
+    );
 
     // TODO: Send metrics to OpenTelemetry
     // This would integrate with the @penny/telemetry package
@@ -48,7 +51,7 @@ declare module 'fastify' {
   interface FastifyRequest {
     startTime?: number;
   }
-  
+
   interface FastifyInstance {
     metrics: {
       requestCount: number;

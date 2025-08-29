@@ -3,12 +3,14 @@
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+ and npm 9+
 - Docker and Docker Compose
 - Git
 - (Optional) NVIDIA GPU + CUDA for local LLM inference
 
 ### Quick Start
+
 ```bash
 # Clone the repository
 git clone https://github.com/madfam-io/penny.git
@@ -52,6 +54,7 @@ penny/
 ## 🛠️ Development Workflow
 
 ### 1. Working with the Monorepo
+
 This project uses npm workspaces and Turborepo:
 
 ```bash
@@ -69,6 +72,7 @@ npm install express -w @penny/api
 ```
 
 ### 2. Creating New Packages
+
 ```bash
 # Create package directory
 mkdir -p packages/new-package/src
@@ -82,6 +86,7 @@ npm init -y
 ```
 
 ### 3. Database Development
+
 ```bash
 # Create migration
 npm run db:migrate:create -- --name add_users_table
@@ -97,6 +102,7 @@ make reset-db
 ```
 
 ### 4. Testing Strategy
+
 - Unit tests: Vitest for fast testing
 - Integration tests: Supertest for API testing
 - E2E tests: Playwright for browser testing
@@ -116,6 +122,7 @@ npm run test -- --inspect
 ## 🔧 Configuration
 
 ### Environment Variables
+
 See `.env.example` for all available options. Key variables:
 
 - `NODE_ENV`: development | production | test
@@ -125,7 +132,9 @@ See `.env.example` for all available options. Key variables:
 - `MASTER_ENCRYPTION_KEY`: Data encryption key
 
 ### Feature Flags
+
 Control features via environment:
+
 - `ENABLE_CODE_EXECUTION`: Python sandbox
 - `ENABLE_EXTERNAL_MODELS`: External AI providers
 - `ENABLE_CUSTOM_PLUGINS`: Plugin marketplace
@@ -133,6 +142,7 @@ Control features via environment:
 ## 🐳 Infrastructure
 
 ### Local Services
+
 - **PostgreSQL + pgvector**: Main database with vector search
 - **Valkey**: Caching and queues
 - **MinIO**: S3-compatible object storage
@@ -140,6 +150,7 @@ Control features via environment:
 - **Ollama**: Local LLM inference
 
 ### Service URLs
+
 - Web App: http://localhost:5173
 - API: http://localhost:3000
 - MinIO Console: http://localhost:9001
@@ -148,9 +159,11 @@ Control features via environment:
 ## 📦 Key Packages
 
 ### @penny/shared
+
 Core types, schemas, constants, and utilities used across the platform.
 
 ### @penny/security
+
 - Password hashing (Argon2)
 - JWT handling
 - Encryption/decryption
@@ -158,12 +171,14 @@ Core types, schemas, constants, and utilities used across the platform.
 - Input sanitization
 
 ### @penny/database
+
 - Prisma client
 - Migration utilities
 - Connection pooling
 - Query builders
 
 ### @penny/telemetry
+
 - OpenTelemetry integration
 - Custom metrics
 - Trace context propagation
@@ -181,13 +196,16 @@ Core types, schemas, constants, and utilities used across the platform.
 ## 📊 Monitoring
 
 ### Metrics
+
 - Request latency (p50, p95, p99)
 - Token usage per tenant
 - Tool execution success rate
 - Model inference time
 
 ### Logging
+
 Structured JSON logging with correlation IDs:
+
 ```typescript
 logger.info('Tool executed', {
   toolName: 'get_company_kpis',
@@ -198,7 +216,9 @@ logger.info('Tool executed', {
 ```
 
 ### Tracing
+
 OpenTelemetry traces for request flow:
+
 - HTTP requests
 - Database queries
 - LLM calls
@@ -207,12 +227,14 @@ OpenTelemetry traces for request flow:
 ## 🚢 Deployment
 
 ### Development
+
 ```bash
 npm run build
 npm run start
 ```
 
 ### Production
+
 ```bash
 # Build containers
 docker build -t penny-web apps/web
@@ -230,6 +252,7 @@ kubectl apply -k deploy/
 4. Submit PR with description
 
 ### Commit Types
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation
@@ -247,6 +270,7 @@ kubectl apply -k deploy/
 ### Common Issues
 
 **Dependencies not installing**
+
 ```bash
 npm run clean
 rm -rf node_modules
@@ -254,19 +278,21 @@ npm install
 ```
 
 **Type errors in IDE**
+
 ```bash
 npm run build --filter=@penny/shared
 # Restart TypeScript server in IDE
 ```
 
 **Docker services not starting**
+
 ```bash
 docker-compose down -v
 make docker-up
 ```
 
-**Database connection errors**
-Check PostgreSQL is running and migrations are applied:
+**Database connection errors** Check PostgreSQL is running and migrations are applied:
+
 ```bash
 docker-compose ps
 npm run db:migrate

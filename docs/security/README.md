@@ -2,7 +2,8 @@
 
 ## Overview
 
-Security is paramount in PENNY's design. This document outlines our security practices, controls, and guidelines for developers.
+Security is paramount in PENNY's design. This document outlines our security practices, controls,
+and guidelines for developers.
 
 ## Security Principles
 
@@ -14,6 +15,7 @@ Security is paramount in PENNY's design. This document outlines our security pra
 ## Authentication & Authorization
 
 ### Authentication
+
 - JWT-based authentication
 - Refresh token rotation
 - Multi-factor authentication (MFA)
@@ -21,6 +23,7 @@ Security is paramount in PENNY's design. This document outlines our security pra
 - Device fingerprinting
 
 ### Authorization
+
 - Role-Based Access Control (RBAC)
 - Attribute-Based Access Control (ABAC)
 - Resource-level permissions
@@ -29,12 +32,14 @@ Security is paramount in PENNY's design. This document outlines our security pra
 ## Data Security
 
 ### Encryption
+
 - **At Rest**: AES-256-GCM
 - **In Transit**: TLS 1.3
 - **Key Management**: HSM-backed
 - **Tenant Keys**: Unique per tenant
 
 ### Data Classification
+
 - **Public**: Marketing content
 - **Internal**: Business data
 - **Confidential**: User data
@@ -43,6 +48,7 @@ Security is paramount in PENNY's design. This document outlines our security pra
 ## Application Security
 
 ### Input Validation
+
 ```typescript
 // Always validate input
 const schema = z.object({
@@ -54,35 +60,37 @@ const validated = schema.parse(input);
 ```
 
 ### Output Encoding
+
 ```typescript
 // Always encode output
 const safe = sanitizeHtml(userContent);
 ```
 
 ### SQL Injection Prevention
+
 ```typescript
 // Use parameterized queries
-const result = await db.query(
-  'SELECT * FROM users WHERE id = $1',
-  [userId]
-);
+const result = await db.query('SELECT * FROM users WHERE id = $1', [userId]);
 ```
 
 ## Infrastructure Security
 
 ### Network Security
+
 - VPC with private subnets
 - Network segmentation
 - Security groups
 - WAF rules
 
 ### Container Security
+
 - Minimal base images
 - No root users
 - Read-only filesystems
 - Security scanning
 
 ### Secrets Management
+
 - Never commit secrets
 - Use environment variables
 - Rotate regularly
@@ -91,6 +99,7 @@ const result = await db.query(
 ## Security Checklist
 
 ### Development
+
 - [ ] Input validation implemented
 - [ ] Output encoding applied
 - [ ] Authentication required
@@ -100,6 +109,7 @@ const result = await db.query(
 - [ ] Tests written
 
 ### Deployment
+
 - [ ] Security scan passed
 - [ ] Dependencies updated
 - [ ] Secrets configured
@@ -108,6 +118,7 @@ const result = await db.query(
 - [ ] Monitoring active
 
 ### Code Review
+
 - [ ] No hardcoded secrets
 - [ ] No SQL injection risks
 - [ ] No XSS vulnerabilities
@@ -118,12 +129,14 @@ const result = await db.query(
 ## Incident Response
 
 ### Severity Levels
+
 - **P0**: Data breach, system compromise
 - **P1**: Authentication bypass, data exposure
 - **P2**: Privilege escalation, DoS
 - **P3**: Minor vulnerabilities
 
 ### Response Process
+
 1. **Detect**: Monitoring alerts
 2. **Assess**: Determine severity
 3. **Contain**: Isolate affected systems
@@ -134,12 +147,14 @@ const result = await db.query(
 ## Compliance
 
 ### Standards
+
 - SOC2 Type II
 - GDPR
 - CCPA
 - HIPAA (roadmap)
 
 ### Auditing
+
 - All access logged
 - Changes tracked
 - Regular reviews

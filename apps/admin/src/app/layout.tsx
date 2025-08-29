@@ -11,11 +11,7 @@ export const metadata: Metadata = {
   description: 'Manage your PENNY platform, users, and resources',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>

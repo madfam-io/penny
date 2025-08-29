@@ -2,7 +2,8 @@
 
 **Owner:** MADFAM Eng · **Audience:** contributors, operators, security, product
 
-> Goal: ship a complete, **actionable docs seed** that makes the codebase self‑explanatory, safe to operate, and easy to extend.
+> Goal: ship a complete, **actionable docs seed** that makes the codebase self‑explanatory, safe to
+> operate, and easy to extend.
 
 ---
 
@@ -10,30 +11,30 @@
 
 ### P0 – Must‑have for MVP
 
-* **Getting Started** (local stack + first run, 10‑minute success)
-* **Architecture Overview** (components, data flow, sequence)
-* **OpenAPI Reference** (generated) + **Client SDK usage**
-* **Tool & Plugin Guide** (JSON‑Schema contracts, security model)
-* **Artifacts & Widgets** (definition, viewer, how to add one)
-* **Security & Privacy** (RBAC, egress policy, PII/DLP)
-* **Observability** (tracing, metrics, dashboards, log fields)
-* **Runbooks** (auth outage, vector DB fail, model pool down)
+- **Getting Started** (local stack + first run, 10‑minute success)
+- **Architecture Overview** (components, data flow, sequence)
+- **OpenAPI Reference** (generated) + **Client SDK usage**
+- **Tool & Plugin Guide** (JSON‑Schema contracts, security model)
+- **Artifacts & Widgets** (definition, viewer, how to add one)
+- **Security & Privacy** (RBAC, egress policy, PII/DLP)
+- **Observability** (tracing, metrics, dashboards, log fields)
+- **Runbooks** (auth outage, vector DB fail, model pool down)
 
 ### P1 – Should‑have for v1
 
-* **Data Model & ERD** (entities, relationships, retention)
-* **Code Styleguide** (TS/React/Tailwind, commit rules)
-* **UI/UX Guidelines** (shadcn patterns, accessibility, i18n)
-* **Release & Versioning** (Changesets, tags, Docker images)
-* **Environments & Config** (dev/staging/prod, feature flags)
-* **ADR Index** (+ template)
+- **Data Model & ERD** (entities, relationships, retention)
+- **Code Styleguide** (TS/React/Tailwind, commit rules)
+- **UI/UX Guidelines** (shadcn patterns, accessibility, i18n)
+- **Release & Versioning** (Changesets, tags, Docker images)
+- **Environments & Config** (dev/staging/prod, feature flags)
+- **ADR Index** (+ template)
 
 ### P2 – Nice‑to‑have / Ops maturity
 
-* **SLA/SLO/SLI** policy & dashboards
-* **Disaster Recovery** (backups, restore drills)
-* **Cost Management** (quotas, caching, model routing)
-* **Multi‑tenancy & White‑label Guide** (themes, branding, limits)
+- **SLA/SLO/SLI** policy & dashboards
+- **Disaster Recovery** (backups, restore drills)
+- **Cost Management** (quotas, caching, model routing)
+- **Multi‑tenancy & White‑label Guide** (themes, branding, limits)
 
 ---
 
@@ -88,16 +89,20 @@
 
 ```markdown
 # RFC: <Feature/Change>
+
 **Owner:** <name> · **Reviewers:** <names> · **Target release:** <vX.Y>
 
 ## Summary
+
 <One paragraph>
 
 ## Goals / Non-goals
+
 - Goals: ...
 - Non-goals: ...
 
 ## Design
+
 - API/Schema changes
 - Data model changes
 - UX flows (screenshots / diagrams)
@@ -105,6 +110,7 @@
 ## Risks & Mitigations
 
 ## Rollout Plan
+
 - Flags, migrations, backfill, monitoring
 
 ## Acceptance Criteria
@@ -114,23 +120,28 @@
 
 ```markdown
 # Runbook: <Incident>
+
 **Severity:** P0 | P1 | P2 · **Last reviewed:** <date>
 
 ## Symptoms
+
 - ...
 
 ## Quick Triage (first 10 minutes)
+
 1. Check dashboards: <links>
 2. Page on-call: <how>
 3. Toggle kill-switch/feature flag if applicable
 
 ## Detailed Steps
+
 - Step 1: bash / API call / dashboard
 - Step 2: ...
 
 ## Rollback / Recovery
 
 ## Post-incident
+
 - Timeline, root cause, follow-ups
 ```
 
@@ -138,16 +149,20 @@
 
 ```markdown
 # Playbook: <Play>
+
 **Owner:** <team> · **Trigger:** <event>
 
 ## Steps
+
 - Step 1
 - Step 2
 
 ## Artifacts
+
 - Templates, emails, dashboards
 
 ## Metrics
+
 - Leading and lagging indicators
 ```
 
@@ -162,14 +177,14 @@
   "parameters": {
     "type": "object",
     "properties": {
-      "slug": {"type": "string"},
-      "filters": {"type": "object", "additionalProperties": true}
+      "slug": { "type": "string" },
+      "filters": { "type": "object", "additionalProperties": true }
     },
     "required": ["slug"]
   },
-  "timeouts": {"seconds": 30},
-  "rateLimits": {"rpm": 60},
-  "ui": {"admin": true, "endUser": true}
+  "timeouts": { "seconds": 30 },
+  "rateLimits": { "rpm": 60 },
+  "ui": { "admin": true, "endUser": true }
 }
 ```
 
@@ -181,13 +196,16 @@
 ## What it does
 
 ## Config
+
 - ENV vars: ...
 - Secrets: ...
 
 ## Permissions
+
 - Required roles and scopes
 
 ## Usage
+
 - Example chat prompts
 - Example API call
 ```
@@ -198,6 +216,7 @@
 ## Summary
 
 ## Changes
+
 - [ ] Tests
 - [ ] Docs
 - [ ] Backward compatible
@@ -205,6 +224,7 @@
 ## Screenshots / Artifacts
 
 ## Checklist
+
 - [ ] Lint passes
 - [ ] Type checks
 - [ ] E2E happy path
@@ -213,7 +233,7 @@
 
 ### 3.8 Issue templates (`/.github/ISSUE_TEMPLATE/`)
 
-* **bug\_report.yml**
+- **bug_report.yml**
 
 ```yaml
 name: Bug report
@@ -230,7 +250,7 @@ body:
       required: true
 ```
 
-* **feature\_request.yml**
+- **feature_request.yml**
 
 ```yaml
 name: Feature request
@@ -257,9 +277,12 @@ body:
 > Chat → Tool → Artifact in one flow.
 
 ## Components
-- Web (React) · API (Fastify) · Orchestrator · Tool Workers · Vector DB · Postgres · Object Store · Observability
+
+- Web (React) · API (Fastify) · Orchestrator · Tool Workers · Vector DB · Postgres · Object Store ·
+  Observability
 
 ## Sequence (happy path)
+
 ```mermaid
 sequenceDiagram
   participant U as User
@@ -280,6 +303,7 @@ sequenceDiagram
   T->>R: Query context
   T-->>G: Produce artifact
   C-->>W: Answer + artifact link
+```
 ````
 
 ````
@@ -323,6 +347,7 @@ classDiagram
 
 ```markdown
 # Observability
+
 - Tracing: OpenTelemetry (trace ids across chat→tool→artifact)
 - Metrics: TTFT, p50/p95, tool success, cache hits, GPU util
 - Dashboards: Jaeger, Grafana (if used)
@@ -335,8 +360,8 @@ classDiagram
 
 ### Option A: **MkDocs Material** (simple, fast)
 
-* Pros: markdown‑first, search, great for engineers
-* Add `mkdocs.yml`:
+- Pros: markdown‑first, search, great for engineers
+- Add `mkdocs.yml`:
 
 ```yaml
 site_name: PENNY Docs
@@ -353,16 +378,16 @@ nav:
 
 ### Option B: **Docusaurus** (heavier, versioned docs)
 
-* Pros: versioning, i18n, React components
-* Use for public SaaS docs later.
+- Pros: versioning, i18n, React components
+- Use for public SaaS docs later.
 
 ---
 
 ## 6) Automation
 
-* **Generate API.md** from OpenAPI on every build.
-* **Docs CI**: link check, Mermaid lint, spell check (e.g., `codespell`), broken anchors.
-* **Prose lint**: optional `vale` rules for tone and clarity.
+- **Generate API.md** from OpenAPI on every build.
+- **Docs CI**: link check, Mermaid lint, spell check (e.g., `codespell`), broken anchors.
+- **Prose lint**: optional `vale` rules for tone and clarity.
 
 **GitHub Action (docs CI)**
 
@@ -385,18 +410,18 @@ jobs:
 
 ## 7) Owner assignments (suggested)
 
-* **Docs platform**: @platform-eng
-* **Security**: @security
-* **Observability**: @sre
-* **API & SDK**: @backend
-* **Tooling/Plugins**: @integrations
-* **UI/UX**: @design
+- **Docs platform**: @platform-eng
+- **Security**: @security
+- **Observability**: @sre
+- **API & SDK**: @backend
+- **Tooling/Plugins**: @integrations
+- **UI/UX**: @design
 
 ---
 
 ## 8) Definition of Done (docs)
 
-* Linked from README
-* Has at least one diagram/tested render on GitHub
-* Includes acceptance criteria or run commands
-* CI checks pass (links, spell, build)
+- Linked from README
+- Has at least one diagram/tested render on GitHub
+- Includes acceptance criteria or run commands
+- CI checks pass (links, spell, build)

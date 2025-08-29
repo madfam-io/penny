@@ -40,10 +40,12 @@ export function useWebSocket({
   onClose,
   onError,
 }: UseWebSocketOptions) {
-  const [connectionState, setConnectionState] = useState<ConnectionState>(ConnectionState.DISCONNECTED);
+  const [connectionState, setConnectionState] = useState<ConnectionState>(
+    ConnectionState.DISCONNECTED,
+  );
   const [lastMessage, setLastMessage] = useState<WebSocketMessage | null>(null);
   const [messageHistory, setMessageHistory] = useState<WebSocketMessage[]>([]);
-  
+
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectCountRef = useRef(0);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout>();
@@ -64,13 +66,15 @@ export function useWebSocket({
         console.log('WebSocket connected');
         setConnectionState(ConnectionState.CONNECTED);
         reconnectCountRef.current = 0;
-        
+
         // Authenticate if token provided
         if (token) {
-          ws.send(JSON.stringify({
-            type: 'authenticate',
-            token,
-          }));
+          ws.send(
+            JSON.stringify({
+              type: 'authenticate',
+              token,
+            }),
+          );
         }
 
         // Start ping interval
@@ -87,13 +91,13 @@ export function useWebSocket({
         try {
           const message: WebSocketMessage = JSON.parse(event.data);
           console.log('WebSocket message received:', message);
-          
+
           setLastMessage(message);
-          setMessageHistory(prev => [...prev, message]);
-          
+          setMessageHistory((prev) => [...prev, message]);
+
           // Handle specific message types
           handleMessage(message);
-          
+
           onMessage?.(message);
         } catch (error) {
           console.error('Failed to parse WebSocket message:', error);
@@ -110,7 +114,7 @@ export function useWebSocket({
         console.log('WebSocket disconnected');
         setConnectionState(ConnectionState.DISCONNECTED);
         wsRef.current = null;
-        
+
         // Clear ping interval
         if (pingIntervalRef.current) {
           clearInterval(pingIntervalRef.current);
@@ -119,8 +123,10 @@ export function useWebSocket({
         // Attempt reconnection
         if (reconnectCountRef.current < reconnectAttempts) {
           reconnectCountRef.current++;
-          console.log(`Reconnecting... (attempt ${reconnectCountRef.current}/${reconnectAttempts})`);
-          
+          console.log(
+            `Reconnecting... (attempt ${reconnectCountRef.current}/${reconnectAttempts})`,
+          );
+
           reconnectTimeoutRef.current = setTimeout(() => {
             connect();
           }, reconnectDelay);
@@ -139,7 +145,7 @@ export function useWebSocket({
     if (reconnectTimeoutRef.current) {
       clearTimeout(reconnectTimeoutRef.current);
     }
-    
+
     if (pingIntervalRef.current) {
       clearInterval(pingIntervalRef.current);
     }
@@ -149,17 +155,15 @@ export function useWebSocket({
       wsRef.current.close();
       wsRef.current = null;
     }
-    
+
     setConnectionState(ConnectionState.DISCONNECTED);
   }, [reconnectAttempts]);
 
   // Send message through WebSocket
   const sendMessage = useCallback((message: any) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
-      const messageToSend = typeof message === 'string' 
-        ? message 
-        : JSON.stringify(message);
-      
+      const messageToSend = typeof message === 'string' ? message : JSON.stringify(message);
+
       wsRef.current.send(messageToSend);
       return true;
     } else {
@@ -169,31 +173,40 @@ export function useWebSocket({
   }, []);
 
   // Send chat message
-  const sendChatMessage = useCallback((content: string, conversationId?: string, artifacts?: any[]) => {
-    return sendMessage({
-      type: 'message',
-      conversationId,
-      content,
-      artifacts,
-    });
-  }, [sendMessage]);
+  const sendChatMessage = useCallback(
+    (content: string, conversationId?: string, artifacts?: any[]) => {
+      return sendMessage({
+        type: 'message',
+        conversationId,
+        content,
+        artifacts,
+      });
+    },
+    [sendMessage],
+  );
 
   // Execute tool
-  const executeTool = useCallback((tool: string, params: any) => {
-    return sendMessage({
-      type: 'tool_execute',
-      tool,
-      params,
-    });
-  }, [sendMessage]);
+  const executeTool = useCallback(
+    (tool: string, params: any) => {
+      return sendMessage({
+        type: 'tool_execute',
+        tool,
+        params,
+      });
+    },
+    [sendMessage],
+  );
 
   // Send typing indicator
-  const sendTyping = useCallback((conversationId: string) => {
-    return sendMessage({
-      type: 'typing',
-      conversationId,
-    });
-  }, [sendMessage]);
+  const sendTyping = useCallback(
+    (conversationId: string) => {
+      return sendMessage({
+        type: 'typing',
+        conversationId,
+      });
+    },
+    [sendMessage],
+  );
 
   // Handle specific message types
   const handleMessage = (message: WebSocketMessage) => {

@@ -5,6 +5,7 @@ This guide covers administration and management of the PENNY platform.
 ## Admin Dashboard Overview
 
 The PENNY Admin Dashboard provides centralized management for:
+
 - Tenant organizations
 - User accounts and permissions
 - Billing and subscriptions
@@ -67,12 +68,12 @@ To change a tenant's subscription:
 
 Plan limits are automatically enforced:
 
-| Feature | Free | Starter | Pro | Enterprise |
-|---------|------|---------|-----|------------|
-| Users | 5 | 20 | 100 | Unlimited |
-| AI Requests/day | 100 | 1,000 | 10,000 | Unlimited |
-| Storage | 1 GB | 10 GB | 100 GB | Custom |
-| Support | Community | Email | Priority | Dedicated |
+| Feature         | Free      | Starter | Pro      | Enterprise |
+| --------------- | --------- | ------- | -------- | ---------- |
+| Users           | 5         | 20      | 100      | Unlimited  |
+| AI Requests/day | 100       | 1,000   | 10,000   | Unlimited  |
+| Storage         | 1 GB      | 10 GB   | 100 GB   | Custom     |
+| Support         | Community | Email   | Priority | Dedicated  |
 
 ## User Management
 
@@ -106,6 +107,7 @@ PENNY supports four user roles:
 ### Inviting Users
 
 #### Single User Invitation
+
 1. Navigate to **Users** → **Invite User**
 2. Enter email and optional details
 3. Select tenant and role
@@ -113,6 +115,7 @@ PENNY supports four user roles:
 5. Send invitation
 
 #### Bulk User Import
+
 1. Download the CSV template
 2. Fill in user details:
    ```csv
@@ -126,6 +129,7 @@ PENNY supports four user roles:
 ### Managing User Access
 
 #### Suspend a User
+
 ```bash
 # Via UI
 Users → Select user → Actions → Suspend
@@ -138,11 +142,13 @@ PATCH /api/v1/admin/users/{userId}
 ```
 
 #### Reset User Password
+
 1. Go to **Users** → Select user
 2. Click **Reset Password**
 3. User receives password reset email
 
 #### Enforce MFA
+
 ```javascript
 // Global enforcement
 await prisma.tenant.update({
@@ -150,10 +156,10 @@ await prisma.tenant.update({
   data: {
     settings: {
       security: {
-        requireMFA: true
-      }
-    }
-  }
+        requireMFA: true,
+      },
+    },
+  },
 });
 ```
 
@@ -162,7 +168,9 @@ await prisma.tenant.update({
 ### Subscription Management
 
 #### View Current Subscriptions
+
 Navigate to **Billing** → **Subscriptions** to see:
+
 - Active subscriptions
 - Payment status
 - Usage metrics
@@ -171,6 +179,7 @@ Navigate to **Billing** → **Subscriptions** to see:
 #### Manual Billing Operations
 
 1. **Apply Credits**
+
    ```bash
    Billing → Tenant → Add Credit
    Amount: $100
@@ -178,6 +187,7 @@ Navigate to **Billing** → **Subscriptions** to see:
    ```
 
 2. **Generate Invoice**
+
    ```bash
    Billing → Invoices → Create Manual Invoice
    ```
@@ -193,7 +203,7 @@ Monitor usage across tenants:
 
 ```sql
 -- Top consumers by AI tokens
-SELECT 
+SELECT
   t.name,
   SUM(um.value) as total_tokens,
   COUNT(DISTINCT um.user_id) as active_users
@@ -233,6 +243,7 @@ const usageAlerts = {
 ### Health Monitoring
 
 The health dashboard shows:
+
 - Service status (API, Database, Redis, AI Services)
 - Response times
 - Error rates
@@ -249,9 +260,9 @@ app.get('/health/custom', async (req, res) => {
     checkAIProviders(),
     checkStorage(),
   ]);
-  
+
   res.json({
-    status: checks.every(c => c.healthy) ? 'healthy' : 'degraded',
+    status: checks.every((c) => c.healthy) ? 'healthy' : 'degraded',
     services: checks,
   });
 });
@@ -293,7 +304,7 @@ alerts:
     notify:
       - email: ops@penny.ai
       - slack: #alerts
-      
+
   - name: DatabaseConnectionPool
     condition: connection_pool_usage > 0.9
     duration: 2m
@@ -377,7 +388,6 @@ Handle data requests:
    ```bash
    Users → Select user → Actions → Export Data
    ```
-   
 2. **Right to be Forgotten**
    ```bash
    Users → Select user → Actions → Delete User
@@ -438,6 +448,7 @@ const features = {
 Configure third-party integrations:
 
 1. **SSO Configuration**
+
    ```bash
    Settings → Integrations → SSO
    - Provider: Okta/Auth0/Azure AD
@@ -462,7 +473,7 @@ Customize system emails:
 <!-- welcome.hbs -->
 <h1>Welcome to PENNY, {{user.name}}!</h1>
 <p>Your account has been created for {{tenant.name}}.</p>
-<a href="{{loginUrl}}">Get Started</a>
+<a href='{{loginUrl}}'>Get Started</a>
 ```
 
 ## Maintenance Operations
@@ -470,6 +481,7 @@ Customize system emails:
 ### Database Maintenance
 
 #### Backup Management
+
 ```bash
 # Manual backup
 npm run db:backup -- --tenant=all
@@ -479,6 +491,7 @@ npm run db:restore -- --tenant=tenant_123 --backup=backup_20240220.sql
 ```
 
 #### Performance Optimization
+
 ```sql
 -- Vacuum and analyze
 VACUUM ANALYZE conversations;
@@ -505,6 +518,7 @@ await redis.del('cache:tenants:*');
 ### Deployment Management
 
 #### Rolling Updates
+
 ```bash
 # Update API servers
 kubectl set image deployment/api api=penny/api:v2.1.0 -n penny
@@ -514,6 +528,7 @@ kubectl rollout status deployment/api -n penny
 ```
 
 #### Maintenance Mode
+
 ```typescript
 // Enable maintenance mode
 await redis.set('maintenance_mode', 'true');
