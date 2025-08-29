@@ -1,6 +1,21 @@
-# PENNY Architecture
+# Architecture Documentation
 
-## Overview
+This section contains comprehensive documentation about the PENNY platform's architecture, design decisions, and technical implementation.
+
+## Table of Contents
+
+1. [System Architecture Overview](./overview.md) - High-level system design and components
+2. [Database Schema](./database.md) - Database design and relationships
+3. [Multi-tenant Design](./multi-tenant.md) - Tenant isolation and multi-tenancy
+4. [API Architecture](./api-architecture.md) - REST API design patterns
+5. [WebSocket Architecture](./websocket-architecture.md) - Real-time communication design
+6. [Security Architecture](./security-architecture.md) - Security model and implementation
+7. [Tool System](./tool-system.md) - Tool registry and execution architecture
+8. [Artifact System](./artifact-system.md) - Artifact storage and visualization
+9. [Billing Architecture](./billing-architecture.md) - Subscription and billing system
+10. [Monitoring & Analytics](./monitoring-analytics.md) - Observability architecture
+
+## Architecture Overview
 
 PENNY is built as a cloud-native, multi-tenant platform following microservices architecture
 principles. The system is designed for high availability, scalability, and security.

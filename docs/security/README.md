@@ -1,4 +1,19 @@
-# Security Guidelines
+# Security Documentation
+
+Comprehensive security documentation for the PENNY platform, covering authentication, authorization, data protection, and compliance.
+
+## Table of Contents
+
+1. [Security Overview](./overview.md) - Security architecture and principles
+2. [Authentication](./authentication.md) - Authentication mechanisms and setup
+3. [Authorization](./authorization.md) - Role-based access control (RBAC)
+4. [Multi-tenant Security](./multi-tenant.md) - Tenant isolation and data protection
+5. [Data Protection](./data-protection.md) - Encryption, privacy, and compliance
+6. [Network Security](./network-security.md) - Network controls and monitoring
+7. [Incident Response](./incident-response.md) - Security incident management
+8. [Compliance](./compliance.md) - SOC2, GDPR, and certification readiness
+9. [Security Auditing](./auditing.md) - Audit logging and monitoring
+10. [Threat Modeling](./threat-modeling.md) - Security risk assessment
 
 ## Overview
 
