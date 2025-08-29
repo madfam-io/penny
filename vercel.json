@@ -4,7 +4,7 @@
   "buildCommand": "npm run build --workspace=apps/web",
   "outputDirectory": "apps/web/dist",
   "installCommand": "npm install",
-  "regions": ["iad1", "sfo1", "sin1", "syd1", "fra1"],
+  "regions": ["iad1"],
   "rewrites": [
     {
       "source": "/api/:path*",
@@ -43,15 +43,6 @@
       ]
     }
   ],
-  "functions": {
-    "api/auth/[...nextauth].ts": {
-      "runtime": "edge",
-      "maxDuration": 10
-    },
-    "api/proxy/*.ts": {
-      "maxDuration": 30
-    }
-  },
   "env": {
     "NEXT_PUBLIC_API_URL": "@railway_api_url",
     "NEXT_PUBLIC_WS_URL": "@railway_ws_url",
