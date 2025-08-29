@@ -1,0 +1,104 @@
+[build]
+builder = "nixpacks"
+buildCommand = "npm run build"
+
+[deploy]
+startCommand = "npm run start:prod"
+restartPolicyType = "on-failure"
+restartPolicyMaxRetries = 3
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+
+[[services]]
+name = "api"
+source = "apps/api"
+builder = "dockerfile"
+dockerfilePath = "apps/api/Dockerfile"
+port = 3001
+healthcheckPath = "/health"
+replicas = 2
+
+[services.env]
+NODE_ENV = "production"
+PORT = "3001"
+DATABASE_URL = "${{Postgres.DATABASE_URL}}"
+REDIS_URL = "${{Redis.REDIS_URL}}"
+R2_ENDPOINT = "${{shared.R2_ENDPOINT}}"
+R2_ACCESS_KEY_ID = "${{shared.R2_ACCESS_KEY_ID}}"
+R2_SECRET_ACCESS_KEY = "${{shared.R2_SECRET_ACCESS_KEY}}"
+JWT_SECRET = "${{shared.JWT_SECRET}}"
+
+[[services]]
+name = "websocket"
+source = "apps/api"
+builder = "dockerfile"
+dockerfilePath = "apps/api/Dockerfile.websocket"
+port = 3003
+replicas = 1
+
+[services.env]
+NODE_ENV = "production"
+PORT = "3003"
+REDIS_URL = "${{Redis.REDIS_URL}}"
+JWT_SECRET = "${{shared.JWT_SECRET}}"
+
+[[services]]
+name = "worker"
+source = "apps/api"
+builder = "dockerfile"
+dockerfilePath = "apps/api/Dockerfile.worker"
+replicas = 2
+
+[services.env]
+NODE_ENV = "production"
+DATABASE_URL = "${{Postgres.DATABASE_URL}}"
+REDIS_URL = "${{Redis.REDIS_URL}}"
+R2_ENDPOINT = "${{shared.R2_ENDPOINT}}"
+R2_ACCESS_KEY_ID = "${{shared.R2_ACCESS_KEY_ID}}"
+R2_SECRET_ACCESS_KEY = "${{shared.R2_SECRET_ACCESS_KEY}}"
+
+[[services]]
+name = "sandbox"
+source = "apps/sandbox"
+builder = "dockerfile"
+dockerfilePath = "apps/sandbox/Dockerfile"
+replicas = 1
+restartPolicyType = "always"
+
+[services.resources]
+cpu = 1000
+memory = 1024
+disk = 5000
+
+[[services]]
+name = "postgres"
+image = "pgvector/pgvector:pg15"
+volumes = ["/var/lib/postgresql/data"]
+
+[services.env]
+POSTGRES_DB = "penny"
+POSTGRES_USER = "penny"
+POSTGRES_PASSWORD = "${{shared.POSTGRES_PASSWORD}}"
+
+[services.resources]
+cpu = 1000
+memory = 2048
+disk = 20000
+
+[[services]]
+name = "redis"
+image = "redis:7-alpine"
+volumes = ["/data"]
+
+[services.env]
+REDIS_PASSWORD = "${{shared.REDIS_PASSWORD}}"
+
+[services.resources]
+cpu = 500
+memory = 512
+disk = 5000
+
+[environments]
+production = { branch = "main" }
+staging = { branch = "staging" }
+development = { branch = "develop" }
