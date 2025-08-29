@@ -1,9 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
-  "buildCommand": "cd apps/web && npm run build",
+  "buildCommand": "turbo run build --filter=@penny/web",
   "outputDirectory": "apps/web/dist",
-  "installCommand": "if [ -f apps/web/package.vercel.json ]; then cp apps/web/package.vercel.json apps/web/package.json; fi && cd apps/web && npm install",
+  "installCommand": "npm install",
   "regions": ["iad1"],
   "rewrites": [
     {
