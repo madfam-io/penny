@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "PENNY - Multi-tenant AI-first workbench platform",
   "private": true,
-  "packageManager": "npm@11.5.1",
+  "packageManager": "npm@10.8.2",
   "workspaces": [
     "packages/*",
     "apps/*",
