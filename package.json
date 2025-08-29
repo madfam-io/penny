@@ -4,6 +4,7 @@
   "description": "PENNY - Multi-tenant AI-first workbench platform",
   "private": true,
   "type": "module",
+  "packageManager": "npm@11.5.1",
   "workspaces": [
     "packages/*",
     "apps/*",
