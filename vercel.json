@@ -3,7 +3,7 @@
   "framework": "vite",
   "buildCommand": "cd apps/web && npm run build",
   "outputDirectory": "apps/web/dist",
-  "installCommand": "node scripts/vercel-setup.js && cd apps/web && npm install",
+  "installCommand": "if [ -f apps/web/package.vercel.json ]; then cp apps/web/package.vercel.json apps/web/package.json; fi && cd apps/web && npm install",
   "regions": ["iad1"],
   "rewrites": [
     {
