@@ -1,0 +1,37 @@
+{
+  "name": "@penny/analytics",
+  "version": "0.1.0",
+  "description": "Advanced analytics and business intelligence package for PENNY platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src --ext .ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@penny/shared": "workspace:*",
+    "@penny/database": "workspace:*",
+    "ioredis": "^5.3.2",
+    "date-fns": "^2.30.0",
+    "uuid": "^9.0.1",
+    "lodash": "^4.17.21",
+    "csv-writer": "^1.6.0",
+    "json2csv": "^6.1.0",
+    "ml-matrix": "^6.10.4",
+    "simple-statistics": "^7.8.3",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/uuid": "^9.0.7",
+    "@types/lodash": "^4.14.202",
+    "@types/node-cron": "^3.0.11",
+    "typescript": "^5.3.3",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.8"
+  }
+}

@@ -1,0 +1,307 @@
+{
+  "plans": [
+    {
+      "id": "free",
+      "name": "Free",
+      "type": "free",
+      "description": "Perfect for getting started with PENNY",
+      "price_monthly": 0,
+      "price_yearly": 0,
+      "currency": "usd",
+      "stripe_price_id_monthly": "",
+      "stripe_price_id_yearly": "",
+      "trial_days": 0,
+      "is_active": true,
+      "features": {
+        "max_users": 3,
+        "max_conversations": 10,
+        "max_messages_per_month": 100,
+        "max_tokens_per_month": 10000,
+        "max_storage_gb": 1,
+        "max_api_calls_per_month": 100,
+        "max_tools_per_month": 50,
+        "max_artifacts_per_month": 10,
+        "custom_tools": false,
+        "priority_support": false,
+        "sso": false,
+        "audit_logs": false,
+        "white_labeling": false,
+        "api_access": false,
+        "advanced_analytics": false,
+        "custom_integrations": false
+      },
+      "usage_limits": [
+        {
+          "type": "users",
+          "limit": 3,
+          "hard_limit": 3
+        },
+        {
+          "type": "messages",
+          "limit": 100,
+          "overage_rate": 0.01,
+          "soft_limit": 80,
+          "hard_limit": 150
+        },
+        {
+          "type": "tokens",
+          "limit": 10000,
+          "overage_rate": 0.001,
+          "soft_limit": 8000,
+          "hard_limit": 15000
+        },
+        {
+          "type": "storage",
+          "limit": 1073741824,
+          "overage_rate": 0.10,
+          "soft_limit": 858993459,
+          "hard_limit": 1610612736
+        },
+        {
+          "type": "api_calls",
+          "limit": 100,
+          "overage_rate": 0.001,
+          "soft_limit": 80,
+          "hard_limit": 150
+        },
+        {
+          "type": "tools",
+          "limit": 50,
+          "overage_rate": 0.02,
+          "soft_limit": 40,
+          "hard_limit": 75
+        },
+        {
+          "type": "artifacts",
+          "limit": 10,
+          "overage_rate": 0.05,
+          "soft_limit": 8,
+          "hard_limit": 15
+        }
+      ]
+    },
+    {
+      "id": "pro",
+      "name": "Pro",
+      "type": "pro",
+      "description": "For growing teams and businesses",
+      "price_monthly": 29,
+      "price_yearly": 290,
+      "currency": "usd",
+      "stripe_price_id_monthly": "price_1234567890_monthly",
+      "stripe_price_id_yearly": "price_1234567890_yearly",
+      "trial_days": 14,
+      "is_active": true,
+      "features": {
+        "max_users": 25,
+        "max_conversations": 500,
+        "max_messages_per_month": 10000,
+        "max_tokens_per_month": 1000000,
+        "max_storage_gb": 50,
+        "max_api_calls_per_month": 10000,
+        "max_tools_per_month": 5000,
+        "max_artifacts_per_month": 1000,
+        "custom_tools": true,
+        "priority_support": true,
+        "sso": false,
+        "audit_logs": true,
+        "white_labeling": false,
+        "api_access": true,
+        "advanced_analytics": true,
+        "custom_integrations": true
+      },
+      "usage_limits": [
+        {
+          "type": "users",
+          "limit": 25,
+          "overage_rate": 5.00,
+          "soft_limit": 20,
+          "hard_limit": 50
+        },
+        {
+          "type": "messages",
+          "limit": 10000,
+          "overage_rate": 0.005,
+          "soft_limit": 8000,
+          "hard_limit": 15000
+        },
+        {
+          "type": "tokens",
+          "limit": 1000000,
+          "overage_rate": 0.0005,
+          "soft_limit": 800000,
+          "hard_limit": 1500000
+        },
+        {
+          "type": "storage",
+          "limit": 53687091200,
+          "overage_rate": 0.05,
+          "soft_limit": 42949672960,
+          "hard_limit": 80530636800
+        },
+        {
+          "type": "api_calls",
+          "limit": 10000,
+          "overage_rate": 0.0005,
+          "soft_limit": 8000,
+          "hard_limit": 15000
+        },
+        {
+          "type": "tools",
+          "limit": 5000,
+          "overage_rate": 0.01,
+          "soft_limit": 4000,
+          "hard_limit": 7500
+        },
+        {
+          "type": "artifacts",
+          "limit": 1000,
+          "overage_rate": 0.02,
+          "soft_limit": 800,
+          "hard_limit": 1500
+        }
+      ]
+    },
+    {
+      "id": "enterprise",
+      "name": "Enterprise",
+      "type": "enterprise",
+      "description": "For large organizations with advanced needs",
+      "price_monthly": 199,
+      "price_yearly": 1990,
+      "currency": "usd",
+      "stripe_price_id_monthly": "price_0987654321_monthly",
+      "stripe_price_id_yearly": "price_0987654321_yearly",
+      "trial_days": 30,
+      "is_active": true,
+      "features": {
+        "max_users": -1,
+        "max_conversations": -1,
+        "max_messages_per_month": 100000,
+        "max_tokens_per_month": 10000000,
+        "max_storage_gb": 500,
+        "max_api_calls_per_month": 100000,
+        "max_tools_per_month": 50000,
+        "max_artifacts_per_month": 10000,
+        "custom_tools": true,
+        "priority_support": true,
+        "sso": true,
+        "audit_logs": true,
+        "white_labeling": true,
+        "api_access": true,
+        "advanced_analytics": true,
+        "custom_integrations": true
+      },
+      "usage_limits": [
+        {
+          "type": "users",
+          "limit": -1,
+          "overage_rate": 3.00
+        },
+        {
+          "type": "messages",
+          "limit": 100000,
+          "overage_rate": 0.002,
+          "soft_limit": 80000
+        },
+        {
+          "type": "tokens",
+          "limit": 10000000,
+          "overage_rate": 0.0002,
+          "soft_limit": 8000000
+        },
+        {
+          "type": "storage",
+          "limit": 536870912000,
+          "overage_rate": 0.02,
+          "soft_limit": 429496729600
+        },
+        {
+          "type": "api_calls",
+          "limit": 100000,
+          "overage_rate": 0.0002,
+          "soft_limit": 80000
+        },
+        {
+          "type": "tools",
+          "limit": 50000,
+          "overage_rate": 0.005,
+          "soft_limit": 40000
+        },
+        {
+          "type": "artifacts",
+          "limit": 10000,
+          "overage_rate": 0.01,
+          "soft_limit": 8000
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "currency": "usd",
+    "tax_inclusive": false,
+    "trial_enabled": true,
+    "grace_period_days": 3,
+    "invoice_terms_days": 30,
+    "late_fee_percentage": 1.5,
+    "dunning_enabled": true,
+    "proration_enabled": true
+  },
+  "addons": [
+    {
+      "id": "additional_users",
+      "name": "Additional Users",
+      "description": "Add more users to your plan",
+      "type": "per_unit",
+      "unit_price": 5,
+      "currency": "usd",
+      "applicable_plans": ["pro", "enterprise"]
+    },
+    {
+      "id": "extra_storage",
+      "name": "Extra Storage",
+      "description": "Additional storage beyond plan limits",
+      "type": "per_gb",
+      "unit_price": 0.10,
+      "currency": "usd",
+      "applicable_plans": ["free", "pro", "enterprise"]
+    },
+    {
+      "id": "priority_support",
+      "name": "Priority Support",
+      "description": "Get priority customer support",
+      "type": "monthly",
+      "unit_price": 49,
+      "currency": "usd",
+      "applicable_plans": ["free"]
+    }
+  ],
+  "discounts": [
+    {
+      "id": "annual_discount",
+      "name": "Annual Billing Discount",
+      "description": "Save 17% when billed annually",
+      "type": "percentage",
+      "value": 17,
+      "applicable_to": "yearly_billing"
+    },
+    {
+      "id": "student_discount",
+      "name": "Student Discount",
+      "description": "50% off for students",
+      "type": "percentage",
+      "value": 50,
+      "requires_verification": true,
+      "applicable_plans": ["pro"]
+    },
+    {
+      "id": "nonprofit_discount",
+      "name": "Nonprofit Discount", 
+      "description": "25% off for nonprofit organizations",
+      "type": "percentage",
+      "value": 25,
+      "requires_verification": true,
+      "applicable_plans": ["pro", "enterprise"]
+    }
+  ]
+}

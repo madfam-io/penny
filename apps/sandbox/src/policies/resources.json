@@ -1,0 +1,128 @@
+{
+  "memory": {
+    "maxMemoryPerSession": 536870912,
+    "maxMemoryPerExecution": 134217728,
+    "warningThreshold": 402653184,
+    "criticalThreshold": 469762048,
+    "description": "Memory limits in bytes (512MB max per session, 128MB per execution)"
+  },
+  "cpu": {
+    "maxCpuPercentage": 50,
+    "maxExecutionTime": 30000,
+    "warningExecutionTime": 20000,
+    "maxConcurrentExecutions": 5,
+    "cpuTimeLimit": 30,
+    "description": "CPU limits (50% max usage, 30 seconds max execution time)"
+  },
+  "storage": {
+    "maxFileSize": 10485760,
+    "maxTotalStorage": 104857600,
+    "maxFiles": 1000,
+    "maxDirectories": 100,
+    "tempDirectory": "/tmp",
+    "workspaceDirectory": "/workspace",
+    "allowedFileTypes": [
+      ".txt", ".csv", ".json", ".xml", ".yaml", ".yml",
+      ".py", ".ipynb", ".md", ".rst",
+      ".png", ".jpg", ".jpeg", ".gif", ".svg",
+      ".xlsx", ".xls", ".parquet", ".pkl"
+    ],
+    "blockedFileTypes": [
+      ".exe", ".bat", ".sh", ".cmd", ".ps1",
+      ".dll", ".so", ".dylib",
+      ".zip", ".rar", ".tar", ".gz", ".7z"
+    ],
+    "description": "Storage limits (10MB per file, 100MB total, 1000 files max)"
+  },
+  "network": {
+    "enabled": false,
+    "maxConnections": 0,
+    "maxDownloadSize": 0,
+    "maxUploadSize": 0,
+    "allowedDomains": [],
+    "blockedDomains": ["*"],
+    "allowedPorts": [],
+    "blockedPorts": ["*"],
+    "timeout": 5000,
+    "description": "Network access disabled by default"
+  },
+  "execution": {
+    "maxOutputSize": 10485760,
+    "maxVariables": 1000,
+    "maxVariableSize": 1048576,
+    "maxRecursionDepth": 100,
+    "maxLoopIterations": 1000000,
+    "maxFunctionCalls": 10000,
+    "enableDebugging": false,
+    "enableProfiling": false,
+    "description": "Execution limits (10MB output, 1000 variables, 100 recursion depth)"
+  },
+  "plotting": {
+    "maxPlots": 20,
+    "maxPlotSize": 5242880,
+    "maxPlotWidth": 2048,
+    "maxPlotHeight": 2048,
+    "maxDpi": 300,
+    "allowedFormats": ["png", "svg"],
+    "blockedFormats": ["ps", "eps", "pdf"],
+    "description": "Plotting limits (20 plots max, 5MB per plot, PNG/SVG only)"
+  },
+  "packages": {
+    "maxPackageInstalls": 50,
+    "maxPackageSize": 52428800,
+    "installTimeout": 120000,
+    "allowedSources": [
+      "https://pypi.org/",
+      "https://files.pythonhosted.org/"
+    ],
+    "trustedPackages": [
+      "numpy", "pandas", "matplotlib", "seaborn", "plotly",
+      "scipy", "scikit-learn", "pillow", "opencv-python",
+      "requests", "beautifulsoup4", "lxml", "openpyxl",
+      "xlsxwriter", "pyyaml", "jsonlines", "tqdm"
+    ],
+    "blockedPackages": [
+      "os", "sys", "subprocess", "socket", "urllib",
+      "multiprocessing", "threading", "ctypes", "pickle"
+    ],
+    "description": "Package installation limits (50 packages max, 50MB per package)"
+  },
+  "security": {
+    "enableSandboxing": true,
+    "enableCodeAnalysis": true,
+    "enableImportFiltering": true,
+    "enableResourceMonitoring": true,
+    "enableAuditLogging": true,
+    "blockDangerousPatterns": true,
+    "blockFileSystemAccess": true,
+    "blockNetworkAccess": true,
+    "blockSystemCalls": true,
+    "quarantineTime": 300000,
+    "description": "Security settings (all protections enabled)"
+  },
+  "monitoring": {
+    "collectMetrics": true,
+    "metricsInterval": 5000,
+    "logLevel": "info",
+    "enableAlerts": true,
+    "alertThresholds": {
+      "memoryUsage": 80,
+      "cpuUsage": 70,
+      "executionTime": 25000,
+      "errorRate": 10
+    },
+    "description": "Monitoring and alerting configuration"
+  },
+  "cleanup": {
+    "sessionTimeout": 1800000,
+    "cleanupInterval": 300000,
+    "retainLogs": 604800000,
+    "retainMetrics": 2592000000,
+    "autoCleanup": true,
+    "description": "Cleanup settings (30min session timeout, 5min cleanup interval)"
+  },
+  "version": "1.0",
+  "environment": "sandbox",
+  "lastUpdated": "2024-01-01T00:00:00Z",
+  "description": "Resource limits and quotas for Python sandbox environment"
+}

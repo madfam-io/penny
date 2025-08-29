@@ -1,0 +1,78 @@
+{
+  "name": "@penny/sandbox-client",
+  "version": "1.0.0",
+  "description": "TypeScript client SDK for PENNY Python sandbox service",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./types": {
+      "import": "./dist/types.js",
+      "types": "./dist/types.d.ts"
+    },
+    "./streaming": {
+      "import": "./dist/streaming.js",
+      "types": "./dist/streaming.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "sandbox",
+    "python",
+    "code-execution",
+    "jupyter",
+    "data-science",
+    "typescript",
+    "client",
+    "sdk"
+  ],
+  "author": "PENNY Platform",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/penny-ai/penny",
+    "directory": "packages/sandbox-client"
+  },
+  "bugs": {
+    "url": "https://github.com/penny-ai/penny/issues"
+  },
+  "homepage": "https://penny.ai",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

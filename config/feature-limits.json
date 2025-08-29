@@ -1,0 +1,298 @@
+{
+  "feature_limits": {
+    "free": {
+      "users": {
+        "limit": 3,
+        "description": "Maximum number of users in the workspace",
+        "enforcement": "hard",
+        "upgrade_required": true
+      },
+      "conversations": {
+        "limit": 10,
+        "description": "Maximum number of concurrent conversations",
+        "enforcement": "soft",
+        "upgrade_suggested": true
+      },
+      "messages_per_month": {
+        "limit": 100,
+        "description": "Monthly message quota",
+        "enforcement": "soft",
+        "overage_allowed": 50,
+        "overage_cost_per_unit": 0.01
+      },
+      "tokens_per_month": {
+        "limit": 10000,
+        "description": "Monthly AI token quota",
+        "enforcement": "soft",
+        "overage_allowed": 5000,
+        "overage_cost_per_unit": 0.001
+      },
+      "storage_gb": {
+        "limit": 1,
+        "description": "File storage limit in GB",
+        "enforcement": "hard",
+        "upgrade_required": true
+      },
+      "api_calls_per_month": {
+        "limit": 100,
+        "description": "Monthly API call quota",
+        "enforcement": "hard",
+        "upgrade_required": true
+      },
+      "custom_tools": {
+        "allowed": false,
+        "description": "Ability to create and use custom tools",
+        "upgrade_required": true
+      },
+      "integrations": {
+        "allowed": ["basic"],
+        "limit": 2,
+        "description": "Available third-party integrations"
+      },
+      "export_formats": {
+        "allowed": ["csv", "txt"],
+        "description": "Available data export formats"
+      },
+      "support_level": "community",
+      "sla": null
+    },
+    "pro": {
+      "users": {
+        "limit": 25,
+        "description": "Maximum number of users in the workspace",
+        "enforcement": "soft",
+        "overage_cost_per_unit": 5.00,
+        "overage_allowed": 25
+      },
+      "conversations": {
+        "limit": 500,
+        "description": "Maximum number of concurrent conversations",
+        "enforcement": "soft"
+      },
+      "messages_per_month": {
+        "limit": 10000,
+        "description": "Monthly message quota",
+        "enforcement": "soft",
+        "overage_allowed": 5000,
+        "overage_cost_per_unit": 0.005
+      },
+      "tokens_per_month": {
+        "limit": 1000000,
+        "description": "Monthly AI token quota",
+        "enforcement": "soft",
+        "overage_allowed": 500000,
+        "overage_cost_per_unit": 0.0005
+      },
+      "storage_gb": {
+        "limit": 50,
+        "description": "File storage limit in GB",
+        "enforcement": "soft",
+        "overage_allowed": 25,
+        "overage_cost_per_unit": 0.05
+      },
+      "api_calls_per_month": {
+        "limit": 10000,
+        "description": "Monthly API call quota",
+        "enforcement": "soft",
+        "overage_allowed": 5000,
+        "overage_cost_per_unit": 0.0005
+      },
+      "custom_tools": {
+        "allowed": true,
+        "limit": 10,
+        "description": "Create and use custom tools"
+      },
+      "integrations": {
+        "allowed": ["all"],
+        "limit": -1,
+        "description": "All available integrations"
+      },
+      "export_formats": {
+        "allowed": ["csv", "txt", "json", "pdf"],
+        "description": "Available data export formats"
+      },
+      "advanced_analytics": {
+        "allowed": true,
+        "retention_days": 90,
+        "description": "Advanced usage analytics and reports"
+      },
+      "priority_support": {
+        "allowed": true,
+        "description": "Priority email support"
+      },
+      "support_level": "priority",
+      "sla": "24_hours"
+    },
+    "enterprise": {
+      "users": {
+        "limit": -1,
+        "description": "Unlimited users",
+        "enforcement": "none",
+        "overage_cost_per_unit": 3.00
+      },
+      "conversations": {
+        "limit": -1,
+        "description": "Unlimited concurrent conversations",
+        "enforcement": "none"
+      },
+      "messages_per_month": {
+        "limit": 100000,
+        "description": "Monthly message quota",
+        "enforcement": "soft",
+        "overage_allowed": 50000,
+        "overage_cost_per_unit": 0.002
+      },
+      "tokens_per_month": {
+        "limit": 10000000,
+        "description": "Monthly AI token quota",
+        "enforcement": "soft",
+        "overage_allowed": 5000000,
+        "overage_cost_per_unit": 0.0002
+      },
+      "storage_gb": {
+        "limit": 500,
+        "description": "File storage limit in GB",
+        "enforcement": "soft",
+        "overage_allowed": 250,
+        "overage_cost_per_unit": 0.02
+      },
+      "api_calls_per_month": {
+        "limit": 100000,
+        "description": "Monthly API call quota",
+        "enforcement": "soft",
+        "overage_allowed": 50000,
+        "overage_cost_per_unit": 0.0002
+      },
+      "custom_tools": {
+        "allowed": true,
+        "limit": -1,
+        "description": "Unlimited custom tools"
+      },
+      "integrations": {
+        "allowed": ["all", "custom"],
+        "limit": -1,
+        "description": "All integrations plus custom development"
+      },
+      "export_formats": {
+        "allowed": ["all"],
+        "description": "All available export formats"
+      },
+      "advanced_analytics": {
+        "allowed": true,
+        "retention_days": 365,
+        "custom_reports": true,
+        "description": "Advanced analytics with custom reports"
+      },
+      "sso": {
+        "allowed": true,
+        "providers": ["saml", "oidc", "ldap"],
+        "description": "Single Sign-On integration"
+      },
+      "audit_logs": {
+        "allowed": true,
+        "retention_days": 365,
+        "real_time_alerts": true,
+        "description": "Comprehensive audit logging"
+      },
+      "white_labeling": {
+        "allowed": true,
+        "custom_domain": true,
+        "custom_branding": true,
+        "description": "Full white-label customization"
+      },
+      "dedicated_support": {
+        "allowed": true,
+        "account_manager": true,
+        "description": "Dedicated customer success manager"
+      },
+      "support_level": "dedicated",
+      "sla": "4_hours"
+    }
+  },
+  "enforcement_policies": {
+    "hard": {
+      "description": "Feature is completely blocked when limit is reached",
+      "actions": ["block_access", "show_upgrade_prompt"]
+    },
+    "soft": {
+      "description": "Feature continues to work but charges overage fees",
+      "actions": ["allow_overage", "charge_fees", "send_notification"]
+    },
+    "none": {
+      "description": "No enforcement, unlimited usage",
+      "actions": []
+    }
+  },
+  "notification_thresholds": {
+    "usage_warning_at": [0.75, 0.90, 0.95],
+    "overage_notification_at": [1.0, 1.25, 1.50],
+    "grace_period_days": 3,
+    "suspension_warning_days": 7
+  },
+  "rate_limits": {
+    "api_requests_per_minute": {
+      "free": 60,
+      "pro": 300,
+      "enterprise": 1000
+    },
+    "concurrent_connections": {
+      "free": 5,
+      "pro": 25,
+      "enterprise": 100
+    },
+    "file_upload_size_mb": {
+      "free": 10,
+      "pro": 100,
+      "enterprise": 500
+    },
+    "batch_operations_per_hour": {
+      "free": 10,
+      "pro": 100,
+      "enterprise": 1000
+    }
+  },
+  "feature_availability": {
+    "ai_models": {
+      "free": ["gpt-3.5-turbo"],
+      "pro": ["gpt-3.5-turbo", "gpt-4", "claude-3-haiku"],
+      "enterprise": ["all_models", "custom_models"]
+    },
+    "tool_categories": {
+      "free": ["basic"],
+      "pro": ["basic", "advanced", "integrations"],
+      "enterprise": ["all", "custom"]
+    },
+    "collaboration_features": {
+      "free": ["basic_sharing"],
+      "pro": ["team_workspaces", "real_time_collaboration"],
+      "enterprise": ["advanced_permissions", "workflow_automation"]
+    },
+    "security_features": {
+      "free": ["basic_encryption"],
+      "pro": ["advanced_encryption", "access_controls"],
+      "enterprise": ["enterprise_security", "compliance_tools"]
+    }
+  },
+  "upgrade_paths": {
+    "free_to_pro": {
+      "immediate_benefits": [
+        "25x more users",
+        "100x more messages",
+        "50GB storage",
+        "Custom tools",
+        "Priority support"
+      ],
+      "trial_period_days": 14
+    },
+    "pro_to_enterprise": {
+      "immediate_benefits": [
+        "Unlimited users",
+        "Advanced security",
+        "SSO integration",
+        "White labeling",
+        "Dedicated support"
+      ],
+      "trial_period_days": 30
+    }
+  }
+}

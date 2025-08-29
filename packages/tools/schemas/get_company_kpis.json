@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://penny.ai/schemas/tools/get_company_kpis",
+  "title": "Get Company KPIs Parameters",
+  "description": "Parameters for retrieving company key performance indicators",
+  "type": "object",
+  "properties": {
+    "timeframe": {
+      "type": "string",
+      "enum": ["daily", "weekly", "monthly", "quarterly", "yearly"],
+      "default": "monthly",
+      "description": "Time period for KPI aggregation"
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Start date for the data range (ISO 8601 format)"
+    },
+    "endDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "End date for the data range (ISO 8601 format)"
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "revenue", "profit", "expenses", "users", "retention", "churn",
+          "conversion", "growth", "satisfaction", "nps", "arpu", "ltv", "cac", "mrr", "arr"
+        ]
+      },
+      "uniqueItems": true,
+      "description": "Specific metrics to retrieve"
+    },
+    "departments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true,
+      "description": "Departments to include in the analysis"
+    },
+    "format": {
+      "type": "string",
+      "enum": ["json", "csv", "chart"],
+      "default": "json",
+      "description": "Output format for the results"
+    },
+    "includeProjections": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to include future projections"
+    },
+    "includeBenchmarks": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to include industry benchmarks"
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "timeframe": "monthly",
+      "metrics": ["revenue", "profit", "growth"],
+      "format": "json"
+    },
+    {
+      "timeframe": "quarterly",
+      "startDate": "2024-01-01T00:00:00Z",
+      "endDate": "2024-12-31T23:59:59Z",
+      "metrics": ["revenue", "users", "retention"],
+      "format": "chart",
+      "includeProjections": true
+    }
+  ]
+}

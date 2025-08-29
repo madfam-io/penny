@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://penny.ai/schemas/tools/load_dashboard",
+  "title": "Load Dashboard Parameters",
+  "description": "Parameters for loading and displaying dashboards",
+  "type": "object",
+  "properties": {
+    "dashboardId": {
+      "type": "string",
+      "pattern": "^dash_[a-zA-Z0-9]+$",
+      "description": "Unique dashboard identifier"
+    },
+    "dashboardName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Dashboard name to search for"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["analytics", "sales", "marketing", "operations", "finance", "hr", "custom"],
+      "description": "Dashboard category filter"
+    },
+    "filters": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Custom filters to apply to dashboard data"
+    },
+    "dateRange": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["start", "end"],
+      "additionalProperties": false,
+      "description": "Date range for dashboard data"
+    },
+    "refreshData": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to refresh dashboard data from sources"
+    },
+    "includeMetadata": {
+      "type": "boolean",
+      "default": true,
+      "description": "Include dashboard metadata in response"
+    },
+    "layout": {
+      "type": "string",
+      "enum": ["grid", "list", "cards"],
+      "default": "grid",
+      "description": "Dashboard widget layout style"
+    },
+    "theme": {
+      "type": "string",
+      "enum": ["light", "dark", "auto"],
+      "default": "auto",
+      "description": "Dashboard visual theme"
+    }
+  },
+  "anyOf": [
+    { "required": ["dashboardId"] },
+    { "required": ["dashboardName"] }
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "dashboardName": "Sales Performance",
+      "dateRange": {
+        "start": "2024-08-01T00:00:00Z",
+        "end": "2024-08-31T23:59:59Z"
+      },
+      "refreshData": true
+    },
+    {
+      "dashboardId": "dash_002",
+      "filters": {
+        "campaign_type": "paid",
+        "region": "north_america"
+      },
+      "layout": "grid",
+      "theme": "dark"
+    }
+  ]
+}

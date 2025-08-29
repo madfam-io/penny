@@ -1,267 +1,323 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { io, Socket } from 'socket.io-client';
+import { useAuth } from './useAuth';
 
-export interface WebSocketMessage {
-  type: string;
-  data?: any;
-  messageId?: string;
-  conversationId?: string;
-  content?: string;
-  error?: string;
-  timestamp?: string;
-}
-
-interface UseWebSocketOptions {
-  url: string;
-  token?: string;
+export interface WebSocketConfig {
+  url?: string;
+  transports?: ('websocket' | 'polling')[];
   autoConnect?: boolean;
-  reconnectAttempts?: number;
-  reconnectDelay?: number;
-  onMessage?: (message: WebSocketMessage) => void;
-  onOpen?: () => void;
-  onClose?: () => void;
-  onError?: (error: Event) => void;
+  reconnection?: boolean;
+  reconnectionAttempts?: number;
+  reconnectionDelay?: number;
+  timeout?: number;
+  forceNew?: boolean;
 }
 
-export enum ConnectionState {
-  CONNECTING = 'CONNECTING',
-  CONNECTED = 'CONNECTED',
-  DISCONNECTED = 'DISCONNECTED',
-  ERROR = 'ERROR',
+export interface ConnectionState {
+  connected: boolean;
+  connecting: boolean;
+  error: string | null;
+  reconnecting: boolean;
+  reconnectAttempt: number;
+  lastConnectedAt: Date | null;
+  latency: number | null;
 }
 
-export function useWebSocket({
-  url,
-  token,
-  autoConnect = true,
-  reconnectAttempts = 3,
-  reconnectDelay = 3000,
-  onMessage,
-  onOpen,
-  onClose,
-  onError,
-}: UseWebSocketOptions) {
-  const [connectionState, setConnectionState] = useState<ConnectionState>(
-    ConnectionState.DISCONNECTED,
-  );
-  const [lastMessage, setLastMessage] = useState<WebSocketMessage | null>(null);
-  const [messageHistory, setMessageHistory] = useState<WebSocketMessage[]>([]);
+export interface WebSocketHookReturn {
+  socket: Socket | null;
+  connectionState: ConnectionState;
+  connect: () => void;
+  disconnect: () => void;
+  emit: (event: string, data?: any) => void;
+  on: (event: string, callback: (...args: any[]) => void) => void;
+  off: (event: string, callback?: (...args: any[]) => void) => void;
+  isConnected: boolean;
+}
 
-  const wsRef = useRef<WebSocket | null>(null);
-  const reconnectCountRef = useRef(0);
-  const reconnectTimeoutRef = useRef<NodeJS.Timeout>();
-  const pingIntervalRef = useRef<NodeJS.Timeout>();
+const DEFAULT_CONFIG: WebSocketConfig = {
+  url: process.env.REACT_APP_WS_URL || 'ws://localhost:3003',
+  transports: ['websocket', 'polling'],
+  autoConnect: true,
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 1000,
+  timeout: 20000,
+  forceNew: false
+};
 
-  // Connect to WebSocket
+export function useWebSocket(config: WebSocketConfig = {}): WebSocketHookReturn {
+  const { user, token } = useAuth();
+  const socketRef = useRef<Socket | null>(null);
+  const configRef = useRef({ ...DEFAULT_CONFIG, ...config });
+  const pingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  
+  const [connectionState, setConnectionState] = useState<ConnectionState>({
+    connected: false,
+    connecting: false,
+    error: null,
+    reconnecting: false,
+    reconnectAttempt: 0,
+    lastConnectedAt: null,
+    latency: null
+  });
+
+  // Update connection state helper
+  const updateConnectionState = useCallback((updates: Partial<ConnectionState>) => {
+    setConnectionState(prev => ({ ...prev, ...updates }));
+  }, []);
+
+  // Setup latency monitoring
+  const setupLatencyMonitoring = useCallback(() => {
+    if (!socketRef.current || pingIntervalRef.current) return;
+
+    pingIntervalRef.current = setInterval(() => {
+      const startTime = Date.now();
+      
+      socketRef.current?.emit('heartbeat', { timestamp: startTime });
+      
+      const timeoutId = setTimeout(() => {
+        updateConnectionState({ latency: null });
+      }, 5000); // 5 second timeout
+
+      socketRef.current?.once('pong', (data) => {
+        clearTimeout(timeoutId);
+        const latency = Date.now() - startTime;
+        updateConnectionState({ latency });
+      });
+    }, 30000); // Every 30 seconds
+  }, [updateConnectionState]);
+
+  // Cleanup latency monitoring
+  const cleanupLatencyMonitoring = useCallback(() => {
+    if (pingIntervalRef.current) {
+      clearInterval(pingIntervalRef.current);
+      pingIntervalRef.current = null;
+    }
+  }, []);
+
+  // Connect to WebSocket server
   const connect = useCallback(() => {
-    if (wsRef.current?.readyState === WebSocket.OPEN) {
+    if (!user || !token) {
+      console.warn('Cannot connect WebSocket without authentication');
       return;
     }
 
+    if (socketRef.current?.connected) {
+      return; // Already connected
+    }
+
+    updateConnectionState({ 
+      connecting: true, 
+      error: null, 
+      reconnecting: false 
+    });
+
     try {
-      setConnectionState(ConnectionState.CONNECTING);
-      const ws = new WebSocket(url);
-      wsRef.current = ws;
-
-      ws.onopen = () => {
-        console.log('WebSocket connected');
-        setConnectionState(ConnectionState.CONNECTED);
-        reconnectCountRef.current = 0;
-
-        // Authenticate if token provided
-        if (token) {
-          ws.send(
-            JSON.stringify({
-              type: 'authenticate',
-              token,
-            }),
-          );
+      // Create socket instance
+      socketRef.current = io(configRef.current.url!, {
+        transports: configRef.current.transports,
+        autoConnect: false,
+        reconnection: configRef.current.reconnection,
+        reconnectionAttempts: configRef.current.reconnectionAttempts,
+        reconnectionDelay: configRef.current.reconnectionDelay,
+        timeout: configRef.current.timeout,
+        forceNew: configRef.current.forceNew,
+        auth: {
+          token
+        },
+        query: {
+          userId: user.id,
+          tenantId: user.tenantId
         }
+      });
 
-        // Start ping interval
-        pingIntervalRef.current = setInterval(() => {
-          if (ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify({ type: 'ping' }));
-          }
-        }, 30000);
+      const socket = socketRef.current;
 
-        onOpen?.();
-      };
+      // Connection event handlers
+      socket.on('connect', () => {
+        console.log('WebSocket connected:', socket.id);
+        updateConnectionState({
+          connected: true,
+          connecting: false,
+          error: null,
+          reconnecting: false,
+          reconnectAttempt: 0,
+          lastConnectedAt: new Date()
+        });
+        setupLatencyMonitoring();
+      });
 
-      ws.onmessage = (event) => {
-        try {
-          const message: WebSocketMessage = JSON.parse(event.data);
-          console.log('WebSocket message received:', message);
+      socket.on('disconnect', (reason) => {
+        console.log('WebSocket disconnected:', reason);
+        updateConnectionState({
+          connected: false,
+          connecting: false,
+          error: reason === 'io server disconnect' ? 'Server disconnected' : null,
+          latency: null
+        });
+        cleanupLatencyMonitoring();
+      });
 
-          setLastMessage(message);
-          setMessageHistory((prev) => [...prev, message]);
+      socket.on('connect_error', (error) => {
+        console.error('WebSocket connection error:', error);
+        updateConnectionState({
+          connected: false,
+          connecting: false,
+          error: error.message || 'Connection failed',
+          reconnecting: false
+        });
+        cleanupLatencyMonitoring();
+      });
 
-          // Handle specific message types
-          handleMessage(message);
+      // Reconnection event handlers
+      socket.io.on('reconnect', (attemptNumber) => {
+        console.log('WebSocket reconnected after', attemptNumber, 'attempts');
+        updateConnectionState({
+          reconnecting: false,
+          reconnectAttempt: 0
+        });
+      });
 
-          onMessage?.(message);
-        } catch (error) {
-          console.error('Failed to parse WebSocket message:', error);
-        }
-      };
+      socket.io.on('reconnect_attempt', (attemptNumber) => {
+        console.log('WebSocket reconnection attempt:', attemptNumber);
+        updateConnectionState({
+          reconnecting: true,
+          reconnectAttempt: attemptNumber,
+          error: null
+        });
+      });
 
-      ws.onerror = (error) => {
+      socket.io.on('reconnect_error', (error) => {
+        console.error('WebSocket reconnection error:', error);
+        updateConnectionState({
+          error: 'Reconnection failed'
+        });
+      });
+
+      socket.io.on('reconnect_failed', () => {
+        console.error('WebSocket reconnection failed - giving up');
+        updateConnectionState({
+          reconnecting: false,
+          error: 'Failed to reconnect'
+        });
+      });
+
+      // Authentication events
+      socket.on('authenticated', (data) => {
+        console.log('WebSocket authenticated:', data);
+      });
+
+      socket.on('authentication_error', (error) => {
+        console.error('WebSocket authentication error:', error);
+        updateConnectionState({
+          error: 'Authentication failed'
+        });
+      });
+
+      socket.on('token_refresh_required', () => {
+        console.log('WebSocket token refresh required');
+        // Handle token refresh if needed
+        // This would typically trigger a token refresh flow
+      });
+
+      // Rate limiting
+      socket.on('rate_limited', (data) => {
+        console.warn('WebSocket rate limited:', data);
+        updateConnectionState({
+          error: `Rate limited: ${data.eventName}`
+        });
+      });
+
+      // Generic error handling
+      socket.on('error', (error) => {
         console.error('WebSocket error:', error);
-        setConnectionState(ConnectionState.ERROR);
-        onError?.(error);
-      };
+        updateConnectionState({
+          error: error.message || 'Unknown error'
+        });
+      });
 
-      ws.onclose = () => {
-        console.log('WebSocket disconnected');
-        setConnectionState(ConnectionState.DISCONNECTED);
-        wsRef.current = null;
+      // Actually connect
+      socket.connect();
 
-        // Clear ping interval
-        if (pingIntervalRef.current) {
-          clearInterval(pingIntervalRef.current);
-        }
-
-        // Attempt reconnection
-        if (reconnectCountRef.current < reconnectAttempts) {
-          reconnectCountRef.current++;
-          console.log(
-            `Reconnecting... (attempt ${reconnectCountRef.current}/${reconnectAttempts})`,
-          );
-
-          reconnectTimeoutRef.current = setTimeout(() => {
-            connect();
-          }, reconnectDelay);
-        }
-
-        onClose?.();
-      };
     } catch (error) {
-      console.error('Failed to connect WebSocket:', error);
-      setConnectionState(ConnectionState.ERROR);
+      console.error('Failed to create WebSocket connection:', error);
+      updateConnectionState({
+        connecting: false,
+        error: 'Failed to initialize connection'
+      });
     }
-  }, [url, token, reconnectAttempts, reconnectDelay, onMessage, onOpen, onClose, onError]);
+  }, [user, token, updateConnectionState, setupLatencyMonitoring, cleanupLatencyMonitoring]);
 
-  // Disconnect from WebSocket
+  // Disconnect from WebSocket server
   const disconnect = useCallback(() => {
-    if (reconnectTimeoutRef.current) {
-      clearTimeout(reconnectTimeoutRef.current);
+    if (socketRef.current) {
+      cleanupLatencyMonitoring();
+      socketRef.current.disconnect();
+      socketRef.current = null;
+      updateConnectionState({
+        connected: false,
+        connecting: false,
+        reconnecting: false,
+        latency: null
+      });
     }
+  }, [cleanupLatencyMonitoring, updateConnectionState]);
 
-    if (pingIntervalRef.current) {
-      clearInterval(pingIntervalRef.current);
-    }
-
-    if (wsRef.current) {
-      reconnectCountRef.current = reconnectAttempts; // Prevent auto-reconnect
-      wsRef.current.close();
-      wsRef.current = null;
-    }
-
-    setConnectionState(ConnectionState.DISCONNECTED);
-  }, [reconnectAttempts]);
-
-  // Send message through WebSocket
-  const sendMessage = useCallback((message: any) => {
-    if (wsRef.current?.readyState === WebSocket.OPEN) {
-      const messageToSend = typeof message === 'string' ? message : JSON.stringify(message);
-
-      wsRef.current.send(messageToSend);
-      return true;
+  // Emit event to server
+  const emit = useCallback((event: string, data?: any) => {
+    if (socketRef.current?.connected) {
+      socketRef.current.emit(event, data);
     } else {
-      console.warn('WebSocket is not connected');
-      return false;
+      console.warn(`Cannot emit ${event}: WebSocket not connected`);
     }
   }, []);
 
-  // Send chat message
-  const sendChatMessage = useCallback(
-    (content: string, conversationId?: string, artifacts?: any[]) => {
-      return sendMessage({
-        type: 'message',
-        conversationId,
-        content,
-        artifacts,
-      });
-    },
-    [sendMessage],
-  );
-
-  // Execute tool
-  const executeTool = useCallback(
-    (tool: string, params: any) => {
-      return sendMessage({
-        type: 'tool_execute',
-        tool,
-        params,
-      });
-    },
-    [sendMessage],
-  );
-
-  // Send typing indicator
-  const sendTyping = useCallback(
-    (conversationId: string) => {
-      return sendMessage({
-        type: 'typing',
-        conversationId,
-      });
-    },
-    [sendMessage],
-  );
-
-  // Handle specific message types
-  const handleMessage = (message: WebSocketMessage) => {
-    switch (message.type) {
-      case 'authenticated':
-        console.log('Successfully authenticated');
-        break;
-      case 'error':
-        console.error('Server error:', message.error);
-        break;
-      case 'pong':
-        // Heartbeat response
-        break;
-      default:
-        // Handle other message types
-        break;
-    }
-  };
-
-  // Clear message history
-  const clearHistory = useCallback(() => {
-    setMessageHistory([]);
-    setLastMessage(null);
+  // Add event listener
+  const on = useCallback((event: string, callback: (...args: any[]) => void) => {
+    socketRef.current?.on(event, callback);
   }, []);
 
-  // Auto-connect on mount if enabled
+  // Remove event listener
+  const off = useCallback((event: string, callback?: (...args: any[]) => void) => {
+    if (callback) {
+      socketRef.current?.off(event, callback);
+    } else {
+      socketRef.current?.removeAllListeners(event);
+    }
+  }, []);
+
+  // Auto-connect when user and token are available
   useEffect(() => {
-    if (autoConnect) {
+    if (configRef.current.autoConnect && user && token && !socketRef.current) {
       connect();
     }
+  }, [user, token, connect]);
 
+  // Cleanup on unmount
+  useEffect(() => {
     return () => {
-      disconnect();
+      cleanupLatencyMonitoring();
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+      }
     };
-  }, [autoConnect]); // Only run once on mount/unmount
+  }, [cleanupLatencyMonitoring]);
 
-  // Reconnect if URL or token changes
+  // Handle auth changes
   useEffect(() => {
-    if (wsRef.current) {
+    if (!user || !token) {
       disconnect();
-      connect();
     }
-  }, [url, token]);
+  }, [user, token, disconnect]);
 
   return {
+    socket: socketRef.current,
     connectionState,
-    isConnected: connectionState === ConnectionState.CONNECTED,
-    lastMessage,
-    messageHistory,
     connect,
     disconnect,
-    sendMessage,
-    sendChatMessage,
-    executeTool,
-    sendTyping,
-    clearHistory,
+    emit,
+    on,
+    off,
+    isConnected: connectionState.connected
   };
 }

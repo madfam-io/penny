@@ -1,0 +1,220 @@
+{
+  "allowedPaths": [
+    "/tmp",
+    "/workspace",
+    "/sandbox/data",
+    "/sandbox/plots"
+  ],
+  "blockedPaths": [
+    "/",
+    "/etc",
+    "/root",
+    "/home",
+    "/usr",
+    "/var",
+    "/sys",
+    "/proc",
+    "/dev",
+    "/boot",
+    "/lib",
+    "/lib64",
+    "/bin",
+    "/sbin",
+    "/opt",
+    "/mnt",
+    "/media",
+    "/srv"
+  ],
+  "readOnlyPaths": [
+    "/usr/lib",
+    "/usr/local/lib",
+    "/usr/share",
+    "/lib",
+    "/lib64",
+    "/sandbox/python"
+  ],
+  "permissions": {
+    "/tmp": {
+      "read": true,
+      "write": true,
+      "execute": false,
+      "create": true,
+      "delete": true,
+      "maxSize": 104857600,
+      "maxFiles": 500,
+      "description": "Temporary files directory"
+    },
+    "/workspace": {
+      "read": true,
+      "write": true,
+      "execute": false,
+      "create": true,
+      "delete": true,
+      "maxSize": 52428800,
+      "maxFiles": 200,
+      "description": "User workspace directory"
+    },
+    "/sandbox/data": {
+      "read": true,
+      "write": true,
+      "execute": false,
+      "create": true,
+      "delete": false,
+      "maxSize": 209715200,
+      "maxFiles": 1000,
+      "description": "Data files directory"
+    },
+    "/sandbox/plots": {
+      "read": true,
+      "write": true,
+      "execute": false,
+      "create": true,
+      "delete": true,
+      "maxSize": 52428800,
+      "maxFiles": 100,
+      "description": "Generated plots directory"
+    }
+  },
+  "fileTypes": {
+    "allowed": {
+      "text": [".txt", ".csv", ".tsv", ".json", ".xml", ".yaml", ".yml", ".md", ".rst"],
+      "code": [".py", ".ipynb", ".sql", ".r", ".js", ".html", ".css"],
+      "data": [".xlsx", ".xls", ".parquet", ".pkl", ".h5", ".hdf5", ".feather"],
+      "images": [".png", ".jpg", ".jpeg", ".gif", ".svg", ".bmp", ".tiff"],
+      "documents": [".pdf", ".doc", ".docx", ".odt"]
+    },
+    "blocked": {
+      "executables": [".exe", ".bat", ".sh", ".cmd", ".ps1", ".msi", ".deb", ".rpm"],
+      "libraries": [".dll", ".so", ".dylib", ".a", ".lib"],
+      "archives": [".zip", ".rar", ".tar", ".gz", ".bz2", ".7z", ".xz"],
+      "system": [".sys", ".ini", ".cfg", ".conf", ".reg"],
+      "dangerous": [".scr", ".pif", ".com", ".vbs", ".jar", ".class"]
+    }
+  },
+  "operations": {
+    "read": {
+      "maxFileSize": 104857600,
+      "maxConcurrentReads": 10,
+      "timeout": 30000,
+      "buffering": true,
+      "encoding": "utf-8"
+    },
+    "write": {
+      "maxFileSize": 10485760,
+      "maxConcurrentWrites": 5,
+      "timeout": 60000,
+      "buffering": true,
+      "atomicWrites": true,
+      "backups": false
+    },
+    "create": {
+      "requireParentDir": true,
+      "createParentDirs": false,
+      "overwriteExisting": false,
+      "permissions": "0644"
+    },
+    "delete": {
+      "requireConfirmation": false,
+      "moveToTrash": false,
+      "secureDelete": false
+    },
+    "rename": {
+      "allowCrossDirectory": false,
+      "preserveExtension": true
+    }
+  },
+  "monitoring": {
+    "trackAccess": true,
+    "trackModifications": true,
+    "logAllOperations": true,
+    "alertOnViolations": true,
+    "metricsCollection": true
+  },
+  "security": {
+    "pathTraversal": {
+      "block": true,
+      "patterns": ["../", "..\\", "..", "~"],
+      "normalize": true
+    },
+    "symlinkFollowing": {
+      "enabled": false,
+      "maxDepth": 0
+    },
+    "hiddenFiles": {
+      "access": false,
+      "create": false,
+      "patterns": [".*", "_*"]
+    },
+    "specialFiles": {
+      "deviceFiles": false,
+      "namedPipes": false,
+      "sockets": false
+    }
+  },
+  "quotas": {
+    "perSession": {
+      "maxTotalSize": 209715200,
+      "maxFiles": 1000,
+      "maxDirectories": 50
+    },
+    "perUser": {
+      "maxTotalSize": 1073741824,
+      "maxSessions": 5,
+      "maxFiles": 5000
+    },
+    "global": {
+      "maxTotalSize": 10737418240,
+      "maxUsers": 100,
+      "maxConcurrentSessions": 50
+    }
+  },
+  "cleanup": {
+    "tempFiles": {
+      "maxAge": 3600000,
+      "cleanupInterval": 300000,
+      "patterns": ["*.tmp", "*.temp", "core.*"]
+    },
+    "userFiles": {
+      "maxAge": 86400000,
+      "warnBeforeCleanup": true,
+      "backupBeforeCleanup": false
+    },
+    "logs": {
+      "maxAge": 604800000,
+      "compress": true,
+      "maxSize": 104857600
+    }
+  },
+  "validation": {
+    "fileContent": {
+      "scanForMalware": false,
+      "maxScanSize": 10485760,
+      "allowedMimeTypes": [
+        "text/plain",
+        "text/csv", 
+        "application/json",
+        "application/xml",
+        "image/png",
+        "image/jpeg",
+        "image/gif",
+        "image/svg+xml",
+        "application/pdf"
+      ],
+      "blockedMimeTypes": [
+        "application/x-executable",
+        "application/x-msdownload",
+        "application/x-shockwave-flash"
+      ]
+    },
+    "encoding": {
+      "default": "utf-8",
+      "detect": true,
+      "allowed": ["utf-8", "ascii", "latin-1", "cp1252"],
+      "maxDetectionSize": 1048576
+    }
+  },
+  "version": "1.0",
+  "environment": "sandbox",
+  "lastUpdated": "2024-01-01T00:00:00Z",
+  "description": "Filesystem access control policy for Python sandbox environment"
+}

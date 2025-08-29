@@ -1,0 +1,36 @@
+{
+  "name": "@penny/billing",
+  "version": "1.0.0",
+  "description": "Billing and subscription management for PENNY platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "stripe": "^14.21.0",
+    "decimal.js": "^10.4.3",
+    "date-fns": "^3.6.0",
+    "zod": "^3.22.4",
+    "@penny/shared": "workspace:*",
+    "@penny/database": "workspace:*",
+    "@penny/security": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "typescript": "^5.3.3",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.11"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "publishConfig": {
+    "access": "restricted"
+  }
+}

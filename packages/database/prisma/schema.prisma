@@ -33,6 +33,9 @@ model Tenant {
   apiKeys             ApiKey[]
   auditLogs           AuditLog[]
   usageMetrics        UsageMetric[]
+  subscriptions       Subscription[]
+  webhooks            Webhook[]
+  usageRecords        Usage[]
   
   @@index([slug])
 }
@@ -56,12 +59,14 @@ model User {
   
   tenant              Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   roles               UserRole[]
+  accounts            Account[]
   sessions            Session[]
   conversations       Conversation[]
   messages            Message[]
   artifacts           Artifact[]
   apiKeys             ApiKey[]
   auditLogs           AuditLog[]
+  notifications       Notification[]
   
   @@unique([tenantId, email])
   @@index([tenantId])
@@ -100,23 +105,54 @@ model UserRole {
   @@index([workspaceId])
 }
 
+model Account {
+  id                String              @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
 model Session {
   id                  String              @id @default(cuid())
+  sessionToken        String              @unique
   userId              String
-  token               String              @unique
-  refreshToken        String              @unique
+  expires             DateTime
+  token               String?             @unique
+  refreshToken        String?             @unique
   ipAddress           String?
   userAgent           String?
   deviceId            String?
-  expiresAt           DateTime
   createdAt           DateTime            @default(now())
   updatedAt           DateTime            @updatedAt
   
   user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   @@index([userId])
+  @@index([sessionToken])
   @@index([token])
   @@index([refreshToken])
+}
+
+model VerificationToken {
+  identifier        String
+  token             String              @unique
+  expires           DateTime
+  
+  @@unique([identifier, token])
+  @@index([token])
 }
 
 // ==================== WORKSPACE & COLLABORATION ====================
@@ -407,4 +443,210 @@ model UsageMetric {
   @@index([tenantId])
   @@index([metric])
   @@index([timestamp])
+}
+
+// ==================== BILLING & SUBSCRIPTIONS ====================
+
+model Subscription {
+  id                  String              @id @default(cuid())
+  tenantId            String
+  planId              String
+  status              String              // active, inactive, canceled, past_due, trialing
+  currentPeriodStart  DateTime
+  currentPeriodEnd    DateTime
+  cancelAtPeriodEnd   Boolean             @default(false)
+  canceledAt          DateTime?
+  trialStart          DateTime?
+  trialEnd            DateTime?
+  billingCycle        String              // monthly, yearly
+  pricePerMonth       Int                 // in cents
+  currency            String              @default("USD")
+  limits              Json                @default("{}")
+  metadata            Json                @default("{}")
+  stripeSubscriptionId String?            @unique
+  stripeCustomerId    String?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  tenant              Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  invoices            Invoice[]
+  
+  @@unique([tenantId])
+  @@index([tenantId])
+  @@index([status])
+  @@index([currentPeriodEnd])
+}
+
+model Invoice {
+  id                  String              @id @default(cuid())
+  subscriptionId      String
+  tenantId            String
+  number              String              @unique
+  status              String              // draft, open, paid, void, uncollectible
+  total               Int                 // in cents
+  subtotal            Int                 // in cents
+  tax                 Int                 @default(0) // in cents
+  currency            String              @default("USD")
+  dueDate             DateTime
+  paidAt              DateTime?
+  voidedAt            DateTime?
+  hostedInvoiceUrl    String?
+  invoicePdf          String?
+  metadata            Json                @default("{}")
+  stripeInvoiceId     String?             @unique
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  subscription        Subscription        @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  lineItems           InvoiceLineItem[]
+  
+  @@index([subscriptionId])
+  @@index([tenantId])
+  @@index([status])
+  @@index([dueDate])
+}
+
+model InvoiceLineItem {
+  id                  String              @id @default(cuid())
+  invoiceId           String
+  description         String
+  quantity            Int
+  unitPrice           Int                 // in cents
+  total               Int                 // in cents
+  metadata            Json                @default("{}")
+  
+  invoice             Invoice             @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  
+  @@index([invoiceId])
+}
+
+// ==================== WEBHOOKS ====================
+
+model Webhook {
+  id                  String              @id @default(cuid())
+  tenantId            String
+  url                 String
+  events              Json                @default("[]") // Array of event types
+  secret              String
+  isActive            Boolean             @default(true)
+  maxRetries          Int                 @default(3)
+  retryInterval       Int                 @default(1000) // milliseconds
+  lastTriggeredAt     DateTime?
+  metadata            Json                @default("{}")
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  tenant              Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  deliveries          WebhookDelivery[]
+  
+  @@index([tenantId])
+  @@index([isActive])
+}
+
+model WebhookDelivery {
+  id                  String              @id @default(cuid())
+  webhookId           String
+  event               String
+  payload             Json
+  headers             Json                @default("{}")
+  status              String              // pending, delivered, failed
+  httpStatus          Int?
+  response            String?
+  error               String?
+  attempt             Int                 @default(1)
+  nextRetryAt         DateTime?
+  deliveredAt         DateTime?
+  createdAt           DateTime            @default(now())
+  
+  webhook             Webhook             @relation(fields: [webhookId], references: [id], onDelete: Cascade)
+  
+  @@index([webhookId])
+  @@index([status])
+  @@index([event])
+  @@index([nextRetryAt])
+  @@index([createdAt])
+}
+
+// ==================== USAGE TRACKING ====================
+
+model Usage {
+  id                  String              @id @default(cuid())
+  tenantId            String
+  userId              String?
+  resourceType        String              // messages, tokens, tools, storage, api_calls
+  resourceId          String?             // conversation_id, tool_id, etc.
+  quantity            Int
+  unit                String              // count, tokens, bytes, milliseconds
+  cost                Int?                // in cents
+  metadata            Json                @default("{}")
+  billingPeriod       String?             // YYYY-MM format
+  timestamp           DateTime            @default(now())
+  
+  tenant              Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  
+  @@index([tenantId])
+  @@index([userId])
+  @@index([resourceType])
+  @@index([billingPeriod])
+  @@index([timestamp])
+}
+
+// ==================== NOTIFICATIONS ====================
+
+model Notification {
+  id                  String              @id @default(cuid())
+  userId              String
+  type                String              // info, warning, error, success
+  title               String
+  message             String
+  data                Json?               @default("{}")
+  isRead              Boolean             @default(false)
+  readAt              DateTime?
+  expiresAt           DateTime?
+  createdAt           DateTime            @default(now())
+  
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([isRead])
+  @@index([type])
+  @@index([createdAt])
+  @@index([expiresAt])
+}
+
+// ==================== FEATURE FLAGS ====================
+
+model FeatureFlag {
+  id                  String              @id @default(cuid())
+  key                 String              @unique
+  name                String
+  description         String?
+  isEnabled           Boolean             @default(false)
+  conditions          Json                @default("{}")
+  rolloutPercentage   Int                 @default(0)
+  metadata            Json                @default("{}")
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  overrides           FeatureFlagOverride[]
+  
+  @@index([key])
+  @@index([isEnabled])
+}
+
+model FeatureFlagOverride {
+  id                  String              @id @default(cuid())
+  featureFlagId       String
+  tenantId            String?
+  userId              String?
+  isEnabled           Boolean
+  conditions          Json                @default("{}")
+  createdAt           DateTime            @default(now())
+  
+  featureFlag         FeatureFlag         @relation(fields: [featureFlagId], references: [id], onDelete: Cascade)
+  
+  @@unique([featureFlagId, tenantId, userId])
+  @@index([featureFlagId])
+  @@index([tenantId])
+  @@index([userId])
 }

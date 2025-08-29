@@ -18,18 +18,44 @@
     "typecheck": "tsc --noEmit",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
-    "db:migrate": "prisma migrate dev",
-    "db:migrate:create": "prisma migrate dev --create-only",
-    "db:migrate:deploy": "prisma migrate deploy",
-    "db:seed": "tsx prisma/seed.ts",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    
+    "migrate": "tsx scripts/migrate.ts",
+    "migrate:up": "tsx scripts/migrate.ts up",
+    "migrate:down": "tsx scripts/migrate.ts down",
+    "migrate:status": "tsx scripts/migrate.ts status",
+    "migrate:reset": "tsx scripts/reset.ts",
+    
+    "seed": "tsx scripts/seed.ts",
+    "seed:dev": "tsx scripts/seed.ts dev",
+    "seed:prod": "tsx scripts/seed.ts prod",
+    "seed:list": "tsx scripts/seed.ts list",
+    
+    "db:migrate": "tsx scripts/migrate.ts up",
+    "db:migrate:status": "tsx scripts/migrate.ts status",
+    "db:migrate:rollback": "tsx scripts/migrate.ts down",
+    "db:seed": "tsx scripts/seed.ts dev",
+    "db:seed:prod": "tsx scripts/seed.ts prod",
+    "db:reset": "tsx scripts/reset.ts",
+    "db:reset:soft": "tsx scripts/reset.ts soft",
+    
+    "db:backup": "tsx -e \"import { createBackup } from './utils/backup.js'; createBackup().then(console.log).catch(console.error)\"",
+    "db:restore": "tsx -e \"import { restoreBackup } from './utils/backup.js'; restoreBackup({ backupPath: process.argv[3] }).then(() => console.log('Restore completed')).catch(console.error)\"",
+    "db:cleanup": "tsx -e \"import { cleanupExpiredData } from './utils/cleanup.js'; cleanupExpiredData().then(console.log).catch(console.error)\"",
+    "db:validate": "tsx -e \"import { validateDatabase } from './utils/validator.js'; validateDatabase().then(console.log).catch(console.error)\"",
+    "db:health": "tsx -e \"import { checkDatabaseHealth } from './utils/connection.js'; checkDatabaseHealth().then(console.log).catch(console.error)\""
   },
   "dependencies": {
     "@penny/shared": "workspace:*",
-    "@prisma/client": "^5.8.1"
+    "@prisma/client": "^5.8.1",
+    "pg": "^8.11.3",
+    "bcryptjs": "^2.4.3",
+    "@faker-js/faker": "^8.4.1"
   },
   "devDependencies": {
     "@types/node": "^20.11.5",
+    "@types/pg": "^8.10.9",
+    "@types/bcryptjs": "^2.4.6",
     "prisma": "^5.8.1",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3"

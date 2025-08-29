@@ -3,11 +3,13 @@ import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { prisma } from '@penny/database';
-import { compare } from 'bcryptjs';
+import { PasswordService, JWTService, SessionService } from '@penny/security';
 import { generateId } from '@penny/shared';
 
 const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -40,8 +42,8 @@ const authOptions: NextAuthOptions = {
             return null;
           }
 
-          // Verify password
-          const isPasswordValid = await compare(credentials.password, user.passwordHash);
+          // Verify password using our secure password service
+          const isPasswordValid = await PasswordService.verifyPassword(credentials.password, user.passwordHash);
           if (!isPasswordValid) {
             return null;
           }

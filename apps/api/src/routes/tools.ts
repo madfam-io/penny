@@ -1,69 +1,89 @@
 import type { FastifyPluginAsync } from 'fastify';
 import { z } from 'zod';
 import { Role, toolInvocationSchema } from '@penny/shared';
+import { ToolRegistryService } from '../services/ToolRegistryService.js';
+import { ToolExecutionService } from '../services/ToolExecutionService.js';
+
+const toolSearchSchema = z.object({
+  query: z.string().optional(),
+  category: z.string().optional(),
+  featured: z.boolean().optional(),
+  limit: z.number().min(1).max(100).default(20),
+  offset: z.number().min(0).default(0),
+  sortBy: z.enum(['name', 'category', 'rating', 'usage']).default('name'),
+  sortOrder: z.enum(['asc', 'desc']).default('asc')
+});
+
+const toolExecuteSchema = z.object({
+  params: z.record(z.any()),
+  options: z.object({
+    timeout: z.number().min(1000).max(300000).optional(),
+    priority: z.number().min(0).max(10).optional(),
+    dryRun: z.boolean().default(false),
+    tags: z.array(z.string()).optional()
+  }).optional()
+});
 
 const routes: FastifyPluginAsync = async (fastify) => {
-  // List available tools
+  const toolRegistry = new ToolRegistryService();
+  const toolExecutor = new ToolExecutionService();
+
+  // List available tools with search and filtering
   fastify.get(
     '/',
     {
       schema: {
-        description: 'List available tools for the current user',
+        description: 'List available tools for the current user with search and filtering',
         tags: ['tools'],
         security: [{ bearerAuth: [] }],
+        querystring: {
+          type: 'object',
+          properties: {
+            query: { type: 'string' },
+            category: { type: 'string' },
+            featured: { type: 'boolean' },
+            limit: { type: 'number', minimum: 1, maximum: 100, default: 20 },
+            offset: { type: 'number', minimum: 0, default: 0 },
+            sortBy: { type: 'string', enum: ['name', 'category', 'rating', 'usage'], default: 'name' },
+            sortOrder: { type: 'string', enum: ['asc', 'desc'], default: 'asc' }
+          }
+        }
       },
       preHandler: fastify.authenticate,
     },
     async (request, reply) => {
-      // TODO: Filter tools based on user permissions and tenant settings
-      return {
-        tools: [
-          {
-            name: 'get_company_kpis',
-            description: 'Retrieve company KPIs for a specific period',
-            parameters: {
-              type: 'object',
-              properties: {
-                period: { type: 'string', enum: ['MTD', 'QTD', 'YTD'] },
-                unit: { type: 'string', enum: ['company', 'bu', 'project'] },
-                id: { type: 'string' },
-              },
-              required: ['period', 'unit'],
-            },
-            requiresConfirmation: false,
-          },
-          {
-            name: 'create_jira_ticket',
-            description: 'Create a new Jira ticket',
-            parameters: {
-              type: 'object',
-              properties: {
-                projectKey: { type: 'string' },
-                title: { type: 'string' },
-                description: { type: 'string' },
-                assignee: { type: 'string' },
-                labels: { type: 'array', items: { type: 'string' } },
-              },
-              required: ['projectKey', 'title', 'description'],
-            },
-            requiresConfirmation: true,
-          },
-          {
-            name: 'run_python_job',
-            description: 'Execute Python code in a sandboxed environment',
-            parameters: {
-              type: 'object',
-              properties: {
-                script: { type: 'string' },
-                files: { type: 'array', items: { type: 'string' } },
-                timeoutSec: { type: 'integer', minimum: 1, maximum: 120 },
-              },
-              required: ['script'],
-            },
-            requiresConfirmation: false,
-          },
-        ],
-      };
+      const query = toolSearchSchema.parse(request.query);
+      const user = request.user as any;
+
+      try {
+        const result = await toolRegistry.searchTools({
+          ...query,
+          tenantId: user.tenantId,
+          userId: user.id,
+          userRoles: user.roles
+        });
+
+        return {
+          success: true,
+          data: result,
+          meta: {
+            total: result.total,
+            page: Math.floor(query.offset / query.limit) + 1,
+            pageSize: query.limit,
+            hasMore: result.hasMore
+          }
+        };
+      } catch (error: any) {
+        fastify.log.error(error, 'Failed to search tools');
+        reply.code(500);
+        return {
+          success: false,
+          error: {
+            code: 'TOOLS_SEARCH_ERROR',
+            message: 'Failed to search tools'
+          }
+        };
+      }
     },
   );
 

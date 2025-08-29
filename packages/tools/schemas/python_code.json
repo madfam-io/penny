@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://penny.ai/schemas/tools/python_code",
+  "title": "Python Code Execution Parameters",
+  "description": "Parameters for executing Python code in sandbox",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Python code to execute",
+      "examples": [
+        "print('Hello, World!')",
+        "import pandas as pd\ndf = pd.DataFrame({'a': [1, 2, 3]})\nprint(df.head())"
+      ]
+    },
+    "packages": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9_\\-\\.]+$"
+      },
+      "default": [],
+      "uniqueItems": true,
+      "description": "Python packages to install before execution",
+      "examples": [["pandas", "numpy", "matplotlib"]]
+    },
+    "timeout": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 300,
+      "default": 30,
+      "description": "Execution timeout in seconds (max 5 minutes)"
+    },
+    "captureOutput": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to capture stdout/stderr"
+    },
+    "showPlots": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to capture and return matplotlib plots"
+    },
+    "environment": {
+      "type": "string",
+      "enum": ["basic", "data_science", "ml", "web"],
+      "default": "basic",
+      "description": "Pre-configured environment with common packages"
+    },
+    "variables": {
+      "type": "object",
+      "description": "Initial variables to set in the Python environment",
+      "additionalProperties": true
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "File name"
+          },
+          "content": {
+            "type": "string",
+            "description": "File content"
+          },
+          "encoding": {
+            "type": "string",
+            "enum": ["utf-8", "base64"],
+            "default": "utf-8",
+            "description": "File content encoding"
+          }
+        },
+        "required": ["name", "content"],
+        "additionalProperties": false
+      },
+      "description": "Files to create in the sandbox environment"
+    },
+    "returnFormat": {
+      "type": "string",
+      "enum": ["json", "html", "markdown"],
+      "default": "json",
+      "description": "Format for returning results"
+    }
+  },
+  "required": ["code"],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "code": "import math\nprint(f'Pi is approximately {math.pi:.2f}')",
+      "environment": "basic"
+    },
+    {
+      "code": "import pandas as pd\nimport matplotlib.pyplot as plt\n\ndata = {'x': [1,2,3,4], 'y': [1,4,9,16]}\ndf = pd.DataFrame(data)\nprint(df)\n\nplt.plot(df['x'], df['y'])\nplt.title('Sample Plot')\nplt.show()",
+      "environment": "data_science",
+      "packages": ["pandas", "matplotlib"],
+      "showPlots": true,
+      "timeout": 60
+    }
+  ]
+}
