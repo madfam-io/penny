@@ -16,9 +16,9 @@
   },
   "dependencies": {
     "@penny/shared": "workspace:*",
-    "@penny/ui": "workspace:*",
-    "@penny/api-client": "workspace:*",
-    "@penny/security": "workspace:*",
+    "@penny/ui": "0.0.1",
+    "@penny/api-client": "0.0.1",
+    "@penny/security": "0.0.1",
     "@tanstack/react-query": "^5.17.19",
     "@tanstack/react-router": "^1.16.0",
     "next-auth": "^4.24.7",

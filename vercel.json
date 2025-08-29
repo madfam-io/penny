@@ -3,7 +3,7 @@
   "framework": "vite",
   "buildCommand": "turbo run build --filter=@penny/web",
   "outputDirectory": "apps/web/dist",
-  "installCommand": "npm install",
+  "installCommand": "node scripts/fix-workspace-refs.js && npm install",
   "regions": ["iad1"],
   "rewrites": [
     {
