@@ -1,0 +1,46 @@
+{
+  "conversations": [
+    {
+      "id": "conv-1",
+      "title": "Company KPIs Analysis",
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:30:00Z",
+      "messageCount": 8,
+      "lastMessage": {
+        "role": "assistant",
+        "content": "The KPI dashboard has been updated with the latest data.",
+        "createdAt": "2024-01-15T10:30:00Z"
+      }
+    },
+    {
+      "id": "conv-2", 
+      "title": "Sales Data Review",
+      "createdAt": "2024-01-14T15:00:00Z",
+      "updatedAt": "2024-01-14T16:45:00Z",
+      "messageCount": 12,
+      "lastMessage": {
+        "role": "user",
+        "content": "Can you break this down by region?",
+        "createdAt": "2024-01-14T16:45:00Z"
+      }
+    },
+    {
+      "id": "conv-3",
+      "title": "Q4 Financial Report",
+      "createdAt": "2024-01-13T09:00:00Z", 
+      "updatedAt": "2024-01-13T11:30:00Z",
+      "messageCount": 6,
+      "lastMessage": {
+        "role": "assistant",
+        "content": "I've generated the complete Q4 financial analysis with charts and tables.",
+        "createdAt": "2024-01-13T11:30:00Z"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 3,
+    "totalPages": 1
+  }
+}

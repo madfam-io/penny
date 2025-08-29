@@ -5,8 +5,10 @@ require('dotenv').config({ path: '.env.test' });
 process.env.NODE_ENV = 'test';
 process.env.DATABASE_URL = 'postgresql://test:test@localhost:5432/penny_test';
 process.env.REDIS_URL = 'redis://localhost:6379/1';
-process.env.JWT_SECRET = 'test-jwt-secret';
-process.env.NEXTAUTH_SECRET = 'test-nextauth-secret';
+process.env.JWT_SECRET = 'test-jwt-secret-key-for-testing-only';
+process.env.NEXTAUTH_SECRET = 'test-nextauth-secret-for-testing-only';
+process.env.OPENAI_API_KEY = 'test-openai-key';
+process.env.ANTHROPIC_API_KEY = 'test-anthropic-key';
 
 // Global test utilities
 global.testUtils = {

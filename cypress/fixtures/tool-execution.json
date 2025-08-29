@@ -1,0 +1,59 @@
+{
+  "success": true,
+  "executionId": "exec-456",
+  "toolName": "get_company_kpis",
+  "status": "completed",
+  "result": {
+    "kpis": {
+      "revenue": {
+        "current": 125000,
+        "target": 120000,
+        "variance": 4.2,
+        "trend": "up"
+      },
+      "activeUsers": {
+        "current": 2450,
+        "target": 2500,
+        "variance": -2.0,
+        "trend": "stable"
+      },
+      "customerSatisfaction": {
+        "current": 4.2,
+        "target": 4.0,
+        "variance": 5.0,
+        "trend": "up"
+      },
+      "conversionRate": {
+        "current": 3.2,
+        "target": 3.0,
+        "variance": 6.7,
+        "trend": "up"
+      }
+    },
+    "period": "monthly",
+    "date": "2024-01-15",
+    "generatedAt": "2024-01-15T10:30:00Z"
+  },
+  "artifacts": [
+    {
+      "id": "artifact-456",
+      "type": "chart",
+      "title": "KPI Performance Chart",
+      "data": {
+        "type": "bar",
+        "labels": ["Revenue", "Active Users", "Satisfaction", "Conversion"],
+        "datasets": [{
+          "label": "Current vs Target",
+          "data": [
+            { x: "Revenue", y: 125000, target: 120000 },
+            { x: "Active Users", y: 2450, target: 2500 },
+            { x: "Satisfaction", y: 4.2, target: 4.0 },
+            { x: "Conversion", y: 3.2, target: 3.0 }
+          ]
+        }]
+      }
+    }
+  ],
+  "executionTime": 1250,
+  "cost": 0.02
+}

@@ -1,0 +1,41 @@
+{
+  "id": "msg-123",
+  "conversationId": "conv-123",
+  "role": "assistant",
+  "content": "I'll help you with that. Let me analyze the data and create a comprehensive report for you.",
+  "createdAt": "2024-01-15T10:30:00Z",
+  "artifacts": [
+    {
+      "id": "artifact-123",
+      "type": "chart",
+      "title": "Company KPIs Dashboard",
+      "data": {
+        "type": "bar",
+        "labels": ["Revenue", "Active Users", "Growth Rate", "Customer Satisfaction"],
+        "datasets": [{
+          "label": "Current Metrics",
+          "data": [125000, 2450, 15.2, 4.2],
+          "backgroundColor": ["#3b82f6", "#10b981", "#f59e0b", "#8b5cf6"]
+        }]
+      },
+      "metadata": {
+        "source": "Company Analytics",
+        "lastUpdated": "2024-01-15T10:30:00Z"
+      }
+    }
+  ],
+  "toolExecutions": [
+    {
+      "id": "exec-123",
+      "toolName": "get_company_kpis",
+      "status": "completed",
+      "result": {
+        "revenue": 125000,
+        "activeUsers": 2450,
+        "growthRate": 15.2,
+        "customerSatisfaction": 4.2
+      },
+      "executedAt": "2024-01-15T10:30:00Z"
+    }
+  ]
+}

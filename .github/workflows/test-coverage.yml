@@ -1,0 +1,240 @@
+name: Test Coverage
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test-coverage:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: penny_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for better coverage analysis
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm run build:packages
+
+      - name: Setup test environment
+        run: |
+          cp .env.example .env.test
+          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/penny_test" >> .env.test
+          echo "REDIS_URL=redis://localhost:6379" >> .env.test
+          echo "NODE_ENV=test" >> .env.test
+          echo "JWT_SECRET=test-jwt-secret-for-coverage" >> .env.test
+
+      - name: Run database migrations
+        run: |
+          npm run db:migrate:test
+          npm run db:seed:test
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/penny_test
+
+      - name: Run unit tests with coverage
+        run: npm run test:coverage
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/penny_test
+          REDIS_URL: redis://localhost:6379
+
+      - name: Run integration tests with coverage
+        run: npm run test:integration:coverage
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/penny_test
+          REDIS_URL: redis://localhost:6379
+
+      - name: Generate coverage report
+        run: |
+          npm run coverage:merge
+          npm run coverage:report
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
+          directory: ./coverage/
+          flags: unittests
+          name: penny-platform-coverage
+          fail_ci_if_error: true
+          verbose: true
+
+      - name: Generate coverage badge
+        run: npm run coverage:badge
+
+      - name: Comment PR with coverage
+        if: github.event_name == 'pull_request'
+        uses: romeovs/lcov-reporter-action@v0.3.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          lcov-file: ./coverage/lcov.info
+          delete-old-comments: true
+
+      - name: Check coverage thresholds
+        run: npm run coverage:check
+
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-reports
+          path: |
+            coverage/
+            !coverage/tmp
+          retention-days: 30
+
+  e2e-coverage:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: penny_e2e
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm run build
+
+      - name: Setup E2E environment
+        run: |
+          cp .env.example .env.e2e
+          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/penny_e2e" >> .env.e2e
+          echo "REDIS_URL=redis://localhost:6379" >> .env.e2e
+          echo "NODE_ENV=test" >> .env.e2e
+
+      - name: Start application
+        run: |
+          npm run start:test &
+          sleep 30  # Wait for application to start
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/penny_e2e
+          REDIS_URL: redis://localhost:6379
+
+      - name: Run E2E tests with coverage
+        run: npm run test:e2e:coverage
+        env:
+          CYPRESS_baseUrl: http://localhost:3000
+
+      - name: Upload E2E coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: e2e-coverage
+          path: cypress/coverage/
+          retention-days: 30
+
+  coverage-merge:
+    runs-on: ubuntu-latest
+    needs: [test-coverage, e2e-coverage]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download unit test coverage
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage-reports
+          path: ./coverage/unit/
+
+      - name: Download E2E coverage
+        uses: actions/download-artifact@v3
+        with:
+          name: e2e-coverage
+          path: ./coverage/e2e/
+
+      - name: Merge coverage reports
+        run: |
+          npm run coverage:merge:all
+          npm run coverage:report:final
+
+      - name: Generate final coverage badge
+        run: npm run coverage:badge:final
+
+      - name: Upload final coverage
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/final/lcov.info
+          directory: ./coverage/final/
+          flags: combined
+          name: penny-platform-full-coverage
+          fail_ci_if_error: false
+
+      - name: Create coverage summary
+        run: |
+          echo "## Test Coverage Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          npm run coverage:summary:markdown >> $GITHUB_STEP_SUMMARY
