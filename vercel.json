@@ -8,11 +8,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://api-penny.railway.app/api/:path*"
+      "destination": "https://api.penny.onl/api/:path*"
     },
     {
       "source": "/ws/:path*",
-      "destination": "https://ws-penny.railway.app/:path*"
+      "destination": "https://ws.penny.onl/:path*"
     }
   ],
   "headers": [
@@ -44,8 +44,8 @@
     }
   ],
   "env": {
-    "NEXT_PUBLIC_API_URL": "@railway_api_url",
-    "NEXT_PUBLIC_WS_URL": "@railway_ws_url",
-    "NEXT_PUBLIC_CDN_URL": "@cloudflare_cdn_url"
+    "NEXT_PUBLIC_API_URL": "https://api.penny.onl",
+    "NEXT_PUBLIC_WS_URL": "wss://ws.penny.onl",
+    "NEXT_PUBLIC_CDN_URL": "https://cdn.penny.onl"
   }
 }
