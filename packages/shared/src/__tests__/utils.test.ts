@@ -1,4 +1,15 @@
-import { generateId, slugify, truncate, debounce, throttle, retry, sleep, chunk, omit, pick } from '../utils';
+import {
+  generateId,
+  slugify,
+  truncate,
+  debounce,
+  throttle,
+  retry,
+  sleep,
+  chunk,
+  omit,
+  pick,
+} from '../utils';
 
 describe('Shared Utils', () => {
   describe('generateId', () => {
@@ -97,14 +108,14 @@ describe('Shared Utils', () => {
 
       debouncedFn();
       jest.advanceTimersByTime(50);
-      
+
       debouncedFn();
       jest.advanceTimersByTime(50);
-      
+
       expect(fn).not.toHaveBeenCalled();
-      
+
       jest.advanceTimersByTime(50);
-      
+
       expect(fn).toHaveBeenCalledTimes(1);
     });
   });
@@ -131,14 +142,14 @@ describe('Shared Utils', () => {
     it('should maintain this context', () => {
       const obj = {
         value: 42,
-        getValue: function() {
+        getValue: function () {
           return this.value;
         },
       };
 
       const throttled = throttle(obj.getValue, 100);
       const bound = throttled.bind(obj);
-      
+
       expect(bound()).toBe(42);
     });
   });
@@ -218,11 +229,7 @@ describe('Shared Utils', () => {
       const array = [1, 2, 3, 4, 5];
       const chunks = chunk(array, 2);
 
-      expect(chunks).toEqual([
-        [1, 2],
-        [3, 4],
-        [5],
-      ]);
+      expect(chunks).toEqual([[1, 2], [3, 4], [5]]);
     });
 
     it('should handle empty array', () => {
@@ -249,7 +256,7 @@ describe('Shared Utils', () => {
 
     it('should handle non-existent keys', () => {
       const obj = { a: 1, b: 2 };
-      const result = omit(obj, ['c', 'd']);
+      const result = omit(obj, ['c' as keyof typeof obj, 'd' as keyof typeof obj]);
 
       expect(result).toEqual({ a: 1, b: 2 });
     });
@@ -280,7 +287,7 @@ describe('Shared Utils', () => {
 
     it('should ignore non-existent keys', () => {
       const obj = { a: 1, b: 2 };
-      const result = pick(obj, ['a', 'c']);
+      const result = pick(obj, ['a', 'c' as keyof typeof obj]);
 
       expect(result).toEqual({ a: 1 });
     });

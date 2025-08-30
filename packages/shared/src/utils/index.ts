@@ -21,22 +21,15 @@ export const sleep = (ms: number): Promise<void> =>
 
 export const retry = async <T>(
   fn: () => Promise<T>,
-  options: {
-    attempts?: number;
-    delay?: number;
-    backoff?: number;
-    onError?: (error: unknown, attempt: number) => void;
-  } = {},
+  maxAttempts: number = 3,
+  delay: number = 1000,
 ): Promise<T> => {
-  const { attempts = 3, delay = 1000, backoff = 2, onError } = options;
-
-  for (let i = 0; i < attempts; i++) {
+  for (let i = 0; i < maxAttempts; i++) {
     try {
       return await fn();
     } catch (error) {
-      if (i === attempts - 1) throw error;
-      onError?.(error, i + 1);
-      await sleep(delay * Math.pow(backoff, i));
+      if (i === maxAttempts - 1) throw error;
+      await sleep(delay);
     }
   }
 
@@ -44,6 +37,10 @@ export const retry = async <T>(
 };
 
 export const chunk = <T>(array: T[], size: number): T[][] => {
+  if (size <= 0) {
+    throw new Error('Chunk size must be greater than 0');
+  }
+
   const chunks: T[][] = [];
   for (let i = 0; i < array.length; i += size) {
     chunks.push(array.slice(i, i + size));
@@ -77,4 +74,63 @@ export const sanitizeHtml = (html: string): string => {
 export const maskSensitiveData = (data: string, visibleChars = 4): string => {
   if (data.length <= visibleChars * 2) return '***';
   return data.slice(0, visibleChars) + '***' + data.slice(-visibleChars);
+};
+
+export const slugify = (text: string): string => {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+};
+
+export const truncate = (text: string, length: number, suffix: string = '...'): string => {
+  if (length <= 0) return suffix;
+  if (text.length <= length) return text;
+  return text.slice(0, length) + suffix;
+};
+
+export const throttle = <T extends (...args: any[]) => any>(
+  fn: T,
+  delay: number,
+): ((...args: Parameters<T>) => ReturnType<T> | undefined) => {
+  let lastCall = 0;
+  let lastResult: ReturnType<T>;
+
+  return (...args: Parameters<T>) => {
+    const now = Date.now();
+
+    if (now - lastCall >= delay) {
+      lastCall = now;
+      lastResult = fn(...args);
+      return lastResult;
+    }
+
+    return lastResult;
+  };
+};
+
+export const omit = <T extends Record<string, any>, K extends keyof T>(
+  obj: T,
+  keys: K[],
+): Omit<T, K> => {
+  const result = { ...obj };
+  keys.forEach((key) => {
+    delete result[key];
+  });
+  return result;
+};
+
+export const pick = <T extends Record<string, any>, K extends keyof T>(
+  obj: T,
+  keys: K[],
+): Pick<T, K> => {
+  const result: Partial<Pick<T, K>> = {};
+  keys.forEach((key) => {
+    if (key in obj) {
+      result[key] = obj[key];
+    }
+  });
+  return result as Pick<T, K>;
 };
