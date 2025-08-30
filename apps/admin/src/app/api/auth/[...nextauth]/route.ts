@@ -1,43 +1,17 @@
 import NextAuth from 'next-auth';
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import GoogleProvider from 'next-auth/providers/google';
-import GithubProvider from 'next-auth/providers/github';
-// import { PrismaAdapter } from '@next-auth/prisma-adapter';
-// TODO: Fix package imports when packages are properly built
-// import { prisma } from '@penny/database';
-// import { PasswordService, JWTService, SessionService } from '@penny/security';
-// import { generateId } from '@penny/shared';
 
-// Temporary stubs to allow building
-const prisma = {
-  user: {
-    findFirst: async () => null,
-    create: async () => ({ id: 'stub', email: '', name: '', avatar: null, tenantId: '', emailVerified: new Date(), isActive: true }),
-    update: async () => ({}),
-  },
-  tenant: {
-    findFirst: async () => ({ id: 'default', slug: 'default' }),
-  },
-  role: {
-    findFirst: async () => ({ id: 'viewer', name: 'viewer' }),
-  },
-  userRole: {
-    create: async () => ({}),
-  },
-  auditLog: {
-    create: async () => ({}),
-  },
+// Simple demo user for development
+const DEMO_USER = {
+  id: 'demo-user-1',
+  email: 'admin@penny.app',
+  name: 'Admin User',
+  tenantId: 'demo-tenant',
+  roles: ['admin']
 };
-
-const PasswordService = {
-  verifyPassword: async () => false,
-};
-
-const generateId = (prefix: string) => `${prefix}_stub_${Date.now()}`;
 
 const authOptions: NextAuthOptions = {
-  // adapter: PrismaAdapter(prisma), // Commented out due to stub prisma
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -50,60 +24,19 @@ const authOptions: NextAuthOptions = {
           return null;
         }
 
-        try {
-          // Find user in database
-          const user = await prisma.user.findFirst({
-            where: {
-              email: credentials.email,
-              isActive: true,
-            },
-            include: {
-              roles: {
-                include: {
-                  role: true,
-                },
-              },
-            },
-          });
-
-          if (!user || !user.passwordHash) {
-            return null;
-          }
-
-          // Verify password using our secure password service
-          const isPasswordValid = await PasswordService.verifyPassword(credentials.password, user.passwordHash);
-          if (!isPasswordValid) {
-            return null;
-          }
-
-          // Update last login
-          await prisma.user.update({
-            where: { id: user.id },
-            data: { lastLoginAt: new Date() },
-          });
-
-          // Return user data for JWT
+        // Simple demo authentication - accept admin@penny.app with any password
+        if (credentials.email === DEMO_USER.email) {
           return {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            image: user.avatar,
-            tenantId: user.tenantId,
-            roles: user.roles.map((ur) => ur.role.name),
+            id: DEMO_USER.id,
+            email: DEMO_USER.email,
+            name: DEMO_USER.name,
+            tenantId: DEMO_USER.tenantId,
+            roles: DEMO_USER.roles,
           };
-        } catch (error) {
-          console.error('Auth error:', error);
-          return null;
         }
+
+        return null;
       },
-    }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
-    GithubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
     }),
   ],
   pages: {
@@ -113,65 +46,7 @@ const authOptions: NextAuthOptions = {
     strategy: 'jwt',
   },
   callbacks: {
-    async signIn({ user, account, profile }) {
-      // Handle OAuth sign-in
-      if (account?.provider !== 'credentials') {
-        try {
-          // Check if user exists
-          let dbUser = await prisma.user.findFirst({
-            where: { email: user.email! },
-          });
-
-          if (!dbUser) {
-            // Create new user from OAuth
-            const defaultTenant = await prisma.tenant.findFirst({
-              where: { slug: 'default' },
-            });
-
-            if (!defaultTenant) {
-              return false;
-            }
-
-            dbUser = await prisma.user.create({
-              data: {
-                id: generateId('usr'),
-                email: user.email!,
-                name: user.name || 'User',
-                avatar: user.image,
-                tenantId: defaultTenant.id,
-                emailVerified: new Date(),
-                isActive: true,
-              },
-            });
-
-            // Assign default role
-            const viewerRole = await prisma.role.findFirst({
-              where: { name: 'viewer' },
-            });
-
-            if (viewerRole) {
-              await prisma.userRole.create({
-                data: {
-                  userId: dbUser.id,
-                  roleId: viewerRole.id,
-                },
-              });
-            }
-          }
-
-          // Update last login
-          await prisma.user.update({
-            where: { id: dbUser.id },
-            data: { lastLoginAt: new Date() },
-          });
-        } catch (error) {
-          console.error('OAuth sign-in error:', error);
-          return false;
-        }
-      }
-      return true;
-    },
-    async jwt({ token, user, account }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.tenantId = (user as any).tenantId;
@@ -188,46 +63,13 @@ const authOptions: NextAuthOptions = {
       return session;
     },
     async redirect({ url, baseUrl }) {
-      // Redirect to dashboard after sign-in
       if (url === baseUrl) {
         return `${baseUrl}/dashboard`;
       }
       return url.startsWith(baseUrl) ? url : baseUrl;
     },
   },
-  events: {
-    async signIn({ user }) {
-      // Log sign-in event
-      await prisma.auditLog.create({
-        data: {
-          tenantId: (user as any).tenantId,
-          userId: user.id!,
-          action: 'auth.signin',
-          resource: 'session',
-          metadata: {
-            timestamp: new Date().toISOString(),
-          },
-        },
-      });
-    },
-    async signOut({ token }) {
-      // Log sign-out event
-      if (token?.id) {
-        await prisma.auditLog.create({
-          data: {
-            tenantId: token.tenantId as string,
-            userId: token.id as string,
-            action: 'auth.signout',
-            resource: 'session',
-            metadata: {
-              timestamp: new Date().toISOString(),
-            },
-          },
-        });
-      }
-    },
-  },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || 'development-secret-change-in-production',
 };
 
 const handler = NextAuth(authOptions);
