@@ -4,7 +4,7 @@ import { ToolFilters } from '@/components/tools/ToolFilters';
 import { ToolStats } from '@/components/tools/ToolStats';
 import { CreateToolDialog } from '@/components/tools/CreateToolDialog';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { LoadingSpinner } from '@penny/uiLoadingSpinner';
+import { LoadingSpinner } from '@penny/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@penny/ui';
 import { Button } from '@penny/ui';
 import { Wrench, Plus, Download, RefreshCw, Settings, Filter } from 'lucide-react';

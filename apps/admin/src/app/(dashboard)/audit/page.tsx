@@ -7,7 +7,7 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { LoadingSpinner } from '@penny/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@penny/ui';
 import { Button } from '@penny/ui';
-import { Shield, Download, RefreshCw, Search, Filter, AlertTriangle } from 'lucide-react';
+import { Shield, RefreshCw, Filter, AlertTriangle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@penny/ui';
 
 export default function AuditLogPage() {

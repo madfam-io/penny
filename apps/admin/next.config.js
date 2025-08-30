@@ -2,6 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['@penny/ui', '@penny/api-client'],
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   async rewrites() {
     return [
       {

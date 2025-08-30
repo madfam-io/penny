@@ -6,7 +6,7 @@ import { TenantBilling } from '@/components/tenants/TenantBilling';
 import { TenantSettings } from '@/components/tenants/TenantSettings';
 import { TenantUsage } from '@/components/tenants/TenantUsage';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { LoadingSpinner } from '@penny/uiLoadingSpinner';
+import { LoadingSpinner } from '@penny/ui';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@penny/ui';
 import { Badge } from '@penny/ui';

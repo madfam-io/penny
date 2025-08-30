@@ -65,7 +65,6 @@ export function UserDetail({ user }: UserDetailProps) {
 
   return (
     <div className="space-y-6">
-      {/* Profile Card */}
       <Card>
         <CardHeader>
           <div className="flex items-start justify-between">
@@ -85,7 +84,7 @@ export function UserDetail({ user }: UserDetailProps) {
               </AvatarFallback>
             </Avatar>
            
-           <div className="space-y-2 flex-1">
+            <div className="space-y-2 flex-1">
               <div className="flex items-center gap-3">
                 <h2 className="text-2xl font-semibold">{user.name}</h2>
                 <Badge className={getStatusColor(user.status)}>
@@ -96,7 +95,7 @@ export function UserDetail({ user }: UserDetailProps) {
                 </Badge>
               </div>
              
-             <div className="flex items-center gap-2 text-muted-foreground">
+              <div className="flex items-center gap-2 text-muted-foreground">
                 <Mail className="h-4 w-4" />
                 <span>{user.email}</span>
                 {user.emailVerified && (
@@ -107,7 +106,7 @@ export function UserDetail({ user }: UserDetailProps) {
                 )}
               </div>
              
-             <div className="flex items-center gap-2 text-muted-foreground">
+              <div className="flex items-center gap-2 text-muted-foreground">
                 <Building className="h-4 w-4" />
                 <span>{user.tenantName}</span>
               </div>
@@ -120,20 +119,20 @@ export function UserDetail({ user }: UserDetailProps) {
             <div className="space-y-4">
               <h3 className="font-medium text-lg">Account Information</h3>
              
-             <div className="space-y-3">
+              <div className="space-y-3">
                 <div className="flex items-center gap-2 text-sm">
                   <Calendar className="h-4 w-4 text-muted-foreground" />
                   <span className="text-muted-foreground">Created:</span>
                   <span>{format(user.createdAt, 'MMM d, yyyy')}</span>
                 </div>
                
-               <div className="flex items-center gap-2 text-sm">
+                <div className="flex items-center gap-2 text-sm">
                   <Clock className="h-4 w-4 text-muted-foreground" />
                   <span className="text-muted-foreground">Last Login:</span>
-                  <span>{format(user.lastLoginAt, 'MMM d, yyyy 'at' h:mm a')}</span>
+                  <span>{format(user.lastLoginAt, 'MMM d, yyyy \'at\' h:mm a')}</span>
                 </div>
                
-               <div className="flex items-center gap-2 text-sm">
+                <div className="flex items-center gap-2 text-sm">
                   <User className="h-4 w-4 text-muted-foreground" />
                   <span className="text-muted-foreground">User ID:</span>
                   <span className="font-mono text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
@@ -146,7 +145,7 @@ export function UserDetail({ user }: UserDetailProps) {
             <div className="space-y-4">
               <h3 className="font-medium text-lg">Additional Details</h3>
              
-             <div className="space-y-3">
+              <div className="space-y-3">
                 {user.metadata?.jobTitle && (
                   <div className="flex items-center gap-2 text-sm">
                     <User className="h-4 w-4 text-muted-foreground" />
@@ -176,7 +175,6 @@ export function UserDetail({ user }: UserDetailProps) {
         </CardContent>
       </Card>
 
-      {/* Usage Statistics */}
       <Card>
         <CardHeader>
           <CardTitle>Usage Statistics</CardTitle>

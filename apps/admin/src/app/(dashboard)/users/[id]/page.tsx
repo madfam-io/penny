@@ -5,7 +5,7 @@ import { UserActions } from '@/components/users/UserActions';
 import { UserActivityLog } from '@/components/users/UserActivityLog';
 import { UserSubscriptions } from '@/components/users/UserSubscriptions';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { LoadingSpinner } from '@penny/uiLoadingSpinner';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@penny/ui';
 import { Badge } from '@penny/ui';

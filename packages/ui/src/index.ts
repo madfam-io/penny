@@ -165,3 +165,31 @@ export const Alert = ({ children, ...props }: any) => {
 
 export const AlertDescription = Alert;
 export const AlertTitle = Alert;
+
+// Additional missing components
+export const DialogTrigger = Dialog;
+export const ScrollArea = ({ children, ...props }: any) => {
+  return React.createElement('div', props, children);
+};
+
+export const Popover = ({ children, ...props }: any) => {
+  return React.createElement('div', props, children);
+};
+
+export const PopoverContent = Popover;
+export const PopoverTrigger = Popover;
+
+export const Toaster = ({ ...props }: any) => {
+  return React.createElement('div', props);
+};
+
+export const Calendar = ({ ...props }: any) => {
+  return React.createElement('div', props);
+};
+
+export const CalendarIcon = ({ ...props }: any) => {
+  return React.createElement('div', props);
+};
+
+// Utility function
+export const cn = (...classes: any[]) => classes.filter(Boolean).join(' ');

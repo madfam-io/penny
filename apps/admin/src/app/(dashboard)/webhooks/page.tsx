@@ -5,7 +5,7 @@ import { WebhookStats } from '@/components/webhooks/WebhookStats';
 import { CreateWebhookDialog } from '@/components/webhooks/CreateWebhookDialog';
 import { WebhookTester } from '@/components/webhooks/WebhookTester';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { LoadingSpinner } from '@penny/uiLoadingSpinner';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { Card, CardContent, CardHeader, CardTitle } from '@penny/ui';
 import { Button } from '@penny/ui';
 import { Webhook, Plus, Download, RefreshCw, Settings, Filter, TestTube } from 'lucide-react';
