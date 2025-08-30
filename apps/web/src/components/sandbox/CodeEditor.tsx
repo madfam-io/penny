@@ -216,6 +216,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 
   // Expose methods via ref
   React.useImperativeHandle(ref, () => ({
+    value,
+    onChange,
     insertText,
     formatCode,
     addBreakpoint,

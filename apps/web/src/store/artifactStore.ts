@@ -321,7 +321,7 @@ export const useArtifactStore = create<ArtifactState>()(
             updatedAt: new Date(),
             createdBy: get().currentUser?.id || 'anonymous',
             tenantId: 'tenant1',
-            exportFormats: ArtifactDetector.getSupportedFormats ? [] : []
+            exportFormats: []
           };
           
           set(state => ({
@@ -481,12 +481,15 @@ export const useArtifactStore = create<ArtifactState>()(
       },
       
       async addToCollection(collectionId, artifactIds) {
+        const state = get();
+        const artifactsToAdd = artifactIds.map(id => state.artifacts.find(a => a.id === id)).filter(Boolean) as Artifact[];
+        
         set(state => ({
           collections: state.collections.map(collection => 
             collection.id === collectionId
               ? { 
                   ...collection, 
-                  artifacts: [...new Set([...collection.artifacts, ...artifactIds])],
+                  artifacts: [...collection.artifacts, ...artifactsToAdd],
                   updatedAt: new Date()
                 }
               : collection
@@ -501,7 +504,7 @@ export const useArtifactStore = create<ArtifactState>()(
             collection.id === collectionId
               ? { 
                   ...collection, 
-                  artifacts: collection.artifacts.filter(id => !artifactIds.includes(id)),
+                  artifacts: collection.artifacts.filter(artifact => !artifactIds.includes(artifact.id)),
                   updatedAt: new Date()
                 }
               : collection
@@ -645,6 +648,7 @@ export const useArtifactStore = create<ArtifactState>()(
             }
             
             const id = await get().createArtifact({
+              name: file.name,
               title: detection.suggestedTitle || file.name,
               type: detection.type,
               content,

@@ -97,6 +97,7 @@ export class ArtifactTransformer {
               { key: 'value', title: 'Value', type: 'string' as const, sortable: true, filterable: true },
               { key: 'type', title: 'Type', type: 'string' as const, sortable: true, filterable: true }
             ],
+            rows: tableData.map(row => [row.property, row.value, row.type]),
             data: tableData,
             config: {
               pagination: { enabled: true, pageSize: 25, showSizeChanger: true },

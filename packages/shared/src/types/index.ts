@@ -18,6 +18,8 @@ export interface Artifact {
   isPublic?: boolean;
   url?: string;
   mimeType?: string;
+  conversationId?: string;
+  tenantId?: string;
 }
 
 export interface CodeArtifact extends Artifact {

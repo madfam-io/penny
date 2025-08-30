@@ -310,7 +310,7 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
               {onPlotExport && (
                 <button
                   className="control-btn"
-                  onClick={() => onPlotExport(selectedPlot, selectedPlot.format)}
+                  onClick={() => onPlotExport(selectedPlot, selectedPlot.format === 'html' ? 'png' : selectedPlot.format)}
                   title="Export plot"
                 >
                   📤

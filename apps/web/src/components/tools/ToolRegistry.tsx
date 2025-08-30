@@ -174,7 +174,7 @@ export const ToolRegistry: React.FC<ToolRegistryProps> = ({
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <LoadingSpinner size="large" />
+        <LoadingSpinner size="lg" />
         <span className="ml-3 text-lg">Loading tools...</span>
       </div>
     );

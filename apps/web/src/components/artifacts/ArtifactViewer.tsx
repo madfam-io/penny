@@ -125,15 +125,15 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
   const renderArtifact = useCallback(() => {
     switch (artifact.type) {
       case 'chart':
-        return <ChartRenderer {...rendererProps} />;
+        return <ChartRenderer {...rendererProps} artifact={artifact as any} />;
       case 'table':
-        return <TableRenderer {...rendererProps} />;
+        return <TableRenderer {...rendererProps} artifact={artifact as any} />;
       case 'code':
-        return <CodeRenderer {...rendererProps} />;
+        return <CodeRenderer {...rendererProps} artifact={artifact as any} />;
       case 'markdown':
         return <MarkdownRenderer {...rendererProps} />;
       case 'image':
-        return <ImageRenderer {...rendererProps} />;
+        return <ImageRenderer {...rendererProps} artifact={artifact as any} />;
       case 'pdf':
         return <PDFRenderer {...rendererProps} />;
       case 'json':
@@ -147,7 +147,7 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
       case 'model':
         return <ModelRenderer {...rendererProps} />;
       case 'map':
-        return <MapRenderer {...rendererProps} />;
+        return <MapRenderer {...rendererProps} artifact={artifact as any} />;
       default:
         return (
           <div className="flex items-center justify-center h-64 bg-gray-50 border border-gray-200 rounded-lg">
