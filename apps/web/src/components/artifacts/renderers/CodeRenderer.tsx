@@ -115,7 +115,7 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
   const highlightSearchTerm = useCallback((text: string) => {
     if (!searchTerm) return text;
    
-   const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\]/g, '\$&')})`, 'gi');
+    const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
     return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800">$1</mark>');
   }, [searchTerm]);
 

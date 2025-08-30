@@ -39,8 +39,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
       .replace(/^# (.*$)/gim, '<h1 id="$1">$1</h1>')
      
      // Code blocks
-      .replace(/```(\w+)?
-([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
+      .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
       .replace(/`([^`]+)`/g, '<code>$1</code>')
      
      // Links
@@ -62,8 +61,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
       .replace(/^> (.+)/gm, '<blockquote class="border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic">$1</blockquote>')
       
       // Line breaks
-      .replace(/
-/g, '<br>');
+      .replace(/\n/g, '<br>');
 
     onLoadEnd?.();
     return html;
