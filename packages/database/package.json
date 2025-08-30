@@ -46,7 +46,6 @@
     "db:health": "tsx -e \"import { checkDatabaseHealth } from './utils/connection.js'; checkDatabaseHealth().then(console.log).catch(console.error)\""
   },
   "dependencies": {
-    "@penny/shared": "workspace:*",
     "@prisma/client": "^5.8.1",
     "pg": "^8.11.3",
     "bcryptjs": "^2.4.3",

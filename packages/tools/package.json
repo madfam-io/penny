@@ -20,7 +20,6 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@penny/shared": "workspace:*",
     "@penny/database": "0.0.1",
     "@penny/security": "0.0.1",
     "@penny/telemetry": "0.0.1",

@@ -15,7 +15,6 @@
     "analyze": "vite build --mode analyze"
   },
   "dependencies": {
-    "@penny/shared": "workspace:*",
     "@penny/ui": "0.0.1",
     "@penny/api-client": "0.0.1",
     "@penny/security": "0.0.1",
