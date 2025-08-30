@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@penny/ui';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -62,6 +63,20 @@ const activities = [
 ];
 
 export function RecentActivity() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Format time safely for SSR
+  const formatTime = (timestamp: Date) => {
+    if (!isClient) {
+      return 'recently'; // Fallback for SSR
+    }
+    return formatDistanceToNow(timestamp, { addSuffix: true });
+  };
+
   return (
     <div className="space-y-8">
       {activities.map((activity) => (
@@ -82,7 +97,7 @@ export function RecentActivity() {
             </p>
           </div>
           <div className="ml-auto font-medium text-sm text-muted-foreground">
-            {formatDistanceToNow(activity.timestamp, { addSuffix: true })}
+            {formatTime(activity.timestamp)}
           </div>
         </div>
       ))}
