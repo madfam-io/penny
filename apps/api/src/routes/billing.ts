@@ -5,8 +5,7 @@ import {
   CreateSubscriptionRequest, 
   UpdateSubscriptionRequest,
   CreatePaymentMethodRequest,
-  RecordUsageRequest
-} from '@penny/billing';
+  RecordUsageRequest\n} from '@penny/billing';
 
 // Request schemas
 const CreateSubscriptionSchema = z.object({
@@ -43,8 +42,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
     return fastify.billingService as BillingService;
   };
 
-  // Get current subscription
-  fastify.get('/subscription', {
+  // Get current subscription\n  fastify.get('/subscription', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Get current subscription for authenticated user',
@@ -70,8 +68,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Create subscription
-  fastify.post('/subscription', {
+  // Create subscription\n  fastify.post('/subscription', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Create new subscription',
@@ -99,8 +96,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Update subscription
-  fastify.put('/subscription/:subscriptionId', {
+  // Update subscription\n  fastify.put('/subscription/:subscriptionId', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Update existing subscription',
@@ -129,8 +125,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Cancel subscription
-  fastify.post('/subscription/:subscriptionId/cancel', {
+  // Cancel subscription\n  fastify.post('/subscription/:subscriptionId/cancel', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Cancel subscription',
@@ -166,8 +161,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get available plans
-  fastify.get('/plans', {
+  // Get available plans\n  fastify.get('/plans', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Get available subscription plans',
@@ -191,8 +185,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Payment Methods
-  fastify.get('/payment-methods', {
+  // Payment Methods\n  fastify.get('/payment-methods', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Get payment methods for user',
@@ -217,8 +210,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
       reply.code(500).send({ error: 'Failed to get payment methods' });
     }
   });
-
-  fastify.post('/payment-methods', {
+\n  fastify.post('/payment-methods', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Add new payment method',
@@ -244,8 +236,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
       reply.code(500).send({ error: 'Failed to add payment method' });
     }
   });
-
-  fastify.delete('/payment-methods/:paymentMethodId', {
+\n  fastify.delete('/payment-methods/:paymentMethodId', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Remove payment method',
@@ -270,8 +261,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Usage Tracking
-  fastify.post('/usage', {
+  // Usage Tracking\n  fastify.post('/usage', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Record usage for current tenant',
@@ -299,8 +289,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
       reply.code(500).send({ error: 'Failed to record usage' });
     }
   });
-
-  fastify.get('/usage/summary', {
+\n  fastify.get('/usage/summary', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Get usage summary for current tenant',
@@ -328,8 +317,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Validate usage before allowing operation
-  fastify.post('/usage/validate', {
+  // Validate usage before allowing operation\n  fastify.post('/usage/validate', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Validate if usage is allowed',
@@ -359,8 +347,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Invoices
-  fastify.get('/invoices', {
+  // Invoices\n  fastify.get('/invoices', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Get invoices for current tenant',
@@ -389,8 +376,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
       reply.code(500).send({ error: 'Failed to get invoices' });
     }
   });
-
-  fastify.get('/invoices/:invoiceId', {
+\n  fastify.get('/invoices/:invoiceId', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Get specific invoice details',
@@ -415,8 +401,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Generate upcoming invoice preview
-  fastify.get('/invoices/preview/upcoming', {
+  // Generate upcoming invoice preview\n  fastify.get('/invoices/preview/upcoming', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Preview upcoming invoice',
@@ -440,8 +425,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Feature access check
-  fastify.get('/features/:feature/access', {
+  // Feature access check\n  fastify.get('/features/:feature/access', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Check if tenant can access a feature',
@@ -468,8 +452,7 @@ export default async function billingRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Setup payment intent for subscription
-  fastify.post('/setup-intent', {
+  // Setup payment intent for subscription\n  fastify.post('/setup-intent', {
     preHandler: fastify.authenticate,
     schema: {
       description: 'Create setup intent for payment method',

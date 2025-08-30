@@ -8,25 +8,17 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Input,
-} from '@penny/ui';
-import { Plus, Search } from 'lucide-react';
-import { TenantsTable } from '@/components/tenants/tenants-table';
-import { CreateTenantDialog } from '@/components/tenants/create-tenant-dialog';
+  Input,\n} from '@penny/ui';
+import { Plus, Search } from 'lucide-react';\nimport { TenantsTable } from '@/components/tenants/tenants-table';\nimport { CreateTenantDialog } from '@/components/tenants/create-tenant-dialog';
 
-export default function TenantsPage() {
-  const [searchQuery, setSearchQuery] = useState('');
+export default function TenantsPage() {\n  const [searchQuery, setSearchQuery] = useState('');
   const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Tenants</h1>
-          <p className="text-muted-foreground">Manage tenant organizations and their settings</p>
+    <div className="space-y-8">\n      <div className="flex items-center justify-between">
+        <div>\n          <h1 className="text-3xl font-bold tracking-tight">Tenants</h1>\n          <p className="text-muted-foreground">Manage tenant organizations and their settings</p>
         </div>
-        <Button onClick={() => setIsCreateOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
+        <Button onClick={() => setIsCreateOpen(true)}>\n          <Plus className="mr-2 h-4 w-4" />
           Create Tenant
         </Button>
       </div>
@@ -38,14 +30,10 @@ export default function TenantsPage() {
             View and manage all tenant organizations on the platform
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="mb-4 relative">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search tenants..."
+        <CardContent>\n          <div className="mb-4 relative">\n            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input\n              placeholder="Search tenants..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-8"
+              onChange={(e) => setSearchQuery(e.target.value)}\n              className="pl-8"
             />
           </div>
           <TenantsTable searchQuery={searchQuery} />

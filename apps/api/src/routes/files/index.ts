@@ -1,17 +1,10 @@
 import type { FastifyPluginAsync } from 'fastify';
-import { z } from 'zod';
-import { authenticate } from '../../middleware/auth.js';
-import { StorageService } from '@penny/core';
-import { generateId } from '@penny/shared';
-import { prisma } from '@penny/database';
-import multipart from '@fastify/multipart';
-import { validateFileUpload } from '../../middleware/validation.js';
+import { z } from 'zod';\nimport { authenticate } from '../../middleware/auth.js';\nimport { StorageService } from '@penny/core';\nimport { generateId } from '@penny/shared';\nimport { prisma } from '@penny/database';\nimport multipart from '@fastify/multipart';\nimport { validateFileUpload } from '../../middleware/validation.js';
 
 // Initialize storage service
 const storage = new StorageService({
   provider: (process.env.STORAGE_PROVIDER as any) || 'local',
-  local: {
-    basePath: process.env.STORAGE_LOCAL_PATH || './uploads',
+  local: {\n    basePath: process.env.STORAGE_LOCAL_PATH || './uploads',
     baseUrl: process.env.API_URL || 'http://localhost:3000/api/v1',
   },
   s3:
@@ -39,8 +32,7 @@ const storage = new StorageService({
       'application/json',
       'application/zip',
       'application/x-zip-compressed',
-    ],
-    blockedExtensions: ['.exe', '.bat', '.cmd', '.sh', '.ps1'],
+    ],\n    blockedExtensions: ['.exe', '.bat', '.cmd', '.sh', '.ps1'],
   },
 });
 
@@ -54,8 +46,7 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
   });
 
   // Upload file(s)
-  fastify.post(
-    '/upload',
+  fastify.post(\n    '/upload',
     {
       preHandler: authenticate,
       schema: {
@@ -121,8 +112,7 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
   );
 
   // List files
-  fastify.get(
-    '/',
+  fastify.get(\n    '/',
     {
       preHandler: authenticate,
       schema: {
@@ -173,8 +163,7 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Get file details
-  fastify.get(
-    '/:id',
+  fastify.get(\n    '/:id',
     {
       preHandler: authenticate,
       schema: {
@@ -217,8 +206,7 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Download file
-  fastify.get(
-    '/:id/download',
+  fastify.get(\n    '/:id/download',
     {
       preHandler: authenticate,
       schema: {
@@ -251,8 +239,7 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
         const buffer = await storage.download(file.storageKey, request.user.tenantId);
 
         return reply
-          .type(file.mimeType)
-          .header('Content-Disposition', `attachment; filename="${file.filename}"`)
+          .type(file.mimeType)\n          .header('Content-Disposition', `attachment; filename="${file.filename}"`)
           .send(buffer);
       } catch (error: any) {
         return reply.code(500).send({
@@ -264,8 +251,7 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Delete file
-  fastify.delete(
-    '/:id',
+  fastify.delete(\n    '/:id',
     {
       preHandler: authenticate,
       schema: {

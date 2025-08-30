@@ -544,7 +544,8 @@ export class MonitoringService extends EventEmitter {
       [data.timestamp, 'avg_response_time', data.performanceStats.averageResponseTime]
     ];
 
-    return rows.map(row => row.join(',')).join('\n');
+    return rows.map(row => row.join(',')).join('
+');
   }
 
   // Cleanup old data

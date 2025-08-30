@@ -1,5 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
-import { useWebSocket } from './useWebSocket';
+import { useState, useCallback, useEffect, useRef } from 'react';\nimport { useWebSocket } from './useWebSocket';
 
 export interface Message {
   id: string;
@@ -182,8 +181,7 @@ export function useChat(options: UseChatOptions = {}): UseChatReturn {
       temperature: options.temperature,
       artifactsEnabled: true
     };
-
-    updateState({ streamingMessage: { id: '', content: '', isComplete: false, toolCalls: [] } });
+\n    updateState({ streamingMessage: { id: '', content: '', isComplete: false, toolCalls: [] } });
     emit('stream_completion', streamData);
   }, [socket, emit, enableStreaming, updateState]);
 
@@ -336,9 +334,7 @@ export function useChat(options: UseChatOptions = {}): UseChatReturn {
     // Streaming events
     const handleStreamStart = (data: any) => {
       updateState({
-        streamingMessage: {
-          id: data.userMessageId || '',
-          content: '',
+        streamingMessage: {\n          id: data.userMessageId || '',\n          content: '',
           isComplete: false,
           toolCalls: []
         }

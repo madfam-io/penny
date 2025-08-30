@@ -1,1 +1,355 @@
-import { useState, useCallback } from 'react';\nimport { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';\n\nexport interface User {\n  id: string;\n  email: string;\n  name: string;\n  avatar?: string;\n  roles: string[];\n  lastLoginAt?: string;\n}\n\nexport interface Tenant {\n  id: string;\n  name: string;\n  slug: string;\n  logo?: string;\n  primaryColor: string;\n}\n\nexport interface AuthState {\n  user: User | null;\n  tenant: Tenant | null;\n  isAuthenticated: boolean;\n}\n\nexport interface LoginData {\n  email: string;\n  password: string;\n  rememberMe?: boolean;\n}\n\nexport interface RegisterData {\n  name: string;\n  email: string;\n  password: string;\n  tenantName: string;\n}\n\nexport interface AuthResponse {\n  user: User;\n  tenant: Tenant;\n  accessToken: string;\n  refreshToken: string;\n  expiresIn: number;\n}\n\nclass AuthService {\n  private baseUrl = '/api/v1/auth';\n  private accessToken: string | null = null;\n  private refreshToken: string | null = null;\n\n  constructor() {\n    // Load tokens from localStorage on initialization\n    this.accessToken = localStorage.getItem('accessToken');\n    this.refreshToken = localStorage.getItem('refreshToken');\n  }\n\n  private async makeRequest<T>(url: string, options: RequestInit = {}): Promise<T> {\n    const headers: HeadersInit = {\n      'Content-Type': 'application/json',\n      ...options.headers,\n    };\n\n    if (this.accessToken) {\n      headers.Authorization = `Bearer ${this.accessToken}`;\n    }\n\n    const response = await fetch(`${this.baseUrl}${url}`, {\n      ...options,\n      headers,\n    });\n\n    if (response.status === 401 && this.refreshToken) {\n      // Try to refresh the token\n      const refreshed = await this.refreshTokens();\n      if (refreshed) {\n        // Retry the original request with new token\n        headers.Authorization = `Bearer ${this.accessToken}`;\n        const retryResponse = await fetch(`${this.baseUrl}${url}`, {\n          ...options,\n          headers,\n        });\n        return this.handleResponse<T>(retryResponse);\n      }\n    }\n\n    return this.handleResponse<T>(response);\n  }\n\n  private async handleResponse<T>(response: Response): Promise<T> {\n    const data = await response.json();\n    \n    if (!response.ok) {\n      throw new Error(data.message || `HTTP ${response.status}`);\n    }\n\n    return data;\n  }\n\n  private storeTokens(accessToken: string, refreshToken: string): void {\n    this.accessToken = accessToken;\n    this.refreshToken = refreshToken;\n    localStorage.setItem('accessToken', accessToken);\n    localStorage.setItem('refreshToken', refreshToken);\n  }\n\n  private clearTokens(): void {\n    this.accessToken = null;\n    this.refreshToken = null;\n    localStorage.removeItem('accessToken');\n    localStorage.removeItem('refreshToken');\n  }\n\n  async login(data: LoginData): Promise<AuthResponse> {\n    const response = await this.makeRequest<AuthResponse>('/login', {\n      method: 'POST',\n      body: JSON.stringify(data),\n    });\n\n    this.storeTokens(response.accessToken, response.refreshToken);\n    return response;\n  }\n\n  async register(data: RegisterData): Promise<AuthResponse> {\n    const response = await this.makeRequest<AuthResponse>('/register', {\n      method: 'POST',\n      body: JSON.stringify(data),\n    });\n\n    this.storeTokens(response.accessToken, response.refreshToken);\n    return response;\n  }\n\n  async logout(): Promise<void> {\n    try {\n      if (this.accessToken) {\n        await this.makeRequest('/logout', {\n          method: 'POST',\n        });\n      }\n    } finally {\n      this.clearTokens();\n    }\n  }\n\n  async getCurrentUser(): Promise<{ user: User; tenant: Tenant }> {\n    return this.makeRequest('/me');\n  }\n\n  async refreshTokens(): Promise<boolean> {\n    if (!this.refreshToken) {\n      return false;\n    }\n\n    try {\n      const response = await fetch(`${this.baseUrl}/refresh`, {\n        method: 'POST',\n        headers: {\n          'Content-Type': 'application/json',\n        },\n        body: JSON.stringify({ refreshToken: this.refreshToken }),\n      });\n\n      if (!response.ok) {\n        this.clearTokens();\n        return false;\n      }\n\n      const data = await response.json();\n      this.storeTokens(data.accessToken, data.refreshToken);\n      return true;\n    } catch {\n      this.clearTokens();\n      return false;\n    }\n  }\n\n  async changePassword(currentPassword: string, newPassword: string): Promise<void> {\n    await this.makeRequest('/change-password', {\n      method: 'POST',\n      body: JSON.stringify({ currentPassword, newPassword }),\n    });\n  }\n\n  async requestPasswordReset(email: string): Promise<void> {\n    await this.makeRequest('/forgot-password', {\n      method: 'POST',\n      body: JSON.stringify({ email }),\n    });\n  }\n\n  async resetPassword(token: string, password: string): Promise<void> {\n    await this.makeRequest('/reset-password', {\n      method: 'POST',\n      body: JSON.stringify({ token, password }),\n    });\n  }\n\n  isAuthenticated(): boolean {\n    return !!this.accessToken;\n  }\n\n  getAccessToken(): string | null {\n    return this.accessToken;\n  }\n}\n\nconst authService = new AuthService();\n\nexport function useAuth() {\n  const [isLoading, setIsLoading] = useState(false);\n  const queryClient = useQueryClient();\n\n  // Query to get current user\n  const {\n    data: authData,\n    isLoading: isLoadingUser,\n    error: userError,\n  } = useQuery({\n    queryKey: ['auth', 'user'],\n    queryFn: () => authService.getCurrentUser(),\n    enabled: authService.isAuthenticated(),\n    retry: false,\n    staleTime: 5 * 60 * 1000, // 5 minutes\n  });\n\n  // Login mutation\n  const loginMutation = useMutation({\n    mutationFn: (data: LoginData) => authService.login(data),\n    onSuccess: (response) => {\n      queryClient.setQueryData(['auth', 'user'], {\n        user: response.user,\n        tenant: response.tenant,\n      });\n      queryClient.invalidateQueries({ queryKey: ['auth'] });\n    },\n    onError: (error) => {\n      console.error('Login error:', error);\n    },\n  });\n\n  // Register mutation\n  const registerMutation = useMutation({\n    mutationFn: (data: RegisterData) => authService.register(data),\n    onSuccess: (response) => {\n      queryClient.setQueryData(['auth', 'user'], {\n        user: response.user,\n        tenant: response.tenant,\n      });\n      queryClient.invalidateQueries({ queryKey: ['auth'] });\n    },\n    onError: (error) => {\n      console.error('Register error:', error);\n    },\n  });\n\n  // Logout mutation\n  const logoutMutation = useMutation({\n    mutationFn: () => authService.logout(),\n    onSuccess: () => {\n      queryClient.clear();\n      queryClient.invalidateQueries({ queryKey: ['auth'] });\n    },\n  });\n\n  // Change password mutation\n  const changePasswordMutation = useMutation({\n    mutationFn: ({ currentPassword, newPassword }: { currentPassword: string; newPassword: string }) =>\n      authService.changePassword(currentPassword, newPassword),\n    onError: (error) => {\n      console.error('Change password error:', error);\n    },\n  });\n\n  const login = useCallback(async (data: LoginData) => {\n    setIsLoading(true);\n    try {\n      await loginMutation.mutateAsync(data);\n    } finally {\n      setIsLoading(false);\n    }\n  }, [loginMutation]);\n\n  const register = useCallback(async (data: RegisterData) => {\n    setIsLoading(true);\n    try {\n      await registerMutation.mutateAsync(data);\n    } finally {\n      setIsLoading(false);\n    }\n  }, [registerMutation]);\n\n  const logout = useCallback(async () => {\n    setIsLoading(true);\n    try {\n      await logoutMutation.mutateAsync();\n    } finally {\n      setIsLoading(false);\n    }\n  }, [logoutMutation]);\n\n  const changePassword = useCallback(async (currentPassword: string, newPassword: string) => {\n    return changePasswordMutation.mutateAsync({ currentPassword, newPassword });\n  }, [changePasswordMutation]);\n\n  const requestPasswordReset = useCallback(async (email: string) => {\n    return authService.requestPasswordReset(email);\n  }, []);\n\n  const resetPassword = useCallback(async (token: string, password: string) => {\n    return authService.resetPassword(token, password);\n  }, []);\n\n  const isAuthenticated = authService.isAuthenticated() && !userError;\n\n  return {\n    // State\n    user: authData?.user || null,\n    tenant: authData?.tenant || null,\n    isAuthenticated,\n    isLoading: isLoading || isLoadingUser || loginMutation.isPending || registerMutation.isPending || logoutMutation.isPending,\n    error: userError,\n\n    // Actions\n    login,\n    register,\n    logout,\n    changePassword,\n    requestPasswordReset,\n    resetPassword,\n\n    // Mutation states\n    loginError: loginMutation.error,\n    registerError: registerMutation.error,\n    changePasswordError: changePasswordMutation.error,\n    isChangingPassword: changePasswordMutation.isPending,\n\n    // Utils\n    getAccessToken: authService.getAccessToken.bind(authService),\n  };\n}\n\n// Hook for components that require authentication\nexport function useRequireAuth() {\n  const { isAuthenticated, isLoading, user } = useAuth();\n  \n  return {\n    isAuthenticated,\n    isLoading,\n    user,\n    requireAuth: !isLoading && !isAuthenticated,\n  };\n}\n\n// Hook for session management\nexport function useSession() {\n  const { user, tenant, isAuthenticated, isLoading } = useAuth();\n\n  const session = isAuthenticated && user && tenant ? {\n    user,\n    tenant,\n  } : null;\n\n  return {\n    session,\n    status: isLoading ? 'loading' : isAuthenticated ? 'authenticated' : 'unauthenticated',\n  };\n}"
+import { useState, useCallback } from 'react';\nimport { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  avatar?: string;
+  roles: string[];
+  lastLoginAt?: string;
+}
+
+export interface Tenant {
+  id: string;
+  name: string;
+  slug: string;
+  logo?: string;
+  primaryColor: string;
+}
+
+export interface AuthState {
+  user: User | null;
+  tenant: Tenant | null;
+  isAuthenticated: boolean;
+}
+
+export interface LoginData {
+  email: string;
+  password: string;
+  rememberMe?: boolean;
+}
+
+export interface RegisterData {
+  name: string;
+  email: string;
+  password: string;
+  tenantName: string;
+}
+
+export interface AuthResponse {
+  user: User;
+  tenant: Tenant;
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number;
+}
+
+class AuthService {\n  private baseUrl = '/api/v1/auth';
+  private accessToken: string | null = null;
+  private refreshToken: string | null = null;
+
+  constructor() {
+    // Load tokens from localStorage on initialization
+    this.accessToken = localStorage.getItem('accessToken');
+    this.refreshToken = localStorage.getItem('refreshToken');
+  }
+
+  private async makeRequest<T>(url: string, options: RequestInit = {}): Promise<T> {
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    };
+
+    if (this.accessToken) {
+      headers.Authorization = `Bearer ${this.accessToken}`;
+    }
+\n    const response = await fetch(`${this.baseUrl}${url}`, {
+      ...options,
+      headers,
+    });
+
+    if (response.status === 401 && this.refreshToken) {
+      // Try to refresh the token
+      const refreshed = await this.refreshTokens();
+      if (refreshed) {
+        // Retry the original request with new token\n        headers.Authorization = `Bearer ${this.accessToken}`;\n        const retryResponse = await fetch(`${this.baseUrl}${url}`, {
+          ...options,
+          headers,
+        });
+        return this.handleResponse<T>(retryResponse);
+      }
+    }
+
+    return this.handleResponse<T>(response);
+  }
+
+  private async handleResponse<T>(response: Response): Promise<T> {
+    const data = await response.json();
+    
+    if (!response.ok) {\n      throw new Error(data.message || `HTTP ${response.status}`);
+    }
+
+    return data;
+  }
+
+  private storeTokens(accessToken: string, refreshToken: string): void {
+    this.accessToken = accessToken;
+    this.refreshToken = refreshToken;
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+  }
+
+  private clearTokens(): void {
+    this.accessToken = null;
+    this.refreshToken = null;
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+  }
+
+  async login(data: LoginData): Promise<AuthResponse> {\n    const response = await this.makeRequest<AuthResponse>('/login', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+
+    this.storeTokens(response.accessToken, response.refreshToken);
+    return response;
+  }
+
+  async register(data: RegisterData): Promise<AuthResponse> {\n    const response = await this.makeRequest<AuthResponse>('/register', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+
+    this.storeTokens(response.accessToken, response.refreshToken);
+    return response;
+  }
+
+  async logout(): Promise<void> {
+    try {
+      if (this.accessToken) {\n        await this.makeRequest('/logout', {
+          method: 'POST',
+        });
+      }
+    } finally {
+      this.clearTokens();
+    }
+  }
+
+  async getCurrentUser(): Promise<{ user: User; tenant: Tenant }> {\n    return this.makeRequest('/me');
+  }
+
+  async refreshTokens(): Promise<boolean> {
+    if (!this.refreshToken) {
+      return false;
+    }
+
+    try {\n      const response = await fetch(`${this.baseUrl}/refresh`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ refreshToken: this.refreshToken }),
+      });
+
+      if (!response.ok) {
+        this.clearTokens();
+        return false;
+      }
+
+      const data = await response.json();
+      this.storeTokens(data.accessToken, data.refreshToken);
+      return true;
+    } catch {
+      this.clearTokens();
+      return false;
+    }
+  }
+
+  async changePassword(currentPassword: string, newPassword: string): Promise<void> {\n    await this.makeRequest('/change-password', {
+      method: 'POST',
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
+  }
+
+  async requestPasswordReset(email: string): Promise<void> {\n    await this.makeRequest('/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    });
+  }
+
+  async resetPassword(token: string, password: string): Promise<void> {\n    await this.makeRequest('/reset-password', {
+      method: 'POST',
+      body: JSON.stringify({ token, password }),
+    });
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.accessToken;
+  }
+
+  getAccessToken(): string | null {
+    return this.accessToken;
+  }
+}
+
+const authService = new AuthService();
+
+export function useAuth() {
+  const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
+
+  // Query to get current user
+  const {
+    data: authData,
+    isLoading: isLoadingUser,
+    error: userError,
+  } = useQuery({
+    queryKey: ['auth', 'user'],
+    queryFn: () => authService.getCurrentUser(),
+    enabled: authService.isAuthenticated(),
+    retry: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+
+  // Login mutation
+  const loginMutation = useMutation({
+    mutationFn: (data: LoginData) => authService.login(data),
+    onSuccess: (response) => {
+      queryClient.setQueryData(['auth', 'user'], {
+        user: response.user,
+        tenant: response.tenant,
+      });
+      queryClient.invalidateQueries({ queryKey: ['auth'] });
+    },
+    onError: (error) => {
+      console.error('Login error:', error);
+    },
+  });
+
+  // Register mutation
+  const registerMutation = useMutation({
+    mutationFn: (data: RegisterData) => authService.register(data),
+    onSuccess: (response) => {
+      queryClient.setQueryData(['auth', 'user'], {
+        user: response.user,
+        tenant: response.tenant,
+      });
+      queryClient.invalidateQueries({ queryKey: ['auth'] });
+    },
+    onError: (error) => {
+      console.error('Register error:', error);
+    },
+  });
+
+  // Logout mutation
+  const logoutMutation = useMutation({
+    mutationFn: () => authService.logout(),
+    onSuccess: () => {
+      queryClient.clear();
+      queryClient.invalidateQueries({ queryKey: ['auth'] });
+    },
+  });
+
+  // Change password mutation
+  const changePasswordMutation = useMutation({
+    mutationFn: ({ currentPassword, newPassword }: { currentPassword: string; newPassword: string }) =>
+      authService.changePassword(currentPassword, newPassword),
+    onError: (error) => {
+      console.error('Change password error:', error);
+    },
+  });
+
+  const login = useCallback(async (data: LoginData) => {
+    setIsLoading(true);
+    try {
+      await loginMutation.mutateAsync(data);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [loginMutation]);
+
+  const register = useCallback(async (data: RegisterData) => {
+    setIsLoading(true);
+    try {
+      await registerMutation.mutateAsync(data);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [registerMutation]);
+
+  const logout = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      await logoutMutation.mutateAsync();
+    } finally {
+      setIsLoading(false);
+    }
+  }, [logoutMutation]);
+
+  const changePassword = useCallback(async (currentPassword: string, newPassword: string) => {
+    return changePasswordMutation.mutateAsync({ currentPassword, newPassword });
+  }, [changePasswordMutation]);
+
+  const requestPasswordReset = useCallback(async (email: string) => {
+    return authService.requestPasswordReset(email);
+  }, []);
+
+  const resetPassword = useCallback(async (token: string, password: string) => {
+    return authService.resetPassword(token, password);
+  }, []);
+
+  const isAuthenticated = authService.isAuthenticated() && !userError;
+
+  return {
+    // State
+    user: authData?.user || null,
+    tenant: authData?.tenant || null,
+    isAuthenticated,
+    isLoading: isLoading || isLoadingUser || loginMutation.isPending || registerMutation.isPending || logoutMutation.isPending,
+    error: userError,
+
+    // Actions
+    login,
+    register,
+    logout,
+    changePassword,
+    requestPasswordReset,
+    resetPassword,
+
+    // Mutation states
+    loginError: loginMutation.error,
+    registerError: registerMutation.error,
+    changePasswordError: changePasswordMutation.error,
+    isChangingPassword: changePasswordMutation.isPending,
+
+    // Utils
+    getAccessToken: authService.getAccessToken.bind(authService),
+  };
+}
+
+// Hook for components that require authentication
+export function useRequireAuth() {
+  const { isAuthenticated, isLoading, user } = useAuth();
+  
+  return {
+    isAuthenticated,
+    isLoading,
+    user,
+    requireAuth: !isLoading && !isAuthenticated,
+  };
+}
+
+// Hook for session management
+export function useSession() {
+  const { user, tenant, isAuthenticated, isLoading } = useAuth();
+
+  const session = isAuthenticated && user && tenant ? {
+    user,
+    tenant,
+  } : null;
+
+  return {
+    session,
+    status: isLoading ? 'loading' : isAuthenticated ? 'authenticated' : 'unauthenticated',
+  };
+}"

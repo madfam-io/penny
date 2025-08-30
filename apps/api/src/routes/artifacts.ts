@@ -1,10 +1,8 @@
-import type { FastifyPluginAsync } from 'fastify';
-import { Role, createArtifactSchema } from '@penny/shared';
+import type { FastifyPluginAsync } from 'fastify';\nimport { Role, createArtifactSchema } from '@penny/shared';
 
 const routes: FastifyPluginAsync = async (fastify) => {
   // List artifacts
-  fastify.get(
-    '/',
+  fastify.get(\n    '/',
     {
       schema: {
         description: 'List artifacts',
@@ -48,8 +46,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Create artifact
-  fastify.post(
-    '/',
+  fastify.post(\n    '/',
     {
       schema: {
         description: 'Create a new artifact',
@@ -81,8 +78,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Get artifact
-  fastify.get(
-    '/:artifactId',
+  fastify.get(\n    '/:artifactId',
     {
       schema: {
         description: 'Get artifact details',
@@ -106,8 +102,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
         id: artifactId,
         type: 'application/vnd.penny.chart+json',
         name: 'Mock Chart',
-        conversationId: 'conv_123',
-        url: `https://storage.penny.ai/artifacts/${artifactId}`,
+        conversationId: 'conv_123',\n        url: `https://storage.penny.ai/artifacts/${artifactId}`,
         createdAt: new Date().toISOString(),
         metadata: {
           chartType: 'line',
@@ -118,8 +113,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Get artifact content
-  fastify.get(
-    '/:artifactId/content',
+  fastify.get(\n    '/:artifactId/content',
     {
       schema: {
         description: 'Get artifact content (redirects to storage URL)',
@@ -138,16 +132,14 @@ const routes: FastifyPluginAsync = async (fastify) => {
     async (request, reply) => {
       const { artifactId } = request.params as any;
 
-      // TODO: Generate signed URL for object storage
-      const signedUrl = `https://storage.penny.ai/artifacts/${artifactId}?token=mock`;
+      // TODO: Generate signed URL for object storage\n      const signedUrl = `https://storage.penny.ai/artifacts/${artifactId}?token=mock`;
 
       reply.redirect(302, signedUrl);
     },
   );
 
   // Delete artifact
-  fastify.delete(
-    '/:artifactId',
+  fastify.delete(\n    '/:artifactId',
     {
       schema: {
         description: 'Delete an artifact',

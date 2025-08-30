@@ -19,15 +19,13 @@ export const ConversationListQuerySchema = z.object({
   offset: z.coerce.number().int().min(0).default(0),
   sortBy: z.enum(['createdAt', 'updatedAt', 'title']).default('updatedAt'),
   sortOrder: z.enum(['asc', 'desc']).default('desc'),
-  include: z.string()
-    .transform(val => val.split(',').map(s => s.trim()))
+  include: z.string()\n    .transform(val => val.split(',').map(s => s.trim()))
     .pipe(z.array(z.enum(['messages', 'artifacts', 'stats'])))
     .optional(),
 });
 
 export const ConversationDetailQuerySchema = z.object({
-  include: z.string()
-    .transform(val => val.split(',').map(s => s.trim()))
+  include: z.string()\n    .transform(val => val.split(',').map(s => s.trim()))
     .pipe(z.array(z.enum(['messages', 'artifacts', 'memories', 'stats'])))
     .optional(),
   messagesLimit: z.coerce.number().int().positive().max(1000).default(50),
@@ -228,8 +226,7 @@ export const ConversationValidationRules = {
     { message: 'Metadata must be less than 10KB' }
   ).refine(
     (metadata) => {
-      // Check for reserved keys
-      const reservedKeys = ['__internal', '__system', '__temp'];
+      // Check for reserved keys\n      const reservedKeys = ['__internal', '__system', '__temp'];
       return !Object.keys(metadata).some(key => reservedKeys.includes(key));
     },
     { message: 'Metadata cannot contain reserved keys' }

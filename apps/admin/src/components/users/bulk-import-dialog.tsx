@@ -22,8 +22,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from '@penny/ui';
+  TableRow,\n} from '@penny/ui';
 import { Upload, Download, Loader2, CheckCircle, XCircle } from 'lucide-react';
 
 interface BulkImportDialogProps {
@@ -40,8 +39,7 @@ interface ImportedUser {
 }
 
 export function BulkImportDialog({ open, onOpenChange }: BulkImportDialogProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [tenant, setTenant] = useState('');
+  const [isLoading, setIsLoading] = useState(false);\n  const [tenant, setTenant] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [importedUsers, setImportedUsers] = useState<ImportedUser[]>([]);
   const [showResults, setShowResults] = useState(false);
@@ -56,14 +54,12 @@ export function BulkImportDialog({ open, onOpenChange }: BulkImportDialogProps) 
   };
 
   const parseCSV = async (file: File) => {
-    const text = await file.text();
-    const lines = text.split('\n').filter((line) => line.trim());
-    const headers = lines[0].split(',').map((h) => h.trim());
+    const text = await file.text();\n    const lines = text.split('
+').filter((line) => line.trim());\n    const headers = lines[0].split(',').map((h) => h.trim());
 
     const users: ImportedUser[] = lines
       .slice(1)
-      .map((line) => {
-        const values = line.split(',').map((v) => v.trim());
+      .map((line) => {\n        const values = line.split(',').map((v) => v.trim());
         return {
           email: values[headers.indexOf('email')] || '',
           name: values[headers.indexOf('name')] || '',
@@ -101,7 +97,8 @@ export function BulkImportDialog({ open, onOpenChange }: BulkImportDialogProps) 
 
   const downloadTemplate = () => {
     const csv =
-      'email,name,role\nuser1@example.com,John Doe,member\nuser2@example.com,Jane Smith,admin';
+      'email,name,role
+user1@example.com,John Doe,member\nuser2@example.com,Jane Smith,admin';
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -114,8 +111,7 @@ export function BulkImportDialog({ open, onOpenChange }: BulkImportDialogProps) 
   const reset = () => {
     setFile(null);
     setImportedUsers([]);
-    setShowResults(false);
-    setTenant('');
+    setShowResults(false);\n    setTenant('');
   };
 
   return (
@@ -126,48 +122,26 @@ export function BulkImportDialog({ open, onOpenChange }: BulkImportDialogProps) 
           <DialogDescription>Import multiple users from a CSV file</DialogDescription>
         </DialogHeader>
 
-        {!showResults ? (
-          <div className="space-y-4">
-            <div className="grid gap-2">
-              <Label htmlFor="tenant">Tenant</Label>
-              <Select value={tenant} onValueChange={setTenant}>
-                <SelectTrigger id="tenant">
-                  <SelectValue placeholder="Select tenant" />
+        {!showResults ? (\n          <div className="space-y-4">\n            <div className="grid gap-2">\n              <Label htmlFor="tenant">Tenant</Label>
+              <Select value={tenant} onValueChange={setTenant}>\n                <SelectTrigger id="tenant">\n                  <SelectValue placeholder="Select tenant" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="acme">Acme Corporation</SelectItem>
-                  <SelectItem value="techstart">TechStart Inc</SelectItem>
-                  <SelectItem value="digital">Digital Agency</SelectItem>
+                <SelectContent>\n                  <SelectItem value="acme">Acme Corporation</SelectItem>\n                  <SelectItem value="techstart">TechStart Inc</SelectItem>\n                  <SelectItem value="digital">Digital Agency</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-
-            <div className="space-y-2">
-              <Label>CSV File</Label>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" onClick={downloadTemplate}>
-                  <Download className="mr-2 h-4 w-4" />
+\n            <div className="space-y-2">
+              <Label>CSV File</Label>\n              <div className="flex items-center gap-2">\n                <Button variant="outline" size="sm" onClick={downloadTemplate}>\n                  <Download className="mr-2 h-4 w-4" />
                   Download Template
-                </Button>
-                <span className="text-sm text-muted-foreground">
+                </Button>\n                <span className="text-sm text-muted-foreground">
                   Use this template to format your data
                 </span>
               </div>
-
-              <div className="mt-4 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-6">
-                <input
-                  type="file"
-                  accept=".csv"
-                  onChange={handleFileChange}
-                  className="hidden"
-                  id="csv-upload"
-                />
-                <label htmlFor="csv-upload" className="flex flex-col items-center cursor-pointer">
-                  <Upload className="h-12 w-12 text-gray-400 mb-2" />
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
+\n              <div className="mt-4 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-6">
+                <input\n                  type="file"\n                  accept=".csv"
+                  onChange={handleFileChange}\n                  className="hidden"\n                  id="csv-upload"
+                />\n                <label htmlFor="csv-upload" className="flex flex-col items-center cursor-pointer">\n                  <Upload className="h-12 w-12 text-gray-400 mb-2" />\n                  <span className="text-sm text-gray-600 dark:text-gray-400">
                     {file ? file.name : 'Click to upload or drag and drop'}
-                  </span>
-                  <span className="text-xs text-gray-500 dark:text-gray-500">CSV files only</span>
+                  </span>\n                  <span className="text-xs text-gray-500 dark:text-gray-500">CSV files only</span>
                 </label>
               </div>
             </div>
@@ -181,8 +155,7 @@ export function BulkImportDialog({ open, onOpenChange }: BulkImportDialogProps) 
               </Alert>
             )}
 
-            {importedUsers.length > 0 && (
-              <div className="max-h-[200px] overflow-y-auto border rounded-lg">
+            {importedUsers.length > 0 && (\n              <div className="max-h-[200px] overflow-y-auto border rounded-lg">
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -200,8 +173,7 @@ export function BulkImportDialog({ open, onOpenChange }: BulkImportDialogProps) 
                       </TableRow>
                     ))}
                     {importedUsers.length > 5 && (
-                      <TableRow>
-                        <TableCell colSpan={3} className="text-center text-muted-foreground">
+                      <TableRow>\n                        <TableCell colSpan={3} className="text-center text-muted-foreground">
                           ... and {importedUsers.length - 5} more users
                         </TableCell>
                       </TableRow>
@@ -211,16 +183,14 @@ export function BulkImportDialog({ open, onOpenChange }: BulkImportDialogProps) 
               </div>
             )}
           </div>
-        ) : (
-          <div className="space-y-4">
+        ) : (\n          <div className="space-y-4">
             <Alert>
               <AlertDescription>
                 Import completed. {importedUsers.filter((u) => u.status === 'success').length} of{' '}
                 {importedUsers.length} users imported successfully.
               </AlertDescription>
             </Alert>
-
-            <div className="max-h-[300px] overflow-y-auto border rounded-lg">
+\n            <div className="max-h-[300px] overflow-y-auto border rounded-lg">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -234,15 +204,12 @@ export function BulkImportDialog({ open, onOpenChange }: BulkImportDialogProps) 
                   {importedUsers.map((user, index) => (
                     <TableRow key={index}>
                       <TableCell>
-                        {user.status === 'success' ? (
-                          <CheckCircle className="h-4 w-4 text-green-600" />
-                        ) : (
-                          <XCircle className="h-4 w-4 text-red-600" />
+                        {user.status === 'success' ? (\n                          <CheckCircle className="h-4 w-4 text-green-600" />
+                        ) : (\n                          <XCircle className="h-4 w-4 text-red-600" />
                         )}
                       </TableCell>
                       <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.name}</TableCell>
-                      <TableCell className="text-sm text-muted-foreground">
+                      <TableCell>{user.name}</TableCell>\n                      <TableCell className="text-sm text-muted-foreground">
                         {user.message || 'Success'}
                       </TableCell>
                     </TableRow>
@@ -256,9 +223,7 @@ export function BulkImportDialog({ open, onOpenChange }: BulkImportDialogProps) 
         <DialogFooter>
           {!showResults ? (
             <>
-              <Button
-                type="button"
-                variant="outline"
+              <Button\n                type="button"\n                variant="outline"
                 onClick={() => {
                   reset();
                   onOpenChange(false);
@@ -272,13 +237,11 @@ export function BulkImportDialog({ open, onOpenChange }: BulkImportDialogProps) 
                 disabled={isLoading || !tenant || importedUsers.length === 0}
               >
                 {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <>\n                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Importing...
                   </>
                 ) : (
-                  <>
-                    <Upload className="mr-2 h-4 w-4" />
+                  <>\n                    <Upload className="mr-2 h-4 w-4" />
                     Import {importedUsers.length} Users
                   </>
                 )}

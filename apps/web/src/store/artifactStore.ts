@@ -1,1 +1,700 @@
-import { create } from 'zustand';\nimport { devtools, subscribeWithSelector } from 'zustand/middleware';\nimport { Artifact, ArtifactCollection } from '@penny/types';\nimport { ArtifactDetector } from '../utils/artifacts/detector';\nimport { ArtifactTransformer } from '../utils/artifacts/transformer';\n\nexport interface User {\n  id: string;\n  name: string;\n  email: string;\n  permissions: string[];\n}\n\nexport interface ArtifactFilter {\n  type?: Artifact['type'][];\n  tags?: string[];\n  createdBy?: string;\n  dateRange?: { start: Date; end: Date };\n  search?: string;\n  isPublic?: boolean;\n}\n\nexport interface ArtifactState {\n  // Data\n  artifacts: Artifact[];\n  collections: ArtifactCollection[];\n  currentUser: User | null;\n  \n  // UI State\n  selectedArtifacts: string[];\n  filter: ArtifactFilter;\n  sortBy: 'createdAt' | 'updatedAt' | 'title' | 'size';\n  sortOrder: 'asc' | 'desc';\n  viewMode: 'grid' | 'list';\n  showSidebar: boolean;\n  \n  // Loading states\n  loading: boolean;\n  creating: boolean;\n  error: string | null;\n  \n  // Actions\n  fetchArtifacts: (options?: { force?: boolean }) => Promise<void>;\n  fetchArtifact: (id: string) => Promise<void>;\n  createArtifact: (data: Omit<Artifact, 'id' | 'createdAt' | 'updatedAt' | 'version'>) => Promise<string>;\n  updateArtifact: (id: string, updates: Partial<Artifact>) => Promise<boolean>;\n  deleteArtifact: (id: string) => Promise<boolean>;\n  duplicateArtifact: (id: string) => Promise<string | null>;\n  \n  // Batch operations\n  bulkDelete: (ids: string[]) => Promise<boolean>;\n  bulkUpdate: (ids: string[], updates: Partial<Artifact>) => Promise<boolean>;\n  bulkExport: (ids: string[], format: string) => Promise<boolean>;\n  \n  // Sharing\n  shareArtifact: (id: string) => Promise<{ shareUrl: string; expiresAt: Date }>;\n  \n  // Collections\n  fetchCollections: () => Promise<void>;\n  createCollection: (data: Omit<ArtifactCollection, 'id' | 'createdAt' | 'updatedAt'>) => Promise<string>;\n  addToCollection: (collectionId: string, artifactIds: string[]) => Promise<boolean>;\n  removeFromCollection: (collectionId: string, artifactIds: string[]) => Promise<boolean>;\n  \n  // Annotations\n  addAnnotation: (artifactId: string, annotation: any) => void;\n  removeAnnotation: (artifactId: string, annotationId: string) => void;\n  updateAnnotation: (artifactId: string, annotationId: string, updates: any) => void;\n  \n  // Filters and sorting\n  setFilter: (filter: Partial<ArtifactFilter>) => void;\n  clearFilter: () => void;\n  setSorting: (sortBy: ArtifactState['sortBy'], sortOrder: ArtifactState['sortOrder']) => void;\n  \n  // Selection\n  selectArtifact: (id: string) => void;\n  deselectArtifact: (id: string) => void;\n  selectAll: () => void;\n  clearSelection: () => void;\n  \n  // UI\n  setViewMode: (mode: 'grid' | 'list') => void;\n  toggleSidebar: () => void;\n  \n  // Import/Upload\n  importArtifacts: (files: FileList) => Promise<string[]>;\n  \n  // Cache management\n  clearCache: () => void;\n  refreshCache: () => Promise<void>;\n}\n\n// Mock API functions\nconst api = {\n  async fetchArtifacts(filter?: ArtifactFilter) {\n    // Mock API call\n    return new Promise<Artifact[]>(resolve => {\n      setTimeout(() => {\n        const mockArtifacts: Artifact[] = [\n          {\n            id: '1',\n            title: 'Sales Dashboard',\n            description: 'Q4 2023 sales performance metrics',\n            type: 'chart',\n            content: {\n              chartType: 'bar',\n              data: [{ month: 'Jan', sales: 100 }, { month: 'Feb', sales: 150 }],\n              config: { title: 'Monthly Sales', responsive: true }\n            },\n            conversationId: 'conv1',\n            messageId: 'msg1',\n            version: 1,\n            size: 1024,\n            tags: ['sales', 'dashboard'],\n            isPublic: false,\n            createdAt: new Date('2023-12-01'),\n            updatedAt: new Date('2023-12-01'),\n            createdBy: 'user1',\n            tenantId: 'tenant1',\n            exportFormats: ['png', 'svg', 'pdf', 'json']\n          },\n          {\n            id: '2',\n            title: 'User Data Table',\n            description: 'Active user statistics',\n            type: 'table',\n            content: {\n              columns: [\n                { key: 'name', title: 'Name', type: 'string', sortable: true, filterable: true },\n                { key: 'email', title: 'Email', type: 'string', sortable: true, filterable: true },\n                { key: 'active', title: 'Active', type: 'boolean', sortable: true, filterable: true }\n              ],\n              data: [\n                { name: 'John Doe', email: 'john@example.com', active: true },\n                { name: 'Jane Smith', email: 'jane@example.com', active: false }\n              ],\n              config: {\n                pagination: { enabled: true, pageSize: 25, showSizeChanger: true },\n                sorting: { enabled: true },\n                filtering: { enabled: true, searchable: true },\n                selection: { enabled: false, multiple: false },\n                export: { enabled: true, formats: ['csv', 'excel'] }\n              }\n            },\n            conversationId: 'conv2',\n            version: 1,\n            size: 2048,\n            tags: ['users', 'data'],\n            isPublic: true,\n            createdAt: new Date('2023-12-02'),\n            updatedAt: new Date('2023-12-02'),\n            createdBy: 'user2',\n            tenantId: 'tenant1',\n            exportFormats: ['csv', 'excel', 'pdf']\n          }\n        ];\n        \n        // Apply filters\n        let filtered = mockArtifacts;\n        \n        if (filter?.type?.length) {\n          filtered = filtered.filter(a => filter.type!.includes(a.type));\n        }\n        \n        if (filter?.tags?.length) {\n          filtered = filtered.filter(a => filter.tags!.some(tag => a.tags.includes(tag)));\n        }\n        \n        if (filter?.search) {\n          const search = filter.search.toLowerCase();\n          filtered = filtered.filter(a => \n            a.title.toLowerCase().includes(search) ||\n            (a.description && a.description.toLowerCase().includes(search))\n          );\n        }\n        \n        resolve(filtered);\n      }, 500);\n    });\n  },\n  \n  async createArtifact(data: any) {\n    return new Promise<string>(resolve => {\n      setTimeout(() => {\n        resolve(Math.random().toString(36).substring(2));\n      }, 300);\n    });\n  },\n  \n  async updateArtifact(id: string, updates: any) {\n    return new Promise<boolean>(resolve => {\n      setTimeout(() => resolve(true), 200);\n    });\n  },\n  \n  async deleteArtifact(id: string) {\n    return new Promise<boolean>(resolve => {\n      setTimeout(() => resolve(true), 200);\n    });\n  },\n  \n  async shareArtifact(id: string) {\n    return new Promise<{ shareUrl: string; expiresAt: Date }>(resolve => {\n      setTimeout(() => {\n        resolve({\n          shareUrl: `/shared/${Math.random().toString(36).substring(2)}`,\n          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days\n        });\n      }, 200);\n    });\n  }\n};\n\nexport const useArtifactStore = create<ArtifactState>()()\n  devtools(\n    subscribeWithSelector((set, get) => ({\n      // Initial state\n      artifacts: [],\n      collections: [],\n      currentUser: {\n        id: 'user1',\n        name: 'Demo User',\n        email: 'demo@penny.ai',\n        permissions: ['create_artifacts', 'edit_artifacts', 'delete_artifacts', 'share_artifacts']\n      },\n      \n      selectedArtifacts: [],\n      filter: {},\n      sortBy: 'createdAt',\n      sortOrder: 'desc',\n      viewMode: 'grid',\n      showSidebar: true,\n      \n      loading: false,\n      creating: false,\n      error: null,\n      \n      // Actions\n      async fetchArtifacts(options) {\n        if (get().loading && !options?.force) return;\n        \n        set({ loading: true, error: null });\n        \n        try {\n          const artifacts = await api.fetchArtifacts(get().filter);\n          \n          // Apply sorting\n          const { sortBy, sortOrder } = get();\n          artifacts.sort((a, b) => {\n            let aVal: any, bVal: any;\n            \n            switch (sortBy) {\n              case 'title':\n                aVal = a.title.toLowerCase();\n                bVal = b.title.toLowerCase();\n                break;\n              case 'size':\n                aVal = a.size || 0;\n                bVal = b.size || 0;\n                break;\n              case 'updatedAt':\n                aVal = a.updatedAt.getTime();\n                bVal = b.updatedAt.getTime();\n                break;\n              default:\n                aVal = a.createdAt.getTime();\n                bVal = b.createdAt.getTime();\n            }\n            \n            const comparison = aVal < bVal ? -1 : aVal > bVal ? 1 : 0;\n            return sortOrder === 'asc' ? comparison : -comparison;\n          });\n          \n          set({ artifacts, loading: false });\n        } catch (error) {\n          set({ \n            error: error instanceof Error ? error.message : 'Failed to fetch artifacts',\n            loading: false \n          });\n        }\n      },\n      \n      async fetchArtifact(id) {\n        const existing = get().artifacts.find(a => a.id === id);\n        if (existing) return;\n        \n        set({ loading: true, error: null });\n        \n        try {\n          // Mock single artifact fetch\n          const artifacts = await api.fetchArtifacts();\n          const artifact = artifacts.find(a => a.id === id);\n          \n          if (artifact) {\n            set(state => ({\n              artifacts: [...state.artifacts.filter(a => a.id !== id), artifact],\n              loading: false\n            }));\n          } else {\n            set({ error: 'Artifact not found', loading: false });\n          }\n        } catch (error) {\n          set({ \n            error: error instanceof Error ? error.message : 'Failed to fetch artifact',\n            loading: false \n          });\n        }\n      },\n      \n      async createArtifact(data) {\n        set({ creating: true, error: null });\n        \n        try {\n          const id = await api.createArtifact(data);\n          \n          const newArtifact: Artifact = {\n            ...data,\n            id,\n            version: 1,\n            size: JSON.stringify(data.content).length,\n            createdAt: new Date(),\n            updatedAt: new Date(),\n            createdBy: get().currentUser?.id || 'anonymous',\n            tenantId: 'tenant1',\n            exportFormats: ArtifactDetector.getSupportedFormats ? [] : []\n          };\n          \n          set(state => ({\n            artifacts: [newArtifact, ...state.artifacts],\n            creating: false\n          }));\n          \n          return id;\n        } catch (error) {\n          set({ \n            error: error instanceof Error ? error.message : 'Failed to create artifact',\n            creating: false \n          });\n          throw error;\n        }\n      },\n      \n      async updateArtifact(id, updates) {\n        set({ error: null });\n        \n        try {\n          const success = await api.updateArtifact(id, updates);\n          \n          if (success) {\n            set(state => ({\n              artifacts: state.artifacts.map(artifact => \n                artifact.id === id \n                  ? { \n                      ...artifact, \n                      ...updates, \n                      updatedAt: new Date(),\n                      version: (artifact.version || 1) + 1\n                    }\n                  : artifact\n              )\n            }));\n          }\n          \n          return success;\n        } catch (error) {\n          set({ error: error instanceof Error ? error.message : 'Failed to update artifact' });\n          return false;\n        }\n      },\n      \n      async deleteArtifact(id) {\n        set({ error: null });\n        \n        try {\n          const success = await api.deleteArtifact(id);\n          \n          if (success) {\n            set(state => ({\n              artifacts: state.artifacts.filter(a => a.id !== id),\n              selectedArtifacts: state.selectedArtifacts.filter(sid => sid !== id)\n            }));\n          }\n          \n          return success;\n        } catch (error) {\n          set({ error: error instanceof Error ? error.message : 'Failed to delete artifact' });\n          return false;\n        }\n      },\n      \n      async duplicateArtifact(id) {\n        const artifact = get().artifacts.find(a => a.id === id);\n        if (!artifact) return null;\n        \n        try {\n          const duplicateId = await get().createArtifact({\n            ...artifact,\n            title: `${artifact.title} (Copy)`,\n            isPublic: false\n          });\n          \n          return duplicateId;\n        } catch (error) {\n          return null;\n        }\n      },\n      \n      async bulkDelete(ids) {\n        set({ error: null });\n        \n        try {\n          // Mock bulk delete\n          const results = await Promise.all(ids.map(id => api.deleteArtifact(id)));\n          const success = results.every(r => r);\n          \n          if (success) {\n            set(state => ({\n              artifacts: state.artifacts.filter(a => !ids.includes(a.id)),\n              selectedArtifacts: state.selectedArtifacts.filter(sid => !ids.includes(sid))\n            }));\n          }\n          \n          return success;\n        } catch (error) {\n          set({ error: error instanceof Error ? error.message : 'Bulk delete failed' });\n          return false;\n        }\n      },\n      \n      async bulkUpdate(ids, updates) {\n        set({ error: null });\n        \n        try {\n          const results = await Promise.all(ids.map(id => api.updateArtifact(id, updates)));\n          const success = results.every(r => r);\n          \n          if (success) {\n            set(state => ({\n              artifacts: state.artifacts.map(artifact => \n                ids.includes(artifact.id)\n                  ? { ...artifact, ...updates, updatedAt: new Date() }\n                  : artifact\n              )\n            }));\n          }\n          \n          return success;\n        } catch (error) {\n          set({ error: error instanceof Error ? error.message : 'Bulk update failed' });\n          return false;\n        }\n      },\n      \n      async bulkExport(ids, format) {\n        // Mock bulk export\n        return true;\n      },\n      \n      async shareArtifact(id) {\n        return await api.shareArtifact(id);\n      },\n      \n      async fetchCollections() {\n        // Mock collections fetch\n        set({ collections: [] });\n      },\n      \n      async createCollection(data) {\n        const id = Math.random().toString(36).substring(2);\n        const collection: ArtifactCollection = {\n          ...data,\n          id,\n          createdAt: new Date(),\n          updatedAt: new Date()\n        };\n        \n        set(state => ({\n          collections: [...state.collections, collection]\n        }));\n        \n        return id;\n      },\n      \n      async addToCollection(collectionId, artifactIds) {\n        set(state => ({\n          collections: state.collections.map(collection => \n            collection.id === collectionId\n              ? { \n                  ...collection, \n                  artifacts: [...new Set([...collection.artifacts, ...artifactIds])],\n                  updatedAt: new Date()\n                }\n              : collection\n          )\n        }));\n        return true;\n      },\n      \n      async removeFromCollection(collectionId, artifactIds) {\n        set(state => ({\n          collections: state.collections.map(collection => \n            collection.id === collectionId\n              ? { \n                  ...collection, \n                  artifacts: collection.artifacts.filter(id => !artifactIds.includes(id)),\n                  updatedAt: new Date()\n                }\n              : collection\n          )\n        }));\n        return true;\n      },\n      \n      addAnnotation(artifactId, annotation) {\n        set(state => ({\n          artifacts: state.artifacts.map(artifact => \n            artifact.id === artifactId\n              ? {\n                  ...artifact,\n                  metadata: {\n                    ...artifact.metadata,\n                    annotations: [\n                      ...(artifact.metadata?.annotations || []),\n                      annotation\n                    ]\n                  }\n                }\n              : artifact\n          )\n        }));\n      },\n      \n      removeAnnotation(artifactId, annotationId) {\n        set(state => ({\n          artifacts: state.artifacts.map(artifact => \n            artifact.id === artifactId\n              ? {\n                  ...artifact,\n                  metadata: {\n                    ...artifact.metadata,\n                    annotations: (artifact.metadata?.annotations || []).filter(\n                      (a: any) => a.id !== annotationId\n                    )\n                  }\n                }\n              : artifact\n          )\n        }));\n      },\n      \n      updateAnnotation(artifactId, annotationId, updates) {\n        set(state => ({\n          artifacts: state.artifacts.map(artifact => \n            artifact.id === artifactId\n              ? {\n                  ...artifact,\n                  metadata: {\n                    ...artifact.metadata,\n                    annotations: (artifact.metadata?.annotations || []).map(\n                      (a: any) => a.id === annotationId ? { ...a, ...updates } : a\n                    )\n                  }\n                }\n              : artifact\n          )\n        }));\n      },\n      \n      setFilter(filter) {\n        set(state => ({ filter: { ...state.filter, ...filter } }));\n        get().fetchArtifacts({ force: true });\n      },\n      \n      clearFilter() {\n        set({ filter: {} });\n        get().fetchArtifacts({ force: true });\n      },\n      \n      setSorting(sortBy, sortOrder) {\n        set({ sortBy, sortOrder });\n        get().fetchArtifacts({ force: true });\n      },\n      \n      selectArtifact(id) {\n        set(state => ({\n          selectedArtifacts: [...new Set([...state.selectedArtifacts, id])]\n        }));\n      },\n      \n      deselectArtifact(id) {\n        set(state => ({\n          selectedArtifacts: state.selectedArtifacts.filter(sid => sid !== id)\n        }));\n      },\n      \n      selectAll() {\n        set(state => ({\n          selectedArtifacts: state.artifacts.map(a => a.id)\n        }));\n      },\n      \n      clearSelection() {\n        set({ selectedArtifacts: [] });\n      },\n      \n      setViewMode(mode) {\n        set({ viewMode: mode });\n      },\n      \n      toggleSidebar() {\n        set(state => ({ showSidebar: !state.showSidebar }));\n      },\n      \n      async importArtifacts(files) {\n        const imported: string[] = [];\n        \n        for (const file of Array.from(files)) {\n          try {\n            const detection = ArtifactDetector.detectFromFile({\n              name: file.name,\n              size: file.size,\n              type: file.type,\n              lastModified: file.lastModified\n            });\n            \n            let content: any;\n            \n            if (file.type.startsWith('image/')) {\n              content = {\n                src: URL.createObjectURL(file),\n                alt: file.name,\n                config: { zoomable: true, downloadable: true }\n              };\n            } else if (file.type === 'application/json') {\n              const text = await file.text();\n              content = JSON.parse(text);\n            } else {\n              const text = await file.text();\n              \n              if (detection.type === 'table' && text.includes(',')) {\n                const result = ArtifactTransformer.toTable(text);\n                content = result.success ? result.data : { raw: text };\n              } else {\n                content = { code: text, language: 'text' };\n              }\n            }\n            \n            const id = await get().createArtifact({\n              title: detection.suggestedTitle || file.name,\n              type: detection.type,\n              content,\n              metadata: detection.metadata,\n              tags: [],\n              isPublic: false\n            });\n            \n            imported.push(id);\n          } catch (error) {\n            console.error(`Failed to import ${file.name}:`, error);\n          }\n        }\n        \n        return imported;\n      },\n      \n      clearCache() {\n        set({ artifacts: [], collections: [] });\n      },\n      \n      async refreshCache() {\n        await get().fetchArtifacts({ force: true });\n        await get().fetchCollections();\n      }\n    })),\n    { name: 'artifact-store' }\n  )\n);\n\n// Selectors\nexport const useArtifactSelectors = () => {\n  const store = useArtifactStore();\n  \n  return {\n    getArtifactById: (id: string) => store.artifacts.find(a => a.id === id),\n    getFilteredArtifacts: () => {\n      const { artifacts, filter } = store;\n      // Additional filtering logic if needed\n      return artifacts;\n    },\n    getSelectedArtifacts: () => {\n      const { artifacts, selectedArtifacts } = store;\n      return artifacts.filter(a => selectedArtifacts.includes(a.id));\n    },\n    getArtifactsByType: (type: Artifact['type']) => {\n      return store.artifacts.filter(a => a.type === type);\n    },\n    getRecentArtifacts: (limit = 10) => {\n      return store.artifacts\n        .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())\n        .slice(0, limit);\n    }\n  };\n};\n\n// Subscribe to changes\nexport const subscribeToArtifacts = (callback: (artifacts: Artifact[]) => void) => {\n  return useArtifactStore.subscribe(\n    state => state.artifacts,\n    callback,\n    { equalityFn: (a, b) => a.length === b.length && a.every((item, index) => item.id === b[index].id) }\n  );\n};"
+import { create } from 'zustand';
+import { devtools, subscribeWithSelector } from 'zustand/middleware';\nimport { Artifact, ArtifactCollection } from '@penny/types';\nimport { ArtifactDetector } from '../utils/artifacts/detector';\nimport { ArtifactTransformer } from '../utils/artifacts/transformer';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  permissions: string[];
+}
+
+export interface ArtifactFilter {
+  type?: Artifact['type'][];
+  tags?: string[];
+  createdBy?: string;
+  dateRange?: { start: Date; end: Date };
+  search?: string;
+  isPublic?: boolean;
+}
+
+export interface ArtifactState {
+  // Data
+  artifacts: Artifact[];
+  collections: ArtifactCollection[];
+  currentUser: User | null;
+  
+  // UI State
+  selectedArtifacts: string[];
+  filter: ArtifactFilter;
+  sortBy: 'createdAt' | 'updatedAt' | 'title' | 'size';
+  sortOrder: 'asc' | 'desc';
+  viewMode: 'grid' | 'list';
+  showSidebar: boolean;
+  
+  // Loading states
+  loading: boolean;
+  creating: boolean;
+  error: string | null;
+  
+  // Actions
+  fetchArtifacts: (options?: { force?: boolean }) => Promise<void>;
+  fetchArtifact: (id: string) => Promise<void>;
+  createArtifact: (data: Omit<Artifact, 'id' | 'createdAt' | 'updatedAt' | 'version'>) => Promise<string>;
+  updateArtifact: (id: string, updates: Partial<Artifact>) => Promise<boolean>;
+  deleteArtifact: (id: string) => Promise<boolean>;
+  duplicateArtifact: (id: string) => Promise<string | null>;
+  
+  // Batch operations
+  bulkDelete: (ids: string[]) => Promise<boolean>;
+  bulkUpdate: (ids: string[], updates: Partial<Artifact>) => Promise<boolean>;
+  bulkExport: (ids: string[], format: string) => Promise<boolean>;
+  
+  // Sharing
+  shareArtifact: (id: string) => Promise<{ shareUrl: string; expiresAt: Date }>;
+  
+  // Collections
+  fetchCollections: () => Promise<void>;
+  createCollection: (data: Omit<ArtifactCollection, 'id' | 'createdAt' | 'updatedAt'>) => Promise<string>;
+  addToCollection: (collectionId: string, artifactIds: string[]) => Promise<boolean>;
+  removeFromCollection: (collectionId: string, artifactIds: string[]) => Promise<boolean>;
+  
+  // Annotations
+  addAnnotation: (artifactId: string, annotation: any) => void;
+  removeAnnotation: (artifactId: string, annotationId: string) => void;
+  updateAnnotation: (artifactId: string, annotationId: string, updates: any) => void;
+  
+  // Filters and sorting
+  setFilter: (filter: Partial<ArtifactFilter>) => void;
+  clearFilter: () => void;
+  setSorting: (sortBy: ArtifactState['sortBy'], sortOrder: ArtifactState['sortOrder']) => void;
+  
+  // Selection
+  selectArtifact: (id: string) => void;
+  deselectArtifact: (id: string) => void;
+  selectAll: () => void;
+  clearSelection: () => void;
+  
+  // UI
+  setViewMode: (mode: 'grid' | 'list') => void;
+  toggleSidebar: () => void;
+  
+  // Import/Upload
+  importArtifacts: (files: FileList) => Promise<string[]>;
+  
+  // Cache management
+  clearCache: () => void;
+  refreshCache: () => Promise<void>;
+}
+
+// Mock API functions
+const api = {
+  async fetchArtifacts(filter?: ArtifactFilter) {
+    // Mock API call
+    return new Promise<Artifact[]>(resolve => {
+      setTimeout(() => {
+        const mockArtifacts: Artifact[] = [
+          {\n            id: '1',
+            title: 'Sales Dashboard',
+            description: 'Q4 2023 sales performance metrics',
+            type: 'chart',
+            content: {
+              chartType: 'bar',
+              data: [{ month: 'Jan', sales: 100 }, { month: 'Feb', sales: 150 }],
+              config: { title: 'Monthly Sales', responsive: true }
+            },
+            conversationId: 'conv1',
+            messageId: 'msg1',
+            version: 1,
+            size: 1024,
+            tags: ['sales', 'dashboard'],
+            isPublic: false,\n            createdAt: new Date('2023-12-01'),\n            updatedAt: new Date('2023-12-01'),
+            createdBy: 'user1',
+            tenantId: 'tenant1',
+            exportFormats: ['png', 'svg', 'pdf', 'json']
+          },
+          {\n            id: '2',
+            title: 'User Data Table',
+            description: 'Active user statistics',
+            type: 'table',
+            content: {
+              columns: [
+                { key: 'name', title: 'Name', type: 'string', sortable: true, filterable: true },
+                { key: 'email', title: 'Email', type: 'string', sortable: true, filterable: true },
+                { key: 'active', title: 'Active', type: 'boolean', sortable: true, filterable: true }
+              ],
+              data: [
+                { name: 'John Doe', email: 'john@example.com', active: true },
+                { name: 'Jane Smith', email: 'jane@example.com', active: false }
+              ],
+              config: {
+                pagination: { enabled: true, pageSize: 25, showSizeChanger: true },
+                sorting: { enabled: true },
+                filtering: { enabled: true, searchable: true },
+                selection: { enabled: false, multiple: false },
+                export: { enabled: true, formats: ['csv', 'excel'] }
+              }
+            },
+            conversationId: 'conv2',
+            version: 1,
+            size: 2048,
+            tags: ['users', 'data'],
+            isPublic: true,\n            createdAt: new Date('2023-12-02'),\n            updatedAt: new Date('2023-12-02'),
+            createdBy: 'user2',
+            tenantId: 'tenant1',
+            exportFormats: ['csv', 'excel', 'pdf']
+          }
+        ];
+        
+        // Apply filters
+        let filtered = mockArtifacts;
+        
+        if (filter?.type?.length) {
+          filtered = filtered.filter(a => filter.type!.includes(a.type));
+        }
+        
+        if (filter?.tags?.length) {
+          filtered = filtered.filter(a => filter.tags!.some(tag => a.tags.includes(tag)));
+        }
+        
+        if (filter?.search) {
+          const search = filter.search.toLowerCase();
+          filtered = filtered.filter(a => 
+            a.title.toLowerCase().includes(search) ||
+            (a.description && a.description.toLowerCase().includes(search))
+          );
+        }
+        
+        resolve(filtered);
+      }, 500);
+    });
+  },
+  
+  async createArtifact(data: any) {
+    return new Promise<string>(resolve => {
+      setTimeout(() => {
+        resolve(Math.random().toString(36).substring(2));
+      }, 300);
+    });
+  },
+  
+  async updateArtifact(id: string, updates: any) {
+    return new Promise<boolean>(resolve => {
+      setTimeout(() => resolve(true), 200);
+    });
+  },
+  
+  async deleteArtifact(id: string) {
+    return new Promise<boolean>(resolve => {
+      setTimeout(() => resolve(true), 200);
+    });
+  },
+  
+  async shareArtifact(id: string) {
+    return new Promise<{ shareUrl: string; expiresAt: Date }>(resolve => {
+      setTimeout(() => {
+        resolve({
+          shareUrl: `/shared/${Math.random().toString(36).substring(2)}`,
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days
+        });
+      }, 200);
+    });
+  }
+};
+
+export const useArtifactStore = create<ArtifactState>()()
+  devtools(
+    subscribeWithSelector((set, get) => ({
+      // Initial state
+      artifacts: [],
+      collections: [],
+      currentUser: {
+        id: 'user1',
+        name: 'Demo User',
+        email: 'demo@penny.ai',
+        permissions: ['create_artifacts', 'edit_artifacts', 'delete_artifacts', 'share_artifacts']
+      },
+      
+      selectedArtifacts: [],
+      filter: {},
+      sortBy: 'createdAt',
+      sortOrder: 'desc',
+      viewMode: 'grid',
+      showSidebar: true,
+      
+      loading: false,
+      creating: false,
+      error: null,
+      
+      // Actions
+      async fetchArtifacts(options) {
+        if (get().loading && !options?.force) return;
+        
+        set({ loading: true, error: null });
+        
+        try {
+          const artifacts = await api.fetchArtifacts(get().filter);
+          
+          // Apply sorting
+          const { sortBy, sortOrder } = get();
+          artifacts.sort((a, b) => {
+            let aVal: any, bVal: any;
+            
+            switch (sortBy) {
+              case 'title':
+                aVal = a.title.toLowerCase();
+                bVal = b.title.toLowerCase();
+                break;
+              case 'size':
+                aVal = a.size || 0;
+                bVal = b.size || 0;
+                break;
+              case 'updatedAt':
+                aVal = a.updatedAt.getTime();
+                bVal = b.updatedAt.getTime();
+                break;
+              default:
+                aVal = a.createdAt.getTime();
+                bVal = b.createdAt.getTime();
+            }
+            
+            const comparison = aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+            return sortOrder === 'asc' ? comparison : -comparison;
+          });
+          
+          set({ artifacts, loading: false });
+        } catch (error) {
+          set({ 
+            error: error instanceof Error ? error.message : 'Failed to fetch artifacts',
+            loading: false 
+          });
+        }
+      },
+      
+      async fetchArtifact(id) {
+        const existing = get().artifacts.find(a => a.id === id);
+        if (existing) return;
+        
+        set({ loading: true, error: null });
+        
+        try {
+          // Mock single artifact fetch
+          const artifacts = await api.fetchArtifacts();
+          const artifact = artifacts.find(a => a.id === id);
+          
+          if (artifact) {
+            set(state => ({
+              artifacts: [...state.artifacts.filter(a => a.id !== id), artifact],
+              loading: false
+            }));
+          } else {
+            set({ error: 'Artifact not found', loading: false });
+          }
+        } catch (error) {
+          set({ 
+            error: error instanceof Error ? error.message : 'Failed to fetch artifact',
+            loading: false 
+          });
+        }
+      },
+      
+      async createArtifact(data) {
+        set({ creating: true, error: null });
+        
+        try {
+          const id = await api.createArtifact(data);
+          
+          const newArtifact: Artifact = {
+            ...data,
+            id,
+            version: 1,
+            size: JSON.stringify(data.content).length,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            createdBy: get().currentUser?.id || 'anonymous',
+            tenantId: 'tenant1',
+            exportFormats: ArtifactDetector.getSupportedFormats ? [] : []
+          };
+          
+          set(state => ({
+            artifacts: [newArtifact, ...state.artifacts],
+            creating: false
+          }));
+          
+          return id;
+        } catch (error) {
+          set({ 
+            error: error instanceof Error ? error.message : 'Failed to create artifact',
+            creating: false 
+          });
+          throw error;
+        }
+      },
+      
+      async updateArtifact(id, updates) {
+        set({ error: null });
+        
+        try {
+          const success = await api.updateArtifact(id, updates);
+          
+          if (success) {
+            set(state => ({
+              artifacts: state.artifacts.map(artifact => 
+                artifact.id === id 
+                  ? { 
+                      ...artifact, 
+                      ...updates, 
+                      updatedAt: new Date(),
+                      version: (artifact.version || 1) + 1
+                    }
+                  : artifact
+              )
+            }));
+          }
+          
+          return success;
+        } catch (error) {
+          set({ error: error instanceof Error ? error.message : 'Failed to update artifact' });
+          return false;
+        }
+      },
+      
+      async deleteArtifact(id) {
+        set({ error: null });
+        
+        try {
+          const success = await api.deleteArtifact(id);
+          
+          if (success) {
+            set(state => ({
+              artifacts: state.artifacts.filter(a => a.id !== id),
+              selectedArtifacts: state.selectedArtifacts.filter(sid => sid !== id)
+            }));
+          }
+          
+          return success;
+        } catch (error) {
+          set({ error: error instanceof Error ? error.message : 'Failed to delete artifact' });
+          return false;
+        }
+      },
+      
+      async duplicateArtifact(id) {
+        const artifact = get().artifacts.find(a => a.id === id);
+        if (!artifact) return null;
+        
+        try {
+          const duplicateId = await get().createArtifact({
+            ...artifact,\n            title: `${artifact.title} (Copy)`,
+            isPublic: false
+          });
+          
+          return duplicateId;
+        } catch (error) {
+          return null;
+        }
+      },
+      
+      async bulkDelete(ids) {
+        set({ error: null });
+        
+        try {
+          // Mock bulk delete
+          const results = await Promise.all(ids.map(id => api.deleteArtifact(id)));
+          const success = results.every(r => r);
+          
+          if (success) {
+            set(state => ({
+              artifacts: state.artifacts.filter(a => !ids.includes(a.id)),
+              selectedArtifacts: state.selectedArtifacts.filter(sid => !ids.includes(sid))
+            }));
+          }
+          
+          return success;
+        } catch (error) {
+          set({ error: error instanceof Error ? error.message : 'Bulk delete failed' });
+          return false;
+        }
+      },
+      
+      async bulkUpdate(ids, updates) {
+        set({ error: null });
+        
+        try {
+          const results = await Promise.all(ids.map(id => api.updateArtifact(id, updates)));
+          const success = results.every(r => r);
+          
+          if (success) {
+            set(state => ({
+              artifacts: state.artifacts.map(artifact => 
+                ids.includes(artifact.id)
+                  ? { ...artifact, ...updates, updatedAt: new Date() }
+                  : artifact
+              )
+            }));
+          }
+          
+          return success;
+        } catch (error) {
+          set({ error: error instanceof Error ? error.message : 'Bulk update failed' });
+          return false;
+        }
+      },
+      
+      async bulkExport(ids, format) {
+        // Mock bulk export
+        return true;
+      },
+      
+      async shareArtifact(id) {
+        return await api.shareArtifact(id);
+      },
+      
+      async fetchCollections() {
+        // Mock collections fetch
+        set({ collections: [] });
+      },
+      
+      async createCollection(data) {
+        const id = Math.random().toString(36).substring(2);
+        const collection: ArtifactCollection = {
+          ...data,
+          id,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        
+        set(state => ({
+          collections: [...state.collections, collection]
+        }));
+        
+        return id;
+      },
+      
+      async addToCollection(collectionId, artifactIds) {
+        set(state => ({
+          collections: state.collections.map(collection => 
+            collection.id === collectionId
+              ? { 
+                  ...collection, 
+                  artifacts: [...new Set([...collection.artifacts, ...artifactIds])],
+                  updatedAt: new Date()
+                }
+              : collection
+          )
+        }));
+        return true;
+      },
+      
+      async removeFromCollection(collectionId, artifactIds) {
+        set(state => ({
+          collections: state.collections.map(collection => 
+            collection.id === collectionId
+              ? { 
+                  ...collection, 
+                  artifacts: collection.artifacts.filter(id => !artifactIds.includes(id)),
+                  updatedAt: new Date()
+                }
+              : collection
+          )
+        }));
+        return true;
+      },
+      
+      addAnnotation(artifactId, annotation) {
+        set(state => ({
+          artifacts: state.artifacts.map(artifact => 
+            artifact.id === artifactId
+              ? {
+                  ...artifact,
+                  metadata: {
+                    ...artifact.metadata,
+                    annotations: [
+                      ...(artifact.metadata?.annotations || []),
+                      annotation
+                    ]
+                  }
+                }
+              : artifact
+          )
+        }));
+      },
+      
+      removeAnnotation(artifactId, annotationId) {
+        set(state => ({
+          artifacts: state.artifacts.map(artifact => 
+            artifact.id === artifactId
+              ? {
+                  ...artifact,
+                  metadata: {
+                    ...artifact.metadata,
+                    annotations: (artifact.metadata?.annotations || []).filter(
+                      (a: any) => a.id !== annotationId
+                    )
+                  }
+                }
+              : artifact
+          )
+        }));
+      },
+      
+      updateAnnotation(artifactId, annotationId, updates) {
+        set(state => ({
+          artifacts: state.artifacts.map(artifact => 
+            artifact.id === artifactId
+              ? {
+                  ...artifact,
+                  metadata: {
+                    ...artifact.metadata,
+                    annotations: (artifact.metadata?.annotations || []).map(
+                      (a: any) => a.id === annotationId ? { ...a, ...updates } : a
+                    )
+                  }
+                }
+              : artifact
+          )
+        }));
+      },
+      
+      setFilter(filter) {
+        set(state => ({ filter: { ...state.filter, ...filter } }));
+        get().fetchArtifacts({ force: true });
+      },
+      
+      clearFilter() {
+        set({ filter: {} });
+        get().fetchArtifacts({ force: true });
+      },
+      
+      setSorting(sortBy, sortOrder) {
+        set({ sortBy, sortOrder });
+        get().fetchArtifacts({ force: true });
+      },
+      
+      selectArtifact(id) {
+        set(state => ({
+          selectedArtifacts: [...new Set([...state.selectedArtifacts, id])]
+        }));
+      },
+      
+      deselectArtifact(id) {
+        set(state => ({
+          selectedArtifacts: state.selectedArtifacts.filter(sid => sid !== id)
+        }));
+      },
+      
+      selectAll() {
+        set(state => ({
+          selectedArtifacts: state.artifacts.map(a => a.id)
+        }));
+      },
+      
+      clearSelection() {
+        set({ selectedArtifacts: [] });
+      },
+      
+      setViewMode(mode) {
+        set({ viewMode: mode });
+      },
+      
+      toggleSidebar() {
+        set(state => ({ showSidebar: !state.showSidebar }));
+      },
+      
+      async importArtifacts(files) {
+        const imported: string[] = [];
+        
+        for (const file of Array.from(files)) {
+          try {
+            const detection = ArtifactDetector.detectFromFile({
+              name: file.name,
+              size: file.size,
+              type: file.type,
+              lastModified: file.lastModified
+            });
+            
+            let content: any;
+            
+            if (file.type.startsWith('image/')) {
+              content = {
+                src: URL.createObjectURL(file),
+                alt: file.name,
+                config: { zoomable: true, downloadable: true }
+              };
+            } else if (file.type === 'application/json') {
+              const text = await file.text();
+              content = JSON.parse(text);
+            } else {
+              const text = await file.text();
+              
+              if (detection.type === 'table' && text.includes(',')) {
+                const result = ArtifactTransformer.toTable(text);
+                content = result.success ? result.data : { raw: text };
+              } else {
+                content = { code: text, language: 'text' };
+              }
+            }
+            
+            const id = await get().createArtifact({
+              title: detection.suggestedTitle || file.name,
+              type: detection.type,
+              content,
+              metadata: detection.metadata,
+              tags: [],
+              isPublic: false
+            });
+            
+            imported.push(id);
+          } catch (error) {\n            console.error(`Failed to import ${file.name}:`, error);
+          }
+        }
+        
+        return imported;
+      },
+      
+      clearCache() {
+        set({ artifacts: [], collections: [] });
+      },
+      
+      async refreshCache() {
+        await get().fetchArtifacts({ force: true });
+        await get().fetchCollections();
+      }
+    })),
+    { name: 'artifact-store' }
+  )
+);
+
+// Selectors
+export const useArtifactSelectors = () => {
+  const store = useArtifactStore();
+  
+  return {
+    getArtifactById: (id: string) => store.artifacts.find(a => a.id === id),
+    getFilteredArtifacts: () => {
+      const { artifacts, filter } = store;
+      // Additional filtering logic if needed
+      return artifacts;
+    },
+    getSelectedArtifacts: () => {
+      const { artifacts, selectedArtifacts } = store;
+      return artifacts.filter(a => selectedArtifacts.includes(a.id));
+    },
+    getArtifactsByType: (type: Artifact['type']) => {
+      return store.artifacts.filter(a => a.type === type);
+    },
+    getRecentArtifacts: (limit = 10) => {
+      return store.artifacts
+        .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
+        .slice(0, limit);
+    }
+  };
+};
+
+// Subscribe to changes
+export const subscribeToArtifacts = (callback: (artifacts: Artifact[]) => void) => {
+  return useArtifactStore.subscribe(
+    state => state.artifacts,
+    callback,
+    { equalityFn: (a, b) => a.length === b.length && a.every((item, index) => item.id === b[index].id) }
+  );
+};"

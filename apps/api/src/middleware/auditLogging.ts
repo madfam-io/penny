@@ -1,5 +1,4 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { PrismaClient } from '@prisma/client';
+import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';\nimport { PrismaClient } from '@prisma/client';
 
 interface AuditLogEntry {
   tenantId: string;
@@ -29,12 +28,7 @@ export async function auditLoggingPlugin(fastify: FastifyInstance) {
     enabled: process.env.AUDIT_LOGGING_ENABLED !== 'false',
     logSuccessfulRequests: true,
     logFailedRequests: true,
-    excludePaths: [
-      '/health',
-      '/metrics',
-      '/ping',
-      '/api-keys',
-      '/rate-limit',
+    excludePaths: [\n      '/health',\n      '/metrics',\n      '/ping',\n      '/api-keys',\n      '/rate-limit',
     ],
     excludeActions: [
       'READ', // Don't log read operations by default
@@ -206,8 +200,7 @@ export async function auditLoggingPlugin(fastify: FastifyInstance) {
     }
   });
 
-  // Audit query endpoint for admins
-  fastify.get('/audit-logs', {
+  // Audit query endpoint for admins\n  fastify.get('/audit-logs', {
     schema: {
       querystring: {
         type: 'object',
@@ -324,17 +317,7 @@ export async function auditLoggingPlugin(fastify: FastifyInstance) {
     const method = request.method.toUpperCase();
     const url = request.url.toLowerCase();
 
-    // Special cases
-    if (url.includes('/login')) return 'LOGIN';
-    if (url.includes('/logout')) return 'LOGOUT';
-    if (url.includes('/register')) return 'REGISTER';
-    if (url.includes('/invite')) return 'INVITE_USER';
-    if (url.includes('/archive')) return 'ARCHIVE';
-    if (url.includes('/restore')) return 'RESTORE';
-    if (url.includes('/export')) return 'EXPORT_DATA';
-    if (url.includes('/import')) return 'IMPORT_DATA';
-    if (url.includes('/test')) return 'TEST';
-    if (url.includes('/reset')) return 'RESET';
+    // Special cases\n    if (url.includes('/login')) return 'LOGIN';\n    if (url.includes('/logout')) return 'LOGOUT';\n    if (url.includes('/register')) return 'REGISTER';\n    if (url.includes('/invite')) return 'INVITE_USER';\n    if (url.includes('/archive')) return 'ARCHIVE';\n    if (url.includes('/restore')) return 'RESTORE';\n    if (url.includes('/export')) return 'EXPORT_DATA';\n    if (url.includes('/import')) return 'IMPORT_DATA';\n    if (url.includes('/test')) return 'TEST';\n    if (url.includes('/reset')) return 'RESET';
 
     // HTTP method mapping
     switch (method) {
@@ -348,27 +331,13 @@ export async function auditLoggingPlugin(fastify: FastifyInstance) {
   }
 
   function determineResource(request: FastifyRequest): string {
-    const url = request.url.toLowerCase();
-    const pathSegments = url.split('/').filter(Boolean);
+    const url = request.url.toLowerCase();\n    const pathSegments = url.split('/').filter(Boolean);
 
     // Remove query string
-    if (pathSegments.length > 0) {
-      pathSegments[pathSegments.length - 1] = pathSegments[pathSegments.length - 1].split('?')[0];
+    if (pathSegments.length > 0) {\n      pathSegments[pathSegments.length - 1] = pathSegments[pathSegments.length - 1].split('?')[0];
     }
 
-    // Map URL patterns to resource types
-    if (url.includes('/conversations')) return 'conversation';
-    if (url.includes('/messages')) return 'message';
-    if (url.includes('/artifacts')) return 'artifact';
-    if (url.includes('/tools')) return 'tool';
-    if (url.includes('/users')) return 'user';
-    if (url.includes('/tenants')) return 'tenant';
-    if (url.includes('/webhooks')) return 'webhook';
-    if (url.includes('/subscriptions') || url.includes('/billing')) return 'subscription';
-    if (url.includes('/api-keys')) return 'api_key';
-    if (url.includes('/usage')) return 'usage';
-    if (url.includes('/admin')) return 'admin';
-    if (url.includes('/auth')) return 'auth';
+    // Map URL patterns to resource types\n    if (url.includes('/conversations')) return 'conversation';\n    if (url.includes('/messages')) return 'message';\n    if (url.includes('/artifacts')) return 'artifact';\n    if (url.includes('/tools')) return 'tool';\n    if (url.includes('/users')) return 'user';\n    if (url.includes('/tenants')) return 'tenant';\n    if (url.includes('/webhooks')) return 'webhook';\n    if (url.includes('/subscriptions') || url.includes('/billing')) return 'subscription';\n    if (url.includes('/api-keys')) return 'api_key';\n    if (url.includes('/usage')) return 'usage';\n    if (url.includes('/admin')) return 'admin';\n    if (url.includes('/auth')) return 'auth';
 
     // Default to first path segment or unknown
     return pathSegments[0] || 'unknown';
@@ -384,8 +353,7 @@ export async function auditLoggingPlugin(fastify: FastifyInstance) {
 
   function getClientIP(request: FastifyRequest): string {
     const forwarded = request.headers['x-forwarded-for'];
-    if (forwarded) {
-      return (forwarded as string).split(',')[0].trim();
+    if (forwarded) {\n      return (forwarded as string).split(',')[0].trim();
     }
     return request.ip;
   }
@@ -394,8 +362,7 @@ export async function auditLoggingPlugin(fastify: FastifyInstance) {
     const sanitized: Record<string, unknown> = {};
     
     for (const [key, value] of Object.entries(headers)) {
-      if (sensitiveFields.some(field => key.toLowerCase().includes(field.toLowerCase()))) {
-        sanitized[key] = '[REDACTED]';
+      if (sensitiveFields.some(field => key.toLowerCase().includes(field.toLowerCase()))) {\n        sanitized[key] = '[REDACTED]';
       } else {
         sanitized[key] = value;
       }
@@ -415,8 +382,7 @@ export async function auditLoggingPlugin(fastify: FastifyInstance) {
 
     const sanitized: any = {};
     for (const [key, value] of Object.entries(obj)) {
-      if (sensitiveFields.some(field => key.toLowerCase().includes(field.toLowerCase()))) {
-        sanitized[key] = '[REDACTED]';
+      if (sensitiveFields.some(field => key.toLowerCase().includes(field.toLowerCase()))) {\n        sanitized[key] = '[REDACTED]';
       } else if (typeof value === 'object') {
         sanitized[key] = sanitizeObject(value, sensitiveFields);
       } else {
@@ -445,8 +411,7 @@ export async function auditLoggingPlugin(fastify: FastifyInstance) {
 
     // Add remaining fields until we hit the limit
     const remaining = maxSize - JSON.stringify(truncated).length - 100; // Buffer
-    if (remaining > 0) {
-      const remainingStr = str.substring(0, remaining) + '...';
+    if (remaining > 0) {\n      const remainingStr = str.substring(0, remaining) + '...';
       try {
         const partial = JSON.parse(remainingStr);
         Object.assign(truncated, partial);
@@ -488,8 +453,7 @@ export async function auditLoggingPlugin(fastify: FastifyInstance) {
           },
         },
       });
-
-      fastify.log.info(`Cleaned up ${result.count} old audit log entries`);
+\n      fastify.log.info(`Cleaned up ${result.count} old audit log entries`);
       return result.count;
     } catch (error) {
       fastify.log.error(error, 'Failed to cleanup old audit logs');

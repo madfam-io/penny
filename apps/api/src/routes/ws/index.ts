@@ -1,11 +1,6 @@
 import type { FastifyPluginAsync } from 'fastify';
 import type { FastifyRequest } from 'fastify';
-import { z } from 'zod';
-import { prisma } from '@penny/database';
-import { generateId } from '@penny/shared';
-import { getJWTService } from '@penny/security';
-import { ModelOrchestrator } from '@penny/core';
-import { ToolExecutor, ToolRegistry, registerBuiltinTools } from '@penny/core';
+import { z } from 'zod';\nimport { prisma } from '@penny/database';\nimport { generateId } from '@penny/shared';\nimport { getJWTService } from '@penny/security';\nimport { ModelOrchestrator } from '@penny/core';\nimport { ToolExecutor, ToolRegistry, registerBuiltinTools } from '@penny/core';
 import Redis from 'ioredis';
 
 // Initialize services
@@ -58,12 +53,9 @@ interface WebSocketClient {
 
 const clients = new Map<any, WebSocketClient>();
 
-const wsRoutes: FastifyPluginAsync = async (fastify) => {
-  fastify.get('/ws', { websocket: true }, async (connection, request: FastifyRequest) => {
+const wsRoutes: FastifyPluginAsync = async (fastify) => {\n  fastify.get('/ws', { websocket: true }, async (connection, request: FastifyRequest) => {
     const client: WebSocketClient = {
-      id: generateId('ws'),
-      userId: '',
-      tenantId: '',
+      id: generateId('ws'),\n      userId: '',\n      tenantId: '',
       isAuthenticated: false,
     };
 
@@ -173,8 +165,7 @@ const wsRoutes: FastifyPluginAsync = async (fastify) => {
             );
 
             // Start streaming response
-            const assistantMessageId = generateId('msg');
-            let fullContent = '';
+            const assistantMessageId = generateId('msg');\n            let fullContent = '';
             let artifacts: any[] = [];
 
             try {
@@ -328,8 +319,7 @@ const wsRoutes: FastifyPluginAsync = async (fastify) => {
             if (!client.isAuthenticated) return;
 
             // Broadcast typing indicator to other users in conversation
-            await redis.publish(
-              `conversation:${parsed.conversationId}`,
+            await redis.publish(\n              `conversation:${parsed.conversationId}`,
               JSON.stringify({
                 type: 'user_typing',
                 userId: client.userId,

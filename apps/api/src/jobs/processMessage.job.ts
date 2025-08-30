@@ -1,10 +1,4 @@
-import { Job, Worker, Queue } from 'bullmq';
-import { PrismaClient } from '@prisma/client';
-import { AIService } from '../services/AIService';
-import { ToolService } from '../services/ToolService';
-import { ArtifactService } from '../services/ArtifactService';
-import { UsageService } from '../services/UsageService';
-import { WebhookService } from '../services/WebhookService';
+import { Job, Worker, Queue } from 'bullmq';\nimport { PrismaClient } from '@prisma/client';\nimport { AIService } from '../services/AIService';\nimport { ToolService } from '../services/ToolService';\nimport { ArtifactService } from '../services/ArtifactService';\nimport { UsageService } from '../services/UsageService';\nimport { WebhookService } from '../services/WebhookService';
 
 interface ProcessMessageJobData {
   conversationId: string;
@@ -210,8 +204,7 @@ export class ProcessMessageJob {
             });
 
             toolsExecuted.push(toolCall.function.name);
-          } catch (error) {
-            console.error(`Tool execution failed: ${toolCall.function.name}`, error);
+          } catch (error) {\n            console.error(`Tool execution failed: ${toolCall.function.name}`, error);
           }
         }
       }
@@ -330,8 +323,7 @@ export class ProcessMessageJob {
   ): Promise<string[]> {
     const artifacts: string[] = [];
 
-    // Extract code blocks
-    const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
+    // Extract code blocks\n    const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
     let match;
     let index = 0;
 
@@ -346,8 +338,7 @@ export class ProcessMessageJob {
             userId,
             conversationId,
             messageId,
-            type: this.getArtifactType(language),
-            name: `Generated ${language} code ${index + 1}`,
+            type: this.getArtifactType(language),\n            name: `Generated ${language} code ${index + 1}`,
             content: { code, language },
             mimeType: this.getMimeType(language),
           });
@@ -444,16 +435,13 @@ export class ProcessMessageJob {
   }
 
   private setupEventHandlers(): void {
-    this.worker.on('completed', (job) => {
-      console.log(`Message processing job ${job.id} completed`);
+    this.worker.on('completed', (job) => {\n      console.log(`Message processing job ${job.id} completed`);
     });
 
-    this.worker.on('failed', (job, err) => {
-      console.error(`Message processing job ${job?.id} failed:`, err.message);
+    this.worker.on('failed', (job, err) => {\n      console.error(`Message processing job ${job?.id} failed:`, err.message);
     });
 
-    this.worker.on('stalled', (jobId) => {
-      console.warn(`Message processing job ${jobId} stalled`);
+    this.worker.on('stalled', (jobId) => {\n      console.warn(`Message processing job ${jobId} stalled`);
     });
   }
 

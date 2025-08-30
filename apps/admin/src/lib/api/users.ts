@@ -59,8 +59,7 @@ export interface UsersPagination {
   sortOrder?: 'asc' | 'desc';
 }
 
-class UsersApiClient {
-  private baseUrl = '/api/admin/users';
+class UsersApiClient {\n  private baseUrl = '/api/admin/users';
 
   async getUsers(
     pagination: UsersPagination,
@@ -84,8 +83,7 @@ class UsersApiClient {
     
     const response = await fetch(`${this.baseUrl}?${params.toString()}`);
     
-    if (!response.ok) {
-      throw new Error(`Failed to fetch users: ${response.statusText}`);
+    if (!response.ok) {\n      throw new Error(`Failed to fetch users: ${response.statusText}`);
     }
     
     const data = await response.json();
@@ -101,14 +99,12 @@ class UsersApiClient {
     };
   }
 
-  async getUser(id: string): Promise<User> {
-    const response = await fetch(`${this.baseUrl}/${id}`);
+  async getUser(id: string): Promise<User> {\n    const response = await fetch(`${this.baseUrl}/${id}`);
     
     if (!response.ok) {
       if (response.status === 404) {
         throw new Error('User not found');
-      }
-      throw new Error(`Failed to fetch user: ${response.statusText}`);
+      }\n      throw new Error(`Failed to fetch user: ${response.statusText}`);
     }
     
     const user = await response.json();
@@ -145,8 +141,7 @@ class UsersApiClient {
     };
   }
 
-  async updateUser(id: string, data: UpdateUserRequest): Promise<User> {
-    const response = await fetch(`${this.baseUrl}/${id}`, {
+  async updateUser(id: string, data: UpdateUserRequest): Promise<User> {\n    const response = await fetch(`${this.baseUrl}/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -169,8 +164,7 @@ class UsersApiClient {
     };
   }
 
-  async deleteUser(id: string): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/${id}`, {
+  async deleteUser(id: string): Promise<void> {\n    const response = await fetch(`${this.baseUrl}/${id}`, {
       method: 'DELETE',
     });
     
@@ -180,8 +174,7 @@ class UsersApiClient {
     }
   }
 
-  async bulkAction(action: string, userIds: string[], data?: any): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/bulk`, {
+  async bulkAction(action: string, userIds: string[], data?: any): Promise<void> {\n    const response = await fetch(`${this.baseUrl}/bulk`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -194,13 +187,11 @@ class UsersApiClient {
     });
     
     if (!response.ok) {
-      const error = await response.json().catch(() => ({ message: response.statusText }));
-      throw new Error(error.message || `Failed to perform bulk ${action}`);
+      const error = await response.json().catch(() => ({ message: response.statusText }));\n      throw new Error(error.message || `Failed to perform bulk ${action}`);
     }
   }
 
-  async resetPassword(id: string): Promise<{ temporaryPassword: string }> {
-    const response = await fetch(`${this.baseUrl}/${id}/reset-password`, {
+  async resetPassword(id: string): Promise<{ temporaryPassword: string }> {\n    const response = await fetch(`${this.baseUrl}/${id}/reset-password`, {
       method: 'POST',
     });
     
@@ -212,8 +203,7 @@ class UsersApiClient {
     return response.json();
   }
 
-  async sendEmail(id: string, subject: string, message: string): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/${id}/send-email`, {
+  async sendEmail(id: string, subject: string, message: string): Promise<void> {\n    const response = await fetch(`${this.baseUrl}/${id}/send-email`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -244,11 +234,9 @@ class UsersApiClient {
     if (options?.offset) params.set('offset', options.offset.toString());
     if (options?.startDate) params.set('startDate', options.startDate.toISOString());
     if (options?.endDate) params.set('endDate', options.endDate.toISOString());
+    \n    const response = await fetch(`${this.baseUrl}/${id}/activity?${params.toString()}`);
     
-    const response = await fetch(`${this.baseUrl}/${id}/activity?${params.toString()}`);
-    
-    if (!response.ok) {
-      throw new Error(`Failed to fetch user activity: ${response.statusText}`);
+    if (!response.ok) {\n      throw new Error(`Failed to fetch user activity: ${response.statusText}`);
     }
     
     return response.json();
@@ -262,11 +250,9 @@ class UsersApiClient {
     if (filters?.role) params.set('role', filters.role);
     if (filters?.status) params.set('status', filters.status);
     if (filters?.tenantId) params.set('tenantId', filters.tenantId);
+    \n    const response = await fetch(`${this.baseUrl}/export?${params.toString()}`);
     
-    const response = await fetch(`${this.baseUrl}/export?${params.toString()}`);
-    
-    if (!response.ok) {
-      throw new Error(`Failed to export users: ${response.statusText}`);
+    if (!response.ok) {\n      throw new Error(`Failed to export users: ${response.statusText}`);
     }
     
     return response.blob();

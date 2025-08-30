@@ -1,9 +1,5 @@
 import type { FastifyPluginAsync } from 'fastify';
-import { z } from 'zod';
-import { ValidationError, AuthenticationError, type Role } from '@penny/shared';
-import { PasswordService, JWTService, SessionService, type SessionData } from '@penny/security';
-import { prisma } from '@penny/database';
-import { generateId } from '@penny/shared';
+import { z } from 'zod';\nimport { ValidationError, AuthenticationError, type Role } from '@penny/shared';\nimport { PasswordService, JWTService, SessionService, type SessionData } from '@penny/security';\nimport { prisma } from '@penny/database';\nimport { generateId } from '@penny/shared';
 import crypto from 'node:crypto';
 
 // Validation schemas
@@ -52,13 +48,11 @@ const routes: FastifyPluginAsync = async (fastify) => {
 
   // Rate limiting for auth endpoints
   const rateLimiter = {
-    max: 5,
-    timeWindow: '1 minute',
+    max: 5,\n    timeWindow: '1 minute',
   };
 
   // Register new user and tenant
-  fastify.post(
-    '/register',
+  fastify.post(\n    '/register',
     {
       config: {
         rateLimit: rateLimiter,
@@ -120,8 +114,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
           throw new ValidationError('User with this email already exists');
         }
 
-        // Generate tenant slug
-        const baseSlug = body.tenantName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+        // Generate tenant slug\n        const baseSlug = body.tenantName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
         let tenantSlug = baseSlug;
         let counter = 1;
         
@@ -268,8 +261,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Login with email and password
-  fastify.post(
-    '/login',
+  fastify.post(\n    '/login',
     {
       config: {
         rateLimit: rateLimiter,
@@ -303,7 +295,8 @@ const routes: FastifyPluginAsync = async (fastify) => {
               },
               accessToken: { type: 'string' },
               refreshToken: { type: 'string' },
-              expiresIn: { type: 'number' },\n            },
+              expiresIn: { type: 'number' },
+            },
           },
         },
       },
@@ -311,11 +304,141 @@ const routes: FastifyPluginAsync = async (fastify) => {
     async (request, reply) => {
       const body = loginSchema.parse(request.body);
       
-      try {\n        // Find user by email\n        const user = await prisma.user.findFirst({\n          where: {\n            email: body.email.toLowerCase(),\n            isActive: true,\n          },\n          include: {\n            tenant: true,\n            roles: {\n              include: {\n                role: true,\n              },\n            },\n          },\n        });\n\n        if (!user || !user.passwordHash) {\n          throw new AuthenticationError('Invalid email or password');\n        }\n\n        // Verify password\n        const isPasswordValid = await PasswordService.verifyPassword(body.password, user.passwordHash);\n        if (!isPasswordValid) {\n          // Log failed login attempt\n          await prisma.auditLog.create({\n            data: {\n              tenantId: user.tenantId,\n              action: 'auth.login_failed',\n              resource: 'user',\n              metadata: {\n                email: body.email,\n                reason: 'invalid_password',\n                timestamp: new Date().toISOString(),\n              },\n              ipAddress: request.ip,\n              userAgent: request.headers['user-agent'],\n            },\n          });\n          \n          throw new AuthenticationError('Invalid email or password');\n        }\n\n        // Check if specific tenant is requested\n        if (body.tenantId && user.tenantId !== body.tenantId) {\n          throw new AuthenticationError('User does not belong to specified tenant');\n        }\n\n        // Generate session\n        const sessionId = generateId('ses');\n        const sessionData = SessionService.createSession({\n          userId: user.id,\n          tenantId: user.tenantId,\n          ipAddress: request.ip,\n          userAgent: request.headers['user-agent'],\n          expiresInDays: body.rememberMe ? 30 : 1, // Longer session if remember me\n        });\n\n        // Create session in database\n        await prisma.session.create({\n          data: {\n            id: sessionId,\n            userId: user.id,\n            sessionToken: sessionData.sessionToken,\n            expires: sessionData.expires,\n            ipAddress: sessionData.ipAddress,\n            userAgent: sessionData.userAgent,\n          },\n        });\n\n        // Update last login\n        await prisma.user.update({\n          where: { id: user.id },\n          data: { lastLoginAt: new Date() },\n        });\n\n        // Get user roles\n        const roles = user.roles.map(ur => ur.role.name as Role);\n\n        // Generate tokens\n        const tokenExpiry = body.rememberMe ? '7d' : '15m';\n        const { accessToken, refreshToken } = await jwtService.generateTokenPair(\n          user.id,\n          user.tenantId,\n          roles,\n          sessionId,\n          tokenExpiry\n        );\n\n        // Log successful login\n        await prisma.auditLog.create({\n          data: {\n            tenantId: user.tenantId,\n            userId: user.id,\n            action: 'auth.login',\n            resource: 'session',\n            metadata: {\n              sessionId,\n              rememberMe: body.rememberMe,\n              timestamp: new Date().toISOString(),\n            },\n            ipAddress: request.ip,\n            userAgent: request.headers['user-agent'],\n          },\n        });\n\n        return {\n          user: {\n            id: user.id,\n            email: user.email,\n            name: user.name,\n            avatar: user.avatar,\n            roles,\n            lastLoginAt: user.lastLoginAt?.toISOString(),\n          },\n          tenant: {\n            id: user.tenant.id,\n            name: user.tenant.name,\n            slug: user.tenant.slug,\n          },\n          accessToken,\n          refreshToken,\n          expiresIn: body.rememberMe ? 7 * 24 * 60 * 60 : 15 * 60, // seconds\n        };\n      } catch (error) {\n        if (error instanceof AuthenticationError || error instanceof ValidationError) {\n          throw error;\n        }\n        fastify.log.error('Login error:', error);\n        throw new AuthenticationError('Login failed');\n      }\n    },\n  );
+      try {
+        // Find user by email
+        const user = await prisma.user.findFirst({
+          where: {
+            email: body.email.toLowerCase(),
+            isActive: true,
+          },
+          include: {
+            tenant: true,
+            roles: {
+              include: {
+                role: true,
+              },
+            },
+          },
+        });
+
+        if (!user || !user.passwordHash) {
+          throw new AuthenticationError('Invalid email or password');
+        }
+
+        // Verify password
+        const isPasswordValid = await PasswordService.verifyPassword(body.password, user.passwordHash);
+        if (!isPasswordValid) {
+          // Log failed login attempt
+          await prisma.auditLog.create({
+            data: {
+              tenantId: user.tenantId,
+              action: 'auth.login_failed',
+              resource: 'user',
+              metadata: {
+                email: body.email,
+                reason: 'invalid_password',
+                timestamp: new Date().toISOString(),
+              },
+              ipAddress: request.ip,
+              userAgent: request.headers['user-agent'],
+            },
+          });
+          
+          throw new AuthenticationError('Invalid email or password');
+        }
+
+        // Check if specific tenant is requested
+        if (body.tenantId && user.tenantId !== body.tenantId) {
+          throw new AuthenticationError('User does not belong to specified tenant');
+        }
+
+        // Generate session
+        const sessionId = generateId('ses');
+        const sessionData = SessionService.createSession({
+          userId: user.id,
+          tenantId: user.tenantId,
+          ipAddress: request.ip,
+          userAgent: request.headers['user-agent'],
+          expiresInDays: body.rememberMe ? 30 : 1, // Longer session if remember me
+        });
+
+        // Create session in database
+        await prisma.session.create({
+          data: {
+            id: sessionId,
+            userId: user.id,
+            sessionToken: sessionData.sessionToken,
+            expires: sessionData.expires,
+            ipAddress: sessionData.ipAddress,
+            userAgent: sessionData.userAgent,
+          },
+        });
+
+        // Update last login
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { lastLoginAt: new Date() },
+        });
+
+        // Get user roles
+        const roles = user.roles.map(ur => ur.role.name as Role);
+
+        // Generate tokens\n        const tokenExpiry = body.rememberMe ? '7d' : '15m';
+        const { accessToken, refreshToken } = await jwtService.generateTokenPair(
+          user.id,
+          user.tenantId,
+          roles,
+          sessionId,
+          tokenExpiry
+        );
+
+        // Log successful login
+        await prisma.auditLog.create({
+          data: {
+            tenantId: user.tenantId,
+            userId: user.id,
+            action: 'auth.login',
+            resource: 'session',
+            metadata: {
+              sessionId,
+              rememberMe: body.rememberMe,
+              timestamp: new Date().toISOString(),
+            },
+            ipAddress: request.ip,
+            userAgent: request.headers['user-agent'],
+          },
+        });
+
+        return {
+          user: {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            avatar: user.avatar,
+            roles,
+            lastLoginAt: user.lastLoginAt?.toISOString(),
+          },
+          tenant: {
+            id: user.tenant.id,
+            name: user.tenant.name,
+            slug: user.tenant.slug,
+          },
+          accessToken,
+          refreshToken,
+          expiresIn: body.rememberMe ? 7 * 24 * 60 * 60 : 15 * 60, // seconds
+        };
+      } catch (error) {
+        if (error instanceof AuthenticationError || error instanceof ValidationError) {
+          throw error;
+        }
+        fastify.log.error('Login error:', error);
+        throw new AuthenticationError('Login failed');
+      }
+    },
+  );
 
   // Refresh access token
-  fastify.post(
-    '/refresh',
+  fastify.post(\n    '/refresh',
     {
       schema: {
         description: 'Refresh access token using refresh token',
@@ -393,8 +516,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Logout and invalidate session
-  fastify.post(
-    '/logout',
+  fastify.post(\n    '/logout',
     {
       schema: {
         description: 'Logout and invalidate current session',
@@ -448,8 +570,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Get current user profile
-  fastify.get(
-    '/me',
+  fastify.get(\n    '/me',
     {
       schema: {
         description: 'Get current authenticated user profile',
@@ -545,13 +666,11 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Request password reset
-  fastify.post(
-    '/forgot-password',
+  fastify.post(\n    '/forgot-password',
     {
       config: {
         rateLimit: {
-          max: 3,
-          timeWindow: '1 hour',
+          max: 3,\n          timeWindow: '1 hour',
         },
       },
       schema: {
@@ -610,8 +729,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
             },
           });
 
-          // TODO: Send email with reset link containing resetToken
-          fastify.log.info(`Password reset requested for ${user.email}, token: ${resetToken}`);
+          // TODO: Send email with reset link containing resetToken\n          fastify.log.info(`Password reset requested for ${user.email}, token: ${resetToken}`);
         }
 
         return {
@@ -627,8 +745,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Reset password with token
-  fastify.post(
-    '/reset-password',
+  fastify.post(\n    '/reset-password',
     {
       config: {
         rateLimit: rateLimiter,
@@ -725,8 +842,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Change password for authenticated user
-  fastify.post(
-    '/change-password',
+  fastify.post(\n    '/change-password',
     {
       schema: {
         description: 'Change password for authenticated user',
@@ -821,8 +937,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Verify email with token
-  fastify.post(
-    '/verify-email',
+  fastify.post(\n    '/verify-email',
     {
       schema: {
         description: 'Verify email address using verification token',
@@ -901,8 +1016,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Get user sessions
-  fastify.get(
-    '/sessions',
+  fastify.get(\n    '/sessions',
     {
       schema: {
         description: 'Get all active sessions for current user',
@@ -962,8 +1076,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Revoke session
-  fastify.delete(
-    '/sessions/:sessionId',
+  fastify.delete(\n    '/sessions/:sessionId',
     {
       schema: {
         description: 'Revoke a specific session',

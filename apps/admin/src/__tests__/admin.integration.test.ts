@@ -1,6 +1,4 @@
-import { FastifyInstance } from 'fastify';
-import { build } from '../app';
-import { PrismaClient } from '@prisma/client';
+import { FastifyInstance } from 'fastify';\nimport { build } from '../app';\nimport { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 
 describe('Admin Dashboard Integration Tests', () => {
@@ -83,20 +81,17 @@ describe('Admin Dashboard Integration Tests', () => {
     // Generate tokens
     adminToken = jwt.sign(
       { userId: adminUser.id, tenantId: testTenant.id, role: 'ADMIN' },
-      process.env.JWT_SECRET!,
-      { expiresIn: '1h' }
+      process.env.JWT_SECRET!,\n      { expiresIn: '1h' }
     );
 
     managerToken = jwt.sign(
       { userId: managerUser.id, tenantId: testTenant.id, role: 'MANAGER' },
-      process.env.JWT_SECRET!,
-      { expiresIn: '1h' }
+      process.env.JWT_SECRET!,\n      { expiresIn: '1h' }
     );
 
     userToken = jwt.sign(
       { userId: regularUser.id, tenantId: testTenant.id, role: 'CREATOR' },
-      process.env.JWT_SECRET!,
-      { expiresIn: '1h' }
+      process.env.JWT_SECRET!,\n      { expiresIn: '1h' }
     );
   });
 
@@ -113,8 +108,7 @@ describe('Admin Dashboard Integration Tests', () => {
   describe('Admin Dashboard Access Control', () => {
     it('should allow admin access to dashboard', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/dashboard',
+        method: 'GET',\n        url: '/admin/dashboard',
         headers: {
           Authorization: `Bearer ${adminToken}`,
         },
@@ -128,10 +122,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should allow manager access to dashboard', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/dashboard',
-        headers: {
-          Authorization: `Bearer ${managerToken}`,
+        method: 'GET',\n        url: '/admin/dashboard',
+        headers: {\n          Authorization: `Bearer ${managerToken}`,
         },
       });
 
@@ -140,10 +132,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should deny regular user access to dashboard', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/dashboard',
-        headers: {
-          Authorization: `Bearer ${userToken}`,
+        method: 'GET',\n        url: '/admin/dashboard',
+        headers: {\n          Authorization: `Bearer ${userToken}`,
         },
       });
 
@@ -152,8 +142,7 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should require authentication', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/dashboard',
+        method: 'GET',\n        url: '/admin/dashboard',
       });
 
       expect(response.statusCode).toBe(401);
@@ -163,10 +152,8 @@ describe('Admin Dashboard Integration Tests', () => {
   describe('User Management', () => {
     it('should list users with pagination', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/users?page=1&limit=10',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/users?page=1&limit=10',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -185,10 +172,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should filter users by role', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/users?role=ADMIN',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/users?role=ADMIN',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -202,10 +187,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should search users by name or email', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/users?search=manager',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/users?search=manager',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -236,10 +219,8 @@ describe('Admin Dashboard Integration Tests', () => {
       });
 
       const response = await app.inject({
-        method: 'GET',
-        url: `/admin/users/${regularUser.id}`,
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: `/admin/users/${regularUser.id}`,
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -263,11 +244,9 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should update user role', async () => {
       const response = await app.inject({
-        method: 'PUT',
-        url: `/admin/users/${regularUser.id}/role`,
+        method: 'PUT',\n        url: `/admin/users/${regularUser.id}/role`,
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${adminToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${adminToken}`,
         },
         payload: {
           role: 'MANAGER',
@@ -286,11 +265,9 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should deactivate user', async () => {
       const response = await app.inject({
-        method: 'PUT',
-        url: `/admin/users/${regularUser.id}/status`,
+        method: 'PUT',\n        url: `/admin/users/${regularUser.id}/status`,
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${adminToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${adminToken}`,
         },
         payload: {
           isActive: false,
@@ -309,11 +286,9 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should prevent self-deactivation', async () => {
       const response = await app.inject({
-        method: 'PUT',
-        url: `/admin/users/${adminUser.id}/status`,
+        method: 'PUT',\n        url: `/admin/users/${adminUser.id}/status`,
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${adminToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${adminToken}`,
         },
         payload: {
           isActive: false,
@@ -326,11 +301,9 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should create audit log for user management actions', async () => {
       await app.inject({
-        method: 'PUT',
-        url: `/admin/users/${regularUser.id}/role`,
+        method: 'PUT',\n        url: `/admin/users/${regularUser.id}/role`,
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${adminToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${adminToken}`,
         },
         payload: {
           role: 'MANAGER',
@@ -357,10 +330,8 @@ describe('Admin Dashboard Integration Tests', () => {
   describe('Tenant Settings Management', () => {
     it('should get tenant settings', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/tenant/settings',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/tenant/settings',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -394,18 +365,15 @@ describe('Admin Dashboard Integration Tests', () => {
           maxConversations: 2000,
           maxArtifacts: 1000,
         },
-        branding: {
-          primaryColor: '#007bff',
+        branding: {\n          primaryColor: '#007bff',
           logoUrl: 'https://company.com/logo.png',
         },
       };
 
       const response = await app.inject({
-        method: 'PUT',
-        url: '/admin/tenant/settings',
+        method: 'PUT',\n        url: '/admin/tenant/settings',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${adminToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${adminToken}`,
         },
         payload: { settings: newSettings },
       });
@@ -422,11 +390,9 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should restrict settings changes to admins only', async () => {
       const response = await app.inject({
-        method: 'PUT',
-        url: '/admin/tenant/settings',
+        method: 'PUT',\n        url: '/admin/tenant/settings',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${managerToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${managerToken}`,
         },
         payload: {
           settings: {
@@ -440,11 +406,9 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should validate settings schema', async () => {
       const response = await app.inject({
-        method: 'PUT',
-        url: '/admin/tenant/settings',
+        method: 'PUT',\n        url: '/admin/tenant/settings',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${adminToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${adminToken}`,
         },
         payload: {
           settings: {
@@ -486,22 +450,19 @@ describe('Admin Dashboard Integration Tests', () => {
             conversationId: conversation1.id,
             userId: regularUser.id,
             role: 'user',
-            content: 'Test message 1',
-            createdAt: new Date('2024-01-15'),
+            content: 'Test message 1',\n            createdAt: new Date('2024-01-15'),
           },
           {
             conversationId: conversation1.id,
             userId: regularUser.id,
             role: 'assistant',
-            content: 'Test response 1',
-            createdAt: new Date('2024-01-15'),
+            content: 'Test response 1',\n            createdAt: new Date('2024-01-15'),
           },
           {
             conversationId: conversation2.id,
             userId: managerUser.id,
             role: 'user',
-            content: 'Test message 2',
-            createdAt: new Date('2024-01-16'),
+            content: 'Test message 2',\n            createdAt: new Date('2024-01-16'),
           },
         ],
       });
@@ -514,16 +475,14 @@ describe('Admin Dashboard Integration Tests', () => {
             userId: regularUser.id,
             type: 'chart',
             title: 'Analytics Chart',
-            data: { test: 'data' },
-            createdAt: new Date('2024-01-15'),
+            data: { test: 'data' },\n            createdAt: new Date('2024-01-15'),
           },
           {
             tenantId: testTenant.id,
             userId: managerUser.id,
             type: 'table',
             title: 'Analytics Table',
-            data: { test: 'table' },
-            createdAt: new Date('2024-01-16'),
+            data: { test: 'table' },\n            createdAt: new Date('2024-01-16'),
           },
         ],
       });
@@ -537,8 +496,7 @@ describe('Admin Dashboard Integration Tests', () => {
             toolName: 'get_company_kpis',
             status: 'completed',
             parameters: { period: 'monthly' },
-            result: { kpis: [] },
-            createdAt: new Date('2024-01-15'),
+            result: { kpis: [] },\n            createdAt: new Date('2024-01-15'),
           },
           {
             tenantId: testTenant.id,
@@ -546,8 +504,7 @@ describe('Admin Dashboard Integration Tests', () => {
             toolName: 'python_code',
             status: 'completed',
             parameters: { code: 'print("hello")' },
-            result: { output: 'hello' },
-            createdAt: new Date('2024-01-16'),
+            result: { output: 'hello' },\n            createdAt: new Date('2024-01-16'),
           },
         ],
       });
@@ -555,10 +512,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should get overview statistics', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/analytics/overview',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/analytics/overview',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -579,10 +534,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should get user activity analytics', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/analytics/users?period=7d',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/analytics/users?period=7d',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -597,10 +550,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should get tool usage analytics', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/analytics/tools?period=30d',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/analytics/tools?period=30d',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -619,10 +570,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should get artifact creation analytics', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/analytics/artifacts?period=30d',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/analytics/artifacts?period=30d',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -636,10 +585,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should handle date range filtering', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/analytics/overview?startDate=2024-01-15&endDate=2024-01-15',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/analytics/overview?startDate=2024-01-15&endDate=2024-01-15',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -653,10 +600,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should export analytics data', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/analytics/export?format=csv&type=overview&period=30d',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/analytics/export?format=csv&type=overview&period=30d',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -669,10 +614,8 @@ describe('Admin Dashboard Integration Tests', () => {
   describe('System Health Monitoring', () => {
     it('should get system health status', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/health',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/health',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -698,10 +641,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should get system metrics', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/metrics',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/metrics',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -715,10 +656,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should require admin access for health endpoints', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/health',
-        headers: {
-          Authorization: `Bearer ${managerToken}`,
+        method: 'GET',\n        url: '/admin/health',
+        headers: {\n          Authorization: `Bearer ${managerToken}`,
         },
       });
 
@@ -741,8 +680,7 @@ describe('Admin Dashboard Integration Tests', () => {
               email: 'user@testcompany.com',
               role: 'CREATOR',
             },
-            success: true,
-            createdAt: new Date('2024-01-15'),
+            success: true,\n            createdAt: new Date('2024-01-15'),
           },
           {
             tenantId: testTenant.id,
@@ -754,8 +692,7 @@ describe('Admin Dashboard Integration Tests', () => {
               artifactType: 'chart',
               title: 'Test Chart',
             },
-            success: true,
-            createdAt: new Date('2024-01-16'),
+            success: true,\n            createdAt: new Date('2024-01-16'),
           },
         ],
       });
@@ -763,10 +700,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should get audit logs with pagination', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/audit?page=1&limit=10',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/audit?page=1&limit=10',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -785,10 +720,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should filter audit logs by action', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/audit?action=user.create',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/audit?action=user.create',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -801,10 +734,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should filter audit logs by user', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: `/admin/audit?userId=${regularUser.id}`,
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: `/admin/audit?userId=${regularUser.id}`,
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -818,10 +749,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should filter audit logs by date range', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/audit?startDate=2024-01-15&endDate=2024-01-15',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/audit?startDate=2024-01-15&endDate=2024-01-15',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -834,10 +763,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should export audit logs', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/audit/export?format=csv',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/audit/export?format=csv',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -848,10 +775,8 @@ describe('Admin Dashboard Integration Tests', () => {
 
     it('should restrict audit access to admins and managers', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/audit',
-        headers: {
-          Authorization: `Bearer ${userToken}`,
+        method: 'GET',\n        url: '/admin/audit',
+        headers: {\n          Authorization: `Bearer ${userToken}`,
         },
       });
 
@@ -862,10 +787,8 @@ describe('Admin Dashboard Integration Tests', () => {
   describe('Billing and Usage Limits', () => {
     it('should get current usage statistics', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/billing/usage',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/billing/usage',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 
@@ -898,10 +821,8 @@ describe('Admin Dashboard Integration Tests', () => {
       });
 
       const response = await app.inject({
-        method: 'GET',
-        url: '/admin/billing/limits',
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
+        method: 'GET',\n        url: '/admin/billing/limits',
+        headers: {\n          Authorization: `Bearer ${adminToken}`,
         },
       });
 

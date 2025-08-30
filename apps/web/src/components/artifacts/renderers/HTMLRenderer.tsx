@@ -1,5 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { Artifact } from '@penny/types';
+import React, { useRef, useEffect, useState } from 'react';\nimport { Artifact } from '@penny/types';
 
 interface HTMLRendererProps {
   artifact: Artifact;
@@ -17,8 +16,7 @@ const HTMLRenderer: React.FC<HTMLRendererProps> = ({
   interactive = true,
   onError,
   onLoadStart,
-  onLoadEnd,
-  className = ''
+  onLoadEnd,\n  className = ''
 }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [loading, setLoading] = useState(true);
@@ -61,15 +59,11 @@ const HTMLRenderer: React.FC<HTMLRendererProps> = ({
 
   const containerClasses = [
     'html-renderer w-full h-full flex flex-col',
-    className
-  ].filter(Boolean).join(' ');
+    className\n  ].filter(Boolean).join(' ');
 
   return (
     <div className={containerClasses}>
-      {/* Toolbar */}
-      <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-        <div className="flex items-center space-x-2">
-          <div className="flex items-center space-x-1 bg-gray-200 dark:bg-gray-700 rounded p-1">
+      {/* Toolbar */}\n      <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">\n        <div className="flex items-center space-x-2">\n          <div className="flex items-center space-x-1 bg-gray-200 dark:bg-gray-700 rounded p-1">
             <button
               onClick={() => setViewMode('preview')}
               className={`px-3 py-1 text-sm rounded ${
@@ -92,33 +86,22 @@ const HTMLRenderer: React.FC<HTMLRendererProps> = ({
             </button>
           </div>
         </div>
-        
-        <div className="text-sm text-gray-600 dark:text-gray-400">
+        \n        <div className="text-sm text-gray-600 dark:text-gray-400">
           HTML Document • {htmlContent.length} chars
         </div>
       </div>
 
-      {/* Content */}
-      <div className="flex-1 overflow-hidden">
-        {viewMode === 'preview' ? (
-          <div className="relative w-full h-full">
-            {loading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10">
-                <div className="flex items-center space-x-2">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-                  <span className="text-sm">Loading HTML...</span>
+      {/* Content */}\n      <div className="flex-1 overflow-hidden">
+        {viewMode === 'preview' ? (\n          <div className="relative w-full h-full">
+            {loading && (\n              <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10">\n                <div className="flex items-center space-x-2">\n                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>\n                  <span className="text-sm">Loading HTML...</span>
                 </div>
               </div>
             )}
             <iframe
-              ref={iframeRef}
-              className="w-full h-full border-0"
-              sandbox={interactive ? "allow-scripts allow-same-origin" : ""}
-              title="HTML Preview"
+              ref={iframeRef}\n              className="w-full h-full border-0"\n              sandbox={interactive ? "allow-scripts allow-same-origin" : ""}\n              title="HTML Preview"
             />
           </div>
-        ) : (
-          <pre className="p-4 text-sm font-mono whitespace-pre-wrap overflow-auto h-full bg-gray-50 dark:bg-gray-900">
+        ) : (\n          <pre className="p-4 text-sm font-mono whitespace-pre-wrap overflow-auto h-full bg-gray-50 dark:bg-gray-900">
             {htmlContent}
           </pre>
         )}

@@ -19,8 +19,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  Checkbox,
-} from '@penny/ui';
+  Checkbox,\n} from '@penny/ui';
 import { MoreHorizontal, Mail, Shield, Ban, Trash, Key, UserCheck } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -39,37 +38,31 @@ interface User {
 
 // Mock data
 const users: User[] = [
-  {
-    id: '1',
+  {\n    id: '1',
     name: 'John Doe',
     email: 'john.doe@acme.com',
     tenant: 'Acme Corp',
     role: 'owner',
     status: 'active',
-    lastActive: new Date(Date.now() - 1000 * 60 * 5),
-    createdAt: new Date('2024-01-15'),
+    lastActive: new Date(Date.now() - 1000 * 60 * 5),\n    createdAt: new Date('2024-01-15'),
     mfaEnabled: true,
   },
-  {
-    id: '2',
+  {\n    id: '2',
     name: 'Jane Smith',
     email: 'jane.smith@acme.com',
     tenant: 'Acme Corp',
     role: 'admin',
     status: 'active',
-    lastActive: new Date(Date.now() - 1000 * 60 * 60),
-    createdAt: new Date('2024-01-20'),
+    lastActive: new Date(Date.now() - 1000 * 60 * 60),\n    createdAt: new Date('2024-01-20'),
     mfaEnabled: true,
   },
-  {
-    id: '3',
+  {\n    id: '3',
     name: 'Bob Johnson',
     email: 'bob@techstart.com',
     tenant: 'TechStart Inc',
     role: 'member',
     status: 'pending',
-    lastActive: new Date(Date.now() - 1000 * 60 * 60 * 24),
-    createdAt: new Date('2024-02-01'),
+    lastActive: new Date(Date.now() - 1000 * 60 * 60 * 24),\n    createdAt: new Date('2024-02-01'),
     mfaEnabled: false,
   },
 ];
@@ -123,18 +116,11 @@ export function UsersTable({ searchQuery, status }: UsersTableProps) {
   return (
     <div>
       {selectedUsers.length > 0 && (
-        <div className="mb-4 flex items-center gap-2 p-4 bg-muted rounded-lg">
-          <span className="text-sm font-medium">{selectedUsers.length} user(s) selected</span>
-          <Button size="sm" variant="outline">
-            <Mail className="mr-2 h-4 w-4" />
+        <div className="mb-4 flex items-center gap-2 p-4 bg-muted rounded-lg">\n          <span className="text-sm font-medium">{selectedUsers.length} user(s) selected</span>\n          <Button size="sm" variant="outline">\n            <Mail className="mr-2 h-4 w-4" />
             Send Email
-          </Button>
-          <Button size="sm" variant="outline">
-            <Ban className="mr-2 h-4 w-4" />
+          </Button>\n          <Button size="sm" variant="outline">\n            <Ban className="mr-2 h-4 w-4" />
             Suspend
-          </Button>
-          <Button size="sm" variant="outline" className="text-red-600">
-            <Trash className="mr-2 h-4 w-4" />
+          </Button>\n          <Button size="sm" variant="outline" className="text-red-600">\n            <Trash className="mr-2 h-4 w-4" />
             Delete
           </Button>
         </div>
@@ -142,8 +128,7 @@ export function UsersTable({ searchQuery, status }: UsersTableProps) {
 
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead className="w-12">
+          <TableRow>\n            <TableHead className="w-12">
               <Checkbox
                 checked={selectedUsers.length === filteredUsers.length}
                 onCheckedChange={toggleAllUsers}
@@ -154,8 +139,7 @@ export function UsersTable({ searchQuery, status }: UsersTableProps) {
             <TableHead>Role</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Last Active</TableHead>
-            <TableHead>Security</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            <TableHead>Security</TableHead>\n            <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -167,20 +151,15 @@ export function UsersTable({ searchQuery, status }: UsersTableProps) {
                   onCheckedChange={() => toggleUserSelection(user.id)}
                 />
               </TableCell>
-              <TableCell>
-                <div className="flex items-center gap-3">
+              <TableCell>\n                <div className="flex items-center gap-3">
                   <Avatar>
                     <AvatarImage src={user.avatar} alt={user.name} />
                     <AvatarFallback>
-                      {user.name
-                        .split(' ')
-                        .map((n) => n[0])
-                        .join('')}
+                      {user.name\n                        .split(' ')
+                        .map((n) => n[0])\n                        .join('')}
                     </AvatarFallback>
                   </Avatar>
-                  <div>
-                    <div className="font-medium">{user.name}</div>
-                    <div className="text-sm text-muted-foreground">{user.email}</div>
+                  <div>\n                    <div className="font-medium">{user.name}</div>\n                    <div className="text-sm text-muted-foreground">{user.email}</div>
                   </div>
                 </div>
               </TableCell>
@@ -193,54 +172,39 @@ export function UsersTable({ searchQuery, status }: UsersTableProps) {
               </TableCell>
               <TableCell>{format(user.lastActive, 'MMM d, h:mm a')}</TableCell>
               <TableCell>
-                {user.mfaEnabled && (
-                  <Badge variant="outline" className="text-green-600">
-                    <Shield className="mr-1 h-3 w-3" />
+                {user.mfaEnabled && (\n                  <Badge variant="outline" className="text-green-600">\n                    <Shield className="mr-1 h-3 w-3" />
                     MFA
                   </Badge>
                 )}
-              </TableCell>
-              <TableCell className="text-right">
+              </TableCell>\n              <TableCell className="text-right">
                 <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                      <span className="sr-only">Open menu</span>
-                      <MoreHorizontal className="h-4 w-4" />
+                  <DropdownMenuTrigger asChild>\n                    <Button variant="ghost" className="h-8 w-8 p-0">\n                      <span className="sr-only">Open menu</span>\n                      <MoreHorizontal className="h-4 w-4" />
                     </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  </DropdownMenuTrigger>\n                  <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <UserCheck className="mr-2 h-4 w-4" />
+                    <DropdownMenuItem>\n                      <UserCheck className="mr-2 h-4 w-4" />
                       <span>View Profile</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Mail className="mr-2 h-4 w-4" />
+                    <DropdownMenuItem>\n                      <Mail className="mr-2 h-4 w-4" />
                       <span>Send Email</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Key className="mr-2 h-4 w-4" />
+                    <DropdownMenuItem>\n                      <Key className="mr-2 h-4 w-4" />
                       <span>Reset Password</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Shield className="mr-2 h-4 w-4" />
+                    <DropdownMenuItem>\n                      <Shield className="mr-2 h-4 w-4" />
                       <span>Change Role</span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     {user.status === 'active' ? (
-                      <DropdownMenuItem>
-                        <Ban className="mr-2 h-4 w-4" />
+                      <DropdownMenuItem>\n                        <Ban className="mr-2 h-4 w-4" />
                         <span>Suspend User</span>
                       </DropdownMenuItem>
                     ) : (
-                      <DropdownMenuItem>
-                        <UserCheck className="mr-2 h-4 w-4" />
+                      <DropdownMenuItem>\n                        <UserCheck className="mr-2 h-4 w-4" />
                         <span>Activate User</span>
                       </DropdownMenuItem>
-                    )}
-                    <DropdownMenuItem className="text-red-600">
-                      <Trash className="mr-2 h-4 w-4" />
+                    )}\n                    <DropdownMenuItem className="text-red-600">\n                      <Trash className="mr-2 h-4 w-4" />
                       <span>Delete User</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>

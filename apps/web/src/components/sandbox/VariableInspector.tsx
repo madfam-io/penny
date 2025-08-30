@@ -42,13 +42,11 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
   variables,
   onVariableSelect,
   onVariableDelete,
-  onVariableExport,
-  className = '',
+  onVariableExport,\n  className = '',
   searchable = true,
   groupByType = false,
   showMemoryUsage = true
-}) => {
-  const [searchTerm, setSearchTerm] = useState('');
+}) => {\n  const [searchTerm, setSearchTerm] = useState('');
   const [sortKey, setSortKey] = useState<SortKey>('name');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [expandedVariables, setExpandedVariables] = useState<Set<string>>(new Set());
@@ -98,8 +96,7 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
     return entries;
   }, [variables, searchTerm, sortKey, sortDirection]);
 
-  const groupedVariables = useMemo(() => {
-    if (!groupByType) return { '': filteredAndSortedVariables };
+  const groupedVariables = useMemo(() => {\n    if (!groupByType) return { '': filteredAndSortedVariables };
 
     const groups: Record<string, Array<[string, VariableData]>> = {};
     
@@ -141,40 +138,30 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
   const formatValue = (data: VariableData): string => {
     if (data.preview) return data.preview;
     
-    if (data.type === 'numpy.ndarray') {
-      return `Array${data.shape ? `(${data.shape.join(', ')})` : ''} dtype=${data.dtype}`;
+    if (data.type === 'numpy.ndarray') {\n      return `Array${data.shape ? `(${data.shape.join(', ')})` : ''} dtype=${data.dtype}`;
     }
     
-    if (data.type === 'pandas.DataFrame') {
-      return `DataFrame(${data.shape ? data.shape.join(' × ') : 'unknown shape'})`;
+    if (data.type === 'pandas.DataFrame') {\n      return `DataFrame(${data.shape ? data.shape.join(' × ') : 'unknown shape'})`;
     }
     
-    if (data.type === 'pandas.Series') {
-      return `Series(${data.length || 'unknown'} elements)`;
+    if (data.type === 'pandas.Series') {\n      return `Series(${data.length || 'unknown'} elements)`;
     }
     
     if (data.serializable && typeof data.value !== 'object') {
       return String(data.value);
     }
-    
-    if (Array.isArray(data.value)) {
-      return `[${data.value.slice(0, 3).map(v => String(v)).join(', ')}${data.value.length > 3 ? ', ...' : ''}]`;
+    \n    if (Array.isArray(data.value)) {\n      return `[${data.value.slice(0, 3).map(v => String(v)).join(', ')}${data.value.length > 3 ? ', ...' : ''}]`;
     }
     
-    if (typeof data.value === 'object' && data.value !== null) {
-      const keys = Object.keys(data.value).slice(0, 3);
-      return `{${keys.join(', ')}${Object.keys(data.value).length > 3 ? ', ...' : ''}}`;
+    if (typeof data.value === 'object' && data.value !== null) {\n      const keys = Object.keys(data.value).slice(0, 3);\n      return `{${keys.join(', ')}${Object.keys(data.value).length > 3 ? ', ...' : ''}}`;
     }
-    
-    return String(data.value).slice(0, 50) + (String(data.value).length > 50 ? '...' : '');
+    \n    return String(data.value).slice(0, 50) + (String(data.value).length > 50 ? '...' : '');
   };
 
-  const formatBytes = (bytes: number): string => {
-    if (bytes === 0) return '0 B';
+  const formatBytes = (bytes: number): string => {\n    if (bytes === 0) return '0 B';
     const k = 1024;
     const sizes = ['B', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));\n    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
   const getTypeIcon = (type: string): string => {
@@ -194,40 +181,25 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
       'module': '📦',
       'type': '🏷️',
     };
-    
-    return typeIcons[type] || '❓';
+    \n    return typeIcons[type] || '❓';
   };
 
   const renderVariableDetails = (name: string, data: VariableData) => {
     return (
       <div className="variable-details">
         {/* Statistics for numeric arrays */}
-        {data.statistics && (
-          <div className="statistics-section">
-            <h4>Statistics</h4>
-            <div className="statistics-grid">
-              {data.statistics.min !== undefined && (
-                <div className="stat-item">
-                  <span className="stat-label">Min</span>
-                  <span className="stat-value">{data.statistics.min.toFixed(4)}</span>
+        {data.statistics && (\n          <div className="statistics-section">
+            <h4>Statistics</h4>\n            <div className="statistics-grid">
+              {data.statistics.min !== undefined && (\n                <div className="stat-item">\n                  <span className="stat-label">Min</span>\n                  <span className="stat-value">{data.statistics.min.toFixed(4)}</span>
                 </div>
               )}
-              {data.statistics.max !== undefined && (
-                <div className="stat-item">
-                  <span className="stat-label">Max</span>
-                  <span className="stat-value">{data.statistics.max.toFixed(4)}</span>
+              {data.statistics.max !== undefined && (\n                <div className="stat-item">\n                  <span className="stat-label">Max</span>\n                  <span className="stat-value">{data.statistics.max.toFixed(4)}</span>
                 </div>
               )}
-              {data.statistics.mean !== undefined && (
-                <div className="stat-item">
-                  <span className="stat-label">Mean</span>
-                  <span className="stat-value">{data.statistics.mean.toFixed(4)}</span>
+              {data.statistics.mean !== undefined && (\n                <div className="stat-item">\n                  <span className="stat-label">Mean</span>\n                  <span className="stat-value">{data.statistics.mean.toFixed(4)}</span>
                 </div>
               )}
-              {data.statistics.std !== undefined && (
-                <div className="stat-item">
-                  <span className="stat-label">Std</span>
-                  <span className="stat-value">{data.statistics.std.toFixed(4)}</span>
+              {data.statistics.std !== undefined && (\n                <div className="stat-item">\n                  <span className="stat-label">Std</span>\n                  <span className="stat-value">{data.statistics.std.toFixed(4)}</span>
                 </div>
               )}
             </div>
@@ -235,22 +207,17 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
         )}
 
         {/* DataFrame columns */}
-        {data.columns && (
-          <div className="columns-section">
-            <h4>Columns ({data.columns.length})</h4>
-            <div className="columns-list">
-              {data.columns.map((col, index) => (
-                <span key={index} className="column-item">{col}</span>
+        {data.columns && (\n          <div className="columns-section">
+            <h4>Columns ({data.columns.length})</h4>\n            <div className="columns-list">
+              {data.columns.map((col, index) => (\n                <span key={index} className="column-item">{col}</span>
               ))}
             </div>
           </div>
         )}
 
         {/* Data preview */}
-        {(data.head || data.value) && (
-          <div className="preview-section">
-            <h4>Preview</h4>
-            <div className="preview-content">
+        {(data.head || data.value) && (\n          <div className="preview-section">
+            <h4>Preview</h4>\n            <div className="preview-content">
               {data.head ? (
                 <pre>{JSON.stringify(data.head, null, 2)}</pre>
               ) : data.serializable ? (
@@ -263,26 +230,21 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
         )}
 
         {/* Export options */}
-        {onVariableExport && data.serializable && (
-          <div className="export-section">
-            <h4>Export</h4>
-            <div className="export-buttons">
-              <button
-                className="export-btn"
+        {onVariableExport && data.serializable && (\n          <div className="export-section">
+            <h4>Export</h4>\n            <div className="export-buttons">
+              <button\n                className="export-btn"
                 onClick={() => onVariableExport(name, 'json')}
               >
                 JSON
               </button>
               {(data.type === 'pandas.DataFrame' || data.type === 'pandas.Series') && (
-                <button
-                  className="export-btn"
+                <button\n                  className="export-btn"
                   onClick={() => onVariableExport(name, 'csv')}
                 >
                   CSV
                 </button>
               )}
-              <button
-                className="export-btn"
+              <button\n                className="export-btn"
                 onClick={() => onVariableExport(name, 'pickle')}
               >
                 Pickle
@@ -300,61 +262,44 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
 
     return (
       <div
-        key={name}
-        className={`variable-item ${isSelected ? 'selected' : ''}`}
+        key={name}\n        className={`variable-item ${isSelected ? 'selected' : ''}`}
       >
-        <div 
-          className="variable-header"
+        <div \n          className="variable-header"
           onClick={() => handleVariableClick(name, data)}
         >
-          <button
-            className="expand-button"
+          <button\n            className="expand-button"
             onClick={(e) => {
               e.stopPropagation();
               toggleExpanded(name);
             }}
-          >
-            {isExpanded ? '▼' : '▶'}
+          >\n            {isExpanded ? '▼' : '▶'}
           </button>
-          
-          <span className="variable-icon">{getTypeIcon(data.type)}</span>
-          <span className="variable-name">{name}</span>
-          <span className="variable-type">{data.type}</span>
-          
-          {data.shape && (
-            <span className="variable-shape">
-              {Array.isArray(data.shape) ? `(${data.shape.join(', ')})` : data.shape}
+          \n          <span className="variable-icon">{getTypeIcon(data.type)}</span>\n          <span className="variable-name">{name}</span>\n          <span className="variable-type">{data.type}</span>
+          \n          {data.shape && (\n            <span className="variable-shape">\n              {Array.isArray(data.shape) ? `(${data.shape.join(', ')})` : data.shape}
             </span>
           )}
           
-          {data.size && (
-            <span className="variable-size">{formatBytes(data.size)}</span>
+          {data.size && (\n            <span className="variable-size">{formatBytes(data.size)}</span>
           )}
           
-          {showMemoryUsage && data.memory_usage && (
-            <span className="variable-memory">{formatBytes(data.memory_usage)}</span>
+          {showMemoryUsage && data.memory_usage && (\n            <span className="variable-memory">{formatBytes(data.memory_usage)}</span>
           )}
-          
-          <div className="variable-actions">
+          \n          <div className="variable-actions">
             {onVariableDelete && (
-              <button
-                className="action-btn delete"
+              <button\n                className="action-btn delete"
                 onClick={(e) => {
                   e.stopPropagation();
                   onVariableDelete(name);
-                }}
-                title="Delete variable"
+                }}\n                title="Delete variable"
               >
                 🗑️
               </button>
             )}
           </div>
         </div>
-        
-        <div className="variable-value">
+        \n        <div className="variable-value">
           {formatValue(data)}
-          {data.truncated && (
-            <span className="truncated-indicator"> (truncated)</span>
+          {data.truncated && (\n            <span className="truncated-indicator"> (truncated)</span>
           )}
         </div>
         
@@ -369,54 +314,40 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
     }, 0);
   }, [variables]);
 
-  return (
-    <div className={`variable-inspector ${className}`}>
-      <div className="inspector-header">
-        <div className="inspector-title">
+  return (\n    <div className={`variable-inspector ${className}`}>\n      <div className="inspector-header">\n        <div className="inspector-title">
           <span>Variables ({Object.keys(variables).length})</span>
-          {showMemoryUsage && totalMemory > 0 && (
-            <span className="total-memory">
+          {showMemoryUsage && totalMemory > 0 && (\n            <span className="total-memory">
               Total: {formatBytes(totalMemory)}
             </span>
           )}
         </div>
         
-        {searchable && (
-          <div className="search-box">
-            <input
-              type="text"
-              placeholder="Search variables..."
+        {searchable && (\n          <div className="search-box">
+            <input\n              type="text"\n              placeholder="Search variables..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
+              onChange={(e) => setSearchTerm(e.target.value)}\n              className="search-input"
             />
           </div>
         )}
       </div>
-      
-      <div className="inspector-controls">
-        <div className="sort-controls">
+      \n      <div className="inspector-controls">\n        <div className="sort-controls">
           <label>Sort by:</label>
           {(['name', 'type', 'size'] as SortKey[]).map(key => (
             <button
-              key={key}
-              className={`sort-btn ${sortKey === key ? 'active' : ''}`}
+              key={key}\n              className={`sort-btn ${sortKey === key ? 'active' : ''}`}
               onClick={() => handleSort(key)}
             >
               {key}
-              {sortKey === key && (
-                <span className="sort-direction">
+              {sortKey === key && (\n                <span className="sort-direction">
                   {sortDirection === 'asc' ? '↑' : '↓'}
                 </span>
               )}
             </button>
           ))}
         </div>
-        
-        <div className="view-controls">
+        \n        <div className="view-controls">
           <label>
-            <input
-              type="checkbox"
+            <input\n              type="checkbox"
               checked={groupByType}
               onChange={(e) => setGroupByType(e.target.checked)}
             />
@@ -424,20 +355,13 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
           </label>
         </div>
       </div>
-      
-      <div className="variables-list">
-        {Object.keys(variables).length === 0 ? (
-          <div className="empty-state">
+      \n      <div className="variables-list">
+        {Object.keys(variables).length === 0 ? (\n          <div className="empty-state">
             <span>No variables defined</span>
           </div>
         ) : (
-          Object.entries(groupedVariables).map(([groupName, groupVariables]) => (
-            <div key={groupName} className="variable-group">
-              {groupByType && groupName && (
-                <div className="group-header">
-                  <span className="group-icon">{getTypeIcon(groupName)}</span>
-                  <span className="group-name">{groupName}</span>
-                  <span className="group-count">({groupVariables.length})</span>
+          Object.entries(groupedVariables).map(([groupName, groupVariables]) => (\n            <div key={groupName} className="variable-group">
+              {groupByType && groupName && (\n                <div className="group-header">\n                  <span className="group-icon">{getTypeIcon(groupName)}</span>\n                  <span className="group-name">{groupName}</span>\n                  <span className="group-count">({groupVariables.length})</span>
                 </div>
               )}
               
@@ -446,8 +370,7 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
           ))
         )}
       </div>
-
-      <style jsx>{`
+\n      <style jsx>{`
         .variable-inspector {
           border: 1px solid #d1d5db;
           border-radius: 8px;

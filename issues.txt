@@ -1,0 +1,2049 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 [18:31:13.916] Running build in Washington, D.C., USA (East) \'96 iad1\
+[18:31:13.916] Build machine configuration: 2 cores, 8 GB\
+[18:31:13.929] Cloning github.com/madfam-io/penny (Branch: main, Commit: 78554c4)\
+[18:31:14.080] Previous build caches not available\
+[18:31:14.422] Cloning completed: 492.000ms\
+[18:31:14.794] Running "vercel build"\
+[18:31:15.196] Vercel CLI 46.1.0\
+[18:31:15.365] > Detected Turbo. Adjusting default settings...\
+[18:31:15.787] Running "install" command: `cd /vercel/path0 && node scripts/fix-workspace-vercel.js && npm install`...\
+[18:31:15.931] Fixing ALL workspace:* references for Vercel...\
+[18:31:15.931] \
+[18:31:15.941] Found 19 package.json files to check\
+[18:31:15.941] \
+[18:31:15.944] \
+[18:31:15.945] \uc0\u9989  Fixed 0 package.json files\
+[18:32:51.349] npm warn deprecated acorn-import-assertions@1.9.0: package has been renamed to acorn-import-attributes\
+[18:32:54.991] npm warn deprecated are-we-there-yet@2.0.0: This package is no longer supported.\
+[18:32:54.993] npm warn deprecated npmlog@5.0.1: This package is no longer supported.\
+[18:32:55.372] npm warn deprecated gauge@3.0.2: This package is no longer supported.\
+[18:32:55.624] npm warn deprecated abab@2.0.6: Use your platform's native atob() and btoa() methods instead\
+[18:32:55.726] npm warn deprecated domexception@4.0.0: Use your platform's native DOMException instead\
+[18:32:57.699] npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead\
+[18:32:59.271] npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead\
+[18:33:00.361] npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead\
+[18:33:16.297] npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.\
+[18:33:16.299] npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.\
+[18:33:16.318] npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.\
+[18:33:16.369] npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.\
+[18:33:48.089] \
+[18:33:48.090] > @penny/root@0.0.1 prepare\
+[18:33:48.090] > husky install\
+[18:33:48.090] \
+[18:33:48.141] husky - install command is DEPRECATED\
+[18:33:48.182] \
+[18:33:48.182] added 2226 packages, and audited 2245 packages in 3m\
+[18:33:48.183] \
+[18:33:48.183] 412 packages are looking for funding\
+[18:33:48.184]   run `npm fund` for details\
+[18:33:48.258] \
+[18:33:48.259] 7 vulnerabilities (6 moderate, 1 critical)\
+[18:33:48.259] \
+[18:33:48.259] To address all issues (including breaking changes), run:\
+[18:33:48.259]   npm audit fix --force\
+[18:33:48.259] \
+[18:33:48.260] Run `npm audit` for details.\
+[18:33:48.578] \
+[18:33:48.579] > @penny/web@0.0.1 build\
+[18:33:48.579] > tsc && vite build\
+[18:33:48.579] \
+[18:33:52.008] src/App.tsx(16,192): error TS1127: Invalid character.\
+[18:33:52.011] src/App.tsx(16,230): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.012] src/App.tsx(16,316): error TS1127: Invalid character.\
+[18:33:52.012] src/App.tsx(16,377): error TS1127: Invalid character.\
+[18:33:52.012] src/App.tsx(16,553): error TS1381: Unexpected token. Did you mean `\{'\}'\}` or `&rbrace;`?\
+[18:33:52.012] src/App.tsx(16,570): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.012] src/App.tsx(16,606): error TS1127: Invalid character.\
+[18:33:52.012] src/App.tsx(16,662): error TS1127: Invalid character.\
+[18:33:52.012] src/App.tsx(16,838): error TS1381: Unexpected token. Did you mean `\{'\}'\}` or `&rbrace;`?\
+[18:33:52.012] src/App.tsx(16,855): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.013] src/App.tsx(16,926): error TS1127: Invalid character.\
+[18:33:52.013] src/App.tsx(16,991): error TS1127: Invalid character.\
+[18:33:52.013] src/App.tsx(16,1015): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.013] src/App.tsx(16,1016): error TS1381: Unexpected token. Did you mean `\{'\}'\}` or `&rbrace;`?\
+[18:33:52.013] src/App.tsx(16,1033): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.013] src/App.tsx(16,1124): error TS1127: Invalid character.\
+[18:33:52.014] src/App.tsx(16,1190): error TS1127: Invalid character.\
+[18:33:52.014] src/App.tsx(16,1214): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.014] src/App.tsx(16,1215): error TS1381: Unexpected token. Did you mean `\{'\}'\}` or `&rbrace;`?\
+[18:33:52.014] src/App.tsx(16,1232): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.015] src/App.tsx(16,1325): error TS1127: Invalid character.\
+[18:33:52.015] src/App.tsx(16,1326): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.015] src/App.tsx(16,1329): error TS1128: Declaration or statement expected.\
+[18:33:52.015] src/App.tsx(16,1331): error TS1127: Invalid character.\
+[18:33:52.020] src/App.tsx(16,1334): error TS1127: Invalid character.\
+[18:33:52.021] src/App.tsx(16,1336): error TS1127: Invalid character.\
+[18:33:52.024] src/App.tsx(16,1337): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.024] src/App.tsx(16,1345): error TS1005: 'export' expected.\
+[18:33:52.024] src/components/auth/AuthProvider.tsx(1,69): error TS1127: Invalid character.\
+[18:33:52.024] src/components/auth/AuthProvider.tsx(1,70): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.024] src/components/auth/AuthProvider.tsx(1,115): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.024] src/components/auth/AuthProvider.tsx(1,144): error TS1127: Invalid character.\
+[18:33:52.024] src/components/auth/AuthProvider.tsx(1,145): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.024] src/components/auth/AuthProvider.tsx(1,169): error TS1005: ';' expected.\
+[18:33:52.024] src/components/auth/AuthProvider.tsx(1,180): error TS1005: ';' expected.\
+[18:33:52.024] src/components/auth/AuthProvider.tsx(1,189): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.025] src/components/auth/AuthProvider.tsx(1,216): error TS1127: Invalid character.\
+[18:33:52.025] src/components/auth/AuthProvider.tsx(1,218): error TS1127: Invalid character.\
+[18:33:52.025] src/components/auth/ProtectedRoute.tsx(1,53): error TS1127: Invalid character.\
+[18:33:52.026] src/components/auth/ProtectedRoute.tsx(1,54): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.026] src/components/auth/ProtectedRoute.tsx(1,88): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.026] src/components/auth/ProtectedRoute.tsx(1,112): error TS1127: Invalid character.\
+[18:33:52.026] src/components/auth/ProtectedRoute.tsx(1,113): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.026] src/components/auth/ProtectedRoute.tsx(1,140): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.026] src/components/auth/ProtectedRoute.tsx(1,167): error TS1127: Invalid character.\
+[18:33:52.026] src/components/auth/ProtectedRoute.tsx(1,168): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.026] src/components/auth/ProtectedRoute.tsx(1,195): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.026] src/components/auth/ProtectedRoute.tsx(1,223): error TS1127: Invalid character.\
+[18:33:52.026] src/components/auth/ProtectedRoute.tsx(1,225): error TS1127: Invalid character.\
+[18:33:52.026] src/components/auth/ProtectedRoute.tsx(1,226): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,265): error TS1127: Invalid character.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,266): error TS1131: Property or signature expected.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,289): error TS1127: Invalid character.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,290): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,304): error TS1109: Expression expected.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,313): error TS1127: Invalid character.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,314): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,331): error TS1109: Expression expected.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,340): error TS1011: An element access expression should take an argument.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,342): error TS1127: Invalid character.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,343): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,355): error TS1109: Expression expected.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,367): error TS1127: Invalid character.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,369): error TS1128: Declaration or statement expected.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,370): error TS1127: Invalid character.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,372): error TS1127: Invalid character.\
+[18:33:52.027] src/components/auth/ProtectedRoute.tsx(1,533): error TS1127: Invalid character.\
+[18:33:52.028] src/components/auth/ProtectedRoute.tsx(1,534): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.028] src/components/auth/ProtectedRoute.tsx(1,568): error TS1127: Invalid character.\
+[18:33:52.028] src/components/auth/ProtectedRoute.tsx(1,572): error TS1005: ',' expected.\
+[18:33:52.028] src/components/auth/ProtectedRoute.tsx(1,582): error TS1127: Invalid character.\
+[18:33:52.028] src/components/auth/ProtectedRoute.tsx(1,586): error TS1005: ',' expected.\
+[18:33:52.028] src/components/auth/ProtectedRoute.tsx(1,613): error TS1127: Invalid character.\
+[18:33:52.028] src/components/auth/ProtectedRoute.tsx(1,617): error TS1005: ',' expected.\
+[18:33:52.028] src/components/auth/ProtectedRoute.tsx(1,636): error TS1127: Invalid character.\
+[18:33:52.028] src/components/auth/ProtectedRoute.tsx(1,640): error TS1005: ',' expected.\
+[18:33:52.028] src/components/auth/ProtectedRoute.tsx(1,648): error TS1127: Invalid character.\
+[18:33:52.028] src/components/auth/ProtectedRoute.tsx(1,675): error TS1127: Invalid character.\
+[18:33:52.028] src/components/auth/ProtectedRoute.tsx(1,676): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.028] src/components/auth/ProtectedRoute.tsx(1,754): error TS1127: Invalid character.\
+[18:33:52.029] src/components/auth/ProtectedRoute.tsx(1,755): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.029] src/components/auth/ProtectedRoute.tsx(1,789): error TS1127: Invalid character.\
+[18:33:52.029] src/components/auth/ProtectedRoute.tsx(1,791): error TS1127: Invalid character.\
+[18:33:52.029] src/components/auth/ProtectedRoute.tsx(1,3043): error TS1005: '\}' expected.\
+[18:33:52.029] src/components/auth/SessionManager.tsx(1,52): error TS1127: Invalid character.\
+[18:33:52.030] src/components/auth/SessionManager.tsx(1,53): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.030] src/components/auth/SessionManager.tsx(1,73): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.030] src/components/auth/SessionManager.tsx(1,100): error TS1127: Invalid character.\
+[18:33:52.030] src/components/auth/SessionManager.tsx(1,101): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.030] src/components/auth/SessionManager.tsx(1,119): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.030] src/components/auth/SessionManager.tsx(1,138): error TS1127: Invalid character.\
+[18:33:52.030] src/components/auth/SessionManager.tsx(1,139): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.030] src/components/auth/SessionManager.tsx(1,158): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.030] src/components/auth/SessionManager.tsx(1,175): error TS1127: Invalid character.\
+[18:33:52.030] src/components/auth/SessionManager.tsx(1,177): error TS1127: Invalid character.\
+[18:33:52.030] src/components/auth/SessionManager.tsx(1,178): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.030] src/components/auth/SessionManager.tsx(1,217): error TS1127: Invalid character.\
+[18:33:52.030] src/components/auth/SessionManager.tsx(1,5360): error TS1005: '\}' expected.\
+[18:33:52.030] src/components/monitoring/MetricsDashboard.tsx(1,52): error TS1127: Invalid character.\
+[18:33:52.030] src/components/monitoring/MetricsDashboard.tsx(1,53): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,176): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,192): error TS1127: Invalid character.\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,193): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,259): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,279): error TS1127: Invalid character.\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,281): error TS1127: Invalid character.\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,282): error TS1435: Unknown keyword or identifier. Did you mean 'interface'?\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,293): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,305): error TS1127: Invalid character.\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,306): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,323): error TS1127: Invalid character.\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,324): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,350): error TS1127: Invalid character.\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,351): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,361): error TS1109: Expression expected.\
+[18:33:52.031] src/components/monitoring/MetricsDashboard.tsx(1,370): error TS1127: Invalid character.\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,371): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,380): error TS1109: Expression expected.\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,407): error TS1127: Invalid character.\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,408): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,433): error TS1127: Invalid character.\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,434): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,451): error TS1127: Invalid character.\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,454): error TS1127: Invalid character.\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,456): error TS1127: Invalid character.\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,457): error TS1435: Unknown keyword or identifier. Did you mean 'interface'?\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,468): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,479): error TS1127: Invalid character.\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,480): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,496): error TS1127: Invalid character.\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,497): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.032] src/components/monitoring/MetricsDashboard.tsx(1,514): error TS1127: Invalid character.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,515): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,528): error TS1109: Expression expected.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,537): error TS1127: Invalid character.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,540): error TS1127: Invalid character.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,542): error TS1127: Invalid character.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,543): error TS1435: Unknown keyword or identifier. Did you mean 'interface'?\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,554): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,577): error TS1127: Invalid character.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,578): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,591): error TS1109: Expression expected.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,621): error TS1127: Invalid character.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,622): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,641): error TS1109: Expression expected.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,650): error TS1127: Invalid character.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,651): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,663): error TS1109: Expression expected.\
+[18:33:52.033] src/components/monitoring/MetricsDashboard.tsx(1,672): error TS1127: Invalid character.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,675): error TS1127: Invalid character.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,677): error TS1127: Invalid character.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,678): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,746): error TS1127: Invalid character.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,750): error TS1005: ',' expected.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,768): error TS1127: Invalid character.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,772): error TS1005: ',' expected.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,796): error TS1127: Invalid character.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,800): error TS1005: ',' expected.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,808): error TS1127: Invalid character.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,817): error TS1127: Invalid character.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,818): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,878): error TS1127: Invalid character.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,879): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,948): error TS1127: Invalid character.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,949): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,1026): error TS1127: Invalid character.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,1027): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,1106): error TS1127: Invalid character.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,1107): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,1176): error TS1127: Invalid character.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,1177): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,1225): error TS1127: Invalid character.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,1226): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.034] src/components/monitoring/MetricsDashboard.tsx(1,1299): error TS1127: Invalid character.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1301): error TS1127: Invalid character.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1302): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1343): error TS1127: Invalid character.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1344): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1354): error TS1127: Invalid character.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1355): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1398): error TS1127: Invalid character.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1408): error TS1005: ',' expected.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1437): error TS1127: Invalid character.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1447): error TS1005: ',' expected.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1476): error TS1127: Invalid character.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1487): error TS1127: Invalid character.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1489): error TS1127: Invalid character.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1490): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1592): error TS1127: Invalid character.\
+[18:33:52.035] src/components/monitoring/MetricsDashboard.tsx(1,1602): error TS1005: ',' expected.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1642): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1652): error TS1005: ',' expected.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1693): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1703): error TS1005: ',' expected.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1749): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1759): error TS1005: ',' expected.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1798): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1808): error TS1005: ',' expected.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1849): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1860): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1862): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1863): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1890): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1891): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1937): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1938): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1959): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1971): error TS1005: ',' expected.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1972): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,1986): error TS1005: ',' expected.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,2010): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,2024): error TS1005: ',' expected.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,2075): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,2089): error TS1005: ',' expected.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,2122): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,2136): error TS1005: ',' expected.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,2220): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,2234): error TS1005: ',' expected.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,2260): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,2261): error TS1003: Identifier expected.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,12567): error TS1002: Unterminated string literal.\
+[18:33:52.036] src/components/monitoring/MetricsDashboard.tsx(1,12567): error TS1005: ':' expected.\
+[18:33:52.036] src/components/monitoring/SystemHealth.tsx(1,52): error TS1127: Invalid character.\
+[18:33:52.036] src/components/monitoring/SystemHealth.tsx(1,53): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.037] src/components/monitoring/SystemHealth.tsx(1,133): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.037] src/components/monitoring/SystemHealth.tsx(1,153): error TS1127: Invalid character.\
+[18:33:52.038] src/components/monitoring/SystemHealth.tsx(1,155): error TS1127: Invalid character.\
+[18:33:52.038] src/components/monitoring/SystemHealth.tsx(1,156): error TS1435: Unknown keyword or identifier. Did you mean 'interface'?\
+[18:33:52.038] src/components/monitoring/SystemHealth.tsx(1,167): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.038] src/components/monitoring/SystemHealth.tsx(1,180): error TS1127: Invalid character.\
+[18:33:52.038] src/components/monitoring/SystemHealth.tsx(1,181): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.038] src/components/monitoring/SystemHealth.tsx(1,197): error TS1127: Invalid character.\
+[18:33:52.038] src/components/monitoring/SystemHealth.tsx(1,198): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.038] src/components/monitoring/SystemHealth.tsx(1,246): error TS1127: Invalid character.\
+[18:33:52.038] src/components/monitoring/SystemHealth.tsx(1,247): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.038] src/components/monitoring/SystemHealth.tsx(1,268): error TS1127: Invalid character.\
+[18:33:52.038] src/components/monitoring/SystemHealth.tsx(1,269): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.038] src/components/monitoring/SystemHealth.tsx(1,293): error TS1127: Invalid character.\
+[18:33:52.038] src/components/monitoring/SystemHealth.tsx(1,294): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.038] src/components/monitoring/SystemHealth.tsx(1,305): error TS1109: Expression expected.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,314): error TS1127: Invalid character.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,315): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,327): error TS1109: Expression expected.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,333): error TS1127: Invalid character.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,336): error TS1127: Invalid character.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,338): error TS1127: Invalid character.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,339): error TS1435: Unknown keyword or identifier. Did you mean 'interface'?\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,350): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,365): error TS1127: Invalid character.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,366): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,407): error TS1127: Invalid character.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,408): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,471): error TS1127: Invalid character.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,472): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,533): error TS1127: Invalid character.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,534): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,591): error TS1127: Invalid character.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,594): error TS1127: Invalid character.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,596): error TS1127: Invalid character.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,597): error TS1435: Unknown keyword or identifier. Did you mean 'interface'?\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,608): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,627): error TS1127: Invalid character.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,628): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,647): error TS1109: Expression expected.\
+[18:33:52.039] src/components/monitoring/SystemHealth.tsx(1,656): error TS1127: Invalid character.\
+[18:33:52.041] src/components/monitoring/SystemHealth.tsx(1,659): error TS1127: Invalid character.\
+[18:33:52.041] src/components/monitoring/SystemHealth.tsx(1,661): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,662): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,723): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,727): error TS1005: ',' expected.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,751): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,760): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,761): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,832): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,833): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,915): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,916): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1019): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1020): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1068): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1069): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1137): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1139): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1140): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1180): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1181): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1191): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1192): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1260): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1270): error TS1005: ',' expected.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1291): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1301): error TS1005: ',' expected.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1329): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1340): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1342): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1343): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1374): error TS1127: Invalid character.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1375): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.042] src/components/monitoring/SystemHealth.tsx(1,1431): error TS1127: Invalid character.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1432): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1482): error TS1127: Invalid character.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1483): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1541): error TS1127: Invalid character.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1550): error TS1127: Invalid character.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1552): error TS1127: Invalid character.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1553): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1585): error TS1127: Invalid character.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1586): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1644): error TS1127: Invalid character.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1645): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1684): error TS1127: Invalid character.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1693): error TS1127: Invalid character.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1695): error TS1127: Invalid character.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1696): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1730): error TS1127: Invalid character.\
+[18:33:52.043] src/components/monitoring/SystemHealth.tsx(1,1731): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.044] src/components/monitoring/SystemHealth.tsx(1,1756): error TS1127: Invalid character.\
+[18:33:52.044] src/components/monitoring/SystemHealth.tsx(1,1779): error TS1127: Invalid character.\
+[18:33:52.044] src/components/monitoring/SystemHealth.tsx(1,1780): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.044] src/components/monitoring/SystemHealth.tsx(1,1840): error TS1127: Invalid character.\
+[18:33:52.044] src/components/monitoring/SystemHealth.tsx(1,1841): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.044] src/components/monitoring/SystemHealth.tsx(1,1866): error TS1127: Invalid character.\
+[18:33:52.044] src/components/monitoring/SystemHealth.tsx(1,1873): error TS1127: Invalid character.\
+[18:33:52.044] src/components/monitoring/SystemHealth.tsx(1,1879): error TS1127: Invalid character.\
+[18:33:52.044] src/components/monitoring/SystemHealth.tsx(1,1881): error TS1127: Invalid character.\
+[18:33:52.044] src/components/monitoring/SystemHealth.tsx(1,1882): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.044] src/components/monitoring/SystemHealth.tsx(1,1902): error TS1127: Invalid character.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,1903): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,1926): error TS1127: Invalid character.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,1927): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,1995): error TS1127: Invalid character.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,1996): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,2038): error TS1127: Invalid character.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,2064): error TS1127: Invalid character.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,2066): error TS1127: Invalid character.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,2067): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,2113): error TS1127: Invalid character.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,2114): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,2136): error TS1127: Invalid character.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,2137): error TS1130: 'case' or 'default' expected.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,2144): error TS1128: Declaration or statement expected.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,2158): error TS1005: ';' expected.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,2159): error TS1127: Invalid character.\
+[18:33:52.045] src/components/monitoring/SystemHealth.tsx(1,2160): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.046] src/components/monitoring/SystemHealth.tsx(1,2199): error TS1127: Invalid character.\
+[18:33:52.046] src/components/monitoring/SystemHealth.tsx(1,2200): error TS1003: Identifier expected.\
+[18:33:52.046] src/components/monitoring/SystemHealth.tsx(1,12537): error TS1002: Unterminated string literal.\
+[18:33:52.046] src/components/monitoring/SystemHealth.tsx(1,12537): error TS1005: '\}' expected.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,27): error TS1127: Invalid character.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,28): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,43): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,65): error TS1127: Invalid character.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,67): error TS1127: Invalid character.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,68): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,107): error TS1127: Invalid character.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,108): error TS1131: Property or signature expected.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,116): error TS1109: Expression expected.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,137): error TS1127: Invalid character.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,138): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,151): error TS1109: Expression expected.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,160): error TS1127: Invalid character.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,161): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,175): error TS1109: Expression expected.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,185): error TS1127: Invalid character.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,186): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,197): error TS1109: Expression expected.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,206): error TS1127: Invalid character.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,208): error TS1128: Declaration or statement expected.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,209): error TS1127: Invalid character.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,211): error TS1127: Invalid character.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,212): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,246): error TS1127: Invalid character.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,250): error TS1005: ',' expected.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,263): error TS1127: Invalid character.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,267): error TS1005: ',' expected.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,277): error TS1127: Invalid character.\
+[18:33:52.046] src/components/ui/LoadingSpinner.tsx(1,281): error TS1005: ',' expected.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,300): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,304): error TS1005: ',' expected.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,311): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,338): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,339): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,363): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,369): error TS1005: ',' expected.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,383): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,389): error TS1005: ',' expected.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,403): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,409): error TS1005: ',' expected.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,425): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,431): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,433): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,434): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,454): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,460): error TS1005: ',' expected.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,548): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,572): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,697): error TS1381: Unexpected token. Did you mean `\{'\}'\}` or `&rbrace;`?\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,707): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,729): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,752): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,782): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,794): error TS17002: Expected corresponding JSX closing tag for 'div'.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,796): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,796): error TS1005: ';' expected.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,797): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,804): error TS1128: Declaration or statement expected.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,806): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,807): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,812): error TS1128: Declaration or statement expected.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,818): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,819): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,822): error TS1128: Declaration or statement expected.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,824): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,826): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,827): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,847): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,848): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,861): error TS1127: Invalid character.\
+[18:33:52.047] src/components/ui/LoadingSpinner.tsx(1,874): error TS1005: ';' expected.\
+[18:33:52.048] src/components/ui/LoadingSpinner.tsx(1,884): error TS1127: Invalid character.\
+[18:33:52.048] src/components/ui/LoadingSpinner.tsx(1,1034): error TS1005: '\}' expected.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,53): error TS1127: Invalid character.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,54): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.048] src/components/ui/Modal.tsx(1,79): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,96): error TS1127: Invalid character.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,97): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.048] src/components/ui/Modal.tsx(1,111): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,131): error TS1127: Invalid character.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,132): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.048] src/components/ui/Modal.tsx(1,147): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,169): error TS1127: Invalid character.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,171): error TS1127: Invalid character.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,172): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.048] src/components/ui/Modal.tsx(1,202): error TS1127: Invalid character.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,203): error TS1131: Property or signature expected.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,222): error TS1127: Invalid character.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,223): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,245): error TS1109: Expression expected.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,246): error TS1127: Invalid character.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,247): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,270): error TS1127: Invalid character.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,271): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,280): error TS1109: Expression expected.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,289): error TS1127: Invalid character.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,290): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,298): error TS1109: Expression expected.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,326): error TS1127: Invalid character.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,327): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.048] src/components/ui/Modal.tsx(1,340): error TS1109: Expression expected.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,349): error TS1127: Invalid character.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,350): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,373): error TS1109: Expression expected.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,383): error TS1127: Invalid character.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,384): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,403): error TS1109: Expression expected.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,413): error TS1127: Invalid character.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,415): error TS1128: Declaration or statement expected.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,416): error TS1127: Invalid character.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,418): error TS1127: Invalid character.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,419): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.049] src/components/ui/Modal.tsx(1,443): error TS1127: Invalid character.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,447): error TS1005: ',' expected.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,454): error TS1127: Invalid character.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,458): error TS1005: ',' expected.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,466): error TS1127: Invalid character.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,470): error TS1005: ',' expected.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,479): error TS1127: Invalid character.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,483): error TS1005: ',' expected.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,489): error TS1127: Invalid character.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,493): error TS1005: ',' expected.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,505): error TS1127: Invalid character.\
+[18:33:52.049] src/components/ui/Modal.tsx(1,509): error TS1005: ',' expected.\
+[18:33:52.050] src/components/ui/Modal.tsx(1,519): error TS1127: Invalid character.\
+[18:33:52.050] src/components/ui/Modal.tsx(1,523): error TS1005: ',' expected.\
+[18:33:52.050] src/components/ui/Modal.tsx(1,550): error TS1127: Invalid character.\
+[18:33:52.050] src/components/ui/Modal.tsx(1,554): error TS1005: ',' expected.\
+[18:33:52.050] src/components/ui/Modal.tsx(1,577): error TS1127: Invalid character.\
+[18:33:52.050] src/components/ui/Modal.tsx(1,595): error TS1127: Invalid character.\
+[18:33:52.050] src/components/ui/Modal.tsx(1,2913): error TS1005: '\}' expected.\
+[18:33:52.050] src/hooks/artifacts/useArtifact.ts(1,58): error TS1127: Invalid character.\
+[18:33:52.050] src/hooks/artifacts/useArtifact.ts(1,59): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.050] src/hooks/artifacts/useArtifact.ts(1,80): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.050] src/hooks/artifacts/useArtifact.ts(1,100): error TS1127: Invalid character.\
+[18:33:52.050] src/hooks/artifacts/useArtifact.ts(1,101): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.050] src/hooks/artifacts/useArtifact.ts(1,130): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.050] src/hooks/artifacts/useArtifact.ts(1,163): error TS1127: Invalid character.\
+[18:33:52.050] src/hooks/artifacts/useArtifact.ts(1,164): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.050] src/hooks/artifacts/useArtifact.ts(1,222): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.050] src/hooks/artifacts/useArtifact.ts(1,260): error TS1127: Invalid character.\
+[18:33:52.050] src/hooks/artifacts/useArtifact.ts(1,261): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.050] src/hooks/artifacts/useArtifact.ts(1,311): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.050] src/hooks/artifacts/useArtifact.ts(1,352): error TS1127: Invalid character.\
+[18:33:52.050] src/hooks/artifacts/useArtifact.ts(1,354): error TS1127: Invalid character.\
+[18:33:52.050] src/hooks/artifacts/useArtifact.ts(1,355): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,393): error TS1127: Invalid character.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,394): error TS1131: Property or signature expected.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,412): error TS1109: Expression expected.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,422): error TS1127: Invalid character.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,423): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,443): error TS1109: Expression expected.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,452): error TS1127: Invalid character.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,453): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,473): error TS1109: Expression expected.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,483): error TS1127: Invalid character.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,485): error TS1128: Declaration or statement expected.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,486): error TS1127: Invalid character.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,488): error TS1127: Invalid character.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,489): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,526): error TS1127: Invalid character.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,527): error TS1131: Property or signature expected.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,556): error TS1127: Invalid character.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,557): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,577): error TS1127: Invalid character.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,578): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,602): error TS1127: Invalid character.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,603): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.051] src/hooks/artifacts/useArtifact.ts(1,622): error TS1127: Invalid character.\
+[18:33:52.052] src/hooks/artifacts/useArtifact.ts(1,623): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.052] src/hooks/artifacts/useArtifact.ts(1,645): error TS1127: Invalid character.\
+[18:33:52.057] src/hooks/artifacts/useArtifact.ts(1,649): error TS1127: Invalid character.\
+[18:33:52.057] src/hooks/useAuth.ts(1,47): error TS1127: Invalid character.\
+[18:33:52.057] src/hooks/useAuth.ts(1,48): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.057] src/hooks/useAuth.ts(1,98): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.057] src/hooks/useAuth.ts(1,127): error TS1127: Invalid character.\
+[18:33:52.057] src/hooks/useAuth.ts(1,129): error TS1127: Invalid character.\
+[18:33:52.057] src/hooks/useAuth.ts(1,130): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.057] src/hooks/useAuth.ts(1,154): error TS1127: Invalid character.\
+[18:33:52.057] src/hooks/useAuth.ts(1,155): error TS1131: Property or signature expected.\
+[18:33:52.057] src/hooks/useAuth.ts(1,169): error TS1127: Invalid character.\
+[18:33:52.057] src/hooks/useAuth.ts(1,170): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.057] src/hooks/useAuth.ts(1,187): error TS1127: Invalid character.\
+[18:33:52.057] src/hooks/useAuth.ts(1,188): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.058] src/hooks/useAuth.ts(1,204): error TS1127: Invalid character.\
+[18:33:52.058] src/hooks/useAuth.ts(1,205): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.058] src/hooks/useAuth.ts(1,215): error TS1109: Expression expected.\
+[18:33:52.058] src/hooks/useAuth.ts(1,224): error TS1127: Invalid character.\
+[18:33:52.058] src/hooks/useAuth.ts(1,225): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.058] src/hooks/useAuth.ts(1,242): error TS1011: An element access expression should take an argument.\
+[18:33:52.058] src/hooks/useAuth.ts(1,244): error TS1127: Invalid character.\
+[18:33:52.058] src/hooks/useAuth.ts(1,245): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.058] src/hooks/useAuth.ts(1,260): error TS1109: Expression expected.\
+[18:33:52.058] src/hooks/useAuth.ts(1,269): error TS1127: Invalid character.\
+[18:33:52.058] src/hooks/useAuth.ts(1,271): error TS1128: Declaration or statement expected.\
+[18:33:52.063] src/hooks/useAuth.ts(1,272): error TS1127: Invalid character.\
+[18:33:52.064] src/hooks/useAuth.ts(1,274): error TS1127: Invalid character.\
+[18:33:52.064] src/hooks/useAuth.ts(1,275): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.064] src/hooks/useAuth.ts(1,301): error TS1127: Invalid character.\
+[18:33:52.064] src/hooks/useAuth.ts(1,302): error TS1131: Property or signature expected.\
+[18:33:52.064] src/hooks/useAuth.ts(1,316): error TS1127: Invalid character.\
+[18:33:52.064] src/hooks/useAuth.ts(1,317): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.064] src/hooks/useAuth.ts(1,333): error TS1127: Invalid character.\
+[18:33:52.064] src/hooks/useAuth.ts(1,334): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.064] src/hooks/useAuth.ts(1,350): error TS1127: Invalid character.\
+[18:33:52.064] src/hooks/useAuth.ts(1,351): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.064] src/hooks/useAuth.ts(1,359): error TS1109: Expression expected.\
+[18:33:52.064] src/hooks/useAuth.ts(1,368): error TS1127: Invalid character.\
+[18:33:52.064] src/hooks/useAuth.ts(1,369): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.064] src/hooks/useAuth.ts(1,393): error TS1127: Invalid character.\
+[18:33:52.065] src/hooks/useAuth.ts(1,395): error TS1128: Declaration or statement expected.\
+[18:33:52.065] src/hooks/useAuth.ts(1,396): error TS1127: Invalid character.\
+[18:33:52.065] src/hooks/useAuth.ts(1,398): error TS1127: Invalid character.\
+[18:33:52.065] src/hooks/useAuth.ts(1,399): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.065] src/hooks/useAuth.ts(1,428): error TS1127: Invalid character.\
+[18:33:52.065] src/hooks/useAuth.ts(1,429): error TS1131: Property or signature expected.\
+[18:33:52.065] src/hooks/useAuth.ts(1,450): error TS1127: Invalid character.\
+[18:33:52.065] src/hooks/useAuth.ts(1,451): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.065] src/hooks/useAuth.ts(1,476): error TS1127: Invalid character.\
+[18:33:52.065] src/hooks/useAuth.ts(1,477): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.065] src/hooks/useAuth.ts(1,505): error TS1127: Invalid character.\
+[18:33:52.065] src/hooks/useAuth.ts(1,507): error TS1128: Declaration or statement expected.\
+[18:33:52.065] src/hooks/useAuth.ts(1,508): error TS1127: Invalid character.\
+[18:33:52.065] src/hooks/useAuth.ts(1,510): error TS1127: Invalid character.\
+[18:33:52.065] src/hooks/useAuth.ts(1,511): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.066] src/hooks/useAuth.ts(1,540): error TS1127: Invalid character.\
+[18:33:52.066] src/hooks/useAuth.ts(1,541): error TS1131: Property or signature expected.\
+[18:33:52.066] src/hooks/useAuth.ts(1,558): error TS1127: Invalid character.\
+[18:33:52.066] src/hooks/useAuth.ts(1,559): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.066] src/hooks/useAuth.ts(1,579): error TS1127: Invalid character.\
+[18:33:52.066] src/hooks/useAuth.ts(1,580): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.066] src/hooks/useAuth.ts(1,594): error TS1109: Expression expected.\
+[18:33:52.066] src/hooks/useAuth.ts(1,604): error TS1127: Invalid character.\
+[18:33:52.066] src/hooks/useAuth.ts(1,606): error TS1128: Declaration or statement expected.\
+[18:33:52.066] src/hooks/useAuth.ts(1,607): error TS1127: Invalid character.\
+[18:33:52.066] src/hooks/useAuth.ts(1,609): error TS1127: Invalid character.\
+[18:33:52.066] src/hooks/useAuth.ts(1,610): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.066] src/hooks/useAuth.ts(1,642): error TS1127: Invalid character.\
+[18:33:52.066] src/hooks/useAuth.ts(1,643): error TS1131: Property or signature expected.\
+[18:33:52.066] src/hooks/useAuth.ts(1,659): error TS1127: Invalid character.\
+[18:33:52.067] src/hooks/useAuth.ts(1,660): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.067] src/hooks/useAuth.ts(1,677): error TS1127: Invalid character.\
+[18:33:52.067] src/hooks/useAuth.ts(1,678): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.067] src/hooks/useAuth.ts(1,698): error TS1127: Invalid character.\
+[18:33:52.067] src/hooks/useAuth.ts(1,699): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.067] src/hooks/useAuth.ts(1,721): error TS1127: Invalid character.\
+[18:33:52.067] src/hooks/useAuth.ts(1,723): error TS1128: Declaration or statement expected.\
+[18:33:52.067] src/hooks/useAuth.ts(1,724): error TS1127: Invalid character.\
+[18:33:52.067] src/hooks/useAuth.ts(1,726): error TS1127: Invalid character.\
+[18:33:52.067] src/hooks/useAuth.ts(1,727): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.067] src/hooks/useAuth.ts(1,759): error TS1127: Invalid character.\
+[18:33:52.067] src/hooks/useAuth.ts(1,760): error TS1131: Property or signature expected.\
+[18:33:52.067] src/hooks/useAuth.ts(1,774): error TS1127: Invalid character.\
+[18:33:52.067] src/hooks/useAuth.ts(1,775): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.067] src/hooks/useAuth.ts(1,793): error TS1127: Invalid character.\
+[18:33:52.067] src/hooks/useAuth.ts(1,794): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.068] src/hooks/useAuth.ts(1,817): error TS1127: Invalid character.\
+[18:33:52.068] src/hooks/useAuth.ts(1,818): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.068] src/hooks/useAuth.ts(1,842): error TS1127: Invalid character.\
+[18:33:52.068] src/hooks/useAuth.ts(1,843): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.068] src/hooks/useAuth.ts(1,864): error TS1127: Invalid character.\
+[18:33:52.068] src/hooks/useAuth.ts(1,866): error TS1128: Declaration or statement expected.\
+[18:33:52.068] src/hooks/useAuth.ts(1,867): error TS1127: Invalid character.\
+[18:33:52.068] src/hooks/useAuth.ts(1,869): error TS1127: Invalid character.\
+[18:33:52.068] src/hooks/useAuth.ts(1,870): error TS1435: Unknown keyword or identifier. Did you mean 'class'?\
+[18:33:52.068] src/hooks/useAuth.ts(1,877): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.068] src/hooks/useAuth.ts(1,890): error TS1127: Invalid character.\
+[18:33:52.068] src/hooks/useAuth.ts(1,891): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.069] src/hooks/useAuth.ts(1,894): error TS1128: Declaration or statement expected.\
+[18:33:52.069] src/hooks/useAuth.ts(1,927): error TS1127: Invalid character.\
+[18:33:52.069] src/hooks/useAuth.ts(1,928): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.069] src/hooks/useAuth.ts(1,931): error TS1128: Declaration or statement expected.\
+[18:33:52.069] src/hooks/useAuth.ts(1,966): error TS1005: ';' expected.\
+[18:33:52.069] src/hooks/useAuth.ts(1,973): error TS1127: Invalid character.\
+[18:33:52.069] src/hooks/useAuth.ts(1,974): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.069] src/hooks/useAuth.ts(1,977): error TS1128: Declaration or statement expected.\
+[18:33:52.069] src/hooks/useAuth.ts(1,1013): error TS1005: ';' expected.\
+[18:33:52.070] src/hooks/useAuth.ts(1,1020): error TS1127: Invalid character.\
+[18:33:52.070] src/hooks/useAuth.ts(1,1022): error TS1127: Invalid character.\
+[18:33:52.070] src/hooks/useAuth.ts(1,1023): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.070] src/hooks/useAuth.ts(1,1040): error TS1005: ';' expected.\
+[18:33:52.070] src/hooks/useAuth.ts(1,1041): error TS1127: Invalid character.\
+[18:33:52.070] src/hooks/useAuth.ts(1,9823): error TS1005: '\}' expected.\
+[18:33:52.070] src/pages/auth/ForgotPasswordPage.tsx(60,22): error TS1127: Invalid character.\
+[18:33:52.070] src/pages/auth/ForgotPasswordPage.tsx(60,23): error TS1003: Identifier expected.\
+[18:33:52.070] src/pages/auth/ForgotPasswordPage.tsx(60,138): error TS1002: Unterminated string literal.\
+[18:33:52.070] src/pages/auth/ForgotPasswordPage.tsx(61,14): error TS1005: ';' expected.\
+[18:33:52.070] src/pages/auth/ForgotPasswordPage.tsx(61,24): error TS1127: Invalid character.\
+[18:33:52.070] src/pages/auth/ForgotPasswordPage.tsx(61,54): error TS1002: Unterminated string literal.\
+[18:33:52.070] src/pages/auth/ForgotPasswordPage.tsx(62,16): error TS1005: ';' expected.\
+[18:33:52.070] src/pages/auth/ForgotPasswordPage.tsx(62,26): error TS1127: Invalid character.\
+[18:33:52.070] src/pages/auth/ForgotPasswordPage.tsx(62,42): error TS1002: Unterminated string literal.\
+[18:33:52.070] src/pages/auth/ForgotPasswordPage.tsx(63,18): error TS1005: ';' expected.\
+[18:33:52.070] src/pages/auth/ForgotPasswordPage.tsx(63,28): error TS1127: Invalid character.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(63,107): error TS1002: Unterminated string literal.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(64,28): error TS1005: ';' expected.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(64,38): error TS1127: Invalid character.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(64,67): error TS1002: Unterminated string literal.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(65,13): error TS1128: Declaration or statement expected.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(66,27): error TS1127: Invalid character.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(66,28): error TS1003: Identifier expected.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(66,74): error TS1002: Unterminated string literal.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(67,15): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(67,21): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(68,13): error TS1128: Declaration or statement expected.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(69,26): error TS1127: Invalid character.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(69,27): error TS1003: Identifier expected.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(69,57): error TS1002: Unterminated string literal.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(70,15): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(70,56): error TS1002: Unterminated string literal.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(71,13): error TS1128: Declaration or statement expected.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(72,26): error TS1127: Invalid character.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(72,27): error TS1003: Identifier expected.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(72,80): error TS1002: Unterminated string literal.\
+[18:33:52.071] src/pages/auth/ForgotPasswordPage.tsx(73,11): error TS1128: Declaration or statement expected.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(75,26): error TS1127: Invalid character.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(75,27): error TS1003: Identifier expected.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(75,78): error TS1002: Unterminated string literal.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(76,18): error TS1005: ';' expected.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(76,28): error TS1127: Invalid character.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(76,54): error TS1002: Unterminated string literal.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(77,20): error TS1005: ';' expected.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(77,30): error TS1127: Invalid character.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(77,60): error TS1002: Unterminated string literal.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(78,20): error TS1005: ';' expected.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(78,30): error TS1127: Invalid character.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(78,56): error TS1002: Unterminated string literal.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(79,31): error TS1005: ';' expected.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(79,90): error TS1005: ';' expected.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(79,92): error TS1002: Unterminated string literal.\
+[18:33:52.072] src/pages/auth/ForgotPasswordPage.tsx(81,30): error TS1136: Property assignment expected.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(81,33): error TS1005: ';' expected.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(81,57): error TS1128: Declaration or statement expected.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(82,31): error TS1127: Invalid character.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(82,90): error TS1002: Unterminated string literal.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(84,21): error TS1109: Expression expected.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(84,25): error TS1005: '\{' expected.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(85,19): error TS1128: Declaration or statement expected.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(86,17): error TS1109: Expression expected.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(87,15): error TS1109: Expression expected.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(89,30): error TS1127: Invalid character.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(89,31): error TS1003: Identifier expected.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(89,39): error TS1002: Unterminated string literal.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(91,22): error TS1127: Invalid character.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(91,37): error TS1002: Unterminated string literal.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(92,29): error TS1127: Invalid character.\
+[18:33:52.073] src/pages/auth/ForgotPasswordPage.tsx(92,115): error TS1002: Unterminated string literal.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(94,40): error TS1127: Invalid character.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(94,41): error TS1003: Identifier expected.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(94,59): error TS1002: Unterminated string literal.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(95,19): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(95,24): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(96,17): error TS1109: Expression expected.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(97,15): error TS1109: Expression expected.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(98,13): error TS1109: Expression expected.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(99,11): error TS1109: Expression expected.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(100,9): error TS1109: Expression expected.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(101,7): error TS1109: Expression expected.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(102,5): error TS1109: Expression expected.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(103,3): error TS1128: Declaration or statement expected.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(106,20): error TS1127: Invalid character.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(106,21): error TS1003: Identifier expected.\
+[18:33:52.074] src/pages/auth/ForgotPasswordPage.tsx(106,136): error TS1002: Unterminated string literal.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(107,12): error TS1005: ';' expected.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(107,22): error TS1127: Invalid character.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(107,52): error TS1002: Unterminated string literal.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(108,14): error TS1005: ';' expected.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(108,24): error TS1127: Invalid character.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(108,40): error TS1002: Unterminated string literal.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(109,16): error TS1005: ';' expected.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(109,26): error TS1127: Invalid character.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(109,106): error TS1002: Unterminated string literal.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(110,19): error TS1005: ';' expected.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(110,29): error TS1127: Invalid character.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(110,54): error TS1002: Unterminated string literal.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(111,11): error TS1128: Declaration or statement expected.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(112,25): error TS1127: Invalid character.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(112,26): error TS1003: Identifier expected.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(112,72): error TS1002: Unterminated string literal.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(113,13): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(113,20): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.075] src/pages/auth/ForgotPasswordPage.tsx(114,11): error TS1109: Expression expected.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(115,24): error TS1127: Invalid character.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(115,25): error TS1003: Identifier expected.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(115,55): error TS1002: Unterminated string literal.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(116,13): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(116,25): error TS1005: ';' expected.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(116,31): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(116,36): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(116,42): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(116,46): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(116,80): error TS1002: Unterminated string literal.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(117,11): error TS1128: Declaration or statement expected.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(118,9): error TS1109: Expression expected.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(120,24): error TS1127: Invalid character.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(120,25): error TS1003: Identifier expected.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(120,76): error TS1002: Unterminated string literal.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(121,17): error TS1005: ';' expected.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(121,27): error TS1127: Invalid character.\
+[18:33:52.076] src/pages/auth/ForgotPasswordPage.tsx(121,75): error TS1002: Unterminated string literal.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(123,30): error TS1127: Invalid character.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(123,31): error TS1003: Identifier expected.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(123,108): error TS1002: Unterminated string literal.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(125,15): error TS1128: Declaration or statement expected.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(126,13): error TS1109: Expression expected.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(128,13): error TS2657: JSX expressions must have one parent element.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(129,30): error TS1127: Invalid character.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(129,93): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(131,17): error TS17002: Expected corresponding JSX closing tag for 'div'.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(132,30): error TS1127: Invalid character.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(132,31): error TS1003: Identifier expected.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(132,31): error TS1005: ';' expected.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(132,48): error TS1002: Unterminated string literal.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(133,22): error TS1005: ';' expected.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(133,32): error TS1127: Invalid character.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(133,105): error TS1002: Unterminated string literal.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(134,25): error TS1005: ';' expected.\
+[18:33:52.077] src/pages/auth/ForgotPasswordPage.tsx(134,35): error TS1127: Invalid character.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(134,63): error TS1002: Unterminated string literal.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(135,17): error TS1128: Declaration or statement expected.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(138,24): error TS1127: Invalid character.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(138,25): error TS1003: Identifier expected.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(138,33): error TS1002: Unterminated string literal.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(139,32): error TS1127: Invalid character.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(139,41): error TS1002: Unterminated string literal.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(140,29): error TS1127: Invalid character.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(140,211): error TS1002: Unterminated string literal.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(141,31): error TS1127: Invalid character.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(141,59): error TS1002: Unterminated string literal.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(142,18): error TS1109: Expression expected.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(143,15): error TS1109: Expression expected.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(144,22): error TS1005: ',' expected.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(145,30): error TS1127: Invalid character.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(145,31): error TS1003: Identifier expected.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(145,86): error TS1002: Unterminated string literal.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(146,15): error TS1005: ':' expected.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(147,13): error TS1128: Declaration or statement expected.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(151,22): error TS1127: Invalid character.\
+[18:33:52.078] src/pages/auth/ForgotPasswordPage.tsx(154,15): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(156,17): error TS17002: Expected corresponding JSX closing tag for 'div'.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(157,13): error TS1128: Declaration or statement expected.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(158,11): error TS1109: Expression expected.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(160,26): error TS1127: Invalid character.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(160,27): error TS1003: Identifier expected.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(160,47): error TS1002: Unterminated string literal.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(162,18): error TS1127: Invalid character.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(162,33): error TS1002: Unterminated string literal.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(163,25): error TS1127: Invalid character.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(163,111): error TS1002: Unterminated string literal.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(165,36): error TS1127: Invalid character.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(165,37): error TS1003: Identifier expected.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(165,55): error TS1002: Unterminated string literal.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(166,15): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(166,20): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(167,13): error TS1109: Expression expected.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(168,11): error TS1109: Expression expected.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(169,9): error TS1109: Expression expected.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(170,7): error TS1109: Expression expected.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(171,5): error TS1109: Expression expected.\
+[18:33:52.079] src/pages/auth/ForgotPasswordPage.tsx(172,3): error TS1109: Expression expected.\
+[18:33:52.085] src/pages/auth/ForgotPasswordPage.tsx(173,1): error TS1128: Declaration or statement expected.\
+[18:33:52.086] src/pages/auth/LoginPage.tsx(57,20): error TS1127: Invalid character.\
+[18:33:52.086] src/pages/auth/LoginPage.tsx(57,21): error TS1003: Identifier expected.\
+[18:33:52.086] src/pages/auth/LoginPage.tsx(57,136): error TS1002: Unterminated string literal.\
+[18:33:52.086] src/pages/auth/LoginPage.tsx(58,12): error TS1005: ';' expected.\
+[18:33:52.086] src/pages/auth/LoginPage.tsx(58,22): error TS1127: Invalid character.\
+[18:33:52.086] src/pages/auth/LoginPage.tsx(58,52): error TS1002: Unterminated string literal.\
+[18:33:52.086] src/pages/auth/LoginPage.tsx(59,14): error TS1005: ';' expected.\
+[18:33:52.086] src/pages/auth/LoginPage.tsx(59,24): error TS1127: Invalid character.\
+[18:33:52.086] src/pages/auth/LoginPage.tsx(59,40): error TS1002: Unterminated string literal.\
+[18:33:52.086] src/pages/auth/LoginPage.tsx(60,16): error TS1005: ';' expected.\
+[18:33:52.086] src/pages/auth/LoginPage.tsx(60,26): error TS1127: Invalid character.\
+[18:33:52.086] src/pages/auth/LoginPage.tsx(60,106): error TS1002: Unterminated string literal.\
+[18:33:52.087] src/pages/auth/LoginPage.tsx(61,20): error TS1005: ';' expected.\
+[18:33:52.087] src/pages/auth/LoginPage.tsx(61,30): error TS1127: Invalid character.\
+[18:33:52.087] src/pages/auth/LoginPage.tsx(61,55): error TS1002: Unterminated string literal.\
+[18:33:52.087] src/pages/auth/LoginPage.tsx(62,11): error TS1128: Declaration or statement expected.\
+[18:33:52.087] src/pages/auth/LoginPage.tsx(63,25): error TS1127: Invalid character.\
+[18:33:52.087] src/pages/auth/LoginPage.tsx(63,26): error TS1003: Identifier expected.\
+[18:33:52.087] src/pages/auth/LoginPage.tsx(63,72): error TS1002: Unterminated string literal.\
+[18:33:52.087] src/pages/auth/LoginPage.tsx(64,24): error TS1005: ';' expected.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(65,11): error TS1128: Declaration or statement expected.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(66,24): error TS1127: Invalid character.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(66,25): error TS1003: Identifier expected.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(66,55): error TS1002: Unterminated string literal.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(67,13): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(67,27): error TS1005: ';' expected.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(67,34): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(67,40): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(68,11): error TS1003: Identifier expected.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(69,9): error TS1109: Expression expected.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(71,24): error TS1127: Invalid character.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(71,25): error TS1003: Identifier expected.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(71,76): error TS1002: Unterminated string literal.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(72,17): error TS1005: ';' expected.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(72,27): error TS1127: Invalid character.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(72,75): error TS1002: Unterminated string literal.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(74,30): error TS1127: Invalid character.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(74,31): error TS1003: Identifier expected.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(74,108): error TS1002: Unterminated string literal.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(76,15): error TS1128: Declaration or statement expected.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(77,13): error TS1109: Expression expected.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(79,13): error TS2657: JSX expressions must have one parent element.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(80,30): error TS1127: Invalid character.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(80,93): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(82,17): error TS17002: Expected corresponding JSX closing tag for 'div'.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(83,30): error TS1127: Invalid character.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(83,31): error TS1003: Identifier expected.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(83,31): error TS1005: ';' expected.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(83,48): error TS1002: Unterminated string literal.\
+[18:33:52.088] src/pages/auth/LoginPage.tsx(84,22): error TS1005: ';' expected.\
+[18:33:52.089] src/pages/auth/LoginPage.tsx(84,32): error TS1127: Invalid character.\
+[18:33:52.089] src/pages/auth/LoginPage.tsx(84,105): error TS1002: Unterminated string literal.\
+[18:33:52.089] src/pages/auth/LoginPage.tsx(85,25): error TS1005: ';' expected.\
+[18:33:52.095] src/pages/auth/LoginPage.tsx(85,35): error TS1127: Invalid character.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(85,63): error TS1002: Unterminated string literal.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(86,17): error TS1128: Declaration or statement expected.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(89,24): error TS1127: Invalid character.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(89,25): error TS1003: Identifier expected.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(89,33): error TS1002: Unterminated string literal.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(90,32): error TS1127: Invalid character.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(90,41): error TS1002: Unterminated string literal.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(91,29): error TS1127: Invalid character.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(91,211): error TS1002: Unterminated string literal.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(92,31): error TS1127: Invalid character.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(92,51): error TS1002: Unterminated string literal.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(93,18): error TS1109: Expression expected.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(94,15): error TS1109: Expression expected.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(95,22): error TS1005: ',' expected.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(96,30): error TS1127: Invalid character.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(96,31): error TS1003: Identifier expected.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(96,86): error TS1002: Unterminated string literal.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(97,15): error TS1005: ':' expected.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(98,13): error TS1128: Declaration or statement expected.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(100,13): error TS2657: JSX expressions must have one parent element.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(101,30): error TS1127: Invalid character.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(101,96): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(103,17): error TS17002: Expected corresponding JSX closing tag for 'div'.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(104,30): error TS1127: Invalid character.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(104,31): error TS1003: Identifier expected.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(104,31): error TS1005: ';' expected.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(104,48): error TS1002: Unterminated string literal.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(105,22): error TS1005: ';' expected.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(105,32): error TS1127: Invalid character.\
+[18:33:52.096] src/pages/auth/LoginPage.tsx(105,105): error TS1002: Unterminated string literal.\
+[18:33:52.097] src/pages/auth/LoginPage.tsx(106,25): error TS1005: ';' expected.\
+[18:33:52.097] src/pages/auth/LoginPage.tsx(106,35): error TS1127: Invalid character.\
+[18:33:52.097] src/pages/auth/LoginPage.tsx(106,63): error TS1002: Unterminated string literal.\
+[18:33:52.097] src/pages/auth/LoginPage.tsx(107,17): error TS1128: Declaration or statement expected.\
+[18:33:52.097] src/pages/auth/LoginPage.tsx(111,32): error TS1127: Invalid character.\
+[18:33:52.097] src/pages/auth/LoginPage.tsx(111,33): error TS1003: Identifier expected.\
+[18:33:52.097] src/pages/auth/LoginPage.tsx(111,52): error TS1002: Unterminated string literal.\
+[18:33:52.097] src/pages/auth/LoginPage.tsx(112,29): error TS1127: Invalid character.\
+[18:33:52.097] src/pages/auth/LoginPage.tsx(112,212): error TS1002: Unterminated string literal.\
+[18:33:52.097] src/pages/auth/LoginPage.tsx(113,31): error TS1127: Invalid character.\
+[18:33:52.097] src/pages/auth/LoginPage.tsx(113,54): error TS1002: Unterminated string literal.\
+[18:33:52.097] src/pages/auth/LoginPage.tsx(114,18): error TS1109: Expression expected.\
+[18:33:52.097] src/pages/auth/LoginPage.tsx(115,32): error TS1127: Invalid character.\
+[18:33:52.097] src/pages/auth/LoginPage.tsx(115,33): error TS1003: Identifier expected.\
+[18:33:52.097] src/pages/auth/LoginPage.tsx(115,86): error TS1002: Unterminated string literal.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(117,26): error TS1127: Invalid character.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(117,36): error TS1002: Unterminated string literal.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(118,31): error TS1127: Invalid character.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(118,87): error TS1002: Unterminated string literal.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(119,30): error TS1136: Property assignment expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(119,33): error TS1005: ';' expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(119,66): error TS1128: Declaration or statement expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(120,19): error TS1109: Expression expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(122,23): error TS1003: Identifier expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(122,31): error TS1005: ',' expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(122,41): error TS1127: Invalid character.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(122,42): error TS1003: Identifier expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(122,55): error TS1002: Unterminated string literal.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(124,28): error TS1005: ',' expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(124,38): error TS1127: Invalid character.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(124,39): error TS1139: Type parameter declaration expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(124,52): error TS1002: Unterminated string literal.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(126,19): error TS1128: Declaration or statement expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(127,17): error TS1109: Expression expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(128,15): error TS1109: Expression expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(129,22): error TS1005: ',' expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(130,30): error TS1127: Invalid character.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(130,31): error TS1003: Identifier expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(130,89): error TS1002: Unterminated string literal.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(131,15): error TS1005: ':' expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(132,13): error TS1128: Declaration or statement expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(134,28): error TS1127: Invalid character.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(134,29): error TS1003: Identifier expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(134,66): error TS1002: Unterminated string literal.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(135,20): error TS1005: ';' expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(135,30): error TS1127: Invalid character.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(135,52): error TS1002: Unterminated string literal.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(137,20): error TS1128: Declaration or statement expected.\
+[18:33:52.098] src/pages/auth/LoginPage.tsx(138,24): error TS1127: Invalid character.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(138,36): error TS1002: Unterminated string literal.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(139,29): error TS1127: Invalid character.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(139,102): error TS1002: Unterminated string literal.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(140,18): error TS1109: Expression expected.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(141,32): error TS1127: Invalid character.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(141,33): error TS1003: Identifier expected.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(141,94): error TS1002: Unterminated string literal.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(142,19): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(143,17): error TS1128: Declaration or statement expected.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(144,15): error TS1109: Expression expected.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(147,20): error TS1127: Invalid character.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(147,21): error TS1003: Identifier expected.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(147,45): error TS1002: Unterminated string literal.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(148,27): error TS1127: Invalid character.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(148,88): error TS1002: Unterminated string literal.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(150,24): error TS1005: ';' expected.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(151,15): error TS1109: Expression expected.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(152,13): error TS1109: Expression expected.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(156,22): error TS1127: Invalid character.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(159,15): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(161,17): error TS17002: Expected corresponding JSX closing tag for 'div'.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(162,13): error TS1128: Declaration or statement expected.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(164,28): error TS1127: Invalid character.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(164,29): error TS1003: Identifier expected.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(164,41): error TS1002: Unterminated string literal.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(165,20): error TS1005: ';' expected.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(165,30): error TS1127: Invalid character.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(165,69): error TS1002: Unterminated string literal.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(166,22): error TS1005: ';' expected.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(166,32): error TS1127: Invalid character.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(166,70): error TS1002: Unterminated string literal.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(167,15): error TS1128: Declaration or statement expected.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(168,30): error TS1127: Invalid character.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(168,31): error TS1003: Identifier expected.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(168,71): error TS1002: Unterminated string literal.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(169,23): error TS1005: ';' expected.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(169,33): error TS1127: Invalid character.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(169,88): error TS1002: Unterminated string literal.\
+[18:33:52.099] src/pages/auth/LoginPage.tsx(170,15): error TS1128: Declaration or statement expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(171,13): error TS1109: Expression expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(173,28): error TS1127: Invalid character.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(173,29): error TS1003: Identifier expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(173,55): error TS1002: Unterminated string literal.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(175,22): error TS1127: Invalid character.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(175,32): error TS1002: Unterminated string literal.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(176,26): error TS1136: Property assignment expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(176,29): error TS1005: ';' expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(176,58): error TS1128: Declaration or statement expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(177,27): error TS1127: Invalid character.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(177,252): error TS1002: Unterminated string literal.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(179,35): error TS1127: Invalid character.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(179,36): error TS1003: Identifier expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(179,62): error TS1002: Unterminated string literal.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(180,23): error TS1005: ';' expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(180,33): error TS1127: Invalid character.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(180,55): error TS1002: Unterminated string literal.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(181,15): error TS1128: Declaration or statement expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(184,22): error TS1127: Invalid character.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(184,23): error TS1003: Identifier expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(184,32): error TS1002: Unterminated string literal.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(185,26): error TS1136: Property assignment expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(185,29): error TS1005: ';' expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(185,58): error TS1128: Declaration or statement expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(186,27): error TS1127: Invalid character.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(186,252): error TS1002: Unterminated string literal.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(188,35): error TS1127: Invalid character.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(188,36): error TS1003: Identifier expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(188,63): error TS1002: Unterminated string literal.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(189,23): error TS1005: ';' expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(189,33): error TS1127: Invalid character.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(189,55): error TS1002: Unterminated string literal.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(190,15): error TS1128: Declaration or statement expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(191,13): error TS1109: Expression expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(192,11): error TS1109: Expression expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(194,26): error TS1127: Invalid character.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(194,27): error TS1003: Identifier expected.\
+[18:33:52.100] src/pages/auth/LoginPage.tsx(194,47): error TS1002: Unterminated string literal.\
+[18:33:52.101] src/pages/auth/LoginPage.tsx(195,16): error TS1005: ';' expected.\
+[18:33:52.101] src/pages/auth/LoginPage.tsx(195,26): error TS1127: Invalid character.\
+[18:33:52.101] src/pages/auth/LoginPage.tsx(195,52): error TS1002: Unterminated string literal.\
+[18:33:52.103] src/pages/auth/LoginPage.tsx(196,15): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.103] src/pages/auth/LoginPage.tsx(196,40): error TS1005: ';' expected.\
+[18:33:52.103] src/pages/auth/LoginPage.tsx(196,42): error TS1002: Unterminated string literal.\
+[18:33:52.103] src/pages/auth/LoginPage.tsx(198,20): error TS1127: Invalid character.\
+[18:33:52.103] src/pages/auth/LoginPage.tsx(198,38): error TS1002: Unterminated string literal.\
+[18:33:52.103] src/pages/auth/LoginPage.tsx(199,27): error TS1127: Invalid character.\
+[18:33:52.103] src/pages/auth/LoginPage.tsx(199,80): error TS1002: Unterminated string literal.\
+[18:33:52.103] src/pages/auth/LoginPage.tsx(201,22): error TS1005: ';' expected.\
+[18:33:52.103] src/pages/auth/LoginPage.tsx(201,29): error TS1005: '(' expected.\
+[18:33:52.103] src/pages/auth/LoginPage.tsx(202,15): error TS1005: ';' expected.\
+[18:33:52.103] src/pages/auth/LoginPage.tsx(203,13): error TS1109: Expression expected.\
+[18:33:52.103] src/pages/auth/LoginPage.tsx(204,11): error TS1109: Expression expected.\
+[18:33:52.103] src/pages/auth/LoginPage.tsx(205,9): error TS1109: Expression expected.\
+[18:33:52.103] src/pages/auth/LoginPage.tsx(206,7): error TS1109: Expression expected.\
+[18:33:52.104] src/pages/auth/LoginPage.tsx(207,5): error TS1109: Expression expected.\
+[18:33:52.104] src/pages/auth/LoginPage.tsx(208,3): error TS1109: Expression expected.\
+[18:33:52.104] src/pages/auth/LoginPage.tsx(209,1): error TS1128: Declaration or statement expected.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(18,12): error TS1127: Invalid character.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(18,38): error TS1002: Unterminated string literal.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(19,3): error TS1005: ':' expected.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(19,7): error TS1005: ',' expected.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(19,28): error TS1005: ':' expected.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(112,20): error TS1127: Invalid character.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(112,21): error TS1003: Identifier expected.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(112,142): error TS1002: Unterminated string literal.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(113,12): error TS1005: ';' expected.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(113,22): error TS1127: Invalid character.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(113,52): error TS1002: Unterminated string literal.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(114,14): error TS1005: ';' expected.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(114,24): error TS1127: Invalid character.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(114,40): error TS1002: Unterminated string literal.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(115,16): error TS1005: ';' expected.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(115,26): error TS1127: Invalid character.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(115,106): error TS1002: Unterminated string literal.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(116,23): error TS1005: ';' expected.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(116,33): error TS1127: Invalid character.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(116,58): error TS1002: Unterminated string literal.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(117,11): error TS1128: Declaration or statement expected.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(118,25): error TS1127: Invalid character.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(118,26): error TS1003: Identifier expected.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(118,72): error TS1002: Unterminated string literal.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(119,13): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(119,20): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(120,11): error TS1128: Declaration or statement expected.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(121,24): error TS1127: Invalid character.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(121,25): error TS1003: Identifier expected.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(121,55): error TS1002: Unterminated string literal.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(122,13): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(122,19): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(122,24): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.104] src/pages/auth/RegisterPage.tsx(122,37): error TS1005: '(' expected.\
+[18:33:52.105] src/pages/auth/RegisterPage.tsx(122,43): error TS1005: ')' expected.\
+[18:33:52.105] src/pages/auth/RegisterPage.tsx(123,11): error TS1128: Declaration or statement expected.\
+[18:33:52.105] src/pages/auth/RegisterPage.tsx(124,9): error TS1109: Expression expected.\
+[18:33:52.105] src/pages/auth/RegisterPage.tsx(126,24): error TS1127: Invalid character.\
+[18:33:52.105] src/pages/auth/RegisterPage.tsx(126,25): error TS1003: Identifier expected.\
+[18:33:52.105] src/pages/auth/RegisterPage.tsx(126,76): error TS1002: Unterminated string literal.\
+[18:33:52.105] src/pages/auth/RegisterPage.tsx(127,17): error TS1005: ';' expected.\
+[18:33:52.105] src/pages/auth/RegisterPage.tsx(127,27): error TS1127: Invalid character.\
+[18:33:52.105] src/pages/auth/RegisterPage.tsx(127,75): error TS1002: Unterminated string literal.\
+[18:33:52.105] src/pages/auth/RegisterPage.tsx(129,30): error TS1127: Invalid character.\
+[18:33:52.106] src/pages/auth/RegisterPage.tsx(129,31): error TS1003: Identifier expected.\
+[18:33:52.106] src/pages/auth/RegisterPage.tsx(129,108): error TS1002: Unterminated string literal.\
+[18:33:52.106] src/pages/auth/RegisterPage.tsx(131,15): error TS1128: Declaration or statement expected.\
+[18:33:52.106] src/pages/auth/RegisterPage.tsx(132,13): error TS1109: Expression expected.\
+[18:33:52.106] src/pages/auth/RegisterPage.tsx(134,13): error TS2657: JSX expressions must have one parent element.\
+[18:33:52.106] src/pages/auth/RegisterPage.tsx(135,30): error TS1127: Invalid character.\
+[18:33:52.106] src/pages/auth/RegisterPage.tsx(135,92): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.106] src/pages/auth/RegisterPage.tsx(137,17): error TS17002: Expected corresponding JSX closing tag for 'div'.\
+[18:33:52.106] src/pages/auth/RegisterPage.tsx(138,30): error TS1127: Invalid character.\
+[18:33:52.106] src/pages/auth/RegisterPage.tsx(138,31): error TS1003: Identifier expected.\
+[18:33:52.106] src/pages/auth/RegisterPage.tsx(138,31): error TS1005: ';' expected.\
+[18:33:52.106] src/pages/auth/RegisterPage.tsx(138,48): error TS1002: Unterminated string literal.\
+[18:33:52.106] src/pages/auth/RegisterPage.tsx(139,22): error TS1005: ';' expected.\
+[18:33:52.107] src/pages/auth/RegisterPage.tsx(139,32): error TS1127: Invalid character.\
+[18:33:52.107] src/pages/auth/RegisterPage.tsx(139,105): error TS1002: Unterminated string literal.\
+[18:33:52.107] src/pages/auth/RegisterPage.tsx(140,25): error TS1005: ';' expected.\
+[18:33:52.107] src/pages/auth/RegisterPage.tsx(140,35): error TS1127: Invalid character.\
+[18:33:52.112] src/pages/auth/RegisterPage.tsx(140,63): error TS1002: Unterminated string literal.\
+[18:33:52.112] src/pages/auth/RegisterPage.tsx(141,17): error TS1128: Declaration or statement expected.\
+[18:33:52.112] src/pages/auth/RegisterPage.tsx(144,24): error TS1127: Invalid character.\
+[18:33:52.112] src/pages/auth/RegisterPage.tsx(144,25): error TS1003: Identifier expected.\
+[18:33:52.112] src/pages/auth/RegisterPage.tsx(144,32): error TS1002: Unterminated string literal.\
+[18:33:52.112] src/pages/auth/RegisterPage.tsx(145,32): error TS1127: Invalid character.\
+[18:33:52.112] src/pages/auth/RegisterPage.tsx(145,40): error TS1002: Unterminated string literal.\
+[18:33:52.112] src/pages/auth/RegisterPage.tsx(146,29): error TS1127: Invalid character.\
+[18:33:52.113] src/pages/auth/RegisterPage.tsx(146,211): error TS1002: Unterminated string literal.\
+[18:33:52.113] src/pages/auth/RegisterPage.tsx(147,31): error TS1127: Invalid character.\
+[18:33:52.113] src/pages/auth/RegisterPage.tsx(147,55): error TS1002: Unterminated string literal.\
+[18:33:52.113] src/pages/auth/RegisterPage.tsx(148,18): error TS1109: Expression expected.\
+[18:33:52.113] src/pages/auth/RegisterPage.tsx(149,15): error TS1109: Expression expected.\
+[18:33:52.113] src/pages/auth/RegisterPage.tsx(150,22): error TS1005: ',' expected.\
+[18:33:52.113] src/pages/auth/RegisterPage.tsx(151,30): error TS1127: Invalid character.\
+[18:33:52.114] src/pages/auth/RegisterPage.tsx(151,31): error TS1003: Identifier expected.\
+[18:33:52.114] src/pages/auth/RegisterPage.tsx(151,85): error TS1002: Unterminated string literal.\
+[18:33:52.114] src/pages/auth/RegisterPage.tsx(152,15): error TS1005: ':' expected.\
+[18:33:52.114] src/pages/auth/RegisterPage.tsx(153,13): error TS1128: Declaration or statement expected.\
+[18:33:52.114] src/pages/auth/RegisterPage.tsx(155,13): error TS2657: JSX expressions must have one parent element.\
+[18:33:52.114] src/pages/auth/RegisterPage.tsx(156,30): error TS1127: Invalid character.\
+[18:33:52.114] src/pages/auth/RegisterPage.tsx(156,93): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(158,17): error TS17002: Expected corresponding JSX closing tag for 'div'.\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(159,30): error TS1127: Invalid character.\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(159,31): error TS1003: Identifier expected.\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(159,31): error TS1005: ';' expected.\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(159,48): error TS1002: Unterminated string literal.\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(160,22): error TS1005: ';' expected.\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(160,32): error TS1127: Invalid character.\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(160,105): error TS1002: Unterminated string literal.\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(161,25): error TS1005: ';' expected.\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(161,35): error TS1127: Invalid character.\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(161,63): error TS1002: Unterminated string literal.\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(162,17): error TS1128: Declaration or statement expected.\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(165,24): error TS1127: Invalid character.\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(165,25): error TS1003: Identifier expected.\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(165,33): error TS1002: Unterminated string literal.\
+[18:33:52.120] src/pages/auth/RegisterPage.tsx(166,32): error TS1127: Invalid character.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(166,41): error TS1002: Unterminated string literal.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(167,29): error TS1127: Invalid character.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(167,211): error TS1002: Unterminated string literal.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(168,31): error TS1127: Invalid character.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(168,51): error TS1002: Unterminated string literal.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(169,18): error TS1109: Expression expected.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(170,15): error TS1109: Expression expected.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(171,22): error TS1005: ',' expected.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(172,30): error TS1127: Invalid character.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(172,31): error TS1003: Identifier expected.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(172,86): error TS1002: Unterminated string literal.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(173,15): error TS1005: ':' expected.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(174,13): error TS1128: Declaration or statement expected.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(176,13): error TS2657: JSX expressions must have one parent element.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(177,30): error TS1127: Invalid character.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(177,98): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(179,17): error TS17002: Expected corresponding JSX closing tag for 'div'.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(180,30): error TS1127: Invalid character.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(180,31): error TS1003: Identifier expected.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(180,31): error TS1005: ';' expected.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(180,48): error TS1002: Unterminated string literal.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(181,22): error TS1005: ';' expected.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(181,32): error TS1127: Invalid character.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(181,105): error TS1002: Unterminated string literal.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(182,29): error TS1005: ';' expected.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(182,39): error TS1127: Invalid character.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(182,67): error TS1002: Unterminated string literal.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(183,17): error TS1128: Declaration or statement expected.\
+[18:33:52.121] src/pages/auth/RegisterPage.tsx(186,24): error TS1127: Invalid character.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(186,25): error TS1003: Identifier expected.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(186,32): error TS1002: Unterminated string literal.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(187,29): error TS1127: Invalid character.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(187,211): error TS1002: Unterminated string literal.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(188,31): error TS1127: Invalid character.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(188,63): error TS1002: Unterminated string literal.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(189,18): error TS1109: Expression expected.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(190,15): error TS1109: Expression expected.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(191,22): error TS1005: ',' expected.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(192,30): error TS1127: Invalid character.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(192,31): error TS1003: Identifier expected.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(192,91): error TS1002: Unterminated string literal.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(193,15): error TS1005: ':' expected.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(194,13): error TS1128: Declaration or statement expected.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(196,13): error TS2657: JSX expressions must have one parent element.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(197,30): error TS1127: Invalid character.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(197,96): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(199,17): error TS17002: Expected corresponding JSX closing tag for 'div'.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(200,30): error TS1127: Invalid character.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(200,31): error TS1003: Identifier expected.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(200,31): error TS1005: ';' expected.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(200,48): error TS1002: Unterminated string literal.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(201,22): error TS1005: ';' expected.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(201,32): error TS1127: Invalid character.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(201,105): error TS1002: Unterminated string literal.\
+[18:33:52.122] src/pages/auth/RegisterPage.tsx(202,25): error TS1005: ';' expected.\
+[18:33:52.123] src/pages/auth/RegisterPage.tsx(202,35): error TS1127: Invalid character.\
+[18:33:52.123] src/pages/auth/RegisterPage.tsx(202,63): error TS1002: Unterminated string literal.\
+[18:33:52.123] src/pages/auth/RegisterPage.tsx(203,17): error TS1128: Declaration or statement expected.\
+[18:33:52.123] src/pages/auth/RegisterPage.tsx(207,32): error TS1127: Invalid character.\
+[18:33:52.123] src/pages/auth/RegisterPage.tsx(207,33): error TS1003: Identifier expected.\
+[18:33:52.123] src/pages/auth/RegisterPage.tsx(207,48): error TS1002: Unterminated string literal.\
+[18:33:52.123] src/pages/auth/RegisterPage.tsx(208,29): error TS1127: Invalid character.\
+[18:33:52.123] src/pages/auth/RegisterPage.tsx(208,212): error TS1002: Unterminated string literal.\
+[18:33:52.123] src/pages/auth/RegisterPage.tsx(209,31): error TS1127: Invalid character.\
+[18:33:52.123] src/pages/auth/RegisterPage.tsx(209,59): error TS1002: Unterminated string literal.\
+[18:33:52.123] src/pages/auth/RegisterPage.tsx(210,18): error TS1109: Expression expected.\
+[18:33:52.123] src/pages/auth/RegisterPage.tsx(211,32): error TS1127: Invalid character.\
+[18:33:52.123] src/pages/auth/RegisterPage.tsx(211,33): error TS1003: Identifier expected.\
+[18:33:52.123] src/pages/auth/RegisterPage.tsx(211,86): error TS1002: Unterminated string literal.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(213,26): error TS1127: Invalid character.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(213,36): error TS1002: Unterminated string literal.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(214,31): error TS1127: Invalid character.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(214,87): error TS1002: Unterminated string literal.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(215,30): error TS1136: Property assignment expected.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(215,33): error TS1005: ';' expected.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(215,66): error TS1128: Declaration or statement expected.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(216,19): error TS1109: Expression expected.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(218,23): error TS1003: Identifier expected.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(218,31): error TS1005: ',' expected.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(218,41): error TS1127: Invalid character.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(218,42): error TS1003: Identifier expected.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(218,55): error TS1002: Unterminated string literal.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(220,28): error TS1005: ',' expected.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(220,38): error TS1127: Invalid character.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(220,39): error TS1139: Type parameter declaration expected.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(220,52): error TS1002: Unterminated string literal.\
+[18:33:52.124] src/pages/auth/RegisterPage.tsx(222,19): error TS1128: Declaration or statement expected.\
+[18:33:52.125] src/pages/auth/RegisterPage.tsx(223,17): error TS1109: Expression expected.\
+[18:33:52.125] src/pages/auth/RegisterPage.tsx(224,15): error TS1109: Expression expected.\
+[18:33:52.125] src/pages/auth/RegisterPage.tsx(226,25): error TS1005: ',' expected.\
+[18:33:52.125] src/pages/auth/RegisterPage.tsx(227,32): error TS1127: Invalid character.\
+[18:33:52.125] src/pages/auth/RegisterPage.tsx(227,33): error TS1003: Identifier expected.\
+[18:33:52.125] src/pages/auth/RegisterPage.tsx(227,41): error TS1002: Unterminated string literal.\
+[18:33:52.126] src/pages/auth/RegisterPage.tsx(228,24): error TS1005: ';' expected.\
+[18:33:52.126] src/pages/auth/RegisterPage.tsx(228,34): error TS1127: Invalid character.\
+[18:33:52.126] src/pages/auth/RegisterPage.tsx(228,80): error TS1002: Unterminated string literal.\
+[18:33:52.126] src/pages/auth/RegisterPage.tsx(229,27): error TS1005: ';' expected.\
+[18:33:52.126] src/pages/auth/RegisterPage.tsx(229,37): error TS1127: Invalid character.\
+[18:33:52.126] src/pages/auth/RegisterPage.tsx(229,80): error TS1002: Unterminated string literal.\
+[18:33:52.127] src/pages/auth/RegisterPage.tsx(230,27): error TS1005: ';' expected.\
+[18:33:52.127] src/pages/auth/RegisterPage.tsx(230,38): error TS1136: Property assignment expected.\
+[18:33:52.127] src/pages/auth/RegisterPage.tsx(235,23): error TS1128: Declaration or statement expected.\
+[18:33:52.127] src/pages/auth/RegisterPage.tsx(235,24): error TS1109: Expression expected.\
+[18:33:52.127] src/pages/auth/RegisterPage.tsx(236,57): error TS1005: ',' expected.\
+[18:33:52.127] src/pages/auth/RegisterPage.tsx(236,63): error TS1005: ',' expected.\
+[18:33:52.128] src/pages/auth/RegisterPage.tsx(237,21): error TS1128: Declaration or statement expected.\
+[18:33:52.128] src/pages/auth/RegisterPage.tsx(238,19): error TS1109: Expression expected.\
+[18:33:52.128] src/pages/auth/RegisterPage.tsx(239,34): error TS1127: Invalid character.\
+[18:33:52.128] src/pages/auth/RegisterPage.tsx(239,35): error TS1003: Identifier expected.\
+[18:33:52.128] src/pages/auth/RegisterPage.tsx(239,72): error TS1002: Unterminated string literal.\
+[18:33:52.128] src/pages/auth/RegisterPage.tsx(241,34): error TS1136: Property assignment expected.\
+[18:33:52.129] src/pages/auth/RegisterPage.tsx(241,124): error TS1128: Declaration or statement expected.\
+[18:33:52.129] src/pages/auth/RegisterPage.tsx(242,30): error TS1136: Property assignment expected.\
+[18:33:52.129] src/pages/auth/RegisterPage.tsx(242,69): error TS1128: Declaration or statement expected.\
+[18:33:52.129] src/pages/auth/RegisterPage.tsx(243,21): error TS1161: Unterminated regular expression literal.\
+[18:33:52.129] src/pages/auth/RegisterPage.tsx(244,19): error TS1128: Declaration or statement expected.\
+[18:33:52.130] src/pages/auth/RegisterPage.tsx(246,28): error TS1005: ',' expected.\
+[18:33:52.130] src/pages/auth/RegisterPage.tsx(247,36): error TS1127: Invalid character.\
+[18:33:52.130] src/pages/auth/RegisterPage.tsx(247,37): error TS1003: Identifier expected.\
+[18:33:52.130] src/pages/auth/RegisterPage.tsx(247,55): error TS1002: Unterminated string literal.\
+[18:33:52.130] src/pages/auth/RegisterPage.tsx(248,23): error TS1005: ':' expected.\
+[18:33:52.130] src/pages/auth/RegisterPage.tsx(248,45): error TS1005: ',' expected.\
+[18:33:52.131] src/pages/auth/RegisterPage.tsx(251,54): error TS1127: Invalid character.\
+[18:33:52.131] src/pages/auth/RegisterPage.tsx(251,55): error TS1003: Identifier expected.\
+[18:33:52.131] src/pages/auth/RegisterPage.tsx(251,84): error TS1002: Unterminated string literal.\
+[18:33:52.131] src/pages/auth/RegisterPage.tsx(253,54): error TS1127: Invalid character.\
+[18:33:52.131] src/pages/auth/RegisterPage.tsx(253,55): error TS1003: Identifier expected.\
+[18:33:52.131] src/pages/auth/RegisterPage.tsx(253,88): error TS1002: Unterminated string literal.\
+[18:33:52.132] src/pages/auth/RegisterPage.tsx(254,29): error TS1128: Declaration or statement expected.\
+[18:33:52.132] src/pages/auth/RegisterPage.tsx(254,31): error TS1005: ',' expected.\
+[18:33:52.132] src/pages/auth/RegisterPage.tsx(254,33): error TS1136: Property assignment expected.\
+[18:33:52.132] src/pages/auth/RegisterPage.tsx(255,50): error TS1127: Invalid character.\
+[18:33:52.132] src/pages/auth/RegisterPage.tsx(255,51): error TS1003: Identifier expected.\
+[18:33:52.132] src/pages/auth/RegisterPage.tsx(255,82): error TS1002: Unterminated string literal.\
+[18:33:52.133] src/pages/auth/RegisterPage.tsx(257,35): error TS1005: ';' expected.\
+[18:33:52.133] src/pages/auth/RegisterPage.tsx(257,56): error TS1005: ',' expected.\
+[18:33:52.133] src/pages/auth/RegisterPage.tsx(258,35): error TS1005: ',' expected.\
+[18:33:52.133] src/pages/auth/RegisterPage.tsx(259,29): error TS1128: Declaration or statement expected.\
+[18:33:52.133] src/pages/auth/RegisterPage.tsx(260,27): error TS1109: Expression expected.\
+[18:33:52.133] src/pages/auth/RegisterPage.tsx(261,25): error TS1109: Expression expected.\
+[18:33:52.134] src/pages/auth/RegisterPage.tsx(262,23): error TS1128: Declaration or statement expected.\
+[18:33:52.134] src/pages/auth/RegisterPage.tsx(262,24): error TS1128: Declaration or statement expected.\
+[18:33:52.134] src/pages/auth/RegisterPage.tsx(262,25): error TS1128: Declaration or statement expected.\
+[18:33:52.134] src/pages/auth/RegisterPage.tsx(263,21): error TS1128: Declaration or statement expected.\
+[18:33:52.134] src/pages/auth/RegisterPage.tsx(264,19): error TS1109: Expression expected.\
+[18:33:52.134] src/pages/auth/RegisterPage.tsx(264,20): error TS1128: Declaration or statement expected.\
+[18:33:52.134] src/pages/auth/RegisterPage.tsx(265,17): error TS1128: Declaration or statement expected.\
+[18:33:52.135] src/pages/auth/RegisterPage.tsx(266,15): error TS1109: Expression expected.\
+[18:33:52.135] src/pages/auth/RegisterPage.tsx(266,16): error TS1128: Declaration or statement expected.\
+[18:33:52.135] src/pages/auth/RegisterPage.tsx(269,30): error TS1127: Invalid character.\
+[18:33:52.135] src/pages/auth/RegisterPage.tsx(269,31): error TS1003: Identifier expected.\
+[18:33:52.135] src/pages/auth/RegisterPage.tsx(269,89): error TS1002: Unterminated string literal.\
+[18:33:52.135] src/pages/auth/RegisterPage.tsx(270,15): error TS1128: Declaration or statement expected.\
+[18:33:52.135] src/pages/auth/RegisterPage.tsx(271,13): error TS1128: Declaration or statement expected.\
+[18:33:52.136] src/pages/auth/RegisterPage.tsx(273,13): error TS2657: JSX expressions must have one parent element.\
+[18:33:52.136] src/pages/auth/RegisterPage.tsx(274,30): error TS1127: Invalid character.\
+[18:33:52.136] src/pages/auth/RegisterPage.tsx(274,103): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.136] src/pages/auth/RegisterPage.tsx(276,17): error TS17002: Expected corresponding JSX closing tag for 'div'.\
+[18:33:52.136] src/pages/auth/RegisterPage.tsx(277,30): error TS1127: Invalid character.\
+[18:33:52.136] src/pages/auth/RegisterPage.tsx(277,31): error TS1003: Identifier expected.\
+[18:33:52.136] src/pages/auth/RegisterPage.tsx(277,31): error TS1005: ';' expected.\
+[18:33:52.137] src/pages/auth/RegisterPage.tsx(277,48): error TS1002: Unterminated string literal.\
+[18:33:52.137] src/pages/auth/RegisterPage.tsx(278,22): error TS1005: ';' expected.\
+[18:33:52.137] src/pages/auth/RegisterPage.tsx(278,32): error TS1127: Invalid character.\
+[18:33:52.137] src/pages/auth/RegisterPage.tsx(278,105): error TS1002: Unterminated string literal.\
+[18:33:52.137] src/pages/auth/RegisterPage.tsx(279,25): error TS1005: ';' expected.\
+[18:33:52.137] src/pages/auth/RegisterPage.tsx(279,35): error TS1127: Invalid character.\
+[18:33:52.138] src/pages/auth/RegisterPage.tsx(279,63): error TS1002: Unterminated string literal.\
+[18:33:52.138] src/pages/auth/RegisterPage.tsx(280,17): error TS1128: Declaration or statement expected.\
+[18:33:52.138] src/pages/auth/RegisterPage.tsx(284,32): error TS1127: Invalid character.\
+[18:33:52.138] src/pages/auth/RegisterPage.tsx(284,33): error TS1003: Identifier expected.\
+[18:33:52.138] src/pages/auth/RegisterPage.tsx(284,48): error TS1002: Unterminated string literal.\
+[18:33:52.138] src/pages/auth/RegisterPage.tsx(285,29): error TS1127: Invalid character.\
+[18:33:52.138] src/pages/auth/RegisterPage.tsx(285,212): error TS1002: Unterminated string literal.\
+[18:33:52.139] src/pages/auth/RegisterPage.tsx(286,31): error TS1127: Invalid character.\
+[18:33:52.139] src/pages/auth/RegisterPage.tsx(286,56): error TS1002: Unterminated string literal.\
+[18:33:52.139] src/pages/auth/RegisterPage.tsx(287,18): error TS1109: Expression expected.\
+[18:33:52.139] src/pages/auth/RegisterPage.tsx(288,32): error TS1127: Invalid character.\
+[18:33:52.139] src/pages/auth/RegisterPage.tsx(288,33): error TS1003: Identifier expected.\
+[18:33:52.139] src/pages/auth/RegisterPage.tsx(288,86): error TS1002: Unterminated string literal.\
+[18:33:52.139] src/pages/auth/RegisterPage.tsx(290,26): error TS1127: Invalid character.\
+[18:33:52.140] src/pages/auth/RegisterPage.tsx(290,36): error TS1002: Unterminated string literal.\
+[18:33:52.140] src/pages/auth/RegisterPage.tsx(291,31): error TS1127: Invalid character.\
+[18:33:52.140] src/pages/auth/RegisterPage.tsx(291,87): error TS1002: Unterminated string literal.\
+[18:33:52.140] src/pages/auth/RegisterPage.tsx(292,30): error TS1136: Property assignment expected.\
+[18:33:52.140] src/pages/auth/RegisterPage.tsx(292,33): error TS1005: ';' expected.\
+[18:33:52.140] src/pages/auth/RegisterPage.tsx(292,80): error TS1128: Declaration or statement expected.\
+[18:33:52.140] src/pages/auth/RegisterPage.tsx(293,19): error TS1109: Expression expected.\
+[18:33:52.141] src/pages/auth/RegisterPage.tsx(295,23): error TS1003: Identifier expected.\
+[18:33:52.141] src/pages/auth/RegisterPage.tsx(295,31): error TS1005: ',' expected.\
+[18:33:52.141] src/pages/auth/RegisterPage.tsx(295,41): error TS1127: Invalid character.\
+[18:33:52.141] src/pages/auth/RegisterPage.tsx(295,42): error TS1003: Identifier expected.\
+[18:33:52.141] src/pages/auth/RegisterPage.tsx(295,55): error TS1002: Unterminated string literal.\
+[18:33:52.141] src/pages/auth/RegisterPage.tsx(297,28): error TS1005: ',' expected.\
+[18:33:52.141] src/pages/auth/RegisterPage.tsx(297,38): error TS1127: Invalid character.\
+[18:33:52.142] src/pages/auth/RegisterPage.tsx(297,39): error TS1139: Type parameter declaration expected.\
+[18:33:52.142] src/pages/auth/RegisterPage.tsx(297,52): error TS1002: Unterminated string literal.\
+[18:33:52.142] src/pages/auth/RegisterPage.tsx(299,19): error TS1128: Declaration or statement expected.\
+[18:33:52.142] src/pages/auth/RegisterPage.tsx(300,17): error TS1109: Expression expected.\
+[18:33:52.142] src/pages/auth/RegisterPage.tsx(301,15): error TS1109: Expression expected.\
+[18:33:52.142] src/pages/auth/RegisterPage.tsx(302,22): error TS1005: ',' expected.\
+[18:33:52.143] src/pages/auth/RegisterPage.tsx(303,30): error TS1127: Invalid character.\
+[18:33:52.143] src/pages/auth/RegisterPage.tsx(303,31): error TS1003: Identifier expected.\
+[18:33:52.143] src/pages/auth/RegisterPage.tsx(303,96): error TS1002: Unterminated string literal.\
+[18:33:52.143] src/pages/auth/RegisterPage.tsx(304,15): error TS1005: ':' expected.\
+[18:33:52.143] src/pages/auth/RegisterPage.tsx(305,13): error TS1128: Declaration or statement expected.\
+[18:33:52.143] src/pages/auth/RegisterPage.tsx(307,28): error TS1127: Invalid character.\
+[18:33:52.143] src/pages/auth/RegisterPage.tsx(307,29): error TS1003: Identifier expected.\
+[18:33:52.144] src/pages/auth/RegisterPage.tsx(307,49): error TS1002: Unterminated string literal.\
+[18:33:52.144] src/pages/auth/RegisterPage.tsx(308,20): error TS1005: ';' expected.\
+[18:33:52.144] src/pages/auth/RegisterPage.tsx(308,30): error TS1127: Invalid character.\
+[18:33:52.144] src/pages/auth/RegisterPage.tsx(308,56): error TS1002: Unterminated string literal.\
+[18:33:52.144] src/pages/auth/RegisterPage.tsx(310,20): error TS1128: Declaration or statement expected.\
+[18:33:52.144] src/pages/auth/RegisterPage.tsx(311,24): error TS1127: Invalid character.\
+[18:33:52.145] src/pages/auth/RegisterPage.tsx(311,36): error TS1002: Unterminated string literal.\
+[18:33:52.145] src/pages/auth/RegisterPage.tsx(312,29): error TS1127: Invalid character.\
+[18:33:52.145] src/pages/auth/RegisterPage.tsx(312,102): error TS1002: Unterminated string literal.\
+[18:33:52.145] src/pages/auth/RegisterPage.tsx(313,18): error TS1109: Expression expected.\
+[18:33:52.145] src/pages/auth/RegisterPage.tsx(314,15): error TS1109: Expression expected.\
+[18:33:52.145] src/pages/auth/RegisterPage.tsx(315,30): error TS1127: Invalid character.\
+[18:33:52.146] src/pages/auth/RegisterPage.tsx(315,31): error TS1003: Identifier expected.\
+[18:33:52.146] src/pages/auth/RegisterPage.tsx(315,47): error TS1002: Unterminated string literal.\
+[18:33:52.146] src/pages/auth/RegisterPage.tsx(316,24): error TS1005: ';' expected.\
+[18:33:52.146] src/pages/auth/RegisterPage.tsx(316,32): error TS1127: Invalid character.\
+[18:33:52.146] src/pages/auth/RegisterPage.tsx(316,76): error TS1002: Unterminated string literal.\
+[18:33:52.146] src/pages/auth/RegisterPage.tsx(317,19): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.146] src/pages/auth/RegisterPage.tsx(317,21): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.147] src/pages/auth/RegisterPage.tsx(317,27): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.147] src/pages/auth/RegisterPage.tsx(317,30): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.147] src/pages/auth/RegisterPage.tsx(318,28): error TS1127: Invalid character.\
+[18:33:52.147] src/pages/auth/RegisterPage.tsx(318,29): error TS1003: Identifier expected.\
+[18:33:52.147] src/pages/auth/RegisterPage.tsx(318,103): error TS1002: Unterminated string literal.\
+[18:33:52.147] src/pages/auth/RegisterPage.tsx(319,21): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.148] src/pages/auth/RegisterPage.tsx(319,27): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.148] src/pages/auth/RegisterPage.tsx(320,19): error TS1128: Declaration or statement expected.\
+[18:33:52.148] src/pages/auth/RegisterPage.tsx(320,30): error TS1005: ':' expected.\
+[18:33:52.148] src/pages/auth/RegisterPage.tsx(321,19): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.148] src/pages/auth/RegisterPage.tsx(322,28): error TS1127: Invalid character.\
+[18:33:52.148] src/pages/auth/RegisterPage.tsx(322,29): error TS1003: Identifier expected.\
+[18:33:52.148] src/pages/auth/RegisterPage.tsx(322,105): error TS1002: Unterminated string literal.\
+[18:33:52.156] src/pages/auth/RegisterPage.tsx(323,21): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.156] src/pages/auth/RegisterPage.tsx(324,19): error TS1128: Declaration or statement expected.\
+[18:33:52.156] src/pages/auth/RegisterPage.tsx(325,17): error TS1109: Expression expected.\
+[18:33:52.156] src/pages/auth/RegisterPage.tsx(326,15): error TS1109: Expression expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(327,13): error TS1109: Expression expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(328,20): error TS1005: ',' expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(329,28): error TS1127: Invalid character.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(329,29): error TS1003: Identifier expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(329,85): error TS1002: Unterminated string literal.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(330,13): error TS1005: ':' expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(334,22): error TS1127: Invalid character.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(334,23): error TS1003: Identifier expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(334,32): error TS1002: Unterminated string literal.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(336,27): error TS1127: Invalid character.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(336,301): error TS1002: Unterminated string literal.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(338,30): error TS1005: ',' expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(339,15): error TS1128: Declaration or statement expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(340,13): error TS1109: Expression expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(341,11): error TS1109: Expression expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(343,26): error TS1127: Invalid character.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(343,27): error TS1003: Identifier expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(343,47): error TS1002: Unterminated string literal.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(344,16): error TS1005: ';' expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(344,26): error TS1127: Invalid character.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(344,52): error TS1002: Unterminated string literal.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(345,15): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(345,23): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(345,28): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(345,43): error TS1005: ':' expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(347,17): error TS1005: ':' expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(347,20): error TS1127: Invalid character.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(347,35): error TS1002: Unterminated string literal.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(348,27): error TS1127: Invalid character.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(348,80): error TS1002: Unterminated string literal.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(351,15): error TS1109: Expression expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(352,13): error TS1109: Expression expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(353,11): error TS1109: Expression expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(354,9): error TS1109: Expression expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(355,7): error TS1109: Expression expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(356,5): error TS1109: Expression expected.\
+[18:33:52.157] src/pages/auth/RegisterPage.tsx(357,3): error TS1109: Expression expected.\
+[18:33:52.158] src/pages/auth/RegisterPage.tsx(358,1): error TS1128: Declaration or statement expected.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(13,12): error TS1127: Invalid character.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(13,38): error TS1002: Unterminated string literal.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(14,3): error TS1005: ':' expected.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(14,7): error TS1005: ',' expected.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(14,28): error TS1005: ':' expected.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(137,22): error TS1127: Invalid character.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(137,23): error TS1003: Identifier expected.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(137,138): error TS1002: Unterminated string literal.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(138,14): error TS1005: ';' expected.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(138,24): error TS1127: Invalid character.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(138,54): error TS1002: Unterminated string literal.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(139,16): error TS1005: ';' expected.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(139,26): error TS1127: Invalid character.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(139,42): error TS1002: Unterminated string literal.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(140,18): error TS1005: ';' expected.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(140,28): error TS1127: Invalid character.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(140,107): error TS1002: Unterminated string literal.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(141,28): error TS1005: ';' expected.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(141,38): error TS1127: Invalid character.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(141,67): error TS1002: Unterminated string literal.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(142,13): error TS1128: Declaration or statement expected.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(143,27): error TS1127: Invalid character.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(143,28): error TS1003: Identifier expected.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(143,74): error TS1002: Unterminated string literal.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(144,15): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(144,24): error TS1435: Unknown keyword or identifier. Did you mean 'set'?\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(145,13): error TS1128: Declaration or statement expected.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(146,26): error TS1127: Invalid character.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(146,27): error TS1003: Identifier expected.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(146,57): error TS1002: Unterminated string literal.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(147,15): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(147,20): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(147,29): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(147,33): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(147,38): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(148,13): error TS1003: Identifier expected.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(149,11): error TS1109: Expression expected.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(151,26): error TS1127: Invalid character.\
+[18:33:52.158] src/pages/auth/ResetPasswordPage.tsx(151,27): error TS1003: Identifier expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(151,78): error TS1002: Unterminated string literal.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(152,18): error TS1005: ';' expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(152,28): error TS1127: Invalid character.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(152,54): error TS1002: Unterminated string literal.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(153,20): error TS1005: ';' expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(153,30): error TS1127: Invalid character.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(153,61): error TS1002: Unterminated string literal.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(154,20): error TS1005: ';' expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(154,30): error TS1127: Invalid character.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(154,57): error TS1002: Unterminated string literal.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(155,19): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(155,23): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(155,27): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(155,39): error TS1109: Expression expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(155,44): error TS1005: '(' expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(155,49): error TS1005: ')' expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(155,75): error TS1005: ';' expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(155,78): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(155,83): error TS1128: Declaration or statement expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(156,17): error TS1128: Declaration or statement expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(157,15): error TS1109: Expression expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(159,30): error TS1127: Invalid character.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(159,31): error TS1003: Identifier expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(159,39): error TS1002: Unterminated string literal.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(161,22): error TS1127: Invalid character.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(161,37): error TS1002: Unterminated string literal.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(162,29): error TS1127: Invalid character.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(162,115): error TS1002: Unterminated string literal.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(164,28): error TS1005: ';' expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(165,17): error TS1109: Expression expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(166,15): error TS1109: Expression expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(167,13): error TS1109: Expression expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(168,11): error TS1109: Expression expected.\
+[18:33:52.159] src/pages/auth/ResetPasswordPage.tsx(169,9): error TS1109: Expression expected.\
+[18:33:52.167] src/pages/auth/ResetPasswordPage.tsx(170,7): error TS1109: Expression expected.\
+[18:33:52.167] src/pages/auth/ResetPasswordPage.tsx(171,5): error TS1109: Expression expected.\
+[18:33:52.167] src/pages/auth/ResetPasswordPage.tsx(172,3): error TS1128: Declaration or statement expected.\
+[18:33:52.167] src/pages/auth/ResetPasswordPage.tsx(175,20): error TS1127: Invalid character.\
+[18:33:52.167] src/pages/auth/ResetPasswordPage.tsx(175,21): error TS1003: Identifier expected.\
+[18:33:52.167] src/pages/auth/ResetPasswordPage.tsx(175,136): error TS1002: Unterminated string literal.\
+[18:33:52.168] src/pages/auth/ResetPasswordPage.tsx(176,12): error TS1005: ';' expected.\
+[18:33:52.168] src/pages/auth/ResetPasswordPage.tsx(176,22): error TS1127: Invalid character.\
+[18:33:52.168] src/pages/auth/ResetPasswordPage.tsx(176,52): error TS1002: Unterminated string literal.\
+[18:33:52.168] src/pages/auth/ResetPasswordPage.tsx(177,14): error TS1005: ';' expected.\
+[18:33:52.168] src/pages/auth/ResetPasswordPage.tsx(177,24): error TS1127: Invalid character.\
+[18:33:52.168] src/pages/auth/ResetPasswordPage.tsx(177,40): error TS1002: Unterminated string literal.\
+[18:33:52.168] src/pages/auth/ResetPasswordPage.tsx(178,16): error TS1005: ';' expected.\
+[18:33:52.169] src/pages/auth/ResetPasswordPage.tsx(178,26): error TS1127: Invalid character.\
+[18:33:52.169] src/pages/auth/ResetPasswordPage.tsx(178,106): error TS1002: Unterminated string literal.\
+[18:33:52.169] src/pages/auth/ResetPasswordPage.tsx(179,19): error TS1005: ';' expected.\
+[18:33:52.169] src/pages/auth/ResetPasswordPage.tsx(179,29): error TS1127: Invalid character.\
+[18:33:52.169] src/pages/auth/ResetPasswordPage.tsx(179,54): error TS1002: Unterminated string literal.\
+[18:33:52.169] src/pages/auth/ResetPasswordPage.tsx(180,11): error TS1128: Declaration or statement expected.\
+[18:33:52.170] src/pages/auth/ResetPasswordPage.tsx(181,25): error TS1127: Invalid character.\
+[18:33:52.170] src/pages/auth/ResetPasswordPage.tsx(181,26): error TS1003: Identifier expected.\
+[18:33:52.170] src/pages/auth/ResetPasswordPage.tsx(181,72): error TS1002: Unterminated string literal.\
+[18:33:52.170] src/pages/auth/ResetPasswordPage.tsx(182,13): error TS1435: Unknown keyword or identifier. Did you mean 'set'?\
+[18:33:52.170] src/pages/auth/ResetPasswordPage.tsx(182,19): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.170] src/pages/auth/ResetPasswordPage.tsx(183,11): error TS1128: Declaration or statement expected.\
+[18:33:52.170] src/pages/auth/ResetPasswordPage.tsx(184,24): error TS1127: Invalid character.\
+[18:33:52.171] src/pages/auth/ResetPasswordPage.tsx(184,25): error TS1003: Identifier expected.\
+[18:33:52.171] src/pages/auth/ResetPasswordPage.tsx(184,55): error TS1002: Unterminated string literal.\
+[18:33:52.171] src/pages/auth/ResetPasswordPage.tsx(185,13): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.171] src/pages/auth/ResetPasswordPage.tsx(185,19): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.171] src/pages/auth/ResetPasswordPage.tsx(185,37): error TS1005: ';' expected.\
+[18:33:52.172] src/pages/auth/ResetPasswordPage.tsx(186,11): error TS1003: Identifier expected.\
+[18:33:52.172] src/pages/auth/ResetPasswordPage.tsx(187,9): error TS1109: Expression expected.\
+[18:33:52.172] src/pages/auth/ResetPasswordPage.tsx(189,24): error TS1127: Invalid character.\
+[18:33:52.172] src/pages/auth/ResetPasswordPage.tsx(189,25): error TS1003: Identifier expected.\
+[18:33:52.172] src/pages/auth/ResetPasswordPage.tsx(189,76): error TS1002: Unterminated string literal.\
+[18:33:52.172] src/pages/auth/ResetPasswordPage.tsx(190,17): error TS1005: ';' expected.\
+[18:33:52.173] src/pages/auth/ResetPasswordPage.tsx(190,27): error TS1127: Invalid character.\
+[18:33:52.173] src/pages/auth/ResetPasswordPage.tsx(190,75): error TS1002: Unterminated string literal.\
+[18:33:52.173] src/pages/auth/ResetPasswordPage.tsx(192,30): error TS1127: Invalid character.\
+[18:33:52.173] src/pages/auth/ResetPasswordPage.tsx(192,31): error TS1003: Identifier expected.\
+[18:33:52.173] src/pages/auth/ResetPasswordPage.tsx(192,108): error TS1002: Unterminated string literal.\
+[18:33:52.173] src/pages/auth/ResetPasswordPage.tsx(194,15): error TS1128: Declaration or statement expected.\
+[18:33:52.174] src/pages/auth/ResetPasswordPage.tsx(195,13): error TS1109: Expression expected.\
+[18:33:52.174] src/pages/auth/ResetPasswordPage.tsx(197,13): error TS2657: JSX expressions must have one parent element.\
+[18:33:52.174] src/pages/auth/ResetPasswordPage.tsx(198,30): error TS1127: Invalid character.\
+[18:33:52.174] src/pages/auth/ResetPasswordPage.tsx(198,96): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.174] src/pages/auth/ResetPasswordPage.tsx(200,17): error TS17002: Expected corresponding JSX closing tag for 'div'.\
+[18:33:52.174] src/pages/auth/ResetPasswordPage.tsx(201,30): error TS1127: Invalid character.\
+[18:33:52.174] src/pages/auth/ResetPasswordPage.tsx(201,31): error TS1003: Identifier expected.\
+[18:33:52.174] src/pages/auth/ResetPasswordPage.tsx(201,31): error TS1005: ';' expected.\
+[18:33:52.174] src/pages/auth/ResetPasswordPage.tsx(201,48): error TS1002: Unterminated string literal.\
+[18:33:52.174] src/pages/auth/ResetPasswordPage.tsx(202,22): error TS1005: ';' expected.\
+[18:33:52.174] src/pages/auth/ResetPasswordPage.tsx(202,32): error TS1127: Invalid character.\
+[18:33:52.174] src/pages/auth/ResetPasswordPage.tsx(202,105): error TS1002: Unterminated string literal.\
+[18:33:52.174] src/pages/auth/ResetPasswordPage.tsx(203,25): error TS1005: ';' expected.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(203,35): error TS1127: Invalid character.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(203,63): error TS1002: Unterminated string literal.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(204,17): error TS1128: Declaration or statement expected.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(208,32): error TS1127: Invalid character.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(208,33): error TS1003: Identifier expected.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(208,48): error TS1002: Unterminated string literal.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(209,29): error TS1127: Invalid character.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(209,212): error TS1002: Unterminated string literal.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(210,31): error TS1127: Invalid character.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(210,58): error TS1002: Unterminated string literal.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(211,18): error TS1109: Expression expected.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(212,32): error TS1127: Invalid character.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(212,33): error TS1003: Identifier expected.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(212,86): error TS1002: Unterminated string literal.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(214,26): error TS1127: Invalid character.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(214,36): error TS1002: Unterminated string literal.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(215,31): error TS1127: Invalid character.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(215,87): error TS1002: Unterminated string literal.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(216,30): error TS1136: Property assignment expected.\
+[18:33:52.175] src/pages/auth/ResetPasswordPage.tsx(216,33): error TS1005: ';' expected.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(216,66): error TS1128: Declaration or statement expected.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(217,19): error TS1109: Expression expected.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(219,23): error TS1003: Identifier expected.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(219,31): error TS1005: ',' expected.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(219,41): error TS1127: Invalid character.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(219,42): error TS1003: Identifier expected.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(219,55): error TS1002: Unterminated string literal.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(221,28): error TS1005: ',' expected.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(221,38): error TS1127: Invalid character.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(221,39): error TS1139: Type parameter declaration expected.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(221,52): error TS1002: Unterminated string literal.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(223,19): error TS1128: Declaration or statement expected.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(224,17): error TS1109: Expression expected.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(225,15): error TS1109: Expression expected.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(227,25): error TS1005: ',' expected.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(228,32): error TS1127: Invalid character.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(228,33): error TS1003: Identifier expected.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(228,41): error TS1002: Unterminated string literal.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(229,24): error TS1005: ';' expected.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(229,34): error TS1127: Invalid character.\
+[18:33:52.176] src/pages/auth/ResetPasswordPage.tsx(229,80): error TS1002: Unterminated string literal.\
+[18:33:52.177] src/pages/auth/ResetPasswordPage.tsx(230,27): error TS1005: ';' expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(230,37): error TS1127: Invalid character.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(230,80): error TS1002: Unterminated string literal.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(231,27): error TS1005: ';' expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(231,38): error TS1136: Property assignment expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(236,23): error TS1128: Declaration or statement expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(236,24): error TS1109: Expression expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(237,57): error TS1005: ',' expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(237,63): error TS1005: ',' expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(238,21): error TS1128: Declaration or statement expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(239,19): error TS1109: Expression expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(240,34): error TS1127: Invalid character.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(240,35): error TS1003: Identifier expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(240,72): error TS1002: Unterminated string literal.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(242,34): error TS1136: Property assignment expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(242,124): error TS1128: Declaration or statement expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(243,30): error TS1136: Property assignment expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(243,69): error TS1128: Declaration or statement expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(244,21): error TS1161: Unterminated regular expression literal.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(245,19): error TS1128: Declaration or statement expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(247,28): error TS1005: ',' expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(248,36): error TS1127: Invalid character.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(248,37): error TS1003: Identifier expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(248,55): error TS1002: Unterminated string literal.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(249,23): error TS1005: ':' expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(249,45): error TS1005: ',' expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(252,54): error TS1127: Invalid character.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(252,55): error TS1003: Identifier expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(252,84): error TS1002: Unterminated string literal.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(254,54): error TS1127: Invalid character.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(254,55): error TS1003: Identifier expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(254,88): error TS1002: Unterminated string literal.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(255,29): error TS1128: Declaration or statement expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(255,31): error TS1005: ',' expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(255,33): error TS1136: Property assignment expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(256,50): error TS1127: Invalid character.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(256,51): error TS1003: Identifier expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(256,82): error TS1002: Unterminated string literal.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(258,35): error TS1005: ';' expected.\
+[18:33:52.181] src/pages/auth/ResetPasswordPage.tsx(258,56): error TS1005: ',' expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(259,35): error TS1005: ',' expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(260,29): error TS1128: Declaration or statement expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(261,27): error TS1109: Expression expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(262,25): error TS1109: Expression expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(263,23): error TS1128: Declaration or statement expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(263,24): error TS1128: Declaration or statement expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(263,25): error TS1128: Declaration or statement expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(264,21): error TS1128: Declaration or statement expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(265,19): error TS1109: Expression expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(265,20): error TS1128: Declaration or statement expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(266,17): error TS1128: Declaration or statement expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(267,15): error TS1109: Expression expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(267,16): error TS1128: Declaration or statement expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(270,30): error TS1127: Invalid character.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(270,31): error TS1003: Identifier expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(270,89): error TS1002: Unterminated string literal.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(271,15): error TS1128: Declaration or statement expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(272,13): error TS1128: Declaration or statement expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(274,13): error TS2657: JSX expressions must have one parent element.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(275,30): error TS1127: Invalid character.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(275,103): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(277,17): error TS17002: Expected corresponding JSX closing tag for 'div'.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(278,30): error TS1127: Invalid character.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(278,31): error TS1003: Identifier expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(278,31): error TS1005: ';' expected.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(278,48): error TS1002: Unterminated string literal.\
+[18:33:52.182] src/pages/auth/ResetPasswordPage.tsx(279,22): error TS1005: ';' expected.\
+[18:33:52.190] src/pages/auth/ResetPasswordPage.tsx(279,32): error TS1127: Invalid character.\
+[18:33:52.190] src/pages/auth/ResetPasswordPage.tsx(279,105): error TS1002: Unterminated string literal.\
+[18:33:52.190] src/pages/auth/ResetPasswordPage.tsx(280,25): error TS1005: ';' expected.\
+[18:33:52.191] src/pages/auth/ResetPasswordPage.tsx(280,35): error TS1127: Invalid character.\
+[18:33:52.191] src/pages/auth/ResetPasswordPage.tsx(280,63): error TS1002: Unterminated string literal.\
+[18:33:52.191] src/pages/auth/ResetPasswordPage.tsx(281,17): error TS1128: Declaration or statement expected.\
+[18:33:52.191] src/pages/auth/ResetPasswordPage.tsx(285,32): error TS1127: Invalid character.\
+[18:33:52.195] src/pages/auth/ResetPasswordPage.tsx(285,33): error TS1003: Identifier expected.\
+[18:33:52.195] src/pages/auth/ResetPasswordPage.tsx(285,48): error TS1002: Unterminated string literal.\
+[18:33:52.195] src/pages/auth/ResetPasswordPage.tsx(286,29): error TS1127: Invalid character.\
+[18:33:52.195] src/pages/auth/ResetPasswordPage.tsx(286,212): error TS1002: Unterminated string literal.\
+[18:33:52.196] src/pages/auth/ResetPasswordPage.tsx(287,31): error TS1127: Invalid character.\
+[18:33:52.196] src/pages/auth/ResetPasswordPage.tsx(287,60): error TS1002: Unterminated string literal.\
+[18:33:52.196] src/pages/auth/ResetPasswordPage.tsx(288,18): error TS1109: Expression expected.\
+[18:33:52.197] src/pages/auth/ResetPasswordPage.tsx(289,32): error TS1127: Invalid character.\
+[18:33:52.197] src/pages/auth/ResetPasswordPage.tsx(289,33): error TS1003: Identifier expected.\
+[18:33:52.197] src/pages/auth/ResetPasswordPage.tsx(289,86): error TS1002: Unterminated string literal.\
+[18:33:52.197] src/pages/auth/ResetPasswordPage.tsx(291,26): error TS1127: Invalid character.\
+[18:33:52.198] src/pages/auth/ResetPasswordPage.tsx(291,36): error TS1002: Unterminated string literal.\
+[18:33:52.198] src/pages/auth/ResetPasswordPage.tsx(292,31): error TS1127: Invalid character.\
+[18:33:52.198] src/pages/auth/ResetPasswordPage.tsx(292,87): error TS1002: Unterminated string literal.\
+[18:33:52.198] src/pages/auth/ResetPasswordPage.tsx(293,30): error TS1136: Property assignment expected.\
+[18:33:52.198] src/pages/auth/ResetPasswordPage.tsx(293,33): error TS1005: ';' expected.\
+[18:33:52.198] src/pages/auth/ResetPasswordPage.tsx(293,80): error TS1128: Declaration or statement expected.\
+[18:33:52.198] src/pages/auth/ResetPasswordPage.tsx(294,19): error TS1109: Expression expected.\
+[18:33:52.199] src/pages/auth/ResetPasswordPage.tsx(296,23): error TS1003: Identifier expected.\
+[18:33:52.199] src/pages/auth/ResetPasswordPage.tsx(296,31): error TS1005: ',' expected.\
+[18:33:52.199] src/pages/auth/ResetPasswordPage.tsx(296,41): error TS1127: Invalid character.\
+[18:33:52.199] src/pages/auth/ResetPasswordPage.tsx(296,42): error TS1003: Identifier expected.\
+[18:33:52.199] src/pages/auth/ResetPasswordPage.tsx(296,55): error TS1002: Unterminated string literal.\
+[18:33:52.199] src/pages/auth/ResetPasswordPage.tsx(298,28): error TS1005: ',' expected.\
+[18:33:52.199] src/pages/auth/ResetPasswordPage.tsx(298,38): error TS1127: Invalid character.\
+[18:33:52.200] src/pages/auth/ResetPasswordPage.tsx(298,39): error TS1139: Type parameter declaration expected.\
+[18:33:52.200] src/pages/auth/ResetPasswordPage.tsx(298,52): error TS1002: Unterminated string literal.\
+[18:33:52.200] src/pages/auth/ResetPasswordPage.tsx(300,19): error TS1128: Declaration or statement expected.\
+[18:33:52.200] src/pages/auth/ResetPasswordPage.tsx(301,17): error TS1109: Expression expected.\
+[18:33:52.200] src/pages/auth/ResetPasswordPage.tsx(302,15): error TS1109: Expression expected.\
+[18:33:52.200] src/pages/auth/ResetPasswordPage.tsx(303,22): error TS1005: ',' expected.\
+[18:33:52.200] src/pages/auth/ResetPasswordPage.tsx(304,30): error TS1127: Invalid character.\
+[18:33:52.200] src/pages/auth/ResetPasswordPage.tsx(304,31): error TS1003: Identifier expected.\
+[18:33:52.201] src/pages/auth/ResetPasswordPage.tsx(304,96): error TS1002: Unterminated string literal.\
+[18:33:52.201] src/pages/auth/ResetPasswordPage.tsx(305,15): error TS1005: ':' expected.\
+[18:33:52.201] src/pages/auth/ResetPasswordPage.tsx(306,13): error TS1128: Declaration or statement expected.\
+[18:33:52.201] src/pages/auth/ResetPasswordPage.tsx(310,22): error TS1127: Invalid character.\
+[18:33:52.201] src/pages/auth/ResetPasswordPage.tsx(313,15): error TS1382: Unexpected token. Did you mean `\{'>'\}` or `&gt;`?\
+[18:33:52.201] src/pages/auth/ResetPasswordPage.tsx(315,17): error TS17002: Expected corresponding JSX closing tag for 'div'.\
+[18:33:52.202] src/pages/auth/ResetPasswordPage.tsx(317,30): error TS1127: Invalid character.\
+[18:33:52.202] src/pages/auth/ResetPasswordPage.tsx(317,31): error TS1003: Identifier expected.\
+[18:33:52.202] src/pages/auth/ResetPasswordPage.tsx(317,73): error TS1002: Unterminated string literal.\
+[18:33:52.202] src/pages/auth/ResetPasswordPage.tsx(318,19): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.202] src/pages/auth/ResetPasswordPage.tsx(318,26): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.202] src/pages/auth/ResetPasswordPage.tsx(318,33): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.202] src/pages/auth/ResetPasswordPage.tsx(318,35): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.202] src/pages/auth/ResetPasswordPage.tsx(318,44): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.203] src/pages/auth/ResetPasswordPage.tsx(318,53): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.203] src/pages/auth/ResetPasswordPage.tsx(319,17): error TS1128: Declaration or statement expected.\
+[18:33:52.203] src/pages/auth/ResetPasswordPage.tsx(320,15): error TS1109: Expression expected.\
+[18:33:52.203] src/pages/auth/ResetPasswordPage.tsx(321,13): error TS1128: Declaration or statement expected.\
+[18:33:52.203] src/pages/auth/ResetPasswordPage.tsx(322,11): error TS1109: Expression expected.\
+[18:33:52.203] src/pages/auth/ResetPasswordPage.tsx(324,26): error TS1127: Invalid character.\
+[18:33:52.203] src/pages/auth/ResetPasswordPage.tsx(324,27): error TS1003: Identifier expected.\
+[18:33:52.203] src/pages/auth/ResetPasswordPage.tsx(324,47): error TS1002: Unterminated string literal.\
+[18:33:52.204] src/pages/auth/ResetPasswordPage.tsx(326,18): error TS1127: Invalid character.\
+[18:33:52.204] src/pages/auth/ResetPasswordPage.tsx(326,33): error TS1002: Unterminated string literal.\
+[18:33:52.204] src/pages/auth/ResetPasswordPage.tsx(327,25): error TS1127: Invalid character.\
+[18:33:52.204] src/pages/auth/ResetPasswordPage.tsx(327,111): error TS1002: Unterminated string literal.\
+[18:33:52.204] src/pages/auth/ResetPasswordPage.tsx(329,36): error TS1127: Invalid character.\
+[18:33:52.204] src/pages/auth/ResetPasswordPage.tsx(329,37): error TS1003: Identifier expected.\
+[18:33:52.204] src/pages/auth/ResetPasswordPage.tsx(329,55): error TS1002: Unterminated string literal.\
+[18:33:52.204] src/pages/auth/ResetPasswordPage.tsx(330,15): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.205] src/pages/auth/ResetPasswordPage.tsx(330,20): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.205] src/pages/auth/ResetPasswordPage.tsx(331,13): error TS1109: Expression expected.\
+[18:33:52.205] src/pages/auth/ResetPasswordPage.tsx(332,11): error TS1109: Expression expected.\
+[18:33:52.205] src/pages/auth/ResetPasswordPage.tsx(333,9): error TS1109: Expression expected.\
+[18:33:52.205] src/pages/auth/ResetPasswordPage.tsx(334,7): error TS1109: Expression expected.\
+[18:33:52.205] src/pages/auth/ResetPasswordPage.tsx(335,5): error TS1109: Expression expected.\
+[18:33:52.205] src/pages/auth/ResetPasswordPage.tsx(336,3): error TS1109: Expression expected.\
+[18:33:52.205] src/pages/auth/ResetPasswordPage.tsx(337,1): error TS1128: Declaration or statement expected.\
+[18:33:52.206] src/routes/AuthRoutes.tsx(1,27): error TS1127: Invalid character.\
+[18:33:52.206] src/routes/AuthRoutes.tsx(1,28): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.206] src/routes/AuthRoutes.tsx(1,64): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.206] src/routes/AuthRoutes.tsx(1,88): error TS1127: Invalid character.\
+[18:33:52.206] src/routes/AuthRoutes.tsx(1,89): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.206] src/routes/AuthRoutes.tsx(1,116): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.207] src/routes/AuthRoutes.tsx(1,157): error TS1127: Invalid character.\
+[18:33:52.207] src/routes/AuthRoutes.tsx(1,158): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.207] src/routes/AuthRoutes.tsx(1,180): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.207] src/routes/AuthRoutes.tsx(1,211): error TS1127: Invalid character.\
+[18:33:52.207] src/routes/AuthRoutes.tsx(1,212): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.207] src/routes/AuthRoutes.tsx(1,237): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.207] src/routes/AuthRoutes.tsx(1,271): error TS1127: Invalid character.\
+[18:33:52.208] src/routes/AuthRoutes.tsx(1,272): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.208] src/routes/AuthRoutes.tsx(1,303): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.208] src/routes/AuthRoutes.tsx(1,343): error TS1127: Invalid character.\
+[18:33:52.208] src/routes/AuthRoutes.tsx(1,344): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.208] src/routes/AuthRoutes.tsx(1,374): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.208] src/routes/AuthRoutes.tsx(1,413): error TS1127: Invalid character.\
+[18:33:52.208] src/routes/AuthRoutes.tsx(1,415): error TS1127: Invalid character.\
+[18:33:52.209] src/routes/AuthRoutes.tsx(1,550): error TS1127: Invalid character.\
+[18:33:52.209] src/routes/AuthRoutes.tsx(1,551): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.209] src/routes/AuthRoutes.tsx(1,582): error TS1127: Invalid character.\
+[18:33:52.209] src/routes/AuthRoutes.tsx(1,583): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.209] src/routes/AuthRoutes.tsx(1,594): error TS1127: Invalid character.\
+[18:33:52.209] src/routes/AuthRoutes.tsx(1,616): error TS1005: ';' expected.\
+[18:33:52.209] src/routes/AuthRoutes.tsx(1,627): error TS1127: Invalid character.\
+[18:33:52.209] src/routes/AuthRoutes.tsx(1,1231): error TS1005: '\}' expected.\
+[18:33:52.209] src/store/artifactStore.ts(1,34): error TS1127: Invalid character.\
+[18:33:52.209] src/store/artifactStore.ts(1,35): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.209] src/store/artifactStore.ts(1,79): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.209] src/store/artifactStore.ts(1,105): error TS1127: Invalid character.\
+[18:33:52.209] src/store/artifactStore.ts(1,106): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.209] src/store/artifactStore.ts(1,147): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.209] src/store/artifactStore.ts(1,167): error TS1127: Invalid character.\
+[18:33:52.209] src/store/artifactStore.ts(1,168): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.209] src/store/artifactStore.ts(1,197): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.209] src/store/artifactStore.ts(1,232): error TS1127: Invalid character.\
+[18:33:52.209] src/store/artifactStore.ts(1,233): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.209] src/store/artifactStore.ts(1,265): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.209] src/store/artifactStore.ts(1,303): error TS1127: Invalid character.\
+[18:33:52.209] src/store/artifactStore.ts(1,305): error TS1127: Invalid character.\
+[18:33:52.209] src/store/artifactStore.ts(1,306): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.209] src/store/artifactStore.ts(1,330): error TS1127: Invalid character.\
+[18:33:52.209] src/store/artifactStore.ts(1,331): error TS1131: Property or signature expected.\
+[18:33:52.209] src/store/artifactStore.ts(1,345): error TS1127: Invalid character.\
+[18:33:52.209] src/store/artifactStore.ts(1,346): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.209] src/store/artifactStore.ts(1,362): error TS1127: Invalid character.\
+[18:33:52.209] src/store/artifactStore.ts(1,363): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.209] src/store/artifactStore.ts(1,380): error TS1127: Invalid character.\
+[18:33:52.209] src/store/artifactStore.ts(1,381): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.209] src/store/artifactStore.ts(1,404): error TS1011: An element access expression should take an argument.\
+[18:33:52.209] src/store/artifactStore.ts(1,406): error TS1127: Invalid character.\
+[18:33:52.210] src/store/artifactStore.ts(1,408): error TS1128: Declaration or statement expected.\
+[18:33:52.210] src/store/artifactStore.ts(1,409): error TS1127: Invalid character.\
+[18:33:52.210] src/store/artifactStore.ts(1,411): error TS1127: Invalid character.\
+[18:33:52.210] src/store/artifactStore.ts(1,412): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.210] src/store/artifactStore.ts(1,446): error TS1127: Invalid character.\
+[18:33:52.210] src/store/artifactStore.ts(1,447): error TS1131: Property or signature expected.\
+[18:33:52.210] src/store/artifactStore.ts(1,455): error TS1109: Expression expected.\
+[18:33:52.210] src/store/artifactStore.ts(1,474): error TS1011: An element access expression should take an argument.\
+[18:33:52.210] src/store/artifactStore.ts(1,476): error TS1127: Invalid character.\
+[18:33:52.210] src/store/artifactStore.ts(1,477): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.210] src/store/artifactStore.ts(1,485): error TS1109: Expression expected.\
+[18:33:52.210] src/store/artifactStore.ts(1,494): error TS1011: An element access expression should take an argument.\
+[18:33:52.210] src/store/artifactStore.ts(1,496): error TS1127: Invalid character.\
+[18:33:52.210] src/store/artifactStore.ts(1,497): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.210] src/store/artifactStore.ts(1,510): error TS1109: Expression expected.\
+[18:33:52.210] src/store/artifactStore.ts(1,519): error TS1127: Invalid character.\
+[18:33:52.210] src/store/artifactStore.ts(1,520): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.210] src/store/artifactStore.ts(1,533): error TS1109: Expression expected.\
+[18:33:52.211] src/store/artifactStore.ts(1,548): error TS1005: ',' expected.\
+[18:33:52.211] src/store/artifactStore.ts(1,562): error TS1127: Invalid character.\
+[18:33:52.211] src/store/artifactStore.ts(1,563): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.211] src/store/artifactStore.ts(1,573): error TS1109: Expression expected.\
+[18:33:52.211] src/store/artifactStore.ts(1,582): error TS1127: Invalid character.\
+[18:33:52.211] src/store/artifactStore.ts(1,583): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.211] src/store/artifactStore.ts(1,595): error TS1109: Expression expected.\
+[18:33:52.211] src/store/artifactStore.ts(1,605): error TS1127: Invalid character.\
+[18:33:52.211] src/store/artifactStore.ts(1,607): error TS1128: Declaration or statement expected.\
+[18:33:52.211] src/store/artifactStore.ts(1,608): error TS1127: Invalid character.\
+[18:33:52.211] src/store/artifactStore.ts(1,610): error TS1127: Invalid character.\
+[18:33:52.211] src/store/artifactStore.ts(1,611): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.211] src/store/artifactStore.ts(1,644): error TS1127: Invalid character.\
+[18:33:52.211] src/store/artifactStore.ts(1,22462): error TS1005: '\}' expected.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,41): error TS1127: Invalid character.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,42): error TS1435: Unknown keyword or identifier. Did you mean 'import'?\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,74): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,95): error TS1127: Invalid character.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,97): error TS1127: Invalid character.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,98): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,131): error TS1127: Invalid character.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,132): error TS1131: Property or signature expected.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,156): error TS1127: Invalid character.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,157): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,168): error TS1109: Expression expected.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,177): error TS1127: Invalid character.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,178): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,197): error TS1109: Expression expected.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,207): error TS1127: Invalid character.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,208): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,222): error TS1109: Expression expected.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,231): error TS1127: Invalid character.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,232): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,247): error TS1109: Expression expected.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,257): error TS1127: Invalid character.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,258): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,271): error TS1109: Expression expected.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,281): error TS1127: Invalid character.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,283): error TS1128: Declaration or statement expected.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,284): error TS1127: Invalid character.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,286): error TS1127: Invalid character.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,287): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,315): error TS1127: Invalid character.\
+[18:33:52.211] src/utils/artifacts/exporter.ts(1,359): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,397): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,430): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,458): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,478): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,480): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,481): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,513): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,514): error TS1131: Property or signature expected.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,534): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,535): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,543): error TS1109: Expression expected.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,559): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,560): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,572): error TS1109: Expression expected.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,581): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,582): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,594): error TS1109: Expression expected.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,603): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,604): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,613): error TS1109: Expression expected.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,622): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,623): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,631): error TS1109: Expression expected.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,640): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,642): error TS1128: Declaration or statement expected.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,643): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,645): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,646): error TS1435: Unknown keyword or identifier. Did you mean 'export'?\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,678): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,734): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,735): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,826): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,827): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,837): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,838): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,910): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,911): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,967): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,975): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,976): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,991): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,1001): error TS1005: ',' expected.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,1011): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,1021): error TS1005: ',' expected.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,1101): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,1111): error TS1005: ',' expected.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,1166): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,1182): error TS1005: ',' expected.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,1189): error TS1005: ':' expected.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,1256): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,1266): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,1289): error TS1127: Invalid character.\
+[18:33:52.212] src/utils/artifacts/exporter.ts(1,1290): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1305): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1315): error TS1005: ',' expected.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1330): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1340): error TS1005: ',' expected.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1403): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1413): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1420): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1425): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1427): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1494): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1495): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1574): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1575): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1641): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1649): error TS1005: ',' expected.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1701): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1709): error TS1005: ',' expected.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1763): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1771): error TS1005: ',' expected.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1800): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1808): error TS1005: ',' expected.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1845): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1853): error TS1005: ',' expected.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1883): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1891): error TS1005: ',' expected.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1914): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1922): error TS1005: ',' expected.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1958): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1966): error TS1005: ',' expected.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,1995): error TS1127: Invalid character.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,2003): error TS1005: ',' expected.\
+[18:33:52.213] src/utils/artifacts/exporter.ts(1,2036): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2044): error TS1005: ',' expected.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2057): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2065): error TS1005: ',' expected.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2100): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2108): error TS1005: ',' expected.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2131): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2139): error TS1005: ',' expected.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2167): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2175): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2181): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2182): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2237): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2242): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2244): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2295): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2296): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2323): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2329): error TS1005: ',' expected.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2352): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2358): error TS1005: ',' expected.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2403): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2433): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2434): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2444): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2445): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2486): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2496): error TS1005: ',' expected.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2553): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2563): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2571): error TS1127: Invalid character.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2572): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.215] src/utils/artifacts/exporter.ts(1,2626): error TS1127: Invalid character.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2627): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2658): error TS1127: Invalid character.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2659): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2676): error TS1127: Invalid character.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2688): error TS1005: ',' expected.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2703): error TS1127: Invalid character.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2715): error TS1005: ',' expected.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2755): error TS1127: Invalid character.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2767): error TS1127: Invalid character.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2776): error TS1127: Invalid character.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2784): error TS1127: Invalid character.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2785): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2823): error TS1127: Invalid character.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2824): error TS1434: Unexpected keyword or identifier.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2913): error TS1127: Invalid character.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2922): error TS1127: Invalid character.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,2930): error TS1127: Invalid character.\
+[18:33:52.216] src/utils/artifacts/exporter.ts(1,18666): error TS1005: '\}' expected.\
+[18:33:52.236] npm error Lifecycle script `build` failed with error:\
+[18:33:52.237] npm error code 2\
+[18:33:52.237] npm error path /vercel/path0/apps/web\
+[18:33:52.237] npm error workspace @penny/web@0.0.1\
+[18:33:52.237] npm error location /vercel/path0/apps/web\
+[18:33:52.237] npm error command failed\
+[18:33:52.237] npm error command sh -c tsc && vite build\
+[18:33:52.245] Error: Command "cd /vercel/path0/apps/web && npm run build" exited with 2}

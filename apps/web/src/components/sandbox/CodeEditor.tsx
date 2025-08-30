@@ -23,10 +23,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   onChange,
   language = 'python',
   theme = 'light',
-  readOnly = false,
-  height = '400px',
-  width = '100%',
-  className = '',
+  readOnly = false,\n  height = '400px',\n  width = '100%',\n  className = '',
   onSave,
   onRun,
   showLineNumbers = true,
@@ -207,11 +204,9 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     if (monacoRef.current) {
       const selection = monacoRef.current.getSelection();
       if (selection) {
-        const model = monacoRef.current.getModel();
-        return model ? model.getValueInRange(selection) : '';
+        const model = monacoRef.current.getModel();\n        return model ? model.getValueInRange(selection) : '';
       }
-    }
-    return '';
+    }\n    return '';
   };
 
   // Expose methods via ref
@@ -222,48 +217,35 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     highlightLine,
     clearDecorations,
     goToLine,
-    getSelectionText,
-    getValue: () => monacoRef.current?.getValue() || '',
+    getSelectionText,\n    getValue: () => monacoRef.current?.getValue() || '',
     focus: () => monacoRef.current?.focus(),
   }));
 
   return (
     <div className={`code-editor ${className}`}>
-      <div className="editor-toolbar">
-        <div className="editor-actions">
+      <div className="editor-toolbar">\n        <div className="editor-actions">
           {onRun && (
-            <button
-              className="btn btn-primary btn-sm"
-              onClick={() => onRun(monacoRef.current?.getValue() || '')}
-              title="Run (Ctrl+Enter or F5)"
+            <button\n              className="btn btn-primary btn-sm"\n              onClick={() => onRun(monacoRef.current?.getValue() || '')}\n              title="Run (Ctrl+Enter or F5)"
             >
               ▶️ Run
             </button>
           )}
           {onSave && (
-            <button
-              className="btn btn-secondary btn-sm"
-              onClick={() => onSave(monacoRef.current?.getValue() || '')}
-              title="Save (Ctrl+S)"
+            <button\n              className="btn btn-secondary btn-sm"\n              onClick={() => onSave(monacoRef.current?.getValue() || '')}\n              title="Save (Ctrl+S)"
             >
               💾 Save
             </button>
           )}
-          <button
-            className="btn btn-secondary btn-sm"
-            onClick={formatCode}
-            title="Format Code"
+          <button\n            className="btn btn-secondary btn-sm"
+            onClick={formatCode}\n            title="Format Code"
           >
             🎨 Format
           </button>
         </div>
-        
-        <div className="editor-info">
-          <span className="language-indicator">
+        \n        <div className="editor-info">\n          <span className="language-indicator">
             {language.toUpperCase()}
           </span>
-          {readOnly && (
-            <span className="readonly-indicator">
+          {readOnly && (\n            <span className="readonly-indicator">
               🔒 Read Only
             </span>
           )}
@@ -271,12 +253,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       </div>
 
       <div
-        ref={editorRef}
-        className="editor-container"
+        ref={editorRef}\n        className="editor-container"
         style={{ height, width }}
       />
-
-      <style jsx>{`
+\n      <style jsx>{`
         .code-editor {
           border: 1px solid #d1d5db;
           border-radius: 8px;

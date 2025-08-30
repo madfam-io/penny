@@ -1,7 +1,4 @@
-import { Artifact, ArtifactAction, ArtifactCollection, ArtifactSchema } from '@penny/types';
-import { ArtifactStorageService } from './ArtifactStorageService';
-import { ArtifactVersionService } from './ArtifactVersionService';
-import { ArtifactProcessingService } from './ArtifactProcessingService';
+import { Artifact, ArtifactAction, ArtifactCollection, ArtifactSchema } from '@penny/types';\nimport { ArtifactStorageService } from './ArtifactStorageService';\nimport { ArtifactVersionService } from './ArtifactVersionService';\nimport { ArtifactProcessingService } from './ArtifactProcessingService';
 
 export interface ArtifactQueryOptions {
   tenantId: string;
@@ -76,8 +73,7 @@ export class ArtifactService {
       metadata: artifact.metadata,
       changes: [
         {
-          type: 'added',
-          path: '/',
+          type: 'added',\n          path: '/',
           newValue: artifact,
           description: 'Initial version'
         }
@@ -240,8 +236,7 @@ export class ArtifactService {
       return null;
     }
 
-    if (!artifact.exportFormats.includes(format)) {
-      throw new Error(`Export format ${format} not supported for this artifact type`);
+    if (!artifact.exportFormats.includes(format)) {\n      throw new Error(`Export format ${format} not supported for this artifact type`);
     }
 
     // Generate export
@@ -364,8 +359,7 @@ export class ArtifactService {
 
     if (updates.title && updates.title !== existing.title) {
       changes.push({
-        type: 'modified',
-        path: '/title',
+        type: 'modified',\n        path: '/title',
         oldValue: existing.title,
         newValue: updates.title
       });
@@ -373,8 +367,7 @@ export class ArtifactService {
 
     if (updates.content && JSON.stringify(updates.content) !== JSON.stringify(existing.content)) {
       changes.push({
-        type: 'modified',
-        path: '/content',
+        type: 'modified',\n        path: '/content',
         oldValue: existing.content,
         newValue: updates.content
       });
@@ -384,8 +377,7 @@ export class ArtifactService {
       Object.keys(updates.metadata).forEach(key => {
         if (updates.metadata![key] !== existing.metadata?.[key]) {
           changes.push({
-            type: 'modified',
-            path: `/metadata/${key}`,
+            type: 'modified',\n            path: `/metadata/${key}`,
             oldValue: existing.metadata?.[key],
             newValue: updates.metadata![key]
           });

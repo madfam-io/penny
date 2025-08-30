@@ -1,20 +1,16 @@
-import { createServer } from './app.js';
-import { logger } from './utils/logger.js';
+import { createServer } from './app.js';\nimport { logger } from './utils/logger.js';
 
 const start = async () => {
   try {
     const server = await createServer();
-
-    const port = parseInt(process.env.PORT || '3000', 10);
-    const host = process.env.HOST || '0.0.0.0';
+\n    const port = parseInt(process.env.PORT || '3000', 10);\n    const host = process.env.HOST || '0.0.0.0';
 
     await server.listen({ port, host });
 
     logger.info(`Server listening on http://${host}:${port}`);
 
     // Graceful shutdown
-    const shutdown = async (signal: string) => {
-      logger.info(`${signal} received, shutting down gracefully`);
+    const shutdown = async (signal: string) => {\n      logger.info(`${signal} received, shutting down gracefully`);
       await server.close();
       process.exit(0);
     };

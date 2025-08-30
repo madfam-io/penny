@@ -1,8 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, Paperclip, Bot, User, Loader2 } from 'lucide-react';
-import { cn } from '@/utils/cn';
-import MessageBubble from '@/components/MessageBubble';
-import ArtifactViewer from '@/components/ArtifactViewer';
+import { Send, Paperclip, Bot, User, Loader2 } from 'lucide-react';\nimport { cn } from '@/utils/cn';\nimport MessageBubble from '@/components/MessageBubble';\nimport ArtifactViewer from '@/components/ArtifactViewer';
 
 interface Message {
   id: string;
@@ -18,15 +15,13 @@ interface Message {
 
 export default function ChatView() {
   const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
+    {\n      id: '1',
       role: 'assistant',
       content:
         "Hello! I'm PENNY, your AI assistant. I can help you with data analysis, create dashboards, and much more. How can I assist you today?",
       timestamp: new Date(),
     },
-  ]);
-  const [input, setInput] = useState('');
+  ]);\n  const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [selectedArtifact, setSelectedArtifact] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -49,8 +44,7 @@ export default function ChatView() {
       timestamp: new Date(),
     };
 
-    setMessages((prev) => [...prev, userMessage]);
-    setInput('');
+    setMessages((prev) => [...prev, userMessage]);\n    setInput('');
     setIsLoading(true);
 
     // Simulate AI response
@@ -58,8 +52,7 @@ export default function ChatView() {
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content:
-          "I understand you want to analyze some data. Let me help you with that. Here's a dashboard showing your company KPIs for this month.",
+        content:\n          "I understand you want to analyze some data. Let me help you with that. Here's a dashboard showing your company KPIs for this month.",
         timestamp: new Date(),
         artifacts: [
           {
@@ -74,12 +67,10 @@ export default function ChatView() {
     }, 1500);
   };
 
-  return (
-    <div className="flex h-full">
+  return (\n    <div className="flex h-full">
       {/* Chat section */}
       <div className={cn('flex flex-col', selectedArtifact ? 'w-1/2' : 'w-full')}>
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {/* Messages */}\n        <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map((message) => (
             <MessageBubble
               key={message.id}
@@ -88,24 +79,16 @@ export default function ChatView() {
             />
           ))}
 
-          {isLoading && (
-            <div className="flex items-center gap-2 text-gray-500">
-              <Loader2 className="h-4 w-4 animate-spin" />
-              <span className="text-sm">PENNY is thinking...</span>
+          {isLoading && (\n            <div className="flex items-center gap-2 text-gray-500">\n              <Loader2 className="h-4 w-4 animate-spin" />\n              <span className="text-sm">PENNY is thinking...</span>
             </div>
           )}
 
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input area */}
-        <div className="border-t border-gray-200 dark:border-gray-700 p-4">
-          <div className="flex items-end gap-2">
-            <button className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-              <Paperclip className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+        {/* Input area */}\n        <div className="border-t border-gray-200 dark:border-gray-700 p-4">\n          <div className="flex items-end gap-2">\n            <button className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">\n              <Paperclip className="h-5 w-5 text-gray-600 dark:text-gray-400" />
             </button>
-
-            <div className="flex-1">
+\n            <div className="flex-1">
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -114,9 +97,7 @@ export default function ChatView() {
                     e.preventDefault();
                     handleSend();
                   }
-                }}
-                placeholder="Ask PENNY anything..."
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                }}\n                placeholder="Ask PENNY anything..."\n                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                 rows={1}
               />
             </div>
@@ -130,16 +111,14 @@ export default function ChatView() {
                   ? 'bg-brand-500 hover:bg-brand-600 text-white'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed',
               )}
-            >
-              <Send className="h-5 w-5" />
+            >\n              <Send className="h-5 w-5" />
             </button>
           </div>
         </div>
       </div>
 
       {/* Artifact viewer */}
-      {selectedArtifact && (
-        <div className="w-1/2 border-l border-gray-200 dark:border-gray-700">
+      {selectedArtifact && (\n        <div className="w-1/2 border-l border-gray-200 dark:border-gray-700">
           <ArtifactViewer artifactId={selectedArtifact} onClose={() => setSelectedArtifact(null)} />
         </div>
       )}

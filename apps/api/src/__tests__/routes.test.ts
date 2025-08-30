@@ -1,8 +1,4 @@
-import fastify, { FastifyInstance } from 'fastify';
-import { authRoutes } from '../routes/auth';
-import { chatRoutes } from '../routes/chat';
-import { toolRoutes } from '../routes/tools';
-import { artifactRoutes } from '../routes/artifacts';
+import fastify, { FastifyInstance } from 'fastify';\nimport { authRoutes } from '../routes/auth';\nimport { chatRoutes } from '../routes/chat';\nimport { toolRoutes } from '../routes/tools';\nimport { artifactRoutes } from '../routes/artifacts';
 
 describe('API Routes', () => {
   let app: FastifyInstance;
@@ -27,8 +23,7 @@ describe('API Routes', () => {
 
     it('should handle login', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/login',
+        method: 'POST',\n        url: '/login',
         payload: {
           email: 'test@example.com',
           password: 'password123',
@@ -41,8 +36,7 @@ describe('API Routes', () => {
 
     it('should handle registration', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/register',
+        method: 'POST',\n        url: '/register',
         payload: {
           email: 'new@example.com',
           password: 'StrongP@ss123',
@@ -56,8 +50,7 @@ describe('API Routes', () => {
 
     it('should handle logout', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/logout',
+        method: 'POST',\n        url: '/logout',
         headers: {
           authorization: 'Bearer valid-token',
         },
@@ -68,8 +61,7 @@ describe('API Routes', () => {
 
     it('should refresh token', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/refresh',
+        method: 'POST',\n        url: '/refresh',
         payload: {
           refreshToken: 'valid-refresh-token',
         },
@@ -87,8 +79,7 @@ describe('API Routes', () => {
 
     it('should list conversations', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/conversations',
+        method: 'GET',\n        url: '/conversations',
         headers: {
           authorization: 'Bearer valid-token',
         },
@@ -100,8 +91,7 @@ describe('API Routes', () => {
 
     it('should create conversation', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/conversations',
+        method: 'POST',\n        url: '/conversations',
         headers: {
           authorization: 'Bearer valid-token',
         },
@@ -116,8 +106,7 @@ describe('API Routes', () => {
 
     it('should send message', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/conversations/conv-123/messages',
+        method: 'POST',\n        url: '/conversations/conv-123/messages',
         headers: {
           authorization: 'Bearer valid-token',
         },
@@ -132,8 +121,7 @@ describe('API Routes', () => {
 
     it('should get conversation', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/conversations/conv-123',
+        method: 'GET',\n        url: '/conversations/conv-123',
         headers: {
           authorization: 'Bearer valid-token',
         },
@@ -151,8 +139,7 @@ describe('API Routes', () => {
 
     it('should list tools', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/tools',
+        method: 'GET',\n        url: '/tools',
         headers: {
           authorization: 'Bearer valid-token',
         },
@@ -164,8 +151,7 @@ describe('API Routes', () => {
 
     it('should execute tool', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/tools/get_company_kpis/invoke',
+        method: 'POST',\n        url: '/tools/get_company_kpis/invoke',
         headers: {
           authorization: 'Bearer valid-token',
         },
@@ -183,8 +169,7 @@ describe('API Routes', () => {
 
     it('should get tool schema', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/tools/get_company_kpis/schema',
+        method: 'GET',\n        url: '/tools/get_company_kpis/schema',
         headers: {
           authorization: 'Bearer valid-token',
         },
@@ -202,8 +187,7 @@ describe('API Routes', () => {
 
     it('should list artifacts', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/artifacts',
+        method: 'GET',\n        url: '/artifacts',
         headers: {
           authorization: 'Bearer valid-token',
         },
@@ -215,8 +199,7 @@ describe('API Routes', () => {
 
     it('should get artifact', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/artifacts/art-123',
+        method: 'GET',\n        url: '/artifacts/art-123',
         headers: {
           authorization: 'Bearer valid-token',
         },
@@ -228,8 +211,7 @@ describe('API Routes', () => {
 
     it('should create artifact', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/artifacts',
+        method: 'POST',\n        url: '/artifacts',
         headers: {
           authorization: 'Bearer valid-token',
         },
@@ -246,8 +228,7 @@ describe('API Routes', () => {
 
     it('should delete artifact', async () => {
       const response = await app.inject({
-        method: 'DELETE',
-        url: '/artifacts/art-123',
+        method: 'DELETE',\n        url: '/artifacts/art-123',
         headers: {
           authorization: 'Bearer valid-token',
         },
@@ -260,8 +241,7 @@ describe('API Routes', () => {
   describe('Error Handling', () => {
     it('should handle 404', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/non-existent',
+        method: 'GET',\n        url: '/non-existent',
       });
 
       expect(response.statusCode).toBe(404);
@@ -271,8 +251,7 @@ describe('API Routes', () => {
       await app.register(chatRoutes);
       
       const response = await app.inject({
-        method: 'GET',
-        url: '/conversations',
+        method: 'GET',\n        url: '/conversations',
       });
 
       expect(response.statusCode).toBe(401);
@@ -282,8 +261,7 @@ describe('API Routes', () => {
       await app.register(authRoutes);
       
       const response = await app.inject({
-        method: 'POST',
-        url: '/login',
+        method: 'POST',\n        url: '/login',
         payload: {
           email: 'invalid-email',
         },

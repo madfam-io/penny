@@ -1,5 +1,4 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { PrismaClient } from '@prisma/client';
+import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';\nimport { PrismaClient } from '@prisma/client';
 import { createHash } from 'crypto';
 
 interface ApiKeyContext {
@@ -70,8 +69,7 @@ export async function apiKeyAuthPlugin(fastify: FastifyInstance) {
       // Set user context from API key for compatibility
       request.user = {
         id: keyContext.userId,
-        tenantId: keyContext.tenantId,
-        email: '', // Not available from API key
+        tenantId: keyContext.tenantId,\n        email: '', // Not available from API key
         name: keyContext.name,
         roles: ['api'], // API keys get basic API role
         permissions: keyContext.scopes,
@@ -95,8 +93,7 @@ export async function apiKeyAuthPlugin(fastify: FastifyInstance) {
           message: 'API key authentication required',
         });
       }
-
-      if (!request.apiKey.scopes.includes(requiredScope) && !request.apiKey.scopes.includes('*')) {
+\n      if (!request.apiKey.scopes.includes(requiredScope) && !request.apiKey.scopes.includes('*')) {
         return reply.code(403).send({
           error: 'Forbidden',
           message: `Scope required: ${requiredScope}`,
@@ -115,14 +112,12 @@ export async function apiKeyAuthPlugin(fastify: FastifyInstance) {
         });
       }
 
-      const hasAllScopes = requiredScopes.every(scope => 
-        request.apiKey!.scopes.includes(scope) || request.apiKey!.scopes.includes('*')
+      const hasAllScopes = requiredScopes.every(scope => \n        request.apiKey!.scopes.includes(scope) || request.apiKey!.scopes.includes('*')
       );
 
       if (!hasAllScopes) {
         return reply.code(403).send({
-          error: 'Forbidden',
-          message: `Scopes required: ${requiredScopes.join(', ')}`,
+          error: 'Forbidden',\n          message: `Scopes required: ${requiredScopes.join(', ')}`,
         });
       }
     };
@@ -138,21 +133,18 @@ export async function apiKeyAuthPlugin(fastify: FastifyInstance) {
         });
       }
 
-      const hasAnyScope = requiredScopes.some(scope => 
-        request.apiKey!.scopes.includes(scope) || request.apiKey!.scopes.includes('*')
+      const hasAnyScope = requiredScopes.some(scope => \n        request.apiKey!.scopes.includes(scope) || request.apiKey!.scopes.includes('*')
       );
 
       if (!hasAnyScope) {
         return reply.code(403).send({
-          error: 'Forbidden',
-          message: `One of these scopes required: ${requiredScopes.join(', ')}`,
+          error: 'Forbidden',\n          message: `One of these scopes required: ${requiredScopes.join(', ')}`,
         });
       }
     };
   });
 
-  // API key management endpoints
-  fastify.post('/api-keys', {
+  // API key management endpoints\n  fastify.post('/api-keys', {
     schema: {
       body: {
         type: 'object',
@@ -204,8 +196,7 @@ export async function apiKeyAuthPlugin(fastify: FastifyInstance) {
       });
     }
   });
-
-  fastify.get('/api-keys', {
+\n  fastify.get('/api-keys', {
     schema: {
       response: {
         200: {
@@ -253,8 +244,7 @@ export async function apiKeyAuthPlugin(fastify: FastifyInstance) {
       createdAt: key.createdAt.toISOString(),
     }));
   });
-
-  fastify.delete('/api-keys/:id', {
+\n  fastify.delete('/api-keys/:id', {
     preHandler: [fastify.authenticate, fastify.tenantIsolation],
   }, async (request, reply) => {
     const { id } = request.params as { id: string };
@@ -366,8 +356,7 @@ export async function apiKeyAuthPlugin(fastify: FastifyInstance) {
 
   function generateApiKey(): string {
     // Generate a secure random key
-    const randomBytes = require('crypto').randomBytes(32);
-    return `pk_${randomBytes.toString('base64url')}`;
+    const randomBytes = require('crypto').randomBytes(32);\n    return `pk_${randomBytes.toString('base64url')}`;
   }
 
   function hashApiKey(key: string): string {
@@ -390,12 +379,10 @@ export async function apiKeyAuthPlugin(fastify: FastifyInstance) {
     'artifacts:delete',
     'tools:execute',
     'webhooks:manage',
-    'usage:read',
-    '*', // All permissions
+    'usage:read',\n    '*', // All permissions
   ];
 
-  // Get available scopes endpoint
-  fastify.get('/api-keys/scopes', {
+  // Get available scopes endpoint\n  fastify.get('/api-keys/scopes', {
     schema: {
       response: {
         200: {

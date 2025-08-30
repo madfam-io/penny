@@ -1,7 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-import { AIService } from './AIService';
-import { ToolService } from './ToolService';
-import { UsageService } from './UsageService';
+import { PrismaClient } from '@prisma/client';\nimport { AIService } from './AIService';\nimport { ToolService } from './ToolService';\nimport { UsageService } from './UsageService';
 import { Readable } from 'stream';
 
 interface GetMessagesOptions {
@@ -382,8 +379,7 @@ export class MessageService {
       metadata,
     } = options;
 
-    try {
-      let assistantContent = '';
+    try {\n      let assistantContent = '';
       let toolCalls: any[] = [];
 
       // Stream AI completion
@@ -401,13 +397,17 @@ export class MessageService {
           stream.push(`data: ${JSON.stringify({
             type: 'content',
             content: chunk.content,
-          })}\n\n`);
+          })}
+
+`);
         } else if (chunk.type === 'tool_call') {
           toolCalls.push(chunk.toolCall);
           stream.push(`data: ${JSON.stringify({
             type: 'tool_call',
             toolCall: chunk.toolCall,
-          })}\n\n`);
+          })}
+
+`);
         } else if (chunk.type === 'done') {
           // Save assistant message
           const assistantMessage = await this.createMessage({
@@ -433,7 +433,9 @@ export class MessageService {
           stream.push(`data: ${JSON.stringify({
             type: 'done',
             messageId: assistantMessage.id,
-          })}\n\n`);
+          })}
+
+`);
 
           stream.push(null); // End stream
         }
@@ -442,7 +444,9 @@ export class MessageService {
       stream.push(`data: ${JSON.stringify({
         type: 'error',
         error: error.message,
-      })}\n\n`);
+      })}
+
+`);
       
       stream.push(null);
     }
@@ -463,7 +467,9 @@ export class MessageService {
           type: 'tool_execution_start',
           toolCallId: toolCall.id,
           toolName: toolCall.function.name,
-        })}\n\n`);
+        })}
+
+`);
 
         const result = await this.toolService.executeTool({
           name: toolCall.function.name,
@@ -490,14 +496,18 @@ export class MessageService {
           type: 'tool_execution_complete',
           toolCallId: toolCall.id,
           result,
-        })}\n\n`);
+        })}
+
+`);
 
       } catch (error) {
         stream.push(`data: ${JSON.stringify({
           type: 'tool_execution_error',
           toolCallId: toolCall.id,
           error: error.message,
-        })}\n\n`);
+        })}
+
+`);
       }
     }
   }
@@ -787,12 +797,9 @@ export class MessageService {
   async getMessageStats(options: {
     tenantId: string;
     userId?: string;
-    conversationId?: string;
-    period?: '7d' | '30d' | '90d';
-  }) {
-    const { tenantId, userId, conversationId, period = '30d' } = options;
-
-    const periodDays = period === '7d' ? 7 : period === '30d' ? 30 : 90;
+    conversationId?: string;\n    period?: '7d' | '30d' | '90d';
+  }) {\n    const { tenantId, userId, conversationId, period = '30d' } = options;
+\n    const periodDays = period === '7d' ? 7 : period === '30d' ? 30 : 90;
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - periodDays);
 

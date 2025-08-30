@@ -1,7 +1,5 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';
-import { AdminService } from '../services/AdminService';
-import { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
+import { z } from 'zod';\nimport { AdminService } from '../services/AdminService';\nimport { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
 
 // Request/Response Schemas
 const SystemStatsSchema = z.object({
@@ -156,8 +154,7 @@ const UpdateFeatureFlagSchema = z.object({
 export async function adminRoutes(fastify: FastifyInstance) {
   const adminService = new AdminService();
 
-  // Get system overview/dashboard
-  fastify.get('/admin/dashboard', {
+  // Get system overview/dashboard\n  fastify.get('/admin/dashboard', {
     schema: {
       response: {
         200: SystemStatsSchema,
@@ -183,15 +180,13 @@ export async function adminRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get tenant analytics
-  fastify.get('/admin/tenants/analytics', {
+  // Get tenant analytics\n  fastify.get('/admin/tenants/analytics', {
     schema: {
       querystring: z.object({
         sortBy: z.enum(['users', 'messages', 'cost', 'createdAt']).default('users'),
         sortOrder: z.enum(['asc', 'desc']).default('desc'),
         limit: z.number().int().positive().max(100).default(20),
-        offset: z.number().int().min(0).default(0),
-        period: z.enum(['7d', '30d', '90d']).default('30d'),
+        offset: z.number().int().min(0).default(0),\n        period: z.enum(['7d', '30d', '90d']).default('30d'),
       }),
       response: {
         200: z.object({
@@ -218,8 +213,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
       sortBy: z.enum(['users', 'messages', 'cost', 'createdAt']).default('users'),
       sortOrder: z.enum(['asc', 'desc']).default('desc'),
       limit: z.number().int().positive().max(100).default(20),
-      offset: z.number().int().min(0).default(0),
-      period: z.enum(['7d', '30d', '90d']).default('30d'),
+      offset: z.number().int().min(0).default(0),\n      period: z.enum(['7d', '30d', '90d']).default('30d'),
     }).parse(request.query);
     
     try {
@@ -234,13 +228,11 @@ export async function adminRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get user activity analytics
-  fastify.get('/admin/users/activity', {
+  // Get user activity analytics\n  fastify.get('/admin/users/activity', {
     schema: {
       querystring: z.object({
         tenantId: z.string().optional(),
-        isActive: z.boolean().optional(),
-        period: z.enum(['7d', '30d', '90d']).default('30d'),
+        isActive: z.boolean().optional(),\n        period: z.enum(['7d', '30d', '90d']).default('30d'),
         sortBy: z.enum(['lastLoginAt', 'messageCount', 'totalCost']).default('lastLoginAt'),
         sortOrder: z.enum(['asc', 'desc']).default('desc'),
         limit: z.number().int().positive().max(100).default(20),
@@ -269,8 +261,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
   }, async (request: FastifyRequest, reply: FastifyReply) => {
     const query = z.object({
       tenantId: z.string().optional(),
-      isActive: z.boolean().optional(),
-      period: z.enum(['7d', '30d', '90d']).default('30d'),
+      isActive: z.boolean().optional(),\n      period: z.enum(['7d', '30d', '90d']).default('30d'),
       sortBy: z.enum(['lastLoginAt', 'messageCount', 'totalCost']).default('lastLoginAt'),
       sortOrder: z.enum(['asc', 'desc']).default('desc'),
       limit: z.number().int().positive().max(100).default(20),
@@ -289,8 +280,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get audit logs
-  fastify.get('/admin/audit-logs', {
+  // Get audit logs\n  fastify.get('/admin/audit-logs', {
     schema: {
       querystring: AuditLogQuerySchema,
       response: {
@@ -322,8 +312,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get system health
-  fastify.get('/admin/health', {
+  // Get system health\n  fastify.get('/admin/health', {
     schema: {
       response: {
         200: z.object({
@@ -396,8 +385,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Schedule system maintenance
-  fastify.post('/admin/maintenance', {
+  // Schedule system maintenance\n  fastify.post('/admin/maintenance', {
     schema: {
       body: SystemMaintenanceSchema,
       response: {
@@ -437,8 +425,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get feature flags
-  fastify.get('/admin/feature-flags', {
+  // Get feature flags\n  fastify.get('/admin/feature-flags', {
     schema: {
       querystring: FeatureFlagQuerySchema,
       response: {
@@ -470,8 +457,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Create feature flag
-  fastify.post('/admin/feature-flags', {
+  // Create feature flag\n  fastify.post('/admin/feature-flags', {
     schema: {
       body: CreateFeatureFlagSchema,
       response: {
@@ -509,8 +495,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Update feature flag
-  fastify.put('/admin/feature-flags/:id', {
+  // Update feature flag\n  fastify.put('/admin/feature-flags/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -553,8 +538,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Delete feature flag
-  fastify.delete('/admin/feature-flags/:id', {
+  // Delete feature flag\n  fastify.delete('/admin/feature-flags/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -594,8 +578,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Create feature flag override
-  fastify.post('/admin/feature-flags/:id/overrides', {
+  // Create feature flag override\n  fastify.post('/admin/feature-flags/:id/overrides', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -655,8 +638,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Export data (GDPR compliance)
-  fastify.post('/admin/export/:tenantId', {
+  // Export data (GDPR compliance)\n  fastify.post('/admin/export/:tenantId', {
     schema: {
       params: z.object({
         tenantId: z.string(),
@@ -710,8 +692,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get export status
-  fastify.get('/admin/exports/:exportId', {
+  // Get export status\n  fastify.get('/admin/exports/:exportId', {
     schema: {
       params: z.object({
         exportId: z.string(),
@@ -763,11 +744,9 @@ export async function adminRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // System metrics for monitoring
-  fastify.get('/admin/metrics', {
+  // System metrics for monitoring\n  fastify.get('/admin/metrics', {
     schema: {
-      querystring: z.object({
-        period: z.enum(['1h', '6h', '1d', '7d', '30d']).default('1h'),
+      querystring: z.object({\n        period: z.enum(['1h', '6h', '1d', '7d', '30d']).default('1h'),
         metrics: z.array(z.string()).optional(),
       }),
       response: {
@@ -790,8 +769,7 @@ export async function adminRoutes(fastify: FastifyInstance) {
     },
     preHandler: [fastify.authenticate, fastify.requireAdmin],
   }, async (request: FastifyRequest, reply: FastifyReply) => {
-    const { period, metrics } = z.object({
-      period: z.enum(['1h', '6h', '1d', '7d', '30d']).default('1h'),
+    const { period, metrics } = z.object({\n      period: z.enum(['1h', '6h', '1d', '7d', '30d']).default('1h'),
       metrics: z.array(z.string()).optional(),
     }).parse(request.query);
     

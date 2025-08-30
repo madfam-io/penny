@@ -141,7 +141,8 @@ export class StreamManager {
   processOutput(output: string): string[] {
     // Split output into lines and handle ANSI escape sequences
     return output
-      .split(/\r?\n/)
+      .split(/\r?
+/)
       .map(line => this.stripAnsiCodes(line))
       .filter(line => line.length > 0);
   }
@@ -320,7 +321,8 @@ export function formatStreamOutput(buffer: StreamBuffer): string {
     });
   }
 
-  return sections.join('\n');
+  return sections.join('
+');
 }
 
 export class OutputCollector {

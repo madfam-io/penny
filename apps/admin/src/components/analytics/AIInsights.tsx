@@ -1,5 +1,4 @@
-import React from 'react';
-import { Card } from '../ui/card';
+import React from 'react';\nimport { Card } from '../ui/card';
 import { Brain, TrendingUp, AlertTriangle } from 'lucide-react';
 
 interface AIInsightsProps {
@@ -33,10 +32,7 @@ export const AIInsights: React.FC<AIInsightsProps> = ({ tenantId }) => {
 
   const getIcon = (type: string) => {
     switch (type) {
-      case 'positive': return <TrendingUp className="w-5 h-5 text-green-600" />;
-      case 'opportunity': return <Brain className="w-5 h-5 text-blue-600" />;
-      case 'warning': return <AlertTriangle className="w-5 h-5 text-orange-600" />;
-      default: return <Brain className="w-5 h-5 text-gray-600" />;
+      case 'positive': return <TrendingUp className="w-5 h-5 text-green-600" />;\n      case 'opportunity': return <Brain className="w-5 h-5 text-blue-600" />;\n      case 'warning': return <AlertTriangle className="w-5 h-5 text-orange-600" />;\n      default: return <Brain className="w-5 h-5 text-gray-600" />;
     }
   };
 
@@ -49,44 +45,27 @@ export const AIInsights: React.FC<AIInsightsProps> = ({ tenantId }) => {
     }
   };
 
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">AI-Powered Insights</h3>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+  return (\n    <div className="space-y-6">\n      <div className="flex items-center justify-between">\n        <h3 className="text-lg font-semibold">AI-Powered Insights</h3>\n        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
           Generate New Insights
         </button>
       </div>
-
-      <div className="space-y-4">
+\n      <div className="space-y-4">
         {insights.map((insight, index) => (
-          <Card key={index} className={`p-6 border-l-4 ${getBorderColor(insight.type)}`}>
-            <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0">
+          <Card key={index} className={`p-6 border-l-4 ${getBorderColor(insight.type)}`}>\n            <div className="flex items-start space-x-4">\n              <div className="flex-shrink-0">
                 {getIcon(insight.type)}
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-semibold text-gray-900">{insight.title}</h4>
-                  <div className="flex items-center space-x-2">
-                    <span className={`text-xs px-2 py-1 rounded font-medium ${
+              </div>\n              <div className="flex-1">\n                <div className="flex items-center justify-between mb-2">\n                  <h4 className="font-semibold text-gray-900">{insight.title}</h4>\n                  <div className="flex items-center space-x-2">\n                    <span className={`text-xs px-2 py-1 rounded font-medium ${
                       insight.impact === 'high' ? 'bg-red-100 text-red-800' :
                       insight.impact === 'medium' ? 'bg-yellow-100 text-yellow-800' :
                       'bg-green-100 text-green-800'
                     }`}>
                       {insight.impact.toUpperCase()} IMPACT
-                    </span>
-                    <span className="text-xs text-gray-500">
+                    </span>\n                    <span className="text-xs text-gray-500">
                       {(insight.confidence * 100).toFixed(0)}% confidence
                     </span>
                   </div>
-                </div>
-                <p className="text-gray-700">{insight.description}</p>
-                <div className="mt-3 flex space-x-2">
-                  <button className="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded">
+                </div>\n                <p className="text-gray-700">{insight.description}</p>\n                <div className="mt-3 flex space-x-2">\n                  <button className="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded">
                     View Details
-                  </button>
-                  <button className="text-xs bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-1 rounded">
+                  </button>\n                  <button className="text-xs bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-1 rounded">
                     Take Action
                   </button>
                 </div>

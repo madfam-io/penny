@@ -1,7 +1,5 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';
-import { UsageService } from '../services/UsageService';
-import { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
+import { z } from 'zod';\nimport { UsageService } from '../services/UsageService';\nimport { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
 
 // Request/Response Schemas
 const UsageQuerySchema = z.object({
@@ -9,8 +7,7 @@ const UsageQuerySchema = z.object({
   resourceId: z.string().optional(),
   userId: z.string().optional(),
   from: z.string().datetime().optional(),
-  to: z.string().datetime().optional(),
-  period: z.enum(['1h', '6h', '1d', '7d', '30d', '90d']).default('30d'),
+  to: z.string().datetime().optional(),\n  period: z.enum(['1h', '6h', '1d', '7d', '30d', '90d']).default('30d'),
   granularity: z.enum(['hour', 'day', 'week', 'month']).default('day'),
   limit: z.number().int().positive().max(1000).default(100),
   offset: z.number().int().min(0).default(0),
@@ -88,8 +85,7 @@ const BulkUsageSchema = z.object({
 export async function usageRoutes(fastify: FastifyInstance) {
   const usageService = new UsageService();
 
-  // Get usage records
-  fastify.get('/usage', {
+  // Get usage records\n  fastify.get('/usage', {
     schema: {
       querystring: UsageQuerySchema,
       response: {
@@ -125,11 +121,9 @@ export async function usageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get usage metrics/analytics
-  fastify.get('/usage/metrics', {
+  // Get usage metrics/analytics\n  fastify.get('/usage/metrics', {
     schema: {
-      querystring: z.object({
-        period: z.enum(['1h', '6h', '1d', '7d', '30d', '90d']).default('30d'),
+      querystring: z.object({\n        period: z.enum(['1h', '6h', '1d', '7d', '30d', '90d']).default('30d'),
         granularity: z.enum(['hour', 'day', 'week', 'month']).default('day'),
         resourceTypes: z.array(z.string()).optional(),
         includeBreakdown: z.boolean().default(true),
@@ -148,8 +142,7 @@ export async function usageRoutes(fastify: FastifyInstance) {
     preHandler: [fastify.authenticate, fastify.tenantIsolation, fastify.requireTenantAdmin],
   }, async (request: FastifyRequest, reply: FastifyReply) => {
     const { tenantId } = request.user;
-    const query = z.object({
-      period: z.enum(['1h', '6h', '1d', '7d', '30d', '90d']).default('30d'),
+    const query = z.object({\n      period: z.enum(['1h', '6h', '1d', '7d', '30d', '90d']).default('30d'),
       granularity: z.enum(['hour', 'day', 'week', 'month']).default('day'),
       resourceTypes: z.array(z.string()).optional(),
       includeBreakdown: z.boolean().default(true),
@@ -169,8 +162,7 @@ export async function usageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get current usage vs limits
-  fastify.get('/usage/limits', {
+  // Get current usage vs limits\n  fastify.get('/usage/limits', {
     schema: {
       response: {
         200: z.object({
@@ -223,8 +215,7 @@ export async function usageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Record usage (internal API)
-  fastify.post('/usage/record', {
+  // Record usage (internal API)\n  fastify.post('/usage/record', {
     schema: {
       body: RecordUsageSchema,
       response: {
@@ -267,8 +258,7 @@ export async function usageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Bulk record usage (internal API)
-  fastify.post('/usage/record/bulk', {
+  // Bulk record usage (internal API)\n  fastify.post('/usage/record/bulk', {
     schema: {
       body: BulkUsageSchema,
       response: {
@@ -311,11 +301,9 @@ export async function usageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get user usage (for current user)
-  fastify.get('/usage/me', {
+  // Get user usage (for current user)\n  fastify.get('/usage/me', {
     schema: {
-      querystring: z.object({
-        period: z.enum(['1d', '7d', '30d', '90d']).default('30d'),
+      querystring: z.object({\n        period: z.enum(['1d', '7d', '30d', '90d']).default('30d'),
         resourceTypes: z.array(z.string()).optional(),
       }),
       response: {
@@ -338,8 +326,7 @@ export async function usageRoutes(fastify: FastifyInstance) {
     preHandler: [fastify.authenticate],
   }, async (request: FastifyRequest, reply: FastifyReply) => {
     const { tenantId, userId } = request.user;
-    const { period, resourceTypes } = z.object({
-      period: z.enum(['1d', '7d', '30d', '90d']).default('30d'),
+    const { period, resourceTypes } = z.object({\n      period: z.enum(['1d', '7d', '30d', '90d']).default('30d'),
       resourceTypes: z.array(z.string()).optional(),
     }).parse(request.query);
     
@@ -360,8 +347,7 @@ export async function usageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get usage reports
-  fastify.get('/usage/reports', {
+  // Get usage reports\n  fastify.get('/usage/reports', {
     schema: {
       querystring: z.object({
         reportType: z.enum(['daily', 'weekly', 'monthly', 'custom']).default('monthly'),
@@ -434,12 +420,10 @@ export async function usageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get usage predictions/forecasting
-  fastify.get('/usage/forecast', {
+  // Get usage predictions/forecasting\n  fastify.get('/usage/forecast', {
     schema: {
       querystring: z.object({
-        resourceType: z.enum(['messages', 'tokens', 'tools', 'storage', 'api_calls']),
-        period: z.enum(['7d', '30d', '90d']).default('30d'),
+        resourceType: z.enum(['messages', 'tokens', 'tools', 'storage', 'api_calls']),\n        period: z.enum(['7d', '30d', '90d']).default('30d'),
         forecastDays: z.number().int().min(1).max(365).default(30),
       }),
       response: {
@@ -475,8 +459,7 @@ export async function usageRoutes(fastify: FastifyInstance) {
   }, async (request: FastifyRequest, reply: FastifyReply) => {
     const { tenantId } = request.user;
     const query = z.object({
-      resourceType: z.enum(['messages', 'tokens', 'tools', 'storage', 'api_calls']),
-      period: z.enum(['7d', '30d', '90d']).default('30d'),
+      resourceType: z.enum(['messages', 'tokens', 'tools', 'storage', 'api_calls']),\n      period: z.enum(['7d', '30d', '90d']).default('30d'),
       forecastDays: z.number().int().min(1).max(365).default(30),
     }).parse(request.query);
     
@@ -499,8 +482,7 @@ export async function usageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get usage alerts configuration
-  fastify.get('/usage/alerts', {
+  // Get usage alerts configuration\n  fastify.get('/usage/alerts', {
     schema: {
       response: {
         200: z.array(z.object({
@@ -537,8 +519,7 @@ export async function usageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Create usage alert
-  fastify.post('/usage/alerts', {
+  // Create usage alert\n  fastify.post('/usage/alerts', {
     schema: {
       body: z.object({
         resourceType: z.enum(['messages', 'tokens', 'tools', 'storage', 'api_calls']),

@@ -6,4 +6,357 @@ import {
   RollbackOperation,
   VersionHistoryOptions,
   VersionAnalytics
-} from '@penny/types';\n\nexport class ArtifactVersionService {\n  private versions: Map<string, ArtifactVersion[]> = new Map();\n  private branches: Map<string, VersionBranch[]> = new Map();\n  private mergeRequests: Map<string, MergeRequest[]> = new Map();\n  private rollbackOperations: Map<string, RollbackOperation[]> = new Map();\n\n  async createVersion(version: Omit<ArtifactVersion, 'id' | 'checksum'>): Promise<ArtifactVersion> {\n    const versionData: ArtifactVersion = {\n      ...version,\n      id: this.generateId(),\n      checksum: this.calculateChecksum(version.content),\n      size: this.calculateSize(version.content)\n    };\n\n    const artifactVersions = this.versions.get(version.artifactId) || [];\n    artifactVersions.push(versionData);\n    this.versions.set(version.artifactId, artifactVersions);\n\n    return versionData;\n  }\n\n  async getVersion(artifactId: string, version: number): Promise<ArtifactVersion | null> {\n    const versions = this.versions.get(artifactId) || [];\n    return versions.find(v => v.version === version) || null;\n  }\n\n  async getVersionHistory(\n    artifactId: string, \n    options: VersionHistoryOptions = {}\n  ): Promise<ArtifactVersion[]> {\n    let versions = this.versions.get(artifactId) || [];\n\n    // Apply filters\n    if (options.since) {\n      versions = versions.filter(v => v.createdAt >= options.since!);\n    }\n\n    if (options.until) {\n      versions = versions.filter(v => v.createdAt <= options.until!);\n    }\n\n    if (options.branch) {\n      versions = versions.filter(v => v.branchName === options.branch);\n    }\n\n    if (options.author) {\n      versions = versions.filter(v => v.createdBy === options.author);\n    }\n\n    if (options.tags && options.tags.length > 0) {\n      versions = versions.filter(v => \n        options.tags!.some(tag => v.tags.includes(tag))\n      );\n    }\n\n    if (options.status) {\n      versions = versions.filter(v => v.status === options.status);\n    }\n\n    // Sort by version number (descending)\n    versions.sort((a, b) => b.version - a.version);\n\n    // Apply pagination\n    const offset = options.offset || 0;\n    const limit = options.limit || 10;\n    versions = versions.slice(offset, offset + limit);\n\n    // Remove content if not requested\n    if (!options.includeContent) {\n      versions = versions.map(v => ({ ...v, content: undefined }));\n    }\n\n    // Remove metadata if not requested\n    if (!options.includeMetadata) {\n      versions = versions.map(v => ({ ...v, metadata: undefined }));\n    }\n\n    return versions;\n  }\n\n  async compareVersions(\n    artifactId: string, \n    fromVersion: number, \n    toVersion: number\n  ): Promise<VersionComparison | null> {\n    const fromVer = await this.getVersion(artifactId, fromVersion);\n    const toVer = await this.getVersion(artifactId, toVersion);\n\n    if (!fromVer || !toVer) {\n      return null;\n    }\n\n    const differences = this.calculateDifferences(fromVer.content, toVer.content);\n    const similarity = this.calculateSimilarity(fromVer.content, toVer.content);\n\n    return {\n      fromVersion,\n      toVersion,\n      differences,\n      summary: {\n        added: differences.filter(d => d.type === 'added').length,\n        modified: differences.filter(d => d.type === 'modified').length,\n        removed: differences.filter(d => d.type === 'removed').length,\n        similarity\n      },\n      metadata: {\n        comparedAt: new Date(),\n        algorithm: 'json-diff',\n        options: {}\n      }\n    };\n  }\n\n  async deleteVersions(artifactId: string): Promise<boolean> {\n    this.versions.delete(artifactId);\n    this.branches.delete(artifactId);\n    this.mergeRequests.delete(artifactId);\n    this.rollbackOperations.delete(artifactId);\n    return true;\n  }\n\n  async createBranch(\n    artifactId: string,\n    branchData: Omit<VersionBranch, 'id' | 'createdAt'>\n  ): Promise<VersionBranch> {\n    const branch: VersionBranch = {\n      ...branchData,\n      id: this.generateId(),\n      createdAt: new Date()\n    };\n\n    const artifactBranches = this.branches.get(artifactId) || [];\n    artifactBranches.push(branch);\n    this.branches.set(artifactId, artifactBranches);\n\n    return branch;\n  }\n\n  async getBranches(artifactId: string): Promise<VersionBranch[]> {\n    return this.branches.get(artifactId) || [];\n  }\n\n  async mergeBranch(\n    artifactId: string,\n    sourceBranch: string,\n    targetBranch: string,\n    userId: string\n  ): Promise<MergeRequest> {\n    const mergeRequest: MergeRequest = {\n      id: this.generateId(),\n      artifactId,\n      sourceBranch,\n      targetBranch,\n      title: `Merge ${sourceBranch} into ${targetBranch}`,\n      status: 'open',\n      createdAt: new Date(),\n      createdBy: userId,\n      assignees: [],\n      reviewers: [],\n      changes: [], // Would calculate actual changes\n      conflicts: [] // Would detect merge conflicts\n    };\n\n    const artifactMergeRequests = this.mergeRequests.get(artifactId) || [];\n    artifactMergeRequests.push(mergeRequest);\n    this.mergeRequests.set(artifactId, artifactMergeRequests);\n\n    return mergeRequest;\n  }\n\n  async getMergeRequests(artifactId: string): Promise<MergeRequest[]> {\n    return this.mergeRequests.get(artifactId) || [];\n  }\n\n  async createRollbackOperation(operation: RollbackOperation): Promise<RollbackOperation> {\n    const artifactRollbacks = this.rollbackOperations.get(operation.artifactId) || [];\n    artifactRollbacks.push(operation);\n    this.rollbackOperations.set(operation.artifactId, artifactRollbacks);\n\n    return operation;\n  }\n\n  async getRollbackOperations(artifactId: string): Promise<RollbackOperation[]> {\n    return this.rollbackOperations.get(artifactId) || [];\n  }\n\n  async getVersionAnalytics(artifactId: string): Promise<VersionAnalytics> {\n    const versions = this.versions.get(artifactId) || [];\n    const branches = this.branches.get(artifactId) || [];\n    const mergeRequests = this.mergeRequests.get(artifactId) || [];\n\n    const contributors = [...new Set(versions.map(v => v.createdBy))];\n    const totalSize = versions.reduce((sum, v) => sum + (v.size || 0), 0);\n    const averageSize = versions.length > 0 ? totalSize / versions.length : 0;\n\n    // Calculate version frequency\n    const now = new Date();\n    const dayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);\n    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);\n    const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);\n\n    const dailyVersions = versions.filter(v => v.createdAt >= dayAgo).length;\n    const weeklyVersions = versions.filter(v => v.createdAt >= weekAgo).length;\n    const monthlyVersions = versions.filter(v => v.createdAt >= monthAgo).length;\n\n    return {\n      artifactId,\n      totalVersions: versions.length,\n      totalSize,\n      averageSize,\n      versionFrequency: {\n        daily: dailyVersions,\n        weekly: weeklyVersions,\n        monthly: monthlyVersions\n      },\n      contributors: contributors.map(userId => {\n        const userVersions = versions.filter(v => v.createdBy === userId);\n        return {\n          userId,\n          versions: userVersions.length,\n          firstContribution: new Date(Math.min(...userVersions.map(v => v.createdAt.getTime()))),\n          lastContribution: new Date(Math.max(...userVersions.map(v => v.createdAt.getTime())))\n        };\n      }),\n      branches: {\n        total: branches.length,\n        active: branches.filter(b => b.status === 'active').length,\n        merged: branches.filter(b => b.status === 'merged').length,\n        closed: branches.filter(b => b.status === 'closed').length\n      },\n      mergeRequests: {\n        total: mergeRequests.length,\n        open: mergeRequests.filter(mr => mr.status === 'open').length,\n        merged: mergeRequests.filter(mr => mr.status === 'merged').length,\n        closed: mergeRequests.filter(mr => mr.status === 'closed').length,\n        averageReviewTime: this.calculateAverageReviewTime(mergeRequests)\n      },\n      storage: {\n        totalSize,\n        compressedSize: Math.floor(totalSize * 0.7), // Mock compression\n        compressionRatio: 0.7\n      }\n    };\n  }\n\n  private calculateDifferences(oldContent: any, newContent: any): any[] {\n    const differences: any[] = [];\n\n    // Simple object comparison (would use a proper diff library in production)\n    if (typeof oldContent === 'object' && typeof newContent === 'object') {\n      const oldKeys = Object.keys(oldContent || {});\n      const newKeys = Object.keys(newContent || {});\n\n      // Added keys\n      newKeys.forEach(key => {\n        if (!oldKeys.includes(key)) {\n          differences.push({\n            type: 'added',\n            path: key,\n            newValue: newContent[key]\n          });\n        }\n      });\n\n      // Removed keys\n      oldKeys.forEach(key => {\n        if (!newKeys.includes(key)) {\n          differences.push({\n            type: 'removed',\n            path: key,\n            oldValue: oldContent[key]\n          });\n        }\n      });\n\n      // Modified keys\n      oldKeys.forEach(key => {\n        if (newKeys.includes(key) && JSON.stringify(oldContent[key]) !== JSON.stringify(newContent[key])) {\n          differences.push({\n            type: 'modified',\n            path: key,\n            oldValue: oldContent[key],\n            newValue: newContent[key]\n          });\n        }\n      });\n    } else if (oldContent !== newContent) {\n      differences.push({\n        type: 'modified',\n        path: '/',\n        oldValue: oldContent,\n        newValue: newContent\n      });\n    }\n\n    return differences;\n  }\n\n  private calculateSimilarity(oldContent: any, newContent: any): number {\n    // Simple similarity calculation (would use a proper algorithm in production)\n    const oldStr = JSON.stringify(oldContent || '');\n    const newStr = JSON.stringify(newContent || '');\n\n    if (oldStr === newStr) return 1;\n    if (oldStr === '' || newStr === '') return 0;\n\n    const maxLength = Math.max(oldStr.length, newStr.length);\n    let matches = 0;\n\n    for (let i = 0; i < Math.min(oldStr.length, newStr.length); i++) {\n      if (oldStr[i] === newStr[i]) matches++;\n    }\n\n    return matches / maxLength;\n  }\n\n  private calculateAverageReviewTime(mergeRequests: MergeRequest[]): number | undefined {\n    const completedMRs = mergeRequests.filter(mr => \n      (mr.status === 'merged' || mr.status === 'closed') && \n      mr.mergedAt && \n      mr.createdAt\n    );\n\n    if (completedMRs.length === 0) return undefined;\n\n    const totalReviewTime = completedMRs.reduce((sum, mr) => {\n      const reviewTime = (mr.mergedAt!.getTime() - mr.createdAt.getTime()) / (1000 * 60 * 60); // hours\n      return sum + reviewTime;\n    }, 0);\n\n    return totalReviewTime / completedMRs.length;\n  }\n\n  private calculateChecksum(content: any): string {\n    // Simple checksum calculation (would use crypto.createHash in production)\n    const str = JSON.stringify(content);\n    let hash = 0;\n    for (let i = 0; i < str.length; i++) {\n      const char = str.charCodeAt(i);\n      hash = ((hash << 5) - hash) + char;\n      hash = hash & hash; // Convert to 32-bit integer\n    }\n    return hash.toString(36);\n  }\n\n  private calculateSize(content: any): number {\n    if (typeof content === 'string') {\n      return Buffer.byteLength(content, 'utf8');\n    }\n    return Buffer.byteLength(JSON.stringify(content), 'utf8');\n  }\n\n  private generateId(): string {\n    return Math.random().toString(36).substring(2) + Date.now().toString(36);\n  }\n}"
+} from '@penny/types';
+
+export class ArtifactVersionService {
+  private versions: Map<string, ArtifactVersion[]> = new Map();
+  private branches: Map<string, VersionBranch[]> = new Map();
+  private mergeRequests: Map<string, MergeRequest[]> = new Map();
+  private rollbackOperations: Map<string, RollbackOperation[]> = new Map();
+
+  async createVersion(version: Omit<ArtifactVersion, 'id' | 'checksum'>): Promise<ArtifactVersion> {
+    const versionData: ArtifactVersion = {
+      ...version,
+      id: this.generateId(),
+      checksum: this.calculateChecksum(version.content),
+      size: this.calculateSize(version.content)
+    };
+
+    const artifactVersions = this.versions.get(version.artifactId) || [];
+    artifactVersions.push(versionData);
+    this.versions.set(version.artifactId, artifactVersions);
+
+    return versionData;
+  }
+
+  async getVersion(artifactId: string, version: number): Promise<ArtifactVersion | null> {
+    const versions = this.versions.get(artifactId) || [];
+    return versions.find(v => v.version === version) || null;
+  }
+
+  async getVersionHistory(
+    artifactId: string, 
+    options: VersionHistoryOptions = {}
+  ): Promise<ArtifactVersion[]> {
+    let versions = this.versions.get(artifactId) || [];
+
+    // Apply filters
+    if (options.since) {
+      versions = versions.filter(v => v.createdAt >= options.since!);
+    }
+
+    if (options.until) {
+      versions = versions.filter(v => v.createdAt <= options.until!);
+    }
+
+    if (options.branch) {
+      versions = versions.filter(v => v.branchName === options.branch);
+    }
+
+    if (options.author) {
+      versions = versions.filter(v => v.createdBy === options.author);
+    }
+
+    if (options.tags && options.tags.length > 0) {
+      versions = versions.filter(v => 
+        options.tags!.some(tag => v.tags.includes(tag))
+      );
+    }
+
+    if (options.status) {
+      versions = versions.filter(v => v.status === options.status);
+    }
+
+    // Sort by version number (descending)
+    versions.sort((a, b) => b.version - a.version);
+
+    // Apply pagination
+    const offset = options.offset || 0;
+    const limit = options.limit || 10;
+    versions = versions.slice(offset, offset + limit);
+
+    // Remove content if not requested
+    if (!options.includeContent) {
+      versions = versions.map(v => ({ ...v, content: undefined }));
+    }
+
+    // Remove metadata if not requested
+    if (!options.includeMetadata) {
+      versions = versions.map(v => ({ ...v, metadata: undefined }));
+    }
+
+    return versions;
+  }
+
+  async compareVersions(
+    artifactId: string, 
+    fromVersion: number, 
+    toVersion: number
+  ): Promise<VersionComparison | null> {
+    const fromVer = await this.getVersion(artifactId, fromVersion);
+    const toVer = await this.getVersion(artifactId, toVersion);
+
+    if (!fromVer || !toVer) {
+      return null;
+    }
+
+    const differences = this.calculateDifferences(fromVer.content, toVer.content);
+    const similarity = this.calculateSimilarity(fromVer.content, toVer.content);
+
+    return {
+      fromVersion,
+      toVersion,
+      differences,
+      summary: {
+        added: differences.filter(d => d.type === 'added').length,
+        modified: differences.filter(d => d.type === 'modified').length,
+        removed: differences.filter(d => d.type === 'removed').length,
+        similarity
+      },
+      metadata: {
+        comparedAt: new Date(),
+        algorithm: 'json-diff',
+        options: {}
+      }
+    };
+  }
+
+  async deleteVersions(artifactId: string): Promise<boolean> {
+    this.versions.delete(artifactId);
+    this.branches.delete(artifactId);
+    this.mergeRequests.delete(artifactId);
+    this.rollbackOperations.delete(artifactId);
+    return true;
+  }
+
+  async createBranch(
+    artifactId: string,
+    branchData: Omit<VersionBranch, 'id' | 'createdAt'>
+  ): Promise<VersionBranch> {
+    const branch: VersionBranch = {
+      ...branchData,
+      id: this.generateId(),
+      createdAt: new Date()
+    };
+
+    const artifactBranches = this.branches.get(artifactId) || [];
+    artifactBranches.push(branch);
+    this.branches.set(artifactId, artifactBranches);
+
+    return branch;
+  }
+
+  async getBranches(artifactId: string): Promise<VersionBranch[]> {
+    return this.branches.get(artifactId) || [];
+  }
+
+  async mergeBranch(
+    artifactId: string,
+    sourceBranch: string,
+    targetBranch: string,
+    userId: string
+  ): Promise<MergeRequest> {
+    const mergeRequest: MergeRequest = {
+      id: this.generateId(),
+      artifactId,
+      sourceBranch,
+      targetBranch,
+      title: `Merge ${sourceBranch} into ${targetBranch}`,
+      status: 'open',
+      createdAt: new Date(),
+      createdBy: userId,
+      assignees: [],
+      reviewers: [],
+      changes: [], // Would calculate actual changes
+      conflicts: [] // Would detect merge conflicts
+    };
+
+    const artifactMergeRequests = this.mergeRequests.get(artifactId) || [];
+    artifactMergeRequests.push(mergeRequest);
+    this.mergeRequests.set(artifactId, artifactMergeRequests);
+
+    return mergeRequest;
+  }
+
+  async getMergeRequests(artifactId: string): Promise<MergeRequest[]> {
+    return this.mergeRequests.get(artifactId) || [];
+  }
+
+  async createRollbackOperation(operation: RollbackOperation): Promise<RollbackOperation> {
+    const artifactRollbacks = this.rollbackOperations.get(operation.artifactId) || [];
+    artifactRollbacks.push(operation);
+    this.rollbackOperations.set(operation.artifactId, artifactRollbacks);
+
+    return operation;
+  }
+
+  async getRollbackOperations(artifactId: string): Promise<RollbackOperation[]> {
+    return this.rollbackOperations.get(artifactId) || [];
+  }
+
+  async getVersionAnalytics(artifactId: string): Promise<VersionAnalytics> {
+    const versions = this.versions.get(artifactId) || [];
+    const branches = this.branches.get(artifactId) || [];
+    const mergeRequests = this.mergeRequests.get(artifactId) || [];
+
+    const contributors = [...new Set(versions.map(v => v.createdBy))];
+    const totalSize = versions.reduce((sum, v) => sum + (v.size || 0), 0);
+    const averageSize = versions.length > 0 ? totalSize / versions.length : 0;
+
+    // Calculate version frequency
+    const now = new Date();
+    const dayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+    const dailyVersions = versions.filter(v => v.createdAt >= dayAgo).length;
+    const weeklyVersions = versions.filter(v => v.createdAt >= weekAgo).length;
+    const monthlyVersions = versions.filter(v => v.createdAt >= monthAgo).length;
+
+    return {
+      artifactId,
+      totalVersions: versions.length,
+      totalSize,
+      averageSize,
+      versionFrequency: {
+        daily: dailyVersions,
+        weekly: weeklyVersions,
+        monthly: monthlyVersions
+      },
+      contributors: contributors.map(userId => {
+        const userVersions = versions.filter(v => v.createdBy === userId);
+        return {
+          userId,
+          versions: userVersions.length,
+          firstContribution: new Date(Math.min(...userVersions.map(v => v.createdAt.getTime()))),
+          lastContribution: new Date(Math.max(...userVersions.map(v => v.createdAt.getTime())))
+        };
+      }),
+      branches: {
+        total: branches.length,
+        active: branches.filter(b => b.status === 'active').length,
+        merged: branches.filter(b => b.status === 'merged').length,
+        closed: branches.filter(b => b.status === 'closed').length
+      },
+      mergeRequests: {
+        total: mergeRequests.length,
+        open: mergeRequests.filter(mr => mr.status === 'open').length,
+        merged: mergeRequests.filter(mr => mr.status === 'merged').length,
+        closed: mergeRequests.filter(mr => mr.status === 'closed').length,
+        averageReviewTime: this.calculateAverageReviewTime(mergeRequests)
+      },
+      storage: {
+        totalSize,
+        compressedSize: Math.floor(totalSize * 0.7), // Mock compression
+        compressionRatio: 0.7
+      }
+    };
+  }
+
+  private calculateDifferences(oldContent: any, newContent: any): any[] {
+    const differences: any[] = [];
+
+    // Simple object comparison (would use a proper diff library in production)
+    if (typeof oldContent === 'object' && typeof newContent === 'object') {
+      const oldKeys = Object.keys(oldContent || {});
+      const newKeys = Object.keys(newContent || {});
+
+      // Added keys
+      newKeys.forEach(key => {
+        if (!oldKeys.includes(key)) {
+          differences.push({
+            type: 'added',
+            path: key,
+            newValue: newContent[key]
+          });
+        }
+      });
+
+      // Removed keys
+      oldKeys.forEach(key => {
+        if (!newKeys.includes(key)) {
+          differences.push({
+            type: 'removed',
+            path: key,
+            oldValue: oldContent[key]
+          });
+        }
+      });
+
+      // Modified keys
+      oldKeys.forEach(key => {
+        if (newKeys.includes(key) && JSON.stringify(oldContent[key]) !== JSON.stringify(newContent[key])) {
+          differences.push({
+            type: 'modified',
+            path: key,
+            oldValue: oldContent[key],
+            newValue: newContent[key]
+          });
+        }
+      });
+    } else if (oldContent !== newContent) {
+      differences.push({
+        type: 'modified',\n        path: '/',
+        oldValue: oldContent,
+        newValue: newContent
+      });
+    }
+
+    return differences;
+  }
+
+  private calculateSimilarity(oldContent: any, newContent: any): number {
+    // Simple similarity calculation (would use a proper algorithm in production)\n    const oldStr = JSON.stringify(oldContent || '');\n    const newStr = JSON.stringify(newContent || '');
+
+    if (oldStr === newStr) return 1;\n    if (oldStr === '' || newStr === '') return 0;
+
+    const maxLength = Math.max(oldStr.length, newStr.length);
+    let matches = 0;
+
+    for (let i = 0; i < Math.min(oldStr.length, newStr.length); i++) {
+      if (oldStr[i] === newStr[i]) matches++;
+    }
+
+    return matches / maxLength;
+  }
+
+  private calculateAverageReviewTime(mergeRequests: MergeRequest[]): number | undefined {
+    const completedMRs = mergeRequests.filter(mr => 
+      (mr.status === 'merged' || mr.status === 'closed') && 
+      mr.mergedAt && 
+      mr.createdAt
+    );
+
+    if (completedMRs.length === 0) return undefined;
+
+    const totalReviewTime = completedMRs.reduce((sum, mr) => {
+      const reviewTime = (mr.mergedAt!.getTime() - mr.createdAt.getTime()) / (1000 * 60 * 60); // hours
+      return sum + reviewTime;
+    }, 0);
+
+    return totalReviewTime / completedMRs.length;
+  }
+
+  private calculateChecksum(content: any): string {
+    // Simple checksum calculation (would use crypto.createHash in production)
+    const str = JSON.stringify(content);
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    return hash.toString(36);
+  }
+
+  private calculateSize(content: any): number {
+    if (typeof content === 'string') {
+      return Buffer.byteLength(content, 'utf8');
+    }
+    return Buffer.byteLength(JSON.stringify(content), 'utf8');
+  }
+
+  private generateId(): string {
+    return Math.random().toString(36).substring(2) + Date.now().toString(36);
+  }
+}"

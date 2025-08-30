@@ -1,6 +1,5 @@
 'use client';
-
-import { Progress } from '@penny/ui';
+\nimport { Progress } from '@penny/ui';
 
 const metrics = [
   { name: 'CPU Usage', value: 72, unit: '%', status: 'warning' },
@@ -26,18 +25,13 @@ const getStatusColor = (status: string) => {
 export function SystemHealth() {
   return (
     <div className="space-y-4">
-      {metrics.map((metric) => (
-        <div key={metric.name} className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium">{metric.name}</span>
+      {metrics.map((metric) => (\n        <div key={metric.name} className="space-y-2">\n          <div className="flex items-center justify-between">\n            <span className="text-sm font-medium">{metric.name}</span>
             <span className={`text-sm ${getStatusColor(metric.status)}`}>
               {metric.value}
               {metric.unit}
             </span>
           </div>
-          <Progress
-            value={metric.unit === '%' ? metric.value : (metric.value / 200) * 100}
-            className="h-2"
+          <Progress\n            value={metric.unit === '%' ? metric.value : (metric.value / 200) * 100}\n            className="h-2"
           />
         </div>
       ))}

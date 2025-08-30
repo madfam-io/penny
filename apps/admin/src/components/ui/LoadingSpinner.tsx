@@ -1,6 +1,5 @@
 'use client';
-
-import { cn } from '@/utils/cn';
+\nimport { cn } from '@/utils/cn';
 
 interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg';

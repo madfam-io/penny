@@ -1,5 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
-import { useWebSocket } from './useWebSocket';
+import { useState, useCallback, useEffect } from 'react';\nimport { useWebSocket } from './useWebSocket';
 
 export type PresenceStatus = 'online' | 'away' | 'busy' | 'offline';
 

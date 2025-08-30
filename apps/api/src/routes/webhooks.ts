@@ -1,7 +1,5 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';
-import { WebhookService } from '../services/WebhookService';
-import { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
+import { z } from 'zod';\nimport { WebhookService } from '../services/WebhookService';\nimport { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
 
 // Request/Response Schemas
 const CreateWebhookSchema = z.object({
@@ -99,8 +97,7 @@ const AvailableEventsSchema = z.array(z.object({
 export async function webhookRoutes(fastify: FastifyInstance) {
   const webhookService = new WebhookService();
 
-  // Get available webhook events
-  fastify.get('/webhooks/events', {
+  // Get available webhook events\n  fastify.get('/webhooks/events', {
     schema: {
       response: {
         200: AvailableEventsSchema,
@@ -123,8 +120,7 @@ export async function webhookRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get webhooks for tenant
-  fastify.get('/webhooks', {
+  // Get webhooks for tenant\n  fastify.get('/webhooks', {
     schema: {
       querystring: WebhookQuerySchema,
       response: {
@@ -160,8 +156,7 @@ export async function webhookRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get single webhook
-  fastify.get('/webhooks/:id', {
+  // Get single webhook\n  fastify.get('/webhooks/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -205,8 +200,7 @@ export async function webhookRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Create webhook
-  fastify.post('/webhooks', {
+  // Create webhook\n  fastify.post('/webhooks', {
     schema: {
       body: CreateWebhookSchema,
       response: {
@@ -254,8 +248,7 @@ export async function webhookRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Update webhook
-  fastify.put('/webhooks/:id', {
+  // Update webhook\n  fastify.put('/webhooks/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -315,8 +308,7 @@ export async function webhookRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Delete webhook
-  fastify.delete('/webhooks/:id', {
+  // Delete webhook\n  fastify.delete('/webhooks/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -356,8 +348,7 @@ export async function webhookRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Test webhook
-  fastify.post('/webhooks/:id/test', {
+  // Test webhook\n  fastify.post('/webhooks/:id/test', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -409,8 +400,7 @@ export async function webhookRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get webhook deliveries
-  fastify.get('/webhooks/deliveries', {
+  // Get webhook deliveries\n  fastify.get('/webhooks/deliveries', {
     schema: {
       querystring: WebhookDeliveryQuerySchema,
       response: {
@@ -446,8 +436,7 @@ export async function webhookRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get single webhook delivery
-  fastify.get('/webhooks/deliveries/:id', {
+  // Get single webhook delivery\n  fastify.get('/webhooks/deliveries/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -491,8 +480,7 @@ export async function webhookRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Retry webhook delivery
-  fastify.post('/webhooks/deliveries/:id/retry', {
+  // Retry webhook delivery\n  fastify.post('/webhooks/deliveries/:id/retry', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -545,14 +533,12 @@ export async function webhookRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get webhook statistics
-  fastify.get('/webhooks/:id/stats', {
+  // Get webhook statistics\n  fastify.get('/webhooks/:id/stats', {
     schema: {
       params: z.object({
         id: z.string(),
       }),
-      querystring: z.object({
-        period: z.enum(['24h', '7d', '30d', '90d']).default('30d'),
+      querystring: z.object({\n        period: z.enum(['24h', '7d', '30d', '90d']).default('30d'),
       }),
       response: {
         200: z.object({
@@ -588,8 +574,7 @@ export async function webhookRoutes(fastify: FastifyInstance) {
   }, async (request: FastifyRequest, reply: FastifyReply) => {
     const { tenantId } = request.user;
     const { id } = z.object({ id: z.string() }).parse(request.params);
-    const { period } = z.object({
-      period: z.enum(['24h', '7d', '30d', '90d']).default('30d'),
+    const { period } = z.object({\n      period: z.enum(['24h', '7d', '30d', '90d']).default('30d'),
     }).parse(request.query);
     
     try {
@@ -615,8 +600,7 @@ export async function webhookRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Validate webhook signature (for external webhook providers)
-  fastify.post('/webhooks/validate', {
+  // Validate webhook signature (for external webhook providers)\n  fastify.post('/webhooks/validate', {
     schema: {
       body: z.object({
         payload: z.string(),

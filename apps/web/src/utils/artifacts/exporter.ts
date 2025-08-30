@@ -1,1 +1,563 @@
-import { Artifact } from '@penny/types';\nimport { ArtifactTransformer } from './transformer';\n\nexport interface ExportOptions {\n  format: ExportFormat;\n  quality?: number;\n  includeMetadata?: boolean;\n  customName?: string;\n  compression?: boolean;\n  watermark?: boolean;\n}\n\nexport type ExportFormat = \n  | 'png' | 'svg' | 'pdf' | 'jpg' | 'webp'\n  | 'csv' | 'excel' | 'json' | 'xml'\n  | 'html' | 'markdown' | 'txt'\n  | 'mp4' | 'webm' | 'gif'\n  | 'zip' | 'tar';\n\nexport interface ExportResult {\n  success: boolean;\n  data?: Blob | string;\n  filename?: string;\n  mimeType?: string;\n  error?: string;\n  size?: number;\n}\n\nexport class ArtifactExporter {\n  /**\n   * Export artifact to specified format\n   */\n  static async export(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    try {\n      const exporter = this.getExporter(artifact.type, options.format);\n      const result = await exporter(artifact, options);\n      \n      return {\n        ...result,\n        filename: options.customName || this.generateFilename(artifact, options.format),\n        size: result.data instanceof Blob ? result.data.size : \n              typeof result.data === 'string' ? new Blob([result.data]).size : undefined\n      };\n    } catch (error) {\n      return {\n        success: false,\n        error: error instanceof Error ? error.message : 'Export failed'\n      };\n    }\n  }\n\n  /**\n   * Get supported export formats for artifact type\n   */\n  static getSupportedFormats(artifactType: Artifact['type']): ExportFormat[] {\n    const formatMap: Record<Artifact['type'], ExportFormat[]> = {\n      chart: ['png', 'svg', 'pdf', 'json', 'csv', 'html'],\n      table: ['csv', 'excel', 'pdf', 'json', 'html', 'txt'],\n      code: ['txt', 'pdf', 'html'],\n      image: ['png', 'jpg', 'webp', 'pdf'],\n      video: ['mp4', 'webm', 'gif'],\n      audio: ['mp4', 'webm'],\n      json: ['json', 'csv', 'txt', 'xml'],\n      html: ['html', 'pdf', 'txt'],\n      markdown: ['html', 'pdf', 'txt'],\n      pdf: ['pdf'],\n      map: ['png', 'svg', 'pdf', 'json'],\n      model: ['json', 'txt'],\n      text: ['txt', 'html', 'pdf']\n    };\n    \n    return formatMap[artifactType] || ['json', 'txt'];\n  }\n\n  /**\n   * Bulk export multiple artifacts\n   */\n  static async bulkExport(\n    artifacts: Artifact[], \n    options: ExportOptions & { zipName?: string }\n  ): Promise<ExportResult> {\n    try {\n      const exports = await Promise.all(\n        artifacts.map(artifact => this.export(artifact, options))\n      );\n      \n      const failed = exports.filter(e => !e.success);\n      if (failed.length > 0) {\n        return {\n          success: false,\n          error: `${failed.length} exports failed`\n        };\n      }\n      \n      if (options.format === 'zip') {\n        return await this.createZipArchive(exports, options.zipName || 'artifacts.zip');\n      }\n      \n      // For non-zip formats, return first successful export\n      return exports[0];\n    } catch (error) {\n      return {\n        success: false,\n        error: error instanceof Error ? error.message : 'Bulk export failed'\n      };\n    }\n  }\n\n  /**\n   * Export with custom template\n   */\n  static async exportWithTemplate(\n    artifact: Artifact, \n    templateType: 'report' | 'presentation' | 'dashboard',\n    options: ExportOptions\n  ): Promise<ExportResult> {\n    try {\n      const template = await this.getTemplate(templateType);\n      const processedData = await this.processForTemplate(artifact, template);\n      \n      return await this.export(\n        { ...artifact, content: processedData },\n        options\n      );\n    } catch (error) {\n      return {\n        success: false,\n        error: error instanceof Error ? error.message : 'Template export failed'\n      };\n    }\n  }\n\n  private static getExporter(artifactType: Artifact['type'], format: ExportFormat) {\n    const key = `${artifactType}_${format}`;\n    \n    // Chart exporters\n    if (artifactType === 'chart') {\n      switch (format) {\n        case 'png': return this.exportChartAsPNG;\n        case 'svg': return this.exportChartAsSVG;\n        case 'pdf': return this.exportChartAsPDF;\n        case 'json': return this.exportAsJSON;\n        case 'csv': return this.exportChartAsCSV;\n        case 'html': return this.exportChartAsHTML;\n      }\n    }\n    \n    // Table exporters\n    if (artifactType === 'table') {\n      switch (format) {\n        case 'csv': return this.exportTableAsCSV;\n        case 'excel': return this.exportTableAsExcel;\n        case 'pdf': return this.exportTableAsPDF;\n        case 'json': return this.exportAsJSON;\n        case 'html': return this.exportTableAsHTML;\n        case 'txt': return this.exportTableAsText;\n      }\n    }\n    \n    // Code exporters\n    if (artifactType === 'code') {\n      switch (format) {\n        case 'txt': return this.exportCodeAsText;\n        case 'pdf': return this.exportCodeAsPDF;\n        case 'html': return this.exportCodeAsHTML;\n      }\n    }\n    \n    // Image exporters\n    if (artifactType === 'image') {\n      switch (format) {\n        case 'png': case 'jpg': case 'webp': return this.exportImageFormat;\n        case 'pdf': return this.exportImageAsPDF;\n      }\n    }\n    \n    // Default exporters\n    switch (format) {\n      case 'json': return this.exportAsJSON;\n      case 'txt': return this.exportAsText;\n      case 'html': return this.exportAsHTML;\n      case 'pdf': return this.exportAsPDF;\n      default: return this.exportAsJSON;\n    }\n  }\n\n  // Chart export functions\n  private static async exportChartAsPNG(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    // Mock PNG generation - would use canvas or headless browser\n    const mockCanvas = document.createElement('canvas');\n    mockCanvas.width = 800;\n    mockCanvas.height = 600;\n    \n    // Mock chart rendering\n    const ctx = mockCanvas.getContext('2d');\n    if (ctx) {\n      ctx.fillStyle = '#f8f9fa';\n      ctx.fillRect(0, 0, 800, 600);\n      ctx.fillStyle = '#333';\n      ctx.font = '24px Arial';\n      ctx.fillText(artifact.title, 50, 50);\n      ctx.fillStyle = '#007bff';\n      ctx.fillRect(100, 100, 200, 300);\n    }\n    \n    return new Promise(resolve => {\n      mockCanvas.toBlob(blob => {\n        resolve({\n          success: true,\n          data: blob!,\n          mimeType: 'image/png'\n        });\n      }, 'image/png', options.quality || 0.9);\n    });\n  }\n\n  private static async exportChartAsSVG(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    const chartData = artifact.content;\n    \n    // Mock SVG generation\n    const svg = `\n      <svg width=\"800\" height=\"600\" xmlns=\"http://www.w3.org/2000/svg\">\n        <rect width=\"800\" height=\"600\" fill=\"#f8f9fa\"/>\n        <text x=\"50\" y=\"50\" font-family=\"Arial\" font-size=\"24\" fill=\"#333\">${artifact.title}</text>\n        <rect x=\"100\" y=\"100\" width=\"200\" height=\"300\" fill=\"#007bff\"/>\n        <!-- Chart elements would be generated here based on chartData -->\n      </svg>\n    `;\n    \n    return {\n      success: true,\n      data: new Blob([svg], { type: 'image/svg+xml' }),\n      mimeType: 'image/svg+xml'\n    };\n  }\n\n  private static async exportChartAsPDF(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    // Mock PDF generation - would use jsPDF or similar\n    const mockPDFContent = `%PDF-1.4\\n1 0 obj\\n<<\\n/Type /Catalog\\n/Pages 2 0 R\\n>>\\nendobj\\n\\n% Mock PDF for ${artifact.title}\\n`;\n    \n    return {\n      success: true,\n      data: new Blob([mockPDFContent], { type: 'application/pdf' }),\n      mimeType: 'application/pdf'\n    };\n  }\n\n  private static async exportChartAsCSV(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    const chartData = artifact.content;\n    const transformResult = ArtifactTransformer.toCSV(chartData.data, {});\n    \n    if (!transformResult.success) {\n      return {\n        success: false,\n        error: transformResult.error\n      };\n    }\n    \n    return {\n      success: true,\n      data: new Blob([transformResult.data!], { type: 'text/csv' }),\n      mimeType: 'text/csv'\n    };\n  }\n\n  private static async exportChartAsHTML(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    const chartData = artifact.content;\n    \n    const html = `\n      <!DOCTYPE html>\n      <html>\n      <head>\n        <title>${artifact.title}</title>\n        <script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n      </head>\n      <body>\n        <h1>${artifact.title}</h1>\n        <canvas id=\"chart\" width=\"800\" height=\"400\"></canvas>\n        <script>\n          const ctx = document.getElementById('chart').getContext('2d');\n          new Chart(ctx, ${JSON.stringify({\n            type: chartData.chartType,\n            data: { datasets: [{ data: chartData.data }] },\n            options: chartData.config\n          }, null, 2)});\n        </script>\n      </body>\n      </html>\n    `;\n    \n    return {\n      success: true,\n      data: new Blob([html], { type: 'text/html' }),\n      mimeType: 'text/html'\n    };\n  }\n\n  // Table export functions\n  private static async exportTableAsCSV(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    const tableData = artifact.content;\n    const transformResult = ArtifactTransformer.toCSV(tableData, {});\n    \n    if (!transformResult.success) {\n      return {\n        success: false,\n        error: transformResult.error\n      };\n    }\n    \n    return {\n      success: true,\n      data: new Blob([transformResult.data!], { type: 'text/csv' }),\n      mimeType: 'text/csv'\n    };\n  }\n\n  private static async exportTableAsExcel(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    // Mock Excel generation - would use SheetJS or similar\n    const mockExcelContent = new ArrayBuffer(8);\n    \n    return {\n      success: true,\n      data: new Blob([mockExcelContent], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }),\n      mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'\n    };\n  }\n\n  private static async exportTableAsPDF(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    // Mock table PDF generation\n    const mockPDFContent = `%PDF-1.4\\n% Table: ${artifact.title}\\n`;\n    \n    return {\n      success: true,\n      data: new Blob([mockPDFContent], { type: 'application/pdf' }),\n      mimeType: 'application/pdf'\n    };\n  }\n\n  private static async exportTableAsHTML(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    const tableData = artifact.content;\n    \n    const headers = tableData.columns.map((col: any) => `<th>${col.title}</th>`).join('');\n    const rows = tableData.data.map((row: any) => \n      `<tr>${tableData.columns.map((col: any) => `<td>${row[col.key] || ''}</td>`).join('')}</tr>`\n    ).join('');\n    \n    const html = `\n      <!DOCTYPE html>\n      <html>\n      <head>\n        <title>${artifact.title}</title>\n        <style>\n          table { border-collapse: collapse; width: 100%; }\n          th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }\n          th { background-color: #f2f2f2; }\n        </style>\n      </head>\n      <body>\n        <h1>${artifact.title}</h1>\n        <table>\n          <thead><tr>${headers}</tr></thead>\n          <tbody>${rows}</tbody>\n        </table>\n      </body>\n      </html>\n    `;\n    \n    return {\n      success: true,\n      data: new Blob([html], { type: 'text/html' }),\n      mimeType: 'text/html'\n    };\n  }\n\n  private static async exportTableAsText(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    const tableData = artifact.content;\n    \n    const headers = tableData.columns.map((col: any) => col.title).join('\\t');\n    const rows = tableData.data.map((row: any) => \n      tableData.columns.map((col: any) => row[col.key] || '').join('\\t')\n    ).join('\\n');\n    \n    const text = `${artifact.title}\\n${'='.repeat(artifact.title.length)}\\n\\n${headers}\\n${rows}`;\n    \n    return {\n      success: true,\n      data: new Blob([text], { type: 'text/plain' }),\n      mimeType: 'text/plain'\n    };\n  }\n\n  // Generic export functions\n  private static async exportAsJSON(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    const exportData = {\n      ...artifact,\n      exportedAt: new Date().toISOString(),\n      exportOptions: options\n    };\n    \n    return {\n      success: true,\n      data: new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' }),\n      mimeType: 'application/json'\n    };\n  }\n\n  private static async exportAsText(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    const content = typeof artifact.content === 'string' \n      ? artifact.content \n      : JSON.stringify(artifact.content, null, 2);\n    \n    const text = `${artifact.title}\\n${'='.repeat(artifact.title.length)}\\n\\n${content}`;\n    \n    return {\n      success: true,\n      data: new Blob([text], { type: 'text/plain' }),\n      mimeType: 'text/plain'\n    };\n  }\n\n  private static async exportAsHTML(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    const content = typeof artifact.content === 'string'\n      ? artifact.content\n      : `<pre>${JSON.stringify(artifact.content, null, 2)}</pre>`;\n    \n    const html = `\n      <!DOCTYPE html>\n      <html>\n      <head>\n        <title>${artifact.title}</title>\n        <style>\n          body { font-family: Arial, sans-serif; margin: 40px; }\n          h1 { color: #333; }\n          pre { background: #f5f5f5; padding: 20px; border-radius: 5px; overflow-x: auto; }\n        </style>\n      </head>\n      <body>\n        <h1>${artifact.title}</h1>\n        ${content}\n      </body>\n      </html>\n    `;\n    \n    return {\n      success: true,\n      data: new Blob([html], { type: 'text/html' }),\n      mimeType: 'text/html'\n    };\n  }\n\n  private static async exportAsPDF(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    // Mock PDF generation for generic content\n    const mockPDFContent = `%PDF-1.4\\n% ${artifact.title}\\n`;\n    \n    return {\n      success: true,\n      data: new Blob([mockPDFContent], { type: 'application/pdf' }),\n      mimeType: 'application/pdf'\n    };\n  }\n\n  private static async exportCodeAsText(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    const codeData = artifact.content;\n    const code = codeData.code || '';\n    \n    return {\n      success: true,\n      data: new Blob([code], { type: 'text/plain' }),\n      mimeType: 'text/plain'\n    };\n  }\n\n  private static async exportCodeAsPDF(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    // Mock code PDF generation\n    return {\n      success: true,\n      data: new Blob(['%PDF-1.4\\n% Code Export'], { type: 'application/pdf' }),\n      mimeType: 'application/pdf'\n    };\n  }\n\n  private static async exportCodeAsHTML(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    const codeData = artifact.content;\n    \n    const html = `\n      <!DOCTYPE html>\n      <html>\n      <head>\n        <title>${artifact.title}</title>\n        <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css\">\n        <script src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js\"></script>\n      </head>\n      <body>\n        <h1>${artifact.title}</h1>\n        <pre><code class=\"language-${codeData.language}\">${codeData.code}</code></pre>\n        <script src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js\"></script>\n      </body>\n      </html>\n    `;\n    \n    return {\n      success: true,\n      data: new Blob([html], { type: 'text/html' }),\n      mimeType: 'text/html'\n    };\n  }\n\n  private static async exportImageFormat(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    // Mock image format conversion\n    const mockImageData = new ArrayBuffer(1024);\n    \n    return {\n      success: true,\n      data: new Blob([mockImageData], { type: `image/${options.format}` }),\n      mimeType: `image/${options.format}`\n    };\n  }\n\n  private static async exportImageAsPDF(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {\n    // Mock image to PDF conversion\n    return {\n      success: true,\n      data: new Blob(['%PDF-1.4\\n% Image Export'], { type: 'application/pdf' }),\n      mimeType: 'application/pdf'\n    };\n  }\n\n  private static async createZipArchive(exports: ExportResult[], filename: string): Promise<ExportResult> {\n    // Mock ZIP creation - would use JSZip or similar\n    const mockZipData = new ArrayBuffer(2048);\n    \n    return {\n      success: true,\n      data: new Blob([mockZipData], { type: 'application/zip' }),\n      mimeType: 'application/zip',\n      filename\n    };\n  }\n\n  private static generateFilename(artifact: Artifact, format: ExportFormat): string {\n    const baseName = artifact.title\n      .toLowerCase()\n      .replace(/[^a-z0-9]+/g, '-')\n      .replace(/^-+|-+$/g, '');\n    \n    const timestamp = new Date().toISOString().slice(0, 10);\n    return `${baseName}-${timestamp}.${format}`;\n  }\n\n  private static async getTemplate(templateType: string): Promise<any> {\n    // Mock template loading\n    return {\n      type: templateType,\n      layout: 'default',\n      styles: {}\n    };\n  }\n\n  private static async processForTemplate(artifact: Artifact, template: any): Promise<any> {\n    // Mock template processing\n    return artifact.content;\n  }\n\n  /**\n   * Download exported data\n   */\n  static downloadExport(result: ExportResult): void {\n    if (!result.success || !result.data) {\n      throw new Error(result.error || 'No data to download');\n    }\n\n    const blob = result.data instanceof Blob ? result.data : new Blob([result.data]);\n    const url = URL.createObjectURL(blob);\n    \n    const a = document.createElement('a');\n    a.href = url;\n    a.download = result.filename || 'download';\n    a.style.display = 'none';\n    \n    document.body.appendChild(a);\n    a.click();\n    document.body.removeChild(a);\n    \n    URL.revokeObjectURL(url);\n  }\n}"
+import { Artifact } from '@penny/types';\nimport { ArtifactTransformer } from './transformer';
+
+export interface ExportOptions {
+  format: ExportFormat;
+  quality?: number;
+  includeMetadata?: boolean;
+  customName?: string;
+  compression?: boolean;
+  watermark?: boolean;
+}
+
+export type ExportFormat = 
+  | 'png' | 'svg' | 'pdf' | 'jpg' | 'webp'
+  | 'csv' | 'excel' | 'json' | 'xml'
+  | 'html' | 'markdown' | 'txt'
+  | 'mp4' | 'webm' | 'gif'
+  | 'zip' | 'tar';
+
+export interface ExportResult {
+  success: boolean;
+  data?: Blob | string;
+  filename?: string;
+  mimeType?: string;
+  error?: string;
+  size?: number;
+}
+
+export class ArtifactExporter {
+  /**
+   * Export artifact to specified format
+   */
+  static async export(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    try {
+      const exporter = this.getExporter(artifact.type, options.format);
+      const result = await exporter(artifact, options);
+      
+      return {
+        ...result,
+        filename: options.customName || this.generateFilename(artifact, options.format),
+        size: result.data instanceof Blob ? result.data.size : 
+              typeof result.data === 'string' ? new Blob([result.data]).size : undefined
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Export failed'
+      };
+    }
+  }
+
+  /**
+   * Get supported export formats for artifact type
+   */
+  static getSupportedFormats(artifactType: Artifact['type']): ExportFormat[] {
+    const formatMap: Record<Artifact['type'], ExportFormat[]> = {
+      chart: ['png', 'svg', 'pdf', 'json', 'csv', 'html'],
+      table: ['csv', 'excel', 'pdf', 'json', 'html', 'txt'],
+      code: ['txt', 'pdf', 'html'],
+      image: ['png', 'jpg', 'webp', 'pdf'],
+      video: ['mp4', 'webm', 'gif'],
+      audio: ['mp4', 'webm'],
+      json: ['json', 'csv', 'txt', 'xml'],
+      html: ['html', 'pdf', 'txt'],
+      markdown: ['html', 'pdf', 'txt'],
+      pdf: ['pdf'],
+      map: ['png', 'svg', 'pdf', 'json'],
+      model: ['json', 'txt'],
+      text: ['txt', 'html', 'pdf']
+    };
+    
+    return formatMap[artifactType] || ['json', 'txt'];
+  }
+
+  /**
+   * Bulk export multiple artifacts
+   */
+  static async bulkExport(
+    artifacts: Artifact[], 
+    options: ExportOptions & { zipName?: string }
+  ): Promise<ExportResult> {
+    try {
+      const exports = await Promise.all(
+        artifacts.map(artifact => this.export(artifact, options))
+      );
+      
+      const failed = exports.filter(e => !e.success);
+      if (failed.length > 0) {
+        return {
+          success: false,
+          error: `${failed.length} exports failed`
+        };
+      }
+      
+      if (options.format === 'zip') {
+        return await this.createZipArchive(exports, options.zipName || 'artifacts.zip');
+      }
+      
+      // For non-zip formats, return first successful export
+      return exports[0];
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Bulk export failed'
+      };
+    }
+  }
+
+  /**
+   * Export with custom template
+   */
+  static async exportWithTemplate(
+    artifact: Artifact, 
+    templateType: 'report' | 'presentation' | 'dashboard',
+    options: ExportOptions
+  ): Promise<ExportResult> {
+    try {
+      const template = await this.getTemplate(templateType);
+      const processedData = await this.processForTemplate(artifact, template);
+      
+      return await this.export(
+        { ...artifact, content: processedData },
+        options
+      );
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Template export failed'
+      };
+    }
+  }
+
+  private static getExporter(artifactType: Artifact['type'], format: ExportFormat) {\n    const key = `${artifactType}_${format}`;
+    
+    // Chart exporters
+    if (artifactType === 'chart') {
+      switch (format) {
+        case 'png': return this.exportChartAsPNG;
+        case 'svg': return this.exportChartAsSVG;
+        case 'pdf': return this.exportChartAsPDF;
+        case 'json': return this.exportAsJSON;
+        case 'csv': return this.exportChartAsCSV;
+        case 'html': return this.exportChartAsHTML;
+      }
+    }
+    
+    // Table exporters
+    if (artifactType === 'table') {
+      switch (format) {
+        case 'csv': return this.exportTableAsCSV;
+        case 'excel': return this.exportTableAsExcel;
+        case 'pdf': return this.exportTableAsPDF;
+        case 'json': return this.exportAsJSON;
+        case 'html': return this.exportTableAsHTML;
+        case 'txt': return this.exportTableAsText;
+      }
+    }
+    
+    // Code exporters
+    if (artifactType === 'code') {
+      switch (format) {
+        case 'txt': return this.exportCodeAsText;
+        case 'pdf': return this.exportCodeAsPDF;
+        case 'html': return this.exportCodeAsHTML;
+      }
+    }
+    
+    // Image exporters
+    if (artifactType === 'image') {
+      switch (format) {
+        case 'png': case 'jpg': case 'webp': return this.exportImageFormat;
+        case 'pdf': return this.exportImageAsPDF;
+      }
+    }
+    
+    // Default exporters
+    switch (format) {
+      case 'json': return this.exportAsJSON;
+      case 'txt': return this.exportAsText;
+      case 'html': return this.exportAsHTML;
+      case 'pdf': return this.exportAsPDF;
+      default: return this.exportAsJSON;
+    }
+  }
+
+  // Chart export functions
+  private static async exportChartAsPNG(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    // Mock PNG generation - would use canvas or headless browser
+    const mockCanvas = document.createElement('canvas');
+    mockCanvas.width = 800;
+    mockCanvas.height = 600;
+    
+    // Mock chart rendering\n    const ctx = mockCanvas.getContext('2d');
+    if (ctx) {\n      ctx.fillStyle = '#f8f9fa';
+      ctx.fillRect(0, 0, 800, 600);\n      ctx.fillStyle = '#333';\n      ctx.font = '24px Arial';
+      ctx.fillText(artifact.title, 50, 50);\n      ctx.fillStyle = '#007bff';
+      ctx.fillRect(100, 100, 200, 300);
+    }
+    
+    return new Promise(resolve => {
+      mockCanvas.toBlob(blob => {
+        resolve({
+          success: true,
+          data: blob!,
+          mimeType: 'image/png'
+        });
+      }, 'image/png', options.quality || 0.9);
+    });
+  }
+
+  private static async exportChartAsSVG(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    const chartData = artifact.content;
+    
+    // Mock SVG generation\n    const svg = `
+      <svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">\n        <rect width="800" height="600" fill="#f8f9fa"/>\n        <text x="50" y="50" font-family="Arial" font-size="24" fill="#333">${artifact.title}</text>\n        <rect x="100" y="100" width="200" height="300" fill="#007bff"/>
+        <!-- Chart elements would be generated here based on chartData -->
+      </svg>
+    `;
+    
+    return {
+      success: true,
+      data: new Blob([svg], { type: 'image/svg+xml' }),
+      mimeType: 'image/svg+xml'
+    };
+  }
+
+  private static async exportChartAsPDF(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    // Mock PDF generation - would use jsPDF or similar\n    const mockPDFContent = `%PDF-1.4\
+1 0 obj\
+<<\
+/Type /Catalog\
+/Pages 2 0 R\
+>>\
+endobj\
+\
+% Mock PDF for ${artifact.title}\
+`;
+    
+    return {
+      success: true,
+      data: new Blob([mockPDFContent], { type: 'application/pdf' }),
+      mimeType: 'application/pdf'
+    };
+  }
+
+  private static async exportChartAsCSV(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    const chartData = artifact.content;
+    const transformResult = ArtifactTransformer.toCSV(chartData.data, {});
+    
+    if (!transformResult.success) {
+      return {
+        success: false,
+        error: transformResult.error
+      };
+    }
+    
+    return {
+      success: true,
+      data: new Blob([transformResult.data!], { type: 'text/csv' }),
+      mimeType: 'text/csv'
+    };
+  }
+
+  private static async exportChartAsHTML(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    const chartData = artifact.content;
+    \n    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>${artifact.title}</title>\n        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      </head>
+      <body>
+        <h1>${artifact.title}</h1>\n        <canvas id="chart" width="800" height="400"></canvas>
+        <script>
+          const ctx = document.getElementById('chart').getContext('2d');
+          new Chart(ctx, ${JSON.stringify({
+            type: chartData.chartType,
+            data: { datasets: [{ data: chartData.data }] },
+            options: chartData.config
+          }, null, 2)});
+        </script>
+      </body>
+      </html>
+    `;
+    
+    return {
+      success: true,
+      data: new Blob([html], { type: 'text/html' }),
+      mimeType: 'text/html'
+    };
+  }
+
+  // Table export functions
+  private static async exportTableAsCSV(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    const tableData = artifact.content;
+    const transformResult = ArtifactTransformer.toCSV(tableData, {});
+    
+    if (!transformResult.success) {
+      return {
+        success: false,
+        error: transformResult.error
+      };
+    }
+    
+    return {
+      success: true,
+      data: new Blob([transformResult.data!], { type: 'text/csv' }),
+      mimeType: 'text/csv'
+    };
+  }
+
+  private static async exportTableAsExcel(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    // Mock Excel generation - would use SheetJS or similar
+    const mockExcelContent = new ArrayBuffer(8);
+    
+    return {
+      success: true,
+      data: new Blob([mockExcelContent], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }),
+      mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    };
+  }
+
+  private static async exportTableAsPDF(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    // Mock table PDF generation\n    const mockPDFContent = `%PDF-1.4\
+% Table: ${artifact.title}\
+`;
+    
+    return {
+      success: true,
+      data: new Blob([mockPDFContent], { type: 'application/pdf' }),
+      mimeType: 'application/pdf'
+    };
+  }
+
+  private static async exportTableAsHTML(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    const tableData = artifact.content;\n    \n    const headers = tableData.columns.map((col: any) => `<th>${col.title}</th>`).join('');\n    const rows = tableData.data.map((row: any) => \n      `<tr>${tableData.columns.map((col: any) => `<td>${row[col.key] || ''}</td>`).join('')}</tr>`\n    ).join('');
+    \n    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>${artifact.title}</title>
+        <style>
+          table { border-collapse: collapse; width: 100%; }
+          th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+          th { background-color: #f2f2f2; }
+        </style>
+      </head>
+      <body>
+        <h1>${artifact.title}</h1>
+        <table>
+          <thead><tr>${headers}</tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </body>
+      </html>
+    `;
+    
+    return {
+      success: true,
+      data: new Blob([html], { type: 'text/html' }),
+      mimeType: 'text/html'
+    };
+  }
+
+  private static async exportTableAsText(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    const tableData = artifact.content;
+    \n    const headers = tableData.columns.map((col: any) => col.title).join('\	');
+    const rows = tableData.data.map((row: any) => \n      tableData.columns.map((col: any) => row[col.key] || '').join('\	')\n    ).join('\
+');
+    \n    const text = `${artifact.title}\\n${'='.repeat(artifact.title.length)}\
+\
+${headers}\
+${rows}`;
+    
+    return {
+      success: true,
+      data: new Blob([text], { type: 'text/plain' }),
+      mimeType: 'text/plain'
+    };
+  }
+
+  // Generic export functions
+  private static async exportAsJSON(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    const exportData = {
+      ...artifact,
+      exportedAt: new Date().toISOString(),
+      exportOptions: options
+    };
+    
+    return {
+      success: true,
+      data: new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' }),
+      mimeType: 'application/json'
+    };
+  }
+
+  private static async exportAsText(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    const content = typeof artifact.content === 'string' 
+      ? artifact.content 
+      : JSON.stringify(artifact.content, null, 2);
+    \n    const text = `${artifact.title}\\n${'='.repeat(artifact.title.length)}\
+\
+${content}`;
+    
+    return {
+      success: true,
+      data: new Blob([text], { type: 'text/plain' }),
+      mimeType: 'text/plain'
+    };
+  }
+
+  private static async exportAsHTML(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    const content = typeof artifact.content === 'string'
+      ? artifact.content\n      : `<pre>${JSON.stringify(artifact.content, null, 2)}</pre>`;
+    \n    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>${artifact.title}</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 40px; }
+          h1 { color: #333; }
+          pre { background: #f5f5f5; padding: 20px; border-radius: 5px; overflow-x: auto; }
+        </style>
+      </head>
+      <body>
+        <h1>${artifact.title}</h1>
+        ${content}
+      </body>
+      </html>
+    `;
+    
+    return {
+      success: true,
+      data: new Blob([html], { type: 'text/html' }),
+      mimeType: 'text/html'
+    };
+  }
+
+  private static async exportAsPDF(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    // Mock PDF generation for generic content\n    const mockPDFContent = `%PDF-1.4\
+% ${artifact.title}\
+`;
+    
+    return {
+      success: true,
+      data: new Blob([mockPDFContent], { type: 'application/pdf' }),
+      mimeType: 'application/pdf'
+    };
+  }
+
+  private static async exportCodeAsText(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    const codeData = artifact.content;\n    const code = codeData.code || '';
+    
+    return {
+      success: true,
+      data: new Blob([code], { type: 'text/plain' }),
+      mimeType: 'text/plain'
+    };
+  }
+
+  private static async exportCodeAsPDF(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    // Mock code PDF generation
+    return {
+      success: true,\n      data: new Blob(['%PDF-1.4\
+% Code Export'], { type: 'application/pdf' }),
+      mimeType: 'application/pdf'
+    };
+  }
+
+  private static async exportCodeAsHTML(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    const codeData = artifact.content;
+    \n    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>${artifact.title}</title>\n        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">\n        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+      </head>
+      <body>
+        <h1>${artifact.title}</h1>\n        <pre><code class="language-${codeData.language}">${codeData.code}</code></pre>\n        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+      </body>
+      </html>
+    `;
+    
+    return {
+      success: true,
+      data: new Blob([html], { type: 'text/html' }),
+      mimeType: 'text/html'
+    };
+  }
+
+  private static async exportImageFormat(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    // Mock image format conversion
+    const mockImageData = new ArrayBuffer(1024);
+    
+    return {
+      success: true,\n      data: new Blob([mockImageData], { type: `image/${options.format}` }),\n      mimeType: `image/${options.format}`
+    };
+  }
+
+  private static async exportImageAsPDF(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
+    // Mock image to PDF conversion
+    return {
+      success: true,\n      data: new Blob(['%PDF-1.4\
+% Image Export'], { type: 'application/pdf' }),
+      mimeType: 'application/pdf'
+    };
+  }
+
+  private static async createZipArchive(exports: ExportResult[], filename: string): Promise<ExportResult> {
+    // Mock ZIP creation - would use JSZip or similar
+    const mockZipData = new ArrayBuffer(2048);
+    
+    return {
+      success: true,
+      data: new Blob([mockZipData], { type: 'application/zip' }),
+      mimeType: 'application/zip',
+      filename
+    };
+  }
+
+  private static generateFilename(artifact: Artifact, format: ExportFormat): string {
+    const baseName = artifact.title
+      .toLowerCase()\n      .replace(/[^a-z0-9]+/g, '-')\n      .replace(/^-+|-+$/g, '');
+    
+    const timestamp = new Date().toISOString().slice(0, 10);\n    return `${baseName}-${timestamp}.${format}`;
+  }
+
+  private static async getTemplate(templateType: string): Promise<any> {
+    // Mock template loading
+    return {
+      type: templateType,
+      layout: 'default',
+      styles: {}
+    };
+  }
+
+  private static async processForTemplate(artifact: Artifact, template: any): Promise<any> {
+    // Mock template processing
+    return artifact.content;
+  }
+
+  /**
+   * Download exported data
+   */
+  static downloadExport(result: ExportResult): void {
+    if (!result.success || !result.data) {
+      throw new Error(result.error || 'No data to download');
+    }
+
+    const blob = result.data instanceof Blob ? result.data : new Blob([result.data]);
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = result.filename || 'download';
+    a.style.display = 'none';
+    
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    URL.revokeObjectURL(url);
+  }\n}"

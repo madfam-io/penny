@@ -1,7 +1,5 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';
-import { ConversationService } from '../services/ConversationService';
-import { PaginationSchema, ErrorResponseSchema } from '../schemas/common';
+import { z } from 'zod';\nimport { ConversationService } from '../services/ConversationService';\nimport { PaginationSchema, ErrorResponseSchema } from '../schemas/common';
 
 // Request/Response Schemas
 const CreateConversationSchema = z.object({
@@ -50,8 +48,7 @@ const ConversationResponseSchema = z.object({
 export async function conversationRoutes(fastify: FastifyInstance) {
   const conversationService = new ConversationService();
 
-  // Get all conversations for current user/tenant
-  fastify.get('/conversations', {
+  // Get all conversations for current user/tenant\n  fastify.get('/conversations', {
     schema: {
       querystring: ConversationQuerySchema,
       response: {
@@ -89,8 +86,7 @@ export async function conversationRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get single conversation
-  fastify.get('/conversations/:id', {
+  // Get single conversation\n  fastify.get('/conversations/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -152,8 +148,7 @@ export async function conversationRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Create new conversation
-  fastify.post('/conversations', {
+  // Create new conversation\n  fastify.post('/conversations', {
     schema: {
       body: CreateConversationSchema,
       response: {
@@ -188,8 +183,7 @@ export async function conversationRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Update conversation
-  fastify.put('/conversations/:id', {
+  // Update conversation\n  fastify.put('/conversations/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -235,8 +229,7 @@ export async function conversationRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Delete conversation (soft delete)
-  fastify.delete('/conversations/:id', {
+  // Delete conversation (soft delete)\n  fastify.delete('/conversations/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -279,8 +272,7 @@ export async function conversationRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Archive/unarchive conversation
-  fastify.post('/conversations/:id/archive', {
+  // Archive/unarchive conversation\n  fastify.post('/conversations/:id/archive', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -328,8 +320,7 @@ export async function conversationRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Generate conversation summary
-  fastify.post('/conversations/:id/summarize', {
+  // Generate conversation summary\n  fastify.post('/conversations/:id/summarize', {
     schema: {
       params: z.object({
         id: z.string(),

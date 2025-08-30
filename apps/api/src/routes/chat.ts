@@ -1,13 +1,10 @@
 import type { FastifyPluginAsync } from 'fastify';
-import { z } from 'zod';
-import { Role, createMessageSchema, type ConversationId } from '@penny/shared';
-import type { WebSocket } from 'ws';
-import { validateRequest, paginationSchema, idParamSchema } from '../middleware/validation.js';
+import { z } from 'zod';\nimport { Role, createMessageSchema, type ConversationId } from '@penny/shared';
+import type { WebSocket } from 'ws';\nimport { validateRequest, paginationSchema, idParamSchema } from '../middleware/validation.js';
 
 const routes: FastifyPluginAsync = async (fastify) => {
   // List conversations
-  fastify.get(
-    '/',
+  fastify.get(\n    '/',
     {
       schema: {
         description: 'List conversations for the current user',
@@ -54,8 +51,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
     metadata: z.record(z.any()).optional(),
   });
 
-  fastify.post(
-    '/',
+  fastify.post(\n    '/',
     {
       schema: {
         description: 'Create a new conversation',
@@ -96,8 +92,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Get conversation
-  fastify.get(
-    '/:conversationId',
+  fastify.get(\n    '/:conversationId',
     {
       schema: {
         description: 'Get conversation details',
@@ -136,8 +131,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Send message
-  fastify.post(
-    '/:conversationId/messages',
+  fastify.post(\n    '/:conversationId/messages',
     {
       schema: {
         description: 'Send a message in a conversation',
@@ -179,8 +173,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // WebSocket endpoint for streaming
-  fastify.get(
-    '/:conversationId/stream',
+  fastify.get(\n    '/:conversationId/stream',
     {
       websocket: true,
       schema: {
@@ -225,8 +218,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
             socket.send(
               JSON.stringify({
                 type: 'token',
-                data: {
-                  token: word + ' ',
+                data: {\n                  token: word + ' ',
                 },
               }),
             );

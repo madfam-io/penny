@@ -1,6 +1,5 @@
 import { Bot, User, FileText, BarChart3, Image } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
-import { cn } from '@/utils/cn';
+import ReactMarkdown from 'react-markdown';\nimport { cn } from '@/utils/cn';
 
 interface Message {
   id: string;
@@ -46,8 +45,7 @@ export default function MessageBubble({ message, onArtifactClick }: MessageBubbl
       >
         {isUser ? (
           <User className="h-5 w-5 text-white" />
-        ) : (
-          <Bot className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+        ) : (\n          <Bot className="h-5 w-5 text-gray-600 dark:text-gray-400" />
         )}
       </div>
 
@@ -60,33 +58,27 @@ export default function MessageBubble({ message, onArtifactClick }: MessageBubbl
               ? 'bg-brand-500 text-white'
               : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100',
           )}
-        >
-          <ReactMarkdown className="prose prose-sm dark:prose-invert max-w-none">
+        >\n          <ReactMarkdown className="prose prose-sm dark:prose-invert max-w-none">
             {message.content}
           </ReactMarkdown>
         </div>
 
         {/* Artifacts */}
-        {message.artifacts && message.artifacts.length > 0 && (
-          <div className="flex flex-wrap gap-2">
+        {message.artifacts && message.artifacts.length > 0 && (\n          <div className="flex flex-wrap gap-2">
             {message.artifacts.map((artifact) => {
               const Icon = getArtifactIcon(artifact.type);
               return (
                 <button
                   key={artifact.id}
-                  onClick={() => onArtifactClick?.(artifact.id)}
-                  className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                >
-                  <Icon className="h-4 w-4 text-gray-500" />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">{artifact.name}</span>
+                  onClick={() => onArtifactClick?.(artifact.id)}\n                  className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                >\n                  <Icon className="h-4 w-4 text-gray-500" />\n                  <span className="text-sm text-gray-700 dark:text-gray-300">{artifact.name}</span>
                 </button>
               );
             })}
           </div>
         )}
 
-        {/* Timestamp */}
-        <span className="text-xs text-gray-500 dark:text-gray-400">
+        {/* Timestamp */}\n        <span className="text-xs text-gray-500 dark:text-gray-400">
           {message.timestamp.toLocaleTimeString()}
         </span>
       </div>

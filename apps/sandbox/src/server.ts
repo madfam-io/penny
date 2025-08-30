@@ -1,18 +1,6 @@
-import Fastify from 'fastify';
-import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
-import cors from '@fastify/cors';
-import helmet from '@fastify/helmet';
-import rateLimit from '@fastify/rate-limit';
-import { SandboxExecutor } from './executor.js';
-import { SandboxSecurity } from './security.js';
-import { ResourceMonitor } from './utils/resourceMonitor.js';
-import executeRoute from './routes/execute.js';
-import validateRoute from './routes/validate.js';
-import packagesRoute from './routes/packages.js';
-import sessionsRoute from './routes/sessions.js';
+import Fastify from 'fastify';\nimport { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';\nimport cors from '@fastify/cors';\nimport helmet from '@fastify/helmet';\nimport rateLimit from '@fastify/rate-limit';\nimport { SandboxExecutor } from './executor.js';\nimport { SandboxSecurity } from './security.js';\nimport { ResourceMonitor } from './utils/resourceMonitor.js';\nimport executeRoute from './routes/execute.js';\nimport validateRoute from './routes/validate.js';\nimport packagesRoute from './routes/packages.js';\nimport sessionsRoute from './routes/sessions.js';
 
-const PORT = process.env.SANDBOX_PORT ? parseInt(process.env.SANDBOX_PORT) : 3003;
-const HOST = process.env.SANDBOX_HOST || '0.0.0.0';
+const PORT = process.env.SANDBOX_PORT ? parseInt(process.env.SANDBOX_PORT) : 3003;\nconst HOST = process.env.SANDBOX_HOST || '0.0.0.0';
 
 export async function createServer() {
   const server = Fastify({
@@ -28,15 +16,7 @@ export async function createServer() {
   await server.register(helmet, {
     contentSecurityPolicy: {
       directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        imgSrc: ["'self'", "data:", "https:"],
-        connectSrc: ["'self'"],
-        fontSrc: ["'self'"],
-        objectSrc: ["'none'"],
-        mediaSrc: ["'self'"],
-        frameSrc: ["'none'"],
+        defaultSrc: ["'self'"],\n        scriptSrc: ["'self'"],\n        styleSrc: ["'self'", "'unsafe-inline'"],\n        imgSrc: ["'self'", "data:", "https:"],\n        connectSrc: ["'self'"],\n        fontSrc: ["'self'"],\n        objectSrc: ["'none'"],\n        mediaSrc: ["'self'"],\n        frameSrc: ["'none'"],
       },
     },
   });
@@ -50,8 +30,7 @@ export async function createServer() {
 
   // Rate limiting
   await server.register(rateLimit, {
-    max: 100, // requests per minute
-    timeWindow: '1 minute',
+    max: 100, // requests per minute\n    timeWindow: '1 minute',
     errorResponseBuilder: (request, context) => ({
       code: 'RATE_LIMIT_EXCEEDED',
       error: 'Rate limit exceeded',
@@ -71,23 +50,17 @@ export async function createServer() {
   server.decorate('executor', executor);
   server.decorate('resourceMonitor', resourceMonitor);
 
-  // Health check endpoint
-  server.get('/health', async () => {
+  // Health check endpoint\n  server.get('/health', async () => {
     const health = await resourceMonitor.getSystemHealth();
     return {
       status: 'healthy',
-      timestamp: new Date().toISOString(),
-      version: process.env.npm_package_version || '1.0.0',
+      timestamp: new Date().toISOString(),\n      version: process.env.npm_package_version || '1.0.0',
       uptime: process.uptime(),
       system: health
     };
   });
 
-  // Register routes
-  await server.register(executeRoute, { prefix: '/api/v1/execute' });
-  await server.register(validateRoute, { prefix: '/api/v1/validate' });
-  await server.register(packagesRoute, { prefix: '/api/v1/packages' });
-  await server.register(sessionsRoute, { prefix: '/api/v1/sessions' });
+  // Register routes\n  await server.register(executeRoute, { prefix: '/api/v1/execute' });\n  await server.register(validateRoute, { prefix: '/api/v1/validate' });\n  await server.register(packagesRoute, { prefix: '/api/v1/packages' });\n  await server.register(sessionsRoute, { prefix: '/api/v1/sessions' });
 
   // Error handler
   server.setErrorHandler((error, request, reply) => {
@@ -118,8 +91,7 @@ export async function createServer() {
   });
 
   // Graceful shutdown
-  const gracefulShutdown = async (signal: string) => {
-    server.log.info(`Received ${signal}, shutting down gracefully...`);
+  const gracefulShutdown = async (signal: string) => {\n    server.log.info(`Received ${signal}, shutting down gracefully...`);
     
     try {
       await executor.cleanup();
@@ -141,16 +113,14 @@ export async function startServer() {
   const server = await createServer();
   
   try {
-    await server.listen({ port: PORT, host: HOST });
-    server.log.info(`🔒 Sandbox service listening on http://${HOST}:${PORT}`);
+    await server.listen({ port: PORT, host: HOST });\n    server.log.info(`🔒 Sandbox service listening on http://${HOST}:${PORT}`);
   } catch (err) {
     server.log.error('Failed to start server:', err);
     process.exit(1);
   }
 }
 
-// Start server if this file is run directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Start server if this file is run directly\nif (import.meta.url === `file://${process.argv[1]}`) {
   startServer().catch(console.error);
 }
 

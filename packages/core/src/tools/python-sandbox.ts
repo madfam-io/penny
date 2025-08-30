@@ -179,7 +179,8 @@ ${code}
         save_plot('output_plot')
         
 except Exception as e:
-    stderr_capture.write(f"Error: {str(e)}\\n")
+    stderr_capture.write(f"Error: {str(e)}\
+")
     stderr_capture.write(traceback.format_exc())
 
 # Output results
@@ -427,12 +428,12 @@ const dockerfileContent = `
 FROM python:3.11-slim
 
 # Install required packages
-RUN pip install --no-cache-dir \\
-    numpy==1.24.3 \\
-    pandas==2.0.3 \\
-    matplotlib==3.7.2 \\
-    seaborn==0.12.2 \\
-    scikit-learn==1.3.0 \\
+RUN pip install --no-cache-dir \
+    numpy==1.24.3 \
+    pandas==2.0.3 \
+    matplotlib==3.7.2 \
+    seaborn==0.12.2 \
+    scikit-learn==1.3.0 \
     beautifulsoup4==4.12.2
 
 # Create non-root user

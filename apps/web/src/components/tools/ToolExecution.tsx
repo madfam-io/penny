@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Play, Square, AlertCircle } from 'lucide-react';
-import { ToolForm } from './ToolForm';
-import { LoadingSpinner } from '../ui/LoadingSpinner';
+import { Play, Square, AlertCircle } from 'lucide-react';\nimport { ToolForm } from './ToolForm';\nimport { LoadingSpinner } from '../ui/LoadingSpinner';
 
 interface ToolExecutionProps {
   tool: any;
@@ -28,8 +26,7 @@ export const ToolExecution: React.FC<ToolExecutionProps> = ({
       const response = await fetch(`/api/tools/${tool.name}/execute`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',\n          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({ params })
       });
@@ -51,10 +48,8 @@ export const ToolExecution: React.FC<ToolExecutionProps> = ({
 
   const handleCancel = async () => {
     if (executionId && executing) {
-      try {
-        await fetch(`/api/tools/executions/${executionId}/cancel`, {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      try {\n        await fetch(`/api/tools/executions/${executionId}/cancel`, {
+          method: 'POST',\n          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
       } catch (err) {
         console.error('Failed to cancel execution:', err);
@@ -64,13 +59,10 @@ export const ToolExecution: React.FC<ToolExecutionProps> = ({
   };
 
   return (
-    <div className="space-y-6">
-      <div className="border-b border-gray-200 pb-4">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+    <div className="space-y-6">\n      <div className="border-b border-gray-200 pb-4">\n        <h3 className="text-lg font-semibold text-gray-900 mb-2">
           Execute {tool.displayName}
         </h3>
-        {tool.config?.cost && (
-          <p className="text-sm text-orange-600">
+        {tool.config?.cost && (\n          <p className="text-sm text-orange-600">
             Cost: {tool.config.cost} credits
           </p>
         )}
@@ -78,16 +70,12 @@ export const ToolExecution: React.FC<ToolExecutionProps> = ({
 
       {!executing ? (
         <ToolForm tool={tool} onSubmit={handleExecute} />
-      ) : (
-        <div className="space-y-4">
-          <div className="flex items-center space-x-3">
+      ) : (\n        <div className="space-y-4">\n          <div className="flex items-center space-x-3">
             <LoadingSpinner />
             <span>Executing tool...</span>
           </div>
-          
-          <div className="bg-gray-50 rounded-lg p-4 max-h-40 overflow-y-auto">
-            {logs.map((log, index) => (
-              <div key={index} className="text-sm text-gray-700">
+          \n          <div className="bg-gray-50 rounded-lg p-4 max-h-40 overflow-y-auto">
+            {logs.map((log, index) => (\n              <div key={index} className="text-sm text-gray-700">
                 {log}
               </div>
             ))}
@@ -95,27 +83,19 @@ export const ToolExecution: React.FC<ToolExecutionProps> = ({
         </div>
       )}
 
-      {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <div className="flex items-center space-x-2">
-            <AlertCircle className="text-red-500" size={20} />
-            <span className="text-red-800 font-medium">Execution Error</span>
-          </div>
-          <p className="text-red-700 mt-2">{error}</p>
+      {error && (\n        <div className="bg-red-50 border border-red-200 rounded-lg p-4">\n          <div className="flex items-center space-x-2">\n            <AlertCircle className="text-red-500" size={20} />\n            <span className="text-red-800 font-medium">Execution Error</span>
+          </div>\n          <p className="text-red-700 mt-2">{error}</p>
         </div>
       )}
-
-      <div className="flex justify-end space-x-3">
+\n      <div className="flex justify-end space-x-3">
         <button
-          onClick={handleCancel}
-          className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+          onClick={handleCancel}\n          className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Cancel
         </button>
         {executing && executionId && (
           <button
-            onClick={handleCancel}
-            className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700"
+            onClick={handleCancel}\n            className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700"
           >
             <Square size={16} />
             <span>Stop Execution</span>

@@ -1,6 +1,5 @@
 import type { FastifyRequest, FastifyReply, HookHandlerDoneFunction } from 'fastify';
-import { z } from 'zod';
-import { sanitizeInput } from '@penny/security';
+import { z } from 'zod';\nimport { sanitizeInput } from '@penny/security';
 
 // Common validation schemas
 export const paginationSchema = z.object({
@@ -57,8 +56,7 @@ export function validateRequest(schema: {
           error: {
             code: 'VALIDATION_ERROR',
             message: 'Invalid request data',
-            details: error.errors.map((err) => ({
-              path: err.path.join('.'),
+            details: error.errors.map((err) => ({\n              path: err.path.join('.'),
               message: err.message,
               code: err.code,
             })),
@@ -157,48 +155,15 @@ export const fileUploadSchema = z.object({
 // Validate file uploads
 export function validateFileUpload(file: any) {
   // Check file extension
-  const allowedExtensions = [
-    '.jpg',
-    '.jpeg',
-    '.png',
-    '.gif',
-    '.webp', // Images
-    '.pdf',
-    '.doc',
-    '.docx',
-    '.txt', // Documents
-    '.csv',
-    '.xlsx',
-    '.xls', // Spreadsheets
-    '.json',
-    '.xml',
-    '.yaml',
-    '.yml', // Data files
+  const allowedExtensions = [\n    '.jpg',\n    '.jpeg',\n    '.png',\n    '.gif',\n    '.webp', // Images\n    '.pdf',\n    '.doc',\n    '.docx',\n    '.txt', // Documents\n    '.csv',\n    '.xlsx',\n    '.xls', // Spreadsheets\n    '.json',\n    '.xml',\n    '.yaml',\n    '.yml', // Data files
   ];
-
-  const ext = file.filename.toLowerCase().substring(file.filename.lastIndexOf('.'));
+\n  const ext = file.filename.toLowerCase().substring(file.filename.lastIndexOf('.'));
   if (!allowedExtensions.includes(ext)) {
     throw new Error(`File type ${ext} is not allowed`);
   }
 
   // Validate MIME type matches extension
-  const mimeTypeMap: Record<string, string[]> = {
-    '.jpg': ['image/jpeg'],
-    '.jpeg': ['image/jpeg'],
-    '.png': ['image/png'],
-    '.gif': ['image/gif'],
-    '.webp': ['image/webp'],
-    '.pdf': ['application/pdf'],
-    '.doc': ['application/msword'],
-    '.docx': ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
-    '.txt': ['text/plain'],
-    '.csv': ['text/csv'],
-    '.xlsx': ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
-    '.xls': ['application/vnd.ms-excel'],
-    '.json': ['application/json'],
-    '.xml': ['application/xml', 'text/xml'],
-    '.yaml': ['application/x-yaml', 'text/yaml'],
-    '.yml': ['application/x-yaml', 'text/yaml'],
+  const mimeTypeMap: Record<string, string[]> = {\n    '.jpg': ['image/jpeg'],\n    '.jpeg': ['image/jpeg'],\n    '.png': ['image/png'],\n    '.gif': ['image/gif'],\n    '.webp': ['image/webp'],\n    '.pdf': ['application/pdf'],\n    '.doc': ['application/msword'],\n    '.docx': ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'],\n    '.txt': ['text/plain'],\n    '.csv': ['text/csv'],\n    '.xlsx': ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],\n    '.xls': ['application/vnd.ms-excel'],\n    '.json': ['application/json'],\n    '.xml': ['application/xml', 'text/xml'],\n    '.yaml': ['application/x-yaml', 'text/yaml'],\n    '.yml': ['application/x-yaml', 'text/yaml'],
   };
 
   const allowedMimeTypes = mimeTypeMap[ext];

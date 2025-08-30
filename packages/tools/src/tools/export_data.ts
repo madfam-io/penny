@@ -64,11 +64,13 @@ function convertToCSV(data: any[], options: any = {}): string {
   
   let csv = '';
   if (options.includeHeaders !== false) {
-    csv += headers.join(delimiter) + '\n';
+    csv += headers.join(delimiter) + '
+';
   }
   
   data.forEach(row => {
-    csv += headers.map(header => `"${row[header] || ''}"`).join(delimiter) + '\n';
+    csv += headers.map(header => `"${row[header] || ''}"`).join(delimiter) + '
+';
   });
   
   return csv;

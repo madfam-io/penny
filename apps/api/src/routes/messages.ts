@@ -1,7 +1,5 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';
-import { MessageService } from '../services/MessageService';
-import { PaginationSchema, ErrorResponseSchema } from '../schemas/common';
+import { z } from 'zod';\nimport { MessageService } from '../services/MessageService';\nimport { PaginationSchema, ErrorResponseSchema } from '../schemas/common';
 
 // Request/Response Schemas
 const CreateMessageSchema = z.object({
@@ -75,8 +73,7 @@ const StreamMessageSchema = z.object({
 export async function messageRoutes(fastify: FastifyInstance) {
   const messageService = new MessageService();
 
-  // Get messages for a conversation
-  fastify.get('/conversations/:conversationId/messages', {
+  // Get messages for a conversation\n  fastify.get('/conversations/:conversationId/messages', {
     schema: {
       params: z.object({
         conversationId: z.string(),
@@ -131,8 +128,7 @@ export async function messageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get single message
-  fastify.get('/messages/:id', {
+  // Get single message\n  fastify.get('/messages/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -172,8 +168,7 @@ export async function messageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Create message in conversation
-  fastify.post('/conversations/:conversationId/messages', {
+  // Create message in conversation\n  fastify.post('/conversations/:conversationId/messages', {
     schema: {
       params: z.object({
         conversationId: z.string(),
@@ -227,8 +222,7 @@ export async function messageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Stream chat completion
-  fastify.post('/conversations/:conversationId/messages/stream', {
+  // Stream chat completion\n  fastify.post('/conversations/:conversationId/messages/stream', {
     schema: {
       params: z.object({
         conversationId: z.string(),
@@ -286,7 +280,9 @@ export async function messageRoutes(fastify: FastifyInstance) {
       
       // Send error event if streaming already started
       if (reply.sent) {
-        reply.raw.write(`event: error\ndata: {"error": "Stream interrupted"}\n\n`);
+        reply.raw.write(`event: error
+data: {"error": "Stream interrupted"}
+\n`);
         reply.raw.end();
       } else {
         return reply.code(500).send({
@@ -297,8 +293,7 @@ export async function messageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Update message (edit)
-  fastify.put('/messages/:id', {
+  // Update message (edit)\n  fastify.put('/messages/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -350,8 +345,7 @@ export async function messageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Delete message (soft delete)
-  fastify.delete('/messages/:id', {
+  // Delete message (soft delete)\n  fastify.delete('/messages/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -394,8 +388,7 @@ export async function messageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get message thread/replies
-  fastify.get('/messages/:id/thread', {
+  // Get message thread/replies\n  fastify.get('/messages/:id/thread', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -438,8 +431,7 @@ export async function messageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Regenerate assistant response
-  fastify.post('/messages/:id/regenerate', {
+  // Regenerate assistant response\n  fastify.post('/messages/:id/regenerate', {
     schema: {
       params: z.object({
         id: z.string(),

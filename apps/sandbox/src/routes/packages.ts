@@ -1,6 +1,4 @@
-import { FastifyPluginAsync } from 'fastify';
-import { Type } from '@sinclair/typebox';
-import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
+import { FastifyPluginAsync } from 'fastify';\nimport { Type } from '@sinclair/typebox';\nimport { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { spawn } from 'child_process';
 
 const PackageSchema = Type.Object({
@@ -26,8 +24,7 @@ const UninstallRequestSchema = Type.Object({
 const packagesRoute: FastifyPluginAsync = async (fastify) => {
   const server = fastify.withTypeProvider<TypeBoxTypeProvider>();
 
-  // List available packages
-  server.get('/', {
+  // List available packages\n  server.get('/', {
     schema: {
       querystring: Type.Object({
         search: Type.Optional(Type.String()),
@@ -102,8 +99,7 @@ const packagesRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Get package details
-  server.get('/:packageName', {
+  // Get package details\n  server.get('/:packageName', {
     schema: {
       params: Type.Object({
         packageName: Type.String()
@@ -143,8 +139,7 @@ const packagesRoute: FastifyPluginAsync = async (fastify) => {
       
       if (!packageInfo) {
         return reply.status(404).send({
-          error: 'Package Not Found',
-          message: `Package '${packageName}' not found`
+          error: 'Package Not Found',\n          message: `Package '${packageName}' not found`
         });
       }
 
@@ -160,8 +155,7 @@ const packagesRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Install packages
-  server.post('/install', {
+  // Install packages\n  server.post('/install', {
     schema: {
       body: InstallRequestSchema,
       response: {
@@ -192,8 +186,7 @@ const packagesRoute: FastifyPluginAsync = async (fastify) => {
       const session = await server.executor.getSession(sessionId);
       if (!session) {
         return reply.status(404).send({
-          error: 'Session Not Found',
-          message: `Session '${sessionId}' not found`
+          error: 'Session Not Found',\n          message: `Session '${sessionId}' not found`
         });
       }
 
@@ -201,8 +194,7 @@ const packagesRoute: FastifyPluginAsync = async (fastify) => {
       const allowedPackages = await validatePackagesForInstallation(packages);
       if (allowedPackages.blocked.length > 0) {
         return reply.status(400).send({
-          error: 'Security Violation',
-          message: `Blocked packages: ${allowedPackages.blocked.join(', ')}`
+          error: 'Security Violation',\n          message: `Blocked packages: ${allowedPackages.blocked.join(', ')}`
         });
       }
 
@@ -225,8 +217,7 @@ const packagesRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Uninstall packages
-  server.post('/uninstall', {
+  // Uninstall packages\n  server.post('/uninstall', {
     schema: {
       body: UninstallRequestSchema,
       response: {
@@ -253,8 +244,7 @@ const packagesRoute: FastifyPluginAsync = async (fastify) => {
       const session = await server.executor.getSession(sessionId);
       if (!session) {
         return reply.status(404).send({
-          error: 'Session Not Found',
-          message: `Session '${sessionId}' not found`
+          error: 'Session Not Found',\n          message: `Session '${sessionId}' not found`
         });
       }
 
@@ -276,8 +266,7 @@ const packagesRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // List installed packages in a session
-  server.get('/session/:sessionId', {
+  // List installed packages in a session\n  server.get('/session/:sessionId', {
     schema: {
       params: Type.Object({
         sessionId: Type.String({ format: 'uuid' })
@@ -300,8 +289,7 @@ const packagesRoute: FastifyPluginAsync = async (fastify) => {
       const session = await server.executor.getSession(sessionId);
       if (!session) {
         return reply.status(404).send({
-          error: 'Session Not Found',
-          message: `Session '${sessionId}' not found`
+          error: 'Session Not Found',\n          message: `Session '${sessionId}' not found`
         });
       }
 
@@ -335,32 +323,28 @@ async function getAvailablePackages(): Promise<Array<{
   // This would typically query a package registry or cache
   return [
     {
-      name: 'numpy',
-      version: '1.24.3',
+      name: 'numpy',\n      version: '1.24.3',
       description: 'Fundamental package for scientific computing',
       installed: true,
       size: 15000000,
       dependencies: []
     },
     {
-      name: 'pandas',
-      version: '2.0.3',
+      name: 'pandas',\n      version: '2.0.3',
       description: 'Data analysis and manipulation library',
       installed: true,
       size: 30000000,
       dependencies: ['numpy', 'python-dateutil', 'pytz']
     },
     {
-      name: 'matplotlib',
-      version: '3.7.2',
+      name: 'matplotlib',\n      version: '3.7.2',
       description: 'Plotting library',
       installed: true,
       size: 25000000,
       dependencies: ['numpy']
     },
     {
-      name: 'requests',
-      version: '2.31.0',
+      name: 'requests',\n      version: '2.31.0',
       description: 'HTTP library',
       installed: false,
       size: 500000,
@@ -378,12 +362,9 @@ async function getPackageInfo(packageName: string) {
 
   return {
     name: pkg.name,
-    version: pkg.version,
-    description: pkg.description || '',
+    version: pkg.version,\n    description: pkg.description || '',
     author: 'Package Author',
-    license: 'MIT',
-    homepage: `https://pypi.org/project/${pkg.name}/`,
-    repository: `https://github.com/project/${pkg.name}`,
+    license: 'MIT',\n    homepage: `https://pypi.org/project/${pkg.name}/`,\n    repository: `https://github.com/project/${pkg.name}`,
     dependencies: pkg.dependencies || [],
     size: pkg.size || 0,
     installed: pkg.installed,
@@ -442,12 +423,9 @@ async function validatePackagesForInstallation(packages: string[]): Promise<{
       case 'safe':
         allowed.push(packageName);
         break;
-      case 'caution':
-        allowed.push(packageName);
-        warnings.push(`Package '${packageName}' requires caution due to potential security implications`);
+      case 'caution':\n        allowed.push(packageName);\n        warnings.push(`Package '${packageName}' requires caution due to potential security implications`);
         break;
-      case 'restricted':
-        warnings.push(`Package '${packageName}' has restrictions`);
+      case 'restricted':\n        warnings.push(`Package '${packageName}' has restrictions`);
         allowed.push(packageName);
         break;
       case 'blocked':
@@ -501,8 +479,7 @@ async function installSinglePackage(
   force: boolean
 ): Promise<{ success: boolean; error?: string; logs: string[] }> {
   return new Promise((resolve) => {
-    const args = ['exec', containerName, 'pip', 'install'];
-    if (force) args.push('--force-reinstall');
+    const args = ['exec', containerName, 'pip', 'install'];\n    if (force) args.push('--force-reinstall');
     args.push(packageName);
 
     const process = spawn('docker', args);
@@ -518,8 +495,7 @@ async function installSinglePackage(
 
     process.on('close', (code) => {
       resolve({
-        success: code === 0,
-        error: code !== 0 ? `Installation failed with exit code ${code}` : undefined,
+        success: code === 0,\n        error: code !== 0 ? `Installation failed with exit code ${code}` : undefined,
         logs
       });
     });
@@ -579,8 +555,7 @@ async function uninstallSinglePackage(
 
     process.on('close', (code) => {
       resolve({
-        success: code === 0,
-        error: code !== 0 ? `Uninstallation failed with exit code ${code}` : undefined,
+        success: code === 0,\n        error: code !== 0 ? `Uninstallation failed with exit code ${code}` : undefined,
         logs
       });
     });
@@ -596,8 +571,7 @@ async function getInstalledPackagesInContainer(containerName: string): Promise<A
   dependencies?: string[];
 }>> {
   return new Promise((resolve, reject) => {
-    const process = spawn('docker', ['exec', containerName, 'pip', 'list', '--format=json']);
-    let output = '';
+    const process = spawn('docker', ['exec', containerName, 'pip', 'list', '--format=json']);\n    let output = '';
 
     process.stdout?.on('data', (data) => {
       output += data.toString();
@@ -615,8 +589,7 @@ async function getInstalledPackagesInContainer(containerName: string): Promise<A
         } catch (error) {
           reject(error);
         }
-      } else {
-        reject(new Error(`Failed to list packages: exit code ${code}`));
+      } else {\n        reject(new Error(`Failed to list packages: exit code ${code}`));
       }
     });
   });

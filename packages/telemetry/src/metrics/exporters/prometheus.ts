@@ -45,7 +45,8 @@ export class PrometheusExporter implements MetricExporter {
       lines.push(''); // Empty line between metrics
     }
 
-    return lines.join('\n');
+    return lines.join('
+');
   }
 
   private inferType(name: string): string {
@@ -72,7 +73,9 @@ export class PrometheusExporter implements MetricExporter {
   }
 
   private escapeValue(value: string): string {
-    return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
+    return value.replace(/\/g, '\\').replace(/"/g, '\"').replace(/
+/g, '\
+');
   }
 }
 

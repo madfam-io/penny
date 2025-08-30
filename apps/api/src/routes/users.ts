@@ -1,7 +1,5 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';
-import { UserService } from '../services/UserService';
-import { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
+import { z } from 'zod';\nimport { UserService } from '../services/UserService';\nimport { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
 
 // Request/Response Schemas
 const CreateUserSchema = z.object({
@@ -105,15 +103,13 @@ const ChangePasswordSchema = z.object({
   newPassword: z.string().min(8).max(128),
   confirmPassword: z.string().min(8).max(128),
 }).refine(data => data.newPassword === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
+  message: "Passwords don't match",\n  path: ["confirmPassword"],
 });
 
 export async function userRoutes(fastify: FastifyInstance) {
   const userService = new UserService();
 
-  // Get all users in tenant
-  fastify.get('/users', {
+  // Get all users in tenant\n  fastify.get('/users', {
     schema: {
       querystring: UserQuerySchema,
       response: {
@@ -150,8 +146,7 @@ export async function userRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get current user profile
-  fastify.get('/users/me', {
+  // Get current user profile\n  fastify.get('/users/me', {
     schema: {
       response: {
         200: UserProfileSchema,
@@ -193,8 +188,7 @@ export async function userRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get user by ID
-  fastify.get('/users/:id', {
+  // Get user by ID\n  fastify.get('/users/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -239,8 +233,7 @@ export async function userRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Create user
-  fastify.post('/users', {
+  // Create user\n  fastify.post('/users', {
     schema: {
       body: CreateUserSchema,
       response: {
@@ -284,8 +277,7 @@ export async function userRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Update current user profile
-  fastify.put('/users/me', {
+  // Update current user profile\n  fastify.put('/users/me', {
     schema: {
       body: UpdateUserSchema.omit({ isActive: true }),
       response: {
@@ -296,7 +288,7 @@ export async function userRoutes(fastify: FastifyInstance) {
       },
       tags: ['Users'],
       summary: 'Update current user profile',
-      description: 'Update current user\'s profile information',
+      description: 'Update current user's profile information',
     },
     preHandler: [fastify.authenticate],
   }, async (request: FastifyRequest, reply: FastifyReply) => {
@@ -326,8 +318,7 @@ export async function userRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Update user by ID
-  fastify.put('/users/:id', {
+  // Update user by ID\n  fastify.put('/users/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -374,8 +365,7 @@ export async function userRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Delete user
-  fastify.delete('/users/:id', {
+  // Delete user\n  fastify.delete('/users/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -416,8 +406,7 @@ export async function userRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Invite user
-  fastify.post('/users/invite', {
+  // Invite user\n  fastify.post('/users/invite', {
     schema: {
       body: InviteUserSchema,
       response: {
@@ -465,8 +454,7 @@ export async function userRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Bulk invite users
-  fastify.post('/users/bulk-invite', {
+  // Bulk invite users\n  fastify.post('/users/bulk-invite', {
     schema: {
       body: BulkInviteSchema,
       response: {
@@ -514,8 +502,7 @@ export async function userRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Change password
-  fastify.post('/users/me/change-password', {
+  // Change password\n  fastify.post('/users/me/change-password', {
     schema: {
       body: ChangePasswordSchema,
       response: {
@@ -528,7 +515,7 @@ export async function userRoutes(fastify: FastifyInstance) {
       },
       tags: ['Users'],
       summary: 'Change password',
-      description: 'Change current user\'s password',
+      description: 'Change current user's password',
     },
     preHandler: [fastify.authenticate, fastify.rateLimiting],
   }, async (request: FastifyRequest, reply: FastifyReply) => {
@@ -559,8 +546,7 @@ export async function userRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get user sessions
-  fastify.get('/users/me/sessions', {
+  // Get user sessions\n  fastify.get('/users/me/sessions', {
     schema: {
       response: {
         200: z.array(z.object({
@@ -600,8 +586,7 @@ export async function userRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Revoke user session
-  fastify.delete('/users/me/sessions/:sessionId', {
+  // Revoke user session\n  fastify.delete('/users/me/sessions/:sessionId', {
     schema: {
       params: z.object({
         sessionId: z.string(),
@@ -644,8 +629,7 @@ export async function userRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Revoke all other sessions
-  fastify.post('/users/me/sessions/revoke-all', {
+  // Revoke all other sessions\n  fastify.post('/users/me/sessions/revoke-all', {
     schema: {
       response: {
         200: z.object({

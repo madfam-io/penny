@@ -85,8 +85,8 @@ export class SandboxSecurity {
   }
 
   private checkImports(code: string): string[] {
-    const violations: string[] = [];
-    const lines = code.split('\n');
+    const violations: string[] = [];\n    const lines = code.split('
+');
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
@@ -94,12 +94,10 @@ export class SandboxSecurity {
       // Check import statements
       const importMatch = line.match(/^\s*(?:import|from)\s+([a-zA-Z_][a-zA-Z0-9_.]*)(?:\s+import\s+(.+))?/);
       if (importMatch) {
-        const moduleName = importMatch[1];
-        const importedItems = importMatch[2]?.split(',').map(item => item.trim());
+        const moduleName = importMatch[1];\n        const importedItems = importMatch[2]?.split(',').map(item => item.trim());
 
         // Check if module is blocked
-        if (this.policy.imports.blocked.includes(moduleName)) {
-          violations.push(`CRITICAL: Blocked import '${moduleName}' at line ${i + 1}`);
+        if (this.policy.imports.blocked.includes(moduleName)) {\n          violations.push(`CRITICAL: Blocked import '${moduleName}' at line ${i + 1}`);
           continue;
         }
 
@@ -108,8 +106,7 @@ export class SandboxSecurity {
           const allowedFunctions = this.policy.imports.restricted[moduleName];
           if (importedItems) {
             for (const item of importedItems) {
-              if (!allowedFunctions.includes(item.replace('as.*', '').trim())) {
-                violations.push(`HIGH: Restricted function '${item}' from '${moduleName}' at line ${i + 1}`);
+              if (!allowedFunctions.includes(item.replace('as.*', '').trim())) {\n                violations.push(`HIGH: Restricted function '${item}' from '${moduleName}' at line ${i + 1}`);
               }
             }
           }
@@ -117,15 +114,11 @@ export class SandboxSecurity {
 
         // Check if module is in allowed list (if allowlist is used)
         if (this.policy.imports.allowed.length > 0 && 
-            !this.policy.imports.allowed.includes(moduleName) &&
-            !moduleName.startsWith('__')) {
-          violations.push(`MEDIUM: Import '${moduleName}' not in allowlist at line ${i + 1}`);
+            !this.policy.imports.allowed.includes(moduleName) &&\n            !moduleName.startsWith('__')) {\n          violations.push(`MEDIUM: Import '${moduleName}' not in allowlist at line ${i + 1}`);
         }
       }
 
-      // Check for dynamic imports
-      if (line.includes('__import__') || line.includes('importlib')) {
-        violations.push(`CRITICAL: Dynamic import detected at line ${i + 1}`);
+      // Check for dynamic imports\n      if (line.includes('__import__') || line.includes('importlib')) {\n        violations.push(`CRITICAL: Dynamic import detected at line ${i + 1}`);
       }
     }
 
@@ -133,23 +126,19 @@ export class SandboxSecurity {
   }
 
   private checkKeywords(code: string): string[] {
-    const violations: string[] = [];
-    const lines = code.split('\n');
+    const violations: string[] = [];\n    const lines = code.split('
+');
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
 
       // Check for blocked keywords
-      for (const keyword of this.policy.keywords.blocked) {
-        if (line.includes(keyword)) {
-          violations.push(`CRITICAL: Blocked keyword '${keyword}' at line ${i + 1}`);
+      for (const keyword of this.policy.keywords.blocked) {\n        if (line.includes(keyword)) {\n          violations.push(`CRITICAL: Blocked keyword '${keyword}' at line ${i + 1}`);
         }
       }
 
       // Check for restricted keywords
-      for (const keyword of this.policy.keywords.restricted) {
-        if (line.includes(keyword)) {
-          violations.push(`HIGH: Restricted keyword '${keyword}' at line ${i + 1}`);
+      for (const keyword of this.policy.keywords.restricted) {\n        if (line.includes(keyword)) {\n          violations.push(`HIGH: Restricted keyword '${keyword}' at line ${i + 1}`);
         }
       }
     }
@@ -163,16 +152,14 @@ export class SandboxSecurity {
     // Check dangerous patterns
     for (const pattern of this.policy.patterns.dangerous) {
       const matches = code.match(pattern);
-      if (matches) {
-        violations.push(`CRITICAL: Dangerous pattern detected: ${matches[0]}`);
+      if (matches) {\n        violations.push(`CRITICAL: Dangerous pattern detected: ${matches[0]}`);
       }
     }
 
     // Check suspicious patterns
     for (const pattern of this.policy.patterns.suspicious) {
       const matches = code.match(pattern);
-      if (matches) {
-        violations.push(`HIGH: Suspicious pattern detected: ${matches[0]}`);
+      if (matches) {\n        violations.push(`HIGH: Suspicious pattern detected: ${matches[0]}`);
       }
     }
 
@@ -259,8 +246,7 @@ export class SandboxSecurity {
       this.policy = {
         imports: JSON.parse(imports),
         keywords: {
-          blocked: [
-            '__import__',
+          blocked: [\n            '__import__',
             'importlib',
             'reload',
             'compile',
@@ -352,8 +338,7 @@ export class SandboxSecurity {
         }
       },
       keywords: {
-        blocked: [
-          '__import__', 'importlib', 'reload', 'compile', 'eval', 'exec'
+        blocked: [\n          '__import__', 'importlib', 'reload', 'compile', 'eval', 'exec'
         ],
         restricted: [
           'open', 'file', 'input', 'raw_input', 'exit', 'quit'
@@ -380,10 +365,7 @@ export class SandboxSecurity {
         maxFileSize: 10 * 1024 * 1024, // 10MB
         maxFiles: 100
       },
-      filesystem: {
-        allowedPaths: ['/tmp', '/workspace'],
-        blockedPaths: ['/etc', '/root', '/home', '/usr', '/var', '/sys', '/proc'],
-        readOnlyPaths: ['/usr', '/lib', '/lib64']
+      filesystem: {\n        allowedPaths: ['/tmp', '/workspace'],\n        blockedPaths: ['/etc', '/root', '/home', '/usr', '/var', '/sys', '/proc'],\n        readOnlyPaths: ['/usr', '/lib', '/lib64']
       }
     };
   }

@@ -1,12 +1,7 @@
 import { spawn, ChildProcess } from 'child_process';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
-import fs from 'fs/promises';
-import { SandboxSecurity } from './security.js';
-import { ResourceMonitor } from './utils/resourceMonitor.js';
-import { CodeAnalyzer } from './utils/codeAnalyzer.js';
-import { OutputCapture } from './utils/outputCapture.js';
-import { VirtualFileSystem } from './utils/fileSystem.js';
+import fs from 'fs/promises';\nimport { SandboxSecurity } from './security.js';\nimport { ResourceMonitor } from './utils/resourceMonitor.js';\nimport { CodeAnalyzer } from './utils/codeAnalyzer.js';\nimport { OutputCapture } from './utils/outputCapture.js';\nimport { VirtualFileSystem } from './utils/fileSystem.js';
 
 export interface ExecutionRequest {
   code: string;
@@ -79,9 +74,7 @@ export class SandboxExecutor {
       }
 
       // Static code analysis
-      const analysisResult = await this.codeAnalyzer.analyze(request.code);
-      if (analysisResult.hasHighRiskPatterns) {
-        throw new Error(`Code analysis failed: ${analysisResult.risks.join(', ')}`);
+      const analysisResult = await this.codeAnalyzer.analyze(request.code);\n      if (analysisResult.hasHighRiskPatterns) {\n        throw new Error(`Code analysis failed: ${analysisResult.risks.join(', ')}`);
       }
 
       // Get or create session
@@ -111,9 +104,7 @@ export class SandboxExecutor {
         success: false,
         sessionId,
         executionId,
-        output: {
-          stdout: '',
-          stderr: '',
+        output: {\n          stdout: '',\n          stderr: '',
           plots: [],
           variables: {}
         },
@@ -124,8 +115,7 @@ export class SandboxExecutor {
         },
         error: {
           type: error.constructor.name,
-          message: error.message,
-          traceback: error.stack || ''
+          message: error.message,\n          traceback: error.stack || ''
         }
       };
     }
@@ -141,8 +131,7 @@ export class SandboxExecutor {
     try {
       // Security and analysis checks (same as execute)
       const securityCheck = await this.security.validateCode(request.code);
-      if (!securityCheck.allowed) {
-        throw new Error(`Security violation: ${securityCheck.reason}`);
+      if (!securityCheck.allowed) {\n        throw new Error(`Security violation: ${securityCheck.reason}`);
       }
 
       const session = await this.getOrCreateSession(sessionId, request);
@@ -161,13 +150,11 @@ export class SandboxExecutor {
       return {
         success: false,
         sessionId,
-        executionId,
-        output: { stdout: '', stderr: '', plots: [], variables: {} },
+        executionId,\n        output: { stdout: '', stderr: '', plots: [], variables: {} },
         metrics: { executionTime: 0, memoryUsage: 0, cpuUsage: 0 },
         error: {
           type: error.constructor.name,
-          message: error.message,
-          traceback: error.stack || ''
+          message: error.message,\n          traceback: error.stack || ''
         }
       };
     }
@@ -185,8 +172,7 @@ export class SandboxExecutor {
       lastActivity: new Date(),
       variables: {},
       installedPackages: [],
-      filesystem: new VirtualFileSystem(),
-      containerName: `sandbox-${sessionId}`
+      filesystem: new VirtualFileSystem(),\n      containerName: `sandbox-${sessionId}`
     };
 
     this.sessions.set(sessionId, session);
@@ -225,8 +211,7 @@ export class SandboxExecutor {
         lastActivity: new Date(),
         variables: request.variables || {},
         installedPackages: request.packages || [],
-        filesystem: new VirtualFileSystem(),
-        containerName: `sandbox-${sessionId}`
+        filesystem: new VirtualFileSystem(),\n        containerName: `sandbox-${sessionId}`
       };
 
       this.sessions.set(sessionId, session);
@@ -239,8 +224,7 @@ export class SandboxExecutor {
   private async prepareExecutionEnvironment(
     session: Session, 
     request: ExecutionRequest
-  ): Promise<string> {
-    const executionDir = `/tmp/sandbox/${session.id}`;
+  ): Promise<string> {\n    const executionDir = `/tmp/sandbox/${session.id}`;
     
     // Create execution directory structure
     await fs.mkdir(executionDir, { recursive: true });
@@ -258,8 +242,7 @@ export class SandboxExecutor {
     return executionDir;
   }
 
-  private wrapUserCode(userCode: string, session: Session): string {
-    return `
+  private wrapUserCode(userCode: string, session: Session): string {\n    return `
 import sys
 import os
 import json
@@ -270,8 +253,7 @@ import matplotlib
 matplotlib.use('Agg')  # Use non-interactive backend
 import matplotlib.pyplot as plt
 
-# Import runtime helpers
-sys.path.insert(0, '/sandbox/python')
+# Import runtime helpers\nsys.path.insert(0, '/sandbox/python')
 from runtime import SandboxRuntime
 from output_handler import OutputHandler
 
@@ -280,8 +262,7 @@ runtime = SandboxRuntime()
 output_handler = OutputHandler()
 
 # Load session variables
-try:
-    with open('/tmp/variables.pkl', 'rb') as f:
+try:\n    with open('/tmp/variables.pkl', 'rb') as f:
         globals().update(pickle.load(f))
 except FileNotFoundError:
     pass
@@ -293,8 +274,8 @@ sys.stdout = StringIO()
 sys.stderr = StringIO()
 
 try:
-    # User code execution
-${userCode.split('\n').map(line => `    ${line}`).join('\n')}
+    # User code execution\n${userCode.split('
+').map(line => `    ${line}`).join('\n')}
     
     execution_success = True
     execution_error = None
@@ -316,8 +297,7 @@ finally:
     # Save plots
     plot_files = []
     for i in plt.get_fignums():
-        fig = plt.figure(i)
-        plot_path = f'/tmp/plots/plot_{i}.png'
+        fig = plt.figure(i)\n        plot_path = f'/tmp/plots/plot_{i}.png'
         fig.savefig(plot_path, dpi=150, bbox_inches='tight')
         plot_files.append(plot_path)
     
@@ -325,8 +305,7 @@ finally:
     
     # Extract variables (excluding built-ins and imports)
     user_variables = {
-        k: v for k, v in globals().items() 
-        if not k.startswith('_') and k not in [
+        k: v for k, v in globals().items() \n        if not k.startswith('_') and k not in [
             'sys', 'os', 'json', 'pickle', 'traceback', 'StringIO',
             'matplotlib', 'plt', 'runtime', 'output_handler',
             'old_stdout', 'old_stderr', 'execution_success', 'execution_error',
@@ -334,8 +313,7 @@ finally:
         ]
     }
     
-    # Save session variables
-    with open('/tmp/variables.pkl', 'wb') as f:
+    # Save session variables\n    with open('/tmp/variables.pkl', 'wb') as f:
         pickle.dump(user_variables, f)
     
     # Output results as JSON
@@ -348,8 +326,7 @@ finally:
         'error': execution_error
     }
     
-    print(json.dumps(result, indent=2))
-`;
+    print(json.dumps(result, indent=2))\n`;
   }
 
   private async executeInContainer(
@@ -362,9 +339,7 @@ finally:
 
     return new Promise((resolve, reject) => {
       const dockerArgs = [
-        'exec',
-        '--user', 'sandbox',
-        '--workdir', '/workspace',
+        'exec',\n        '--user', 'sandbox',\n        '--workdir', '/workspace',
         session.containerName,
         'python', '/tmp/main.py'
       ];
@@ -372,17 +347,14 @@ finally:
       const process = spawn('docker', dockerArgs, {
         cwd: executionDir,
         env: {
-          ...process.env,
-          PYTHONPATH: '/sandbox/python:/workspace',
+          ...process.env,\n          PYTHONPATH: '/sandbox/python:/workspace',
           MPLBACKEND: 'Agg'
         }
       });
 
       this.activeExecutions.set(executionId, process);
 
-      const outputCapture = new OutputCapture();
-      let stdout = '';
-      let stderr = '';
+      const outputCapture = new OutputCapture();\n      let stdout = '';\n      let stderr = '';
 
       process.stdout?.on('data', (data) => {
         stdout += data.toString();
@@ -406,15 +378,13 @@ finally:
         const metrics = await this.resourceMonitor.getContainerMetrics(session.containerName);
 
         try {
-          // Parse execution result
-          const result = JSON.parse(stdout || '{}');
+          // Parse execution result\n          const result = JSON.parse(stdout || '{}');
           
           resolve({
             success: result.success || false,
             sessionId: session.id,
             executionId,
-            output: {
-              stdout: result.stdout || '',
+            output: {\n              stdout: result.stdout || '',
               stderr: result.stderr || stderr,
               plots: result.plots || [],
               variables: result.variables || {}
@@ -474,19 +444,7 @@ finally:
 
   private async createSessionContainer(session: Session): Promise<void> {
     const dockerArgs = [
-      'run',
-      '-d',
-      '--name', session.containerName,
-      '--memory', '512m',
-      '--cpus', '0.5',
-      '--network', 'none', // No network access by default
-      '--user', 'sandbox',
-      '--security-opt', 'no-new-privileges:true',
-      '--cap-drop', 'ALL',
-      '--read-only',
-      '--tmpfs', '/tmp:exec,size=100m',
-      '--tmpfs', '/workspace:exec,size=100m',
-      '-v', '/path/to/sandbox/python:/sandbox/python:ro',
+      'run',\n      '-d',\n      '--name', session.containerName,\n      '--memory', '512m',\n      '--cpus', '0.5',\n      '--network', 'none', // No network access by default\n      '--user', 'sandbox',\n      '--security-opt', 'no-new-privileges:true',\n      '--cap-drop', 'ALL',\n      '--read-only',\n      '--tmpfs', '/tmp:exec,size=100m',\n      '--tmpfs', '/workspace:exec,size=100m',\n      '-v', '/path/to/sandbox/python:/sandbox/python:ro',
       'penny-sandbox:latest',
       'sleep', 'infinity'
     ];
@@ -497,8 +455,7 @@ finally:
       process.on('close', (code) => {
         if (code === 0) {
           resolve();
-        } else {
-          reject(new Error(`Failed to create container: exit code ${code}`));
+        } else {\n          reject(new Error(`Failed to create container: exit code ${code}`));
         }
       });
 
@@ -527,15 +484,14 @@ finally:
 
   private async cleanupOrphanedSessions(): Promise<void> {
     // Clean up any Docker containers that might be left over
-    const process = spawn('docker', ['ps', '-a', '--filter', 'name=sandbox-', '--format', '{{.Names}}']);
-    let output = '';
+    const process = spawn('docker', ['ps', '-a', '--filter', 'name=sandbox-', '--format', '{{.Names}}']);\n    let output = '';
     
     process.stdout?.on('data', (data) => {
       output += data.toString();
     });
 
-    process.on('close', async () => {
-      const containerNames = output.trim().split('\n').filter(name => name.startsWith('sandbox-'));
+    process.on('close', async () => {\n      const containerNames = output.trim().split('
+').filter(name => name.startsWith('sandbox-'));
       for (const containerName of containerNames) {
         spawn('docker', ['rm', '-f', containerName]);
       }

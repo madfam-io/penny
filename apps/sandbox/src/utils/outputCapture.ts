@@ -139,8 +139,7 @@ export class OutputCapture extends EventEmitter {
   getOutputAsString(type: 'stdout' | 'stderr' = 'stdout'): string {
     return this.buffer
       .filter(chunk => chunk.type === type)
-      .map(chunk => chunk.data)
-      .join('');
+      .map(chunk => chunk.data)\n      .join('');
   }
 
   getPlots(): PlotData[] {
@@ -168,8 +167,8 @@ export class OutputCapture extends EventEmitter {
   // Stream output to a writable stream
   streamTo(stream: Writable, filter?: (chunk: OutputChunk) => boolean): void {
     const writeChunk = (chunk: OutputChunk) => {
-      if (!filter || filter(chunk)) {
-        stream.write(JSON.stringify(chunk) + '\n');
+      if (!filter || filter(chunk)) {\n        stream.write(JSON.stringify(chunk) + '
+');
       }
     };
 
@@ -246,7 +245,8 @@ export class OutputCapture extends EventEmitter {
       }
 
       // Check for pandas DataFrame output
-      if (data.includes('DataFrame') || data.match(/\s+\w+\s+\w+\n-+\s+-+/)) {
+      if (data.includes('DataFrame') || data.match(/\s+\w+\s+\w+
+-+\s+-+/)) {
         this.parsePandasOutput(data);
         return;
       }
@@ -259,8 +259,7 @@ export class OutputCapture extends EventEmitter {
     if (plotMatch) {
       const plotData: PlotData = {
         id: `plot-${Date.now()}`,
-        format: 'png',
-        data: '', // Would be filled by actual plot data
+        format: 'png',\n        data: '', // Would be filled by actual plot data
         metadata: {
           width: parseInt(plotMatch[1]),
           height: parseInt(plotMatch[2])
@@ -271,9 +270,8 @@ export class OutputCapture extends EventEmitter {
   }
 
   private parsePandasOutput(data: string): void {
-    // Parse pandas DataFrame/Series output
-    const lines = data.split('\n');
-    const dataLines = lines.filter(line => line.trim() && !line.includes('---'));
+    // Parse pandas DataFrame/Series output\n    const lines = data.split('
+');\n    const dataLines = lines.filter(line => line.trim() && !line.includes('---'));
     
     if (dataLines.length > 0) {
       const variableData: VariableData = {
@@ -295,18 +293,14 @@ export class OutputCapture extends EventEmitter {
         return chunk.data;
       
       case 'plot':
-        const plot = chunk.data as PlotData;
-        return `[Plot: ${plot.id} (${plot.format}, ${plot.metadata.width}x${plot.metadata.height})]`;
+        const plot = chunk.data as PlotData;\n        return `[Plot: ${plot.id} (${plot.format}, ${plot.metadata.width}x${plot.metadata.height})]`;
       
       case 'variable':
-        const variable = chunk.data as VariableData;
-        return `[Variable: ${variable.name} = ${variable.preview || variable.value}]`;
+        const variable = chunk.data as VariableData;\n        return `[Variable: ${variable.name} = ${variable.preview || variable.value}]`;
       
-      case 'error':
-        return `[Error: ${chunk.data.message || chunk.data}]`;
+      case 'error':\n        return `[Error: ${chunk.data.message || chunk.data}]`;
       
-      default:
-        return `[${chunk.type}: ${JSON.stringify(chunk.data)}]`;
+      default:\n        return `[${chunk.type}: ${JSON.stringify(chunk.data)}]`;
     }
   }
 

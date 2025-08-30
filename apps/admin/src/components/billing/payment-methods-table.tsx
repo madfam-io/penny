@@ -8,8 +8,7 @@ import {
   TableHeader,
   TableRow,
   Badge,
-  Button,
-} from '@penny/ui';
+  Button,\n} from '@penny/ui';
 import { CreditCard, Building, Trash } from 'lucide-react';
 
 interface PaymentMethod {
@@ -24,50 +23,38 @@ interface PaymentMethod {
 }
 
 const paymentMethods: PaymentMethod[] = [
-  {
-    id: '1',
+  {\n    id: '1',
     tenant: 'Acme Corporation',
     type: 'card',
-    brand: 'Visa',
-    last4: '4242',
+    brand: 'Visa',\n    last4: '4242',
     expiryMonth: 12,
     expiryYear: 2025,
     isDefault: true,
   },
-  {
-    id: '2',
+  {\n    id: '2',
     tenant: 'TechStart Inc',
     type: 'card',
-    brand: 'Mastercard',
-    last4: '5555',
+    brand: 'Mastercard',\n    last4: '5555',
     expiryMonth: 6,
     expiryYear: 2024,
     isDefault: true,
   },
-  {
-    id: '3',
+  {\n    id: '3',
     tenant: 'Digital Agency',
-    type: 'bank_account',
-    last4: '6789',
+    type: 'bank_account',\n    last4: '6789',
     isDefault: true,
   },
-  {
-    id: '4',
+  {\n    id: '4',
     tenant: 'Acme Corporation',
     type: 'card',
-    brand: 'Amex',
-    last4: '3782',
+    brand: 'Amex',\n    last4: '3782',
     expiryMonth: 3,
     expiryYear: 2026,
     isDefault: false,
   },
 ];
 
-const brandIcons: Record<string, string> = {
-  Visa: '💳',
-  Mastercard: '💳',
-  Amex: '💳',
-  Discover: '💳',
+const brandIcons: Record<string, string> = {\n  Visa: '💳',\n  Mastercard: '💳',\n  Amex: '💳',\n  Discover: '💳',
 };
 
 export function PaymentMethodsTable() {
@@ -85,16 +72,10 @@ export function PaymentMethodsTable() {
       </TableHeader>
       <TableBody>
         {paymentMethods.map((method) => (
-          <TableRow key={method.id}>
-            <TableCell className="font-medium">{method.tenant}</TableCell>
-            <TableCell>
-              <div className="flex items-center gap-2">
-                {method.type === 'card' ? (
-                  <CreditCard className="h-4 w-4" />
-                ) : (
-                  <Building className="h-4 w-4" />
-                )}
-                <span className="capitalize">{method.type.replace('_', ' ')}</span>
+          <TableRow key={method.id}>\n            <TableCell className="font-medium">{method.tenant}</TableCell>
+            <TableCell>\n              <div className="flex items-center gap-2">
+                {method.type === 'card' ? (\n                  <CreditCard className="h-4 w-4" />
+                ) : (\n                  <Building className="h-4 w-4" />\n                )}\n                <span className="capitalize">{method.type.replace('_', ' ')}</span>
               </div>
             </TableCell>
             <TableCell>
@@ -108,17 +89,11 @@ export function PaymentMethodsTable() {
             </TableCell>
             <TableCell>
               {method.expiryMonth && method.expiryYear ? (
-                <span>
-                  {method.expiryMonth.toString().padStart(2, '0')}/{method.expiryYear}
+                <span>\n                  {method.expiryMonth.toString().padStart(2, '0')}/{method.expiryYear}
                 </span>
-              ) : (
-                '-'
+              ) : (\n                '-'
               )}
-            </TableCell>
-            <TableCell>{method.isDefault && <Badge variant="default">Default</Badge>}</TableCell>
-            <TableCell className="text-right">
-              <Button variant="ghost" size="icon" disabled={method.isDefault}>
-                <Trash className="h-4 w-4" />
+            </TableCell>\n            <TableCell>{method.isDefault && <Badge variant="default">Default</Badge>}</TableCell>\n            <TableCell className="text-right">\n              <Button variant="ghost" size="icon" disabled={method.isDefault}>\n                <Trash className="h-4 w-4" />
               </Button>
             </TableCell>
           </TableRow>

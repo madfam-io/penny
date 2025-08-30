@@ -1,6 +1,5 @@
 'use client';
-
-import { Card, CardContent, CardHeader, CardTitle, Badge, Progress } from '@penny/ui';
+\nimport { Card, CardContent, CardHeader, CardTitle, Badge, Progress } from '@penny/ui';
 import { LucideIcon } from 'lucide-react';
 
 interface ServiceStatusProps {
@@ -30,28 +29,15 @@ export function ServiceStatus({ service }: ServiceStatusProps) {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{service.name}</CardTitle>
-        <Icon className="h-4 w-4 text-muted-foreground" />
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">\n        <CardTitle className="text-sm font-medium">{service.name}</CardTitle>\n        <Icon className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
+      <CardContent>\n        <div className="space-y-3">
           <Badge variant={statusColors[service.status]}>{statusText[service.status]}</Badge>
-
-          <div className="space-y-1">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Latency</span>
-              <span className="font-medium">{service.latency}ms</span>
-            </div>
-            <Progress value={Math.min(100, (service.latency / 200) * 100)} className="h-2" />
+\n          <div className="space-y-1">\n            <div className="flex items-center justify-between text-sm">\n              <span className="text-muted-foreground">Latency</span>\n              <span className="font-medium">{service.latency}ms</span>
+            </div>\n            <Progress value={Math.min(100, (service.latency / 200) * 100)} className="h-2" />
           </div>
-
-          <div className="space-y-1">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Uptime</span>
-              <span className="font-medium">{service.uptime}%</span>
-            </div>
-            <Progress value={service.uptime} className="h-2" />
+\n          <div className="space-y-1">\n            <div className="flex items-center justify-between text-sm">\n              <span className="text-muted-foreground">Uptime</span>\n              <span className="font-medium">{service.uptime}%</span>
+            </div>\n            <Progress value={service.uptime} className="h-2" />
           </div>
         </div>
       </CardContent>

@@ -1,16 +1,51 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './components/auth/AuthProvider';
-import { SessionManager } from './components/auth/SessionManager';
-import { ProtectedRoute } from './components/auth/ProtectedRoute';
-import { ThemeProvider } from './contexts/ThemeContext';
-import { AuthRoutes } from './routes/AuthRoutes';
-import Layout from './components/Layout';
-import ChatView from './pages/ChatView';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';\nimport { AuthProvider } from './components/auth/AuthProvider';\nimport { SessionManager } from './components/auth/SessionManager';\nimport { ProtectedRoute } from './components/auth/ProtectedRoute';\nimport { ThemeProvider } from './contexts/ThemeContext';\nimport { AuthRoutes } from './routes/AuthRoutes';\nimport Layout from './components/Layout';\nimport ChatView from './pages/ChatView';
 
 function App() {
   return (
     <BrowserRouter>
       <ThemeProvider>
         <AuthProvider>
-          {/* Session management for authenticated users */}\n          <SessionManager />\n          \n          <Routes>\n            {/* Authentication routes */}\n            <Route path=\"/auth/*\" element={<AuthRoutes />} />\n            \n            {/* Protected application routes */}\n            <Route \n              path=\"/dashboard\" \n              element={\n                <ProtectedRoute>\n                  <Layout>\n                    <ChatView />\n                  </Layout>\n                </ProtectedRoute>\n              } \n            />\n            \n            <Route \n              path=\"/chat\" \n              element={\n                <ProtectedRoute>\n                  <Layout>\n                    <ChatView />\n                  </Layout>\n                </ProtectedRoute>\n              } \n            />\n            \n            {/* Root redirect */}\n            <Route \n              path=\"/\" \n              element={<Navigate to=\"/dashboard\" replace />} \n            />\n            \n            {/* Catch all - redirect to dashboard */}\n            <Route \n              path=\"/*\" \n              element={<Navigate to=\"/dashboard\" replace />} \n            />\n          </Routes>\n        </AuthProvider>\n      </ThemeProvider>\n    </BrowserRouter>\n  );\n}\n\nexport default App;
+          {/* Session management for authenticated users */}
+          <SessionManager />
+          
+          <Routes>
+            {/* Authentication routes */}
+            <Route path="/auth/*" element={<AuthRoutes />} />
+            
+            {/* Protected application routes */}
+            <Route \n              path="/dashboard" 
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <ChatView />
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
+            
+            <Route \n              path="/chat" 
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <ChatView />
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* Root redirect */}
+            <Route \n              path="/" \n              element={<Navigate to="/dashboard" replace />} 
+            />
+            
+            {/* Catch all - redirect to dashboard */}
+            <Route \n              path="/*" \n              element={<Navigate to="/dashboard" replace />} 
+            />
+          </Routes>
+        </AuthProvider>
+      </ThemeProvider>
+    </BrowserRouter>
+  );
+}
+
+export default App;

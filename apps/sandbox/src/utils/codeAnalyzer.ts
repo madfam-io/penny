@@ -71,14 +71,12 @@ export class CodeAnalyzer {
     return new Promise((resolve, reject) => {
       // Create temporary file for analysis
       const tempFile = `/tmp/code_analysis_${Date.now()}.py`;
-      
-      const analysisScript = `
+      \n      const analysisScript = `
 import ast
 import json
 import sys
 from collections import defaultdict
-
-code = '''${code.replace(/'''/g, '\\"""')}'''
+\ncode = '''${code.replace(/'''/g, '\"""')}'''
 
 class CodeAnalyzer(ast.NodeVisitor):
     def __init__(self):
@@ -98,8 +96,7 @@ class CodeAnalyzer(ast.NodeVisitor):
 
     def visit_ImportFrom(self, node):
         if node.module:
-            for alias in node.names:
-                self.imports.append(f"{node.module}.{alias.name}")
+            for alias in node.names:\n                self.imports.append(f"{node.module}.{alias.name}")
         self.generic_visit(node)
 
     def visit_FunctionDef(self, node):
@@ -190,8 +187,7 @@ except Exception as e:
     }))
 `;
 
-      const process = spawn('python', ['-c', analysisScript]);
-      let output = '';
+      const process = spawn('python', ['-c', analysisScript]);\n      let output = '';
 
       process.stdout?.on('data', (data) => {
         output += data.toString();
@@ -241,15 +237,13 @@ except Exception as e:
 
     // Check high-risk patterns
     for (const { pattern, message } of highRiskPatterns) {
-      if (pattern.test(code)) {
-        risks.push(`HIGH RISK: ${message}`);
+      if (pattern.test(code)) {\n        risks.push(`HIGH RISK: ${message}`);
       }
     }
 
     // Check medium-risk patterns
     for (const { pattern, message } of mediumRiskPatterns) {
-      if (pattern.test(code)) {
-        risks.push(`MEDIUM RISK: ${message}`);
+      if (pattern.test(code)) {\n        risks.push(`MEDIUM RISK: ${message}`);
       }
     }
 
@@ -304,8 +298,7 @@ except Exception as e:
     const functionMatches = code.match(/def\s+(\w+)/g);
     if (functionMatches) {
       for (const funcMatch of functionMatches) {
-        const funcName = funcMatch.replace('def ', '').trim();
-        const funcPattern = new RegExp(`\\b${funcName}\\s*\\(`, 'g');
+        const funcName = funcMatch.replace('def ', '').trim();\n        const funcPattern = new RegExp(`\b${funcName}\s*\(`, 'g');
         const callMatches = code.match(funcPattern) || [];
         if (callMatches.length > 1) { // Function definition + at least one call
           hasRecursion = true;
@@ -316,9 +309,8 @@ except Exception as e:
     return { complexity, loopCount, hasRecursion };
   }
 
-  private countLinesOfCode(code: string): number {
-    return code.split('\n')
-      .filter(line => line.trim() !== '' && !line.trim().startsWith('#'))
+  private countLinesOfCode(code: string): number {\n    return code.split('
+')\n      .filter(line => line.trim() !== '' && !line.trim().startsWith('#'))
       .length;
   }
 
@@ -438,8 +430,8 @@ except Exception as e:
   }
 
   private fallbackAnalysis(code: string): AnalysisResult {
-    return {
-      complexity: Math.min(code.split('\n').length / 10, 20),
+    return {\n      complexity: Math.min(code.split('
+').length / 10, 20),
       linesOfCode: this.countLinesOfCode(code),
       imports: this.extractImportsRegex(code),
       functions: this.extractFunctionsRegex(code),
@@ -459,8 +451,8 @@ except Exception as e:
   }
 
   private extractImportsRegex(code: string): string[] {
-    const imports: string[] = [];
-    const lines = code.split('\n');
+    const imports: string[] = [];\n    const lines = code.split('
+');
     
     for (const line of lines) {
       const importMatch = line.match(/^\s*(?:import|from)\s+([a-zA-Z_][a-zA-Z0-9_.]*)/);
@@ -485,8 +477,8 @@ except Exception as e:
   }
 
   private extractVariablesRegex(code: string): string[] {
-    const variables: string[] = [];
-    const lines = code.split('\n');
+    const variables: string[] = [];\n    const lines = code.split('
+');
     
     for (const line of lines) {
       const assignMatch = line.match(/^\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*=/);

@@ -1,6 +1,4 @@
-import { FastifyPluginAsync } from 'fastify';
-import { Type } from '@sinclair/typebox';
-import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
+import { FastifyPluginAsync } from 'fastify';\nimport { Type } from '@sinclair/typebox';\nimport { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 
 const SessionSchema = Type.Object({
   id: Type.String({ format: 'uuid' }),
@@ -35,8 +33,7 @@ const UpdateSessionRequestSchema = Type.Object({
 const sessionsRoute: FastifyPluginAsync = async (fastify) => {
   const server = fastify.withTypeProvider<TypeBoxTypeProvider>();
 
-  // List all sessions
-  server.get('/', {
+  // List all sessions\n  server.get('/', {
     schema: {
       querystring: Type.Object({
         status: Type.Optional(Type.Union([
@@ -126,8 +123,7 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Create a new session
-  server.post('/', {
+  // Create a new session\n  server.post('/', {
     schema: {
       body: CreateSessionRequestSchema,
       response: {
@@ -176,8 +172,7 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Get a specific session
-  server.get('/:sessionId', {
+  // Get a specific session\n  server.get('/:sessionId', {
     schema: {
       params: Type.Object({
         sessionId: Type.String({ format: 'uuid' })
@@ -198,8 +193,7 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
       
       if (!session) {
         return reply.status(404).send({
-          error: 'Session Not Found',
-          message: `Session '${sessionId}' not found`
+          error: 'Session Not Found',\n          message: `Session '${sessionId}' not found`
         });
       }
 
@@ -216,8 +210,7 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Update a session
-  server.patch('/:sessionId', {
+  // Update a session\n  server.patch('/:sessionId', {
     schema: {
       params: Type.Object({
         sessionId: Type.String({ format: 'uuid' })
@@ -240,8 +233,7 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
       
       if (!session) {
         return reply.status(404).send({
-          error: 'Session Not Found',
-          message: `Session '${sessionId}' not found`
+          error: 'Session Not Found',\n          message: `Session '${sessionId}' not found`
         });
       }
 
@@ -265,8 +257,7 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Delete a session
-  server.delete('/:sessionId', {
+  // Delete a session\n  server.delete('/:sessionId', {
     schema: {
       params: Type.Object({
         sessionId: Type.String({ format: 'uuid' })
@@ -290,16 +281,13 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
       
       if (!session) {
         return reply.status(404).send({
-          error: 'Session Not Found',
-          message: `Session '${sessionId}' not found`
+          error: 'Session Not Found',\n          message: `Session '${sessionId}' not found`
         });
       }
 
       await server.executor.destroySession(sessionId);
 
-      return {
-        success: true,
-        message: `Session '${sessionId}' deleted successfully`
+      return {\n        success: true,\n        message: `Session '${sessionId}' deleted successfully`
       };
 
     } catch (error) {
@@ -312,8 +300,7 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Get session variables
-  server.get('/:sessionId/variables', {
+  // Get session variables\n  server.get('/:sessionId/variables', {
     schema: {
       params: Type.Object({
         sessionId: Type.String({ format: 'uuid' })
@@ -338,8 +325,7 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
       
       if (!session) {
         return reply.status(404).send({
-          error: 'Session Not Found',
-          message: `Session '${sessionId}' not found`
+          error: 'Session Not Found',\n          message: `Session '${sessionId}' not found`
         });
       }
 
@@ -359,8 +345,7 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Update session variables
-  server.put('/:sessionId/variables', {
+  // Update session variables\n  server.put('/:sessionId/variables', {
     schema: {
       params: Type.Object({
         sessionId: Type.String({ format: 'uuid' })
@@ -387,8 +372,7 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
       
       if (!session) {
         return reply.status(404).send({
-          error: 'Session Not Found',
-          message: `Session '${sessionId}' not found`
+          error: 'Session Not Found',\n          message: `Session '${sessionId}' not found`
         });
       }
 
@@ -412,8 +396,7 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Clear session variables
-  server.delete('/:sessionId/variables', {
+  // Clear session variables\n  server.delete('/:sessionId/variables', {
     schema: {
       params: Type.Object({
         sessionId: Type.String({ format: 'uuid' })
@@ -437,8 +420,7 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
       
       if (!session) {
         return reply.status(404).send({
-          error: 'Session Not Found',
-          message: `Session '${sessionId}' not found`
+          error: 'Session Not Found',\n          message: `Session '${sessionId}' not found`
         });
       }
 
@@ -460,8 +442,7 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Get session statistics
-  server.get('/:sessionId/stats', {
+  // Get session statistics\n  server.get('/:sessionId/stats', {
     schema: {
       params: Type.Object({
         sessionId: Type.String({ format: 'uuid' })
@@ -497,8 +478,7 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
       
       if (!session) {
         return reply.status(404).send({
-          error: 'Session Not Found',
-          message: `Session '${sessionId}' not found`
+          error: 'Session Not Found',\n          message: `Session '${sessionId}' not found`
         });
       }
 

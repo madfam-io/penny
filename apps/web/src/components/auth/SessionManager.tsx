@@ -1,1 +1,137 @@
-import React, { useEffect, useState } from 'react';\nimport { useAuth } from '../../hooks/useAuth';\nimport { Modal } from '../ui/Modal';\nimport { Button } from '@penny/ui';\n\nexport interface SessionManagerProps {\n  // How long before session expiry to show warning (in seconds)\n  warningThreshold?: number;\n  // How often to check session status (in seconds)\n  checkInterval?: number;\n}\n\n/**\n * Component that manages user session lifecycle\n * Shows warnings before session expiry and handles automatic logout\n */\nexport function SessionManager({ \n  warningThreshold = 5 * 60, // 5 minutes\n  checkInterval = 60, // 1 minute\n}: SessionManagerProps) {\n  const { isAuthenticated, logout, getAccessToken } = useAuth();\n  const [showWarning, setShowWarning] = useState(false);\n  const [timeRemaining, setTimeRemaining] = useState<number>(0);\n\n  useEffect(() => {\n    if (!isAuthenticated) {\n      return;\n    }\n\n    const interval = setInterval(() => {\n      const token = getAccessToken();\n      if (!token) {\n        return;\n      }\n\n      try {\n        // Decode JWT to get expiration time\n        const payload = JSON.parse(atob(token.split('.')[1]));\n        const expirationTime = payload.exp * 1000; // Convert to milliseconds\n        const currentTime = Date.now();\n        const remaining = Math.max(0, expirationTime - currentTime);\n        \n        setTimeRemaining(Math.floor(remaining / 1000)); // Convert to seconds\n\n        // Show warning if session is about to expire\n        if (remaining <= warningThreshold * 1000 && remaining > 0) {\n          setShowWarning(true);\n        } else if (remaining <= 0) {\n          // Session expired, logout user\n          logout();\n        } else {\n          setShowWarning(false);\n        }\n      } catch (error) {\n        console.error('Error parsing token:', error);\n      }\n    }, checkInterval * 1000);\n\n    return () => clearInterval(interval);\n  }, [isAuthenticated, warningThreshold, checkInterval, logout, getAccessToken]);\n\n  const formatTime = (seconds: number): string => {\n    const minutes = Math.floor(seconds / 60);\n    const remainingSeconds = seconds % 60;\n    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;\n  };\n\n  const handleExtendSession = async () => {\n    try {\n      // Make a request to refresh the token\n      // This could be done through the auth hook if you have a refresh method\n      const response = await fetch('/api/v1/auth/refresh', {\n        method: 'POST',\n        headers: {\n          'Content-Type': 'application/json',\n        },\n        body: JSON.stringify({ refreshToken: localStorage.getItem('refreshToken') }),\n      });\n\n      if (response.ok) {\n        const data = await response.json();\n        localStorage.setItem('accessToken', data.accessToken);\n        localStorage.setItem('refreshToken', data.refreshToken);\n        setShowWarning(false);\n      } else {\n        // Refresh failed, logout user\n        logout();\n      }\n    } catch (error) {\n      console.error('Error extending session:', error);\n      logout();\n    }\n  };\n\n  const handleLogout = () => {\n    setShowWarning(false);\n    logout();\n  };\n\n  if (!showWarning || !isAuthenticated) {\n    return null;\n  }\n\n  return (\n    <Modal\n      isOpen={showWarning}\n      onClose={() => {}} // Prevent closing by clicking overlay\n      title=\"Session Expiring Soon\"\n      size=\"sm\"\n    >\n      <div className=\"text-center\">\n        <div className=\"mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 mb-4\">\n          <svg\n            className=\"h-6 w-6 text-yellow-600\"\n            fill=\"none\"\n            viewBox=\"0 0 24 24\"\n            stroke=\"currentColor\"\n          >\n            <path\n              strokeLinecap=\"round\"\n              strokeLinejoin=\"round\"\n              strokeWidth={2}\n              d=\"M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.664-.833-2.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z\"\n            />\n          </svg>\n        </div>\n        \n        <h3 className=\"text-lg font-medium text-gray-900 mb-2\">\n          Your session will expire soon\n        </h3>\n        \n        <p className=\"text-sm text-gray-500 mb-4\">\n          Your session will expire in{' '}  \n          <span className=\"font-mono font-medium text-red-600\">\n            {formatTime(timeRemaining)}\n          </span>\n          . Would you like to extend your session?\n        </p>\n\n        <div className=\"flex flex-col sm:flex-row gap-3 justify-center\">\n          <Button\n            onClick={handleExtendSession}\n            className=\"bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium\"\n          >\n            Extend Session\n          </Button>\n          \n          <Button\n            onClick={handleLogout}\n            variant=\"outline\"\n            className=\"border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-md text-sm font-medium\"\n          >\n            Logout\n          </Button>\n        </div>\n\n        <p className=\"text-xs text-gray-400 mt-3\">\n          You'll be automatically logged out when the session expires.\n        </p>\n      </div>\n    </Modal>\n  );\n}"
+import React, { useEffect, useState } from 'react';\nimport { useAuth } from '../../hooks/useAuth';\nimport { Modal } from '../ui/Modal';\nimport { Button } from '@penny/ui';
+
+export interface SessionManagerProps {
+  // How long before session expiry to show warning (in seconds)
+  warningThreshold?: number;
+  // How often to check session status (in seconds)
+  checkInterval?: number;
+}
+
+/**
+ * Component that manages user session lifecycle
+ * Shows warnings before session expiry and handles automatic logout
+ */
+export function SessionManager({ 
+  warningThreshold = 5 * 60, // 5 minutes
+  checkInterval = 60, // 1 minute
+}: SessionManagerProps) {
+  const { isAuthenticated, logout, getAccessToken } = useAuth();
+  const [showWarning, setShowWarning] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState<number>(0);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      const token = getAccessToken();
+      if (!token) {
+        return;
+      }
+
+      try {
+        // Decode JWT to get expiration time\n        const payload = JSON.parse(atob(token.split('.')[1]));
+        const expirationTime = payload.exp * 1000; // Convert to milliseconds
+        const currentTime = Date.now();
+        const remaining = Math.max(0, expirationTime - currentTime);
+        
+        setTimeRemaining(Math.floor(remaining / 1000)); // Convert to seconds
+
+        // Show warning if session is about to expire
+        if (remaining <= warningThreshold * 1000 && remaining > 0) {
+          setShowWarning(true);
+        } else if (remaining <= 0) {
+          // Session expired, logout user
+          logout();
+        } else {
+          setShowWarning(false);
+        }
+      } catch (error) {
+        console.error('Error parsing token:', error);
+      }
+    }, checkInterval * 1000);
+
+    return () => clearInterval(interval);
+  }, [isAuthenticated, warningThreshold, checkInterval, logout, getAccessToken]);
+
+  const formatTime = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;\n    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
+  const handleExtendSession = async () => {
+    try {
+      // Make a request to refresh the token
+      // This could be done through the auth hook if you have a refresh method\n      const response = await fetch('/api/v1/auth/refresh', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ refreshToken: localStorage.getItem('refreshToken') }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('accessToken', data.accessToken);
+        localStorage.setItem('refreshToken', data.refreshToken);
+        setShowWarning(false);
+      } else {
+        // Refresh failed, logout user
+        logout();
+      }
+    } catch (error) {
+      console.error('Error extending session:', error);
+      logout();
+    }
+  };
+
+  const handleLogout = () => {
+    setShowWarning(false);
+    logout();
+  };
+
+  if (!showWarning || !isAuthenticated) {
+    return null;
+  }
+
+  return (
+    <Modal
+      isOpen={showWarning}
+      onClose={() => {}} // Prevent closing by clicking overlay
+      title="Session Expiring Soon"\n      size="sm"
+    >\n      <div className="text-center">\n        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 mb-4">
+          <svg\n            className="h-6 w-6 text-yellow-600"\n            fill="none"\n            viewBox="0 0 24 24"\n            stroke="currentColor"
+          >
+            <path\n              strokeLinecap="round"\n              strokeLinejoin="round"
+              strokeWidth={2}\n              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.664-.833-2.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"
+            />
+          </svg>
+        </div>
+        \n        <h3 className="text-lg font-medium text-gray-900 mb-2">
+          Your session will expire soon
+        </h3>
+        \n        <p className="text-sm text-gray-500 mb-4">\n          Your session will expire in{' '}  \n          <span className="font-mono font-medium text-red-600">
+            {formatTime(timeRemaining)}
+          </span>
+          . Would you like to extend your session?
+        </p>
+\n        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <Button
+            onClick={handleExtendSession}\n            className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+          >
+            Extend Session
+          </Button>
+          
+          <Button
+            onClick={handleLogout}\n            variant="outline"\n            className="border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-md text-sm font-medium"
+          >
+            Logout
+          </Button>
+        </div>
+\n        <p className="text-xs text-gray-400 mt-3">
+          You'll be automatically logged out when the session expires.
+        </p>
+      </div>
+    </Modal>
+  );\n}"

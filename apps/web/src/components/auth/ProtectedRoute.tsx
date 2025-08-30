@@ -1,1 +1,104 @@
-import React, { ReactNode, useEffect } from 'react';\nimport { Navigate, useLocation } from 'react-router-dom';\nimport { useRequireAuth } from '../../hooks/useAuth';\nimport { LoadingSpinner } from '../ui/LoadingSpinner';\n\nexport interface ProtectedRouteProps {\n  children: ReactNode;\n  redirectTo?: string;\n  requiredRoles?: string[];\n  fallback?: ReactNode;\n}\n\n/**\n * Component that protects routes requiring authentication\n * Redirects unauthenticated users to login page\n * Optionally checks for required roles\n */\nexport function ProtectedRoute({ \n  children, \n  redirectTo = '/auth/login',\n  requiredRoles = [],\n  fallback\n}: ProtectedRouteProps) {\n  const { isAuthenticated, isLoading, user, requireAuth } = useRequireAuth();\n  const location = useLocation();\n\n  // Show loading spinner while checking authentication\n  if (isLoading) {\n    return fallback || <LoadingSpinner />;\n  }\n\n  // Redirect to login if not authenticated\n  if (requireAuth) {\n    return (\n      <Navigate \n        to={redirectTo} \n        state={{ from: location }} \n        replace \n      />\n    );\n  }\n\n  // Check role-based access if roles are specified\n  if (isAuthenticated && requiredRoles.length > 0 && user) {\n    const hasRequiredRole = requiredRoles.some(role => \n      user.roles.includes(role)\n    );\n    \n    if (!hasRequiredRole) {\n      return (\n        <div className=\"min-h-screen flex items-center justify-center bg-gray-50\">\n          <div className=\"text-center\">\n            <div className=\"text-6xl mb-4\">🚫</div>\n            <h1 className=\"text-2xl font-bold text-gray-900 mb-2\">\n              Access Denied\n            </h1>\n            <p className=\"text-gray-600 mb-6\">\n              You don't have permission to access this page.\n            </p>\n            <button\n              onClick={() => window.history.back()}\n              className=\"px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors\"\n            >\n              Go Back\n            </button>\n          </div>\n        </div>\n      );\n    }\n  }\n\n  return <>{children}</>;\n}\n\n/**\n * HOC version of ProtectedRoute for wrapping components\n */\nexport function withAuth<P extends object>(\n  Component: React.ComponentType<P>,\n  options: Omit<ProtectedRouteProps, 'children'> = {}\n) {\n  return function AuthenticatedComponent(props: P) {\n    return (\n      <ProtectedRoute {...options}>\n        <Component {...props} />\n      </ProtectedRoute>\n    );\n  };\n}\n\n/**\n * Component that only renders children if user is NOT authenticated\n * Useful for login/register pages\n */\nexport function GuestOnlyRoute({ \n  children, \n  redirectTo = '/dashboard' \n}: { \n  children: ReactNode;\n  redirectTo?: string;\n}) {\n  const { isAuthenticated, isLoading } = useRequireAuth();\n\n  if (isLoading) {\n    return <LoadingSpinner />;\n  }\n\n  if (isAuthenticated) {\n    return <Navigate to={redirectTo} replace />;\n  }\n\n  return <>{children}</>;\n}"
+import React, { ReactNode, useEffect } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';\nimport { useRequireAuth } from '../../hooks/useAuth';\nimport { LoadingSpinner } from '../ui/LoadingSpinner';
+
+export interface ProtectedRouteProps {
+  children: ReactNode;
+  redirectTo?: string;
+  requiredRoles?: string[];
+  fallback?: ReactNode;
+}
+
+/**
+ * Component that protects routes requiring authentication
+ * Redirects unauthenticated users to login page
+ * Optionally checks for required roles
+ */
+export function ProtectedRoute({ 
+  children, \n  redirectTo = '/auth/login',
+  requiredRoles = [],
+  fallback
+}: ProtectedRouteProps) {
+  const { isAuthenticated, isLoading, user, requireAuth } = useRequireAuth();
+  const location = useLocation();
+
+  // Show loading spinner while checking authentication
+  if (isLoading) {
+    return fallback || <LoadingSpinner />;
+  }
+
+  // Redirect to login if not authenticated
+  if (requireAuth) {
+    return (
+      <Navigate 
+        to={redirectTo} 
+        state={{ from: location }} 
+        replace 
+      />
+    );
+  }
+
+  // Check role-based access if roles are specified
+  if (isAuthenticated && requiredRoles.length > 0 && user) {
+    const hasRequiredRole = requiredRoles.some(role => 
+      user.roles.includes(role)
+    );
+    
+    if (!hasRequiredRole) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">\n          <div className="text-center">\n            <div className="text-6xl mb-4">🚫</div>\n            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              Access Denied
+            </h1>\n            <p className="text-gray-600 mb-6">
+              You don't have permission to access this page.
+            </p>
+            <button
+              onClick={() => window.history.back()}\n              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+            >
+              Go Back
+            </button>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  return <>{children}</>;
+}
+
+/**
+ * HOC version of ProtectedRoute for wrapping components
+ */
+export function withAuth<P extends object>(
+  Component: React.ComponentType<P>,
+  options: Omit<ProtectedRouteProps, 'children'> = {}
+) {
+  return function AuthenticatedComponent(props: P) {
+    return (
+      <ProtectedRoute {...options}>
+        <Component {...props} />
+      </ProtectedRoute>
+    );
+  };
+}
+
+/**
+ * Component that only renders children if user is NOT authenticated
+ * Useful for login/register pages
+ */
+export function GuestOnlyRoute({ 
+  children, \n  redirectTo = '/dashboard' 
+}: { 
+  children: ReactNode;
+  redirectTo?: string;
+}) {
+  const { isAuthenticated, isLoading } = useRequireAuth();
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to={redirectTo} replace />;
+  }
+
+  return <>{children}</>;
+}

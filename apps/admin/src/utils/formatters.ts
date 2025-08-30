@@ -11,7 +11,7 @@ export function formatDate(date: Date | string, formatStr = 'MMM d, yyyy'): stri
 /**
  * Format a date with time for display
  */
-export function formatDateTime(date: Date | string, formatStr = 'MMM d, yyyy \'at\' h:mm a'): string {
+export function formatDateTime(date: Date | string, formatStr = 'MMM d, yyyy 'at' h:mm a'): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   return format(dateObj, formatStr);
 }
@@ -26,8 +26,7 @@ export function formatRelativeTime(date: Date | string): string {
     return `Today at ${format(dateObj, 'h:mm a')}`;
   }
   
-  if (isYesterday(dateObj)) {
-    return `Yesterday at ${format(dateObj, 'h:mm a')}`;
+  if (isYesterday(dateObj)) {\n    return `Yesterday at ${format(dateObj, 'h:mm a')}`;
   }
   
   return formatDistanceToNow(dateObj, { addSuffix: true });
@@ -67,35 +66,28 @@ export function formatCurrency(
  * Format file sizes in human readable format
  */
 export function formatFileSize(bytes: number): string {
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-  if (bytes === 0) return '0 Bytes';
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];\n  if (bytes === 0) return '0 Bytes';
   
-  const i = Math.floor(Math.log(bytes) / Math.log(1024));
-  return `${Math.round(bytes / Math.pow(1024, i) * 100) / 100} ${sizes[i]}`;
+  const i = Math.floor(Math.log(bytes) / Math.log(1024));\n  return `${Math.round(bytes / Math.pow(1024, i) * 100) / 100} ${sizes[i]}`;
 }
 
 /**
  * Format percentage values
  */
-export function formatPercentage(value: number, decimals = 1): string {
-  return `${value.toFixed(decimals)}%`;
+export function formatPercentage(value: number, decimals = 1): string {\n  return `${value.toFixed(decimals)}%`;
 }
 
 /**
  * Format phone numbers
  */
 export function formatPhoneNumber(phoneNumber: string): string {
-  // Remove all non-numeric characters
-  const cleaned = phoneNumber.replace(/\D/g, '');
+  // Remove all non-numeric characters\n  const cleaned = phoneNumber.replace(/\D/g, '');
   
   // US phone number format
-  if (cleaned.length === 10) {
-    return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
+  if (cleaned.length === 10) {\n    return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
   }
   
-  // International format with country code
-  if (cleaned.length === 11 && cleaned.startsWith('1')) {
-    return `+1 (${cleaned.slice(1, 4)}) ${cleaned.slice(4, 7)}-${cleaned.slice(7)}`;
+  // International format with country code\n  if (cleaned.length === 11 && cleaned.startsWith('1')) {\n    return `+1 (${cleaned.slice(1, 4)}) ${cleaned.slice(4, 7)}-${cleaned.slice(7)}`;
   }
   
   // Return original if we can't format it
@@ -111,16 +103,12 @@ export function formatDuration(milliseconds: number): string {
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
 
-  if (days > 0) {
-    return `${days}d ${hours % 24}h ${minutes % 60}m`;
+  if (days > 0) {\n    return `${days}d ${hours % 24}h ${minutes % 60}m`;
   }
-  if (hours > 0) {
-    return `${hours}h ${minutes % 60}m ${seconds % 60}s`;
+  if (hours > 0) {\n    return `${hours}h ${minutes % 60}m ${seconds % 60}s`;
   }
-  if (minutes > 0) {
-    return `${minutes}m ${seconds % 60}s`;
-  }
-  return `${seconds}s`;
+  if (minutes > 0) {\n    return `${minutes}m ${seconds % 60}s`;
+  }\n  return `${seconds}s`;
 }
 
 /**
@@ -170,8 +158,7 @@ export function getRoleColor(role: string): string {
 
 /**
  * Truncate text to a specified length
- */
-export function truncateText(text: string, maxLength: number, suffix = '...'): string {
+ */\nexport function truncateText(text: string, maxLength: number, suffix = '...'): string {
   if (text.length <= maxLength) {
     return text;
   }
@@ -186,15 +173,12 @@ export function formatEmailForDisplay(email: string, hideMiddle = true): string 
   if (!hideMiddle) {
     return email;
   }
-  
-  const [localPart, domain] = email.split('@');
+  \n  const [localPart, domain] = email.split('@');
   
   if (localPart.length <= 2) {
     return email;
   }
-  
-  const hiddenLocal = localPart.slice(0, 2) + '*'.repeat(localPart.length - 2);
-  return `${hiddenLocal}@${domain}`;
+  \n  const hiddenLocal = localPart.slice(0, 2) + '*'.repeat(localPart.length - 2);\n  return `${hiddenLocal}@${domain}`;
 }
 
 /**

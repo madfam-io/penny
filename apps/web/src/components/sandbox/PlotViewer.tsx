@@ -29,13 +29,11 @@ interface PlotData {
 }
 
 const PlotViewer: React.FC<PlotViewerProps> = ({
-  plots,
-  className = '',
+  plots,\n  className = '',
   onPlotSelect,
   onPlotDelete,
   onPlotExport,
-  showThumbnails = true,
-  maxHeight = '600px',
+  showThumbnails = true,\n  maxHeight = '600px',
   allowFullscreen = true,
   enableZoom = true
 }) => {
@@ -73,19 +71,15 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
           if (selectedPlotIndex < plots.length - 1) {
             setSelectedPlotIndex(selectedPlotIndex + 1);
           }
-          break;
-        case '+':
-        case '=':
+          break;\n        case '+':\n        case '=':
           if (enableZoom) {
             setZoomLevel(prev => Math.min(prev * 1.2, 5));
           }
-          break;
-        case '-':
+          break;\n        case '-':
           if (enableZoom) {
             setZoomLevel(prev => Math.max(prev / 1.2, 0.2));
           }
-          break;
-        case '0':
+          break;\n        case '0':
           if (enableZoom) {
             setZoomLevel(1);
             setPanPosition({ x: 0, y: 0 });
@@ -100,8 +94,7 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
     }
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);\n      document.body.style.overflow = '';
     };
   }, [isFullscreen, selectedPlotIndex, plots.length, enableZoom]);
 
@@ -114,14 +107,12 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
 
   const handleDownload = (plot: PlotData, filename?: string) => {
     const link = document.createElement('a');
-    link.href = `data:image/${plot.format};base64,${plot.data}`;
-    link.download = filename || `${plot.metadata.title || 'plot'}.${plot.format}`;
+    link.href = `data:image/${plot.format};base64,${plot.data}`;\n    link.download = filename || `${plot.metadata.title || 'plot'}.${plot.format}`;
     link.click();
   };
 
   const handleCopyToClipboard = async (plot: PlotData) => {
-    try {
-      const blob = await fetch(`data:image/${plot.format};base64,${plot.data}`).then(r => r.blob());
+    try {\n      const blob = await fetch(`data:image/${plot.format};base64,${plot.data}`).then(r => r.blob());
       await navigator.clipboard.write([
         new ClipboardItem({ [blob.type]: blob })
       ]);
@@ -164,10 +155,7 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
   };
 
   const renderPlotContent = (plot: PlotData, isMain: boolean = false) => {
-    const imgStyle: React.CSSProperties = {
-      maxWidth: '100%',
-      maxHeight: isMain ? maxHeight : '100px',
-      transform: isMain ? `scale(${zoomLevel}) translate(${panPosition.x / zoomLevel}px, ${panPosition.y / zoomLevel}px)` : undefined,
+    const imgStyle: React.CSSProperties = {\n      maxWidth: '100%',\n      maxHeight: isMain ? maxHeight : '100px',\n      transform: isMain ? `scale(${zoomLevel}) translate(${panPosition.x / zoomLevel}px, ${panPosition.y / zoomLevel}px)` : undefined,
       cursor: enableZoom && isMain && zoomLevel > 1 ? 'grab' : 'default',
       transition: isDragging ? 'none' : 'transform 0.2s ease'
     };
@@ -178,11 +166,8 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
           srcDoc={atob(plot.data)}
           className="plot-iframe"
           title={plot.metadata.title}
-          style={{
-            width: '100%',
-            height: isMain ? maxHeight : '100px',
-            border: 'none',
-            borderRadius: '4px'
+          style={{\n            width: '100%',\n            height: isMain ? maxHeight : '100px',
+            border: 'none',\n            borderRadius: '4px'
           }}
         />
       );
@@ -190,8 +175,7 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
 
     return (
       <img
-        ref={isMain ? plotImageRef : undefined}
-        src={`data:image/${plot.format};base64,${plot.data}`}
+        ref={isMain ? plotImageRef : undefined}\n        src={`data:image/${plot.format};base64,${plot.data}`}
         alt={plot.metadata.title || 'Plot'}
         style={imgStyle}
         onMouseDown={isMain ? handleMouseDown : undefined}
@@ -204,15 +188,10 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
   };
 
   if (plots.length === 0) {
-    return (
-      <div className={`plot-viewer empty ${className}`}>
-        <div className="empty-state">
-          <div className="empty-icon">📊</div>
-          <p>No plots to display</p>
-          <p className="empty-subtitle">Run code that generates matplotlib or plotly visualizations</p>
+    return (\n      <div className={`plot-viewer empty ${className}`}>\n        <div className="empty-state">\n          <div className="empty-icon">📊</div>
+          <p>No plots to display</p>\n          <p className="empty-subtitle">Run code that generates matplotlib or plotly visualizations</p>
         </div>
-        
-        <style jsx>{`
+        \n        <style jsx>{`
           .plot-viewer.empty {
             border: 1px solid #e5e7eb;
             border-radius: 8px;
@@ -241,95 +220,66 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
   }
 
   return (
-    <>
-      <div className={`plot-viewer ${className}`}>
-        <div className="plot-header">
-          <div className="plot-info">
-            <h3 className="plot-title">
-              {selectedPlot?.metadata.title || `Plot ${selectedPlotIndex + 1}`}
-            </h3>
-            <div className="plot-metadata">
-              <span className="plot-format">{selectedPlot?.format.toUpperCase()}</span>
-              <span className="plot-dimensions">
+    <>\n      <div className={`plot-viewer ${className}`}>\n        <div className="plot-header">\n          <div className="plot-info">\n            <h3 className="plot-title">\n              {selectedPlot?.metadata.title || `Plot ${selectedPlotIndex + 1}`}
+            </h3>\n            <div className="plot-metadata">\n              <span className="plot-format">{selectedPlot?.format.toUpperCase()}</span>\n              <span className="plot-dimensions">
                 {selectedPlot?.metadata.width}×{selectedPlot?.metadata.height}
               </span>
-              {selectedPlot?.metadata.dpi && (
-                <span className="plot-dpi">{selectedPlot.metadata.dpi} DPI</span>
+              {selectedPlot?.metadata.dpi && (\n                <span className="plot-dpi">{selectedPlot.metadata.dpi} DPI</span>
               )}
             </div>
           </div>
-          
-          <div className="plot-controls">
-            {enableZoom && (
-              <div className="zoom-controls">
-                <button
-                  className="control-btn"
+          \n          <div className="plot-controls">
+            {enableZoom && (\n              <div className="zoom-controls">
+                <button\n                  className="control-btn"
                   onClick={() => setZoomLevel(prev => Math.max(prev / 1.2, 0.2))}
-                  disabled={zoomLevel <= 0.2}
-                  title="Zoom out"
+                  disabled={zoomLevel <= 0.2}\n                  title="Zoom out"
                 >
                   🔍-
-                </button>
-                <span className="zoom-level">{Math.round(zoomLevel * 100)}%</span>
-                <button
-                  className="control-btn"
+                </button>\n                <span className="zoom-level">{Math.round(zoomLevel * 100)}%</span>
+                <button\n                  className="control-btn"
                   onClick={() => setZoomLevel(prev => Math.min(prev * 1.2, 5))}
-                  disabled={zoomLevel >= 5}
-                  title="Zoom in"
+                  disabled={zoomLevel >= 5}\n                  title="Zoom in"
                 >
                   🔍+
                 </button>
-                <button
-                  className="control-btn"
+                <button\n                  className="control-btn"
                   onClick={() => {
                     setZoomLevel(1);
                     setPanPosition({ x: 0, y: 0 });
-                  }}
-                  title="Reset zoom"
+                  }}\n                  title="Reset zoom"
                 >
                   ↻
                 </button>
               </div>
             )}
-            
-            <div className="plot-actions">
-              <button
-                className="control-btn"
-                onClick={() => handleDownload(selectedPlot)}
-                title="Download plot"
+            \n            <div className="plot-actions">
+              <button\n                className="control-btn"
+                onClick={() => handleDownload(selectedPlot)}\n                title="Download plot"
               >
                 💾
               </button>
-              <button
-                className="control-btn"
-                onClick={() => handleCopyToClipboard(selectedPlot)}
-                title="Copy to clipboard"
+              <button\n                className="control-btn"
+                onClick={() => handleCopyToClipboard(selectedPlot)}\n                title="Copy to clipboard"
               >
                 📋
               </button>
               {onPlotExport && (
-                <button
-                  className="control-btn"
-                  onClick={() => onPlotExport(selectedPlot, selectedPlot.format)}
-                  title="Export plot"
+                <button\n                  className="control-btn"
+                  onClick={() => onPlotExport(selectedPlot, selectedPlot.format)}\n                  title="Export plot"
                 >
                   📤
               </button>
               )}
               {allowFullscreen && (
-                <button
-                  className="control-btn"
-                  onClick={() => setIsFullscreen(true)}
-                  title="Fullscreen (ESC to exit)"
+                <button\n                  className="control-btn"
+                  onClick={() => setIsFullscreen(true)}\n                  title="Fullscreen (ESC to exit)"
                 >
                   ⛶
                 </button>
               )}
               {onPlotDelete && (
-                <button
-                  className="control-btn delete"
-                  onClick={() => onPlotDelete(selectedPlotIndex)}
-                  title="Delete plot"
+                <button\n                  className="control-btn delete"
+                  onClick={() => onPlotDelete(selectedPlotIndex)}\n                  title="Delete plot"
                 >
                   🗑️
                 </button>
@@ -337,33 +287,22 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
             </div>
           </div>
         </div>
-        
-        <div className="plot-main">
-          <div className="plot-container" ref={plotContainerRef}>
+        \n        <div className="plot-main">\n          <div className="plot-container" ref={plotContainerRef}>
             {selectedPlot && renderPlotContent(selectedPlot, true)}
           </div>
         </div>
         
-        {showThumbnails && plots.length > 1 && (
-          <div className="plot-thumbnails">
-            <div className="thumbnails-header">
+        {showThumbnails && plots.length > 1 && (\n          <div className="plot-thumbnails">\n            <div className="thumbnails-header">
               <span>Plots ({plots.length})</span>
-            </div>
-            <div className="thumbnails-list">
+            </div>\n            <div className="thumbnails-list">
               {plots.map((plot, index) => (
                 <div
-                  key={plot.id}
-                  className={`thumbnail ${index === selectedPlotIndex ? 'active' : ''}`}
+                  key={plot.id}\n                  className={`thumbnail ${index === selectedPlotIndex ? 'active' : ''}`}
                   onClick={() => handlePlotSelect(index)}
-                >
-                  <div className="thumbnail-image">
+                >\n                  <div className="thumbnail-image">
                     {renderPlotContent(plot, false)}
-                  </div>
-                  <div className="thumbnail-info">
-                    <span className="thumbnail-title">
-                      {plot.metadata.title || `Plot ${index + 1}`}
-                    </span>
-                    <span className="thumbnail-format">{plot.format}</span>
+                  </div>\n                  <div className="thumbnail-info">\n                    <span className="thumbnail-title">\n                      {plot.metadata.title || `Plot ${index + 1}`}
+                    </span>\n                    <span className="thumbnail-format">{plot.format}</span>
                   </div>
                 </div>
               ))}
@@ -371,20 +310,16 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
           </div>
         )}
         
-        {plots.length > 1 && (
-          <div className="plot-navigation">
-            <button
-              className="nav-btn"
+        {plots.length > 1 && (\n          <div className="plot-navigation">
+            <button\n              className="nav-btn"
               onClick={() => handlePlotSelect(selectedPlotIndex - 1)}
               disabled={selectedPlotIndex === 0}
             >
               ← Previous
-            </button>
-            <span className="plot-counter">
+            </button>\n            <span className="plot-counter">
               {selectedPlotIndex + 1} of {plots.length}
             </span>
-            <button
-              className="nav-btn"
+            <button\n              className="nav-btn"
               onClick={() => handlePlotSelect(selectedPlotIndex + 1)}
               disabled={selectedPlotIndex === plots.length - 1}
             >
@@ -395,32 +330,22 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
       </div>
 
       {/* Fullscreen overlay */}
-      {isFullscreen && selectedPlot && (
-        <div className="fullscreen-overlay">
-          <div className="fullscreen-header">
-            <div className="fullscreen-title">
-              {selectedPlot.metadata.title || `Plot ${selectedPlotIndex + 1}`}
-            </div>
-            <div className="fullscreen-controls">
-              {enableZoom && (
-                <div className="zoom-controls">
-                  <button
-                    className="control-btn"
+      {isFullscreen && selectedPlot && (\n        <div className="fullscreen-overlay">\n          <div className="fullscreen-header">\n            <div className="fullscreen-title">\n              {selectedPlot.metadata.title || `Plot ${selectedPlotIndex + 1}`}
+            </div>\n            <div className="fullscreen-controls">
+              {enableZoom && (\n                <div className="zoom-controls">
+                  <button\n                    className="control-btn"
                     onClick={() => setZoomLevel(prev => Math.max(prev / 1.2, 0.2))}
                     disabled={zoomLevel <= 0.2}
                   >
                     🔍-
-                  </button>
-                  <span className="zoom-level">{Math.round(zoomLevel * 100)}%</span>
-                  <button
-                    className="control-btn"
+                  </button>\n                  <span className="zoom-level">{Math.round(zoomLevel * 100)}%</span>
+                  <button\n                    className="control-btn"
                     onClick={() => setZoomLevel(prev => Math.min(prev * 1.2, 5))}
                     disabled={zoomLevel >= 5}
                   >
                     🔍+
                   </button>
-                  <button
-                    className="control-btn"
+                  <button\n                    className="control-btn"
                     onClick={() => {
                       setZoomLevel(1);
                       setPanPosition({ x: 0, y: 0 });
@@ -430,33 +355,27 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
                   </button>
                 </div>
               )}
-              <button
-                className="control-btn close"
+              <button\n                className="control-btn close"
                 onClick={() => setIsFullscreen(false)}
               >
                 ✕ Close
               </button>
             </div>
           </div>
-          
-          <div className="fullscreen-content">
+          \n          <div className="fullscreen-content">
             {renderPlotContent(selectedPlot, true)}
           </div>
           
-          {plots.length > 1 && (
-            <div className="fullscreen-navigation">
-              <button
-                className="nav-btn"
+          {plots.length > 1 && (\n            <div className="fullscreen-navigation">
+              <button\n                className="nav-btn"
                 onClick={() => handlePlotSelect(selectedPlotIndex - 1)}
                 disabled={selectedPlotIndex === 0}
               >
                 ← Previous
-              </button>
-              <span className="plot-counter">
+              </button>\n              <span className="plot-counter">
                 {selectedPlotIndex + 1} of {plots.length}
               </span>
-              <button
-                className="nav-btn"
+              <button\n                className="nav-btn"
                 onClick={() => handlePlotSelect(selectedPlotIndex + 1)}
                 disabled={selectedPlotIndex === plots.length - 1}
               >
@@ -464,14 +383,12 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
               </button>
             </div>
           )}
-          
-          <div className="fullscreen-help">
+          \n          <div className="fullscreen-help">
             <span>ESC to exit • ← → to navigate • +/- to zoom • 0 to reset</span>
           </div>
         </div>
       )}
-
-      <style jsx>{`
+\n      <style jsx>{`
         .plot-viewer {
           border: 1px solid #d1d5db;
           border-radius: 8px;

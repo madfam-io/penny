@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { Badge } from '../ui/badge';
+import React, { useState, useEffect } from 'react';\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';\nimport { Button } from '../ui/button';\nimport { Badge } from '../ui/badge';
 import { Check, Zap, Crown, Building, Loader2 } from 'lucide-react';
 
 interface Plan {
@@ -50,8 +47,7 @@ export const PlanSelector: React.FC<PlanSelectorProps> = ({
   }, []);
 
   const fetchPlans = async () => {
-    try {
-      const response = await fetch('/api/billing/plans', {
+    try {\n      const response = await fetch('/api/billing/plans', {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
       });
 
@@ -77,11 +73,9 @@ export const PlanSelector: React.FC<PlanSelectorProps> = ({
 
     try {
       setProcessingPlan(planId);
-      
-      const response = await fetch('/api/billing/subscription', {
+      \n      const response = await fetch('/api/billing/subscription', {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+        headers: {\n          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -133,10 +127,7 @@ export const PlanSelector: React.FC<PlanSelectorProps> = ({
 
   const getPlanIcon = (type: string) => {
     switch (type) {
-      case 'free': return <Zap className="h-6 w-6 text-gray-600" />;
-      case 'pro': return <Crown className="h-6 w-6 text-blue-600" />;
-      case 'enterprise': return <Building className="h-6 w-6 text-purple-600" />;
-      default: return <Zap className="h-6 w-6 text-gray-600" />;
+      case 'free': return <Zap className="h-6 w-6 text-gray-600" />;\n      case 'pro': return <Crown className="h-6 w-6 text-blue-600" />;\n      case 'enterprise': return <Building className="h-6 w-6 text-purple-600" />;\n      default: return <Zap className="h-6 w-6 text-gray-600" />;
     }
   };
 
@@ -162,29 +153,21 @@ export const PlanSelector: React.FC<PlanSelectorProps> = ({
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+    return (\n      <div className="flex items-center justify-center p-8">\n        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   if (error) {
-    return (
-      <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-        <span className="text-red-800">{error}</span>
+    return (\n      <div className="p-4 bg-red-50 border border-red-200 rounded-lg">\n        <span className="text-red-800">{error}</span>
       </div>
     );
   }
 
-  return (
-    <div className="space-y-6">
-      {/* Billing Interval Toggle */}
-      <div className="flex justify-center">
-        <div className="flex items-center bg-gray-100 rounded-lg p-1">
+  return (\n    <div className="space-y-6">
+      {/* Billing Interval Toggle */}\n      <div className="flex justify-center">\n        <div className="flex items-center bg-gray-100 rounded-lg p-1">
           <button
-            onClick={() => setBillingInterval('month')}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            onClick={() => setBillingInterval('month')}\n            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
               billingInterval === 'month'
                 ? 'bg-white text-gray-900 shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'
@@ -193,21 +176,18 @@ export const PlanSelector: React.FC<PlanSelectorProps> = ({
             Monthly
           </button>
           <button
-            onClick={() => setBillingInterval('year')}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            onClick={() => setBillingInterval('year')}\n            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
               billingInterval === 'year'
                 ? 'bg-white text-gray-900 shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            Yearly
-            <Badge variant="secondary" className="ml-2 text-xs">Save up to 20%</Badge>
+            Yearly\n            <Badge variant="secondary" className="ml-2 text-xs">Save up to 20%</Badge>
           </button>
         </div>
       </div>
 
-      {/* Plans Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Plans Grid */}\n      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {plans.map((plan) => {
           const price = billingInterval === 'year' ? plan.price_yearly : plan.price_monthly;
           const yearlySavings = getYearlySavings(plan.price_monthly, plan.price_yearly);
@@ -215,30 +195,20 @@ export const PlanSelector: React.FC<PlanSelectorProps> = ({
           const isCurrent = isCurrentPlan(plan.name);
           const isUpgrade = isPlanUpgrade(plan.type);
 
-          return (
-            <Card key={plan.id} className={`relative ${getPlanColor(plan.type)} ${plan.type === 'pro' ? 'transform scale-105' : ''}`}>
-              {plan.type === 'pro' && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <Badge className="bg-blue-600 text-white">Most Popular</Badge>
+          return (\n            <Card key={plan.id} className={`relative ${getPlanColor(plan.type)} ${plan.type === 'pro' ? 'transform scale-105' : ''}`}>
+              {plan.type === 'pro' && (\n                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">\n                  <Badge className="bg-blue-600 text-white">Most Popular</Badge>
                 </div>
               )}
-              
-              <CardHeader className="text-center">
-                <div className="flex justify-center mb-2">
+              \n              <CardHeader className="text-center">\n                <div className="flex justify-center mb-2">
                   {getPlanIcon(plan.type)}
-                </div>
-                <CardTitle className="text-xl">{plan.name}</CardTitle>
+                </div>\n                <CardTitle className="text-xl">{plan.name}</CardTitle>
                 <CardDescription>{plan.description}</CardDescription>
-                
-                <div className="mt-4">
-                  <div className="text-3xl font-bold">
+                \n                <div className="mt-4">\n                  <div className="text-3xl font-bold">
                     {plan.price_monthly === 0 ? 'Free' : formatCurrency(price, plan.currency)}
                   </div>
-                  {plan.price_monthly > 0 && (
-                    <div className="text-sm text-gray-600">
+                  {plan.price_monthly > 0 && (\n                    <div className="text-sm text-gray-600">
                       per {billingInterval}
-                      {billingInterval === 'year' && yearlySavings.percentage > 0 && (
-                        <div className="text-green-600 font-medium">
+                      {billingInterval === 'year' && yearlySavings.percentage > 0 && (\n                        <div className="text-green-600 font-medium">
                           Save {yearlySavings.percentage}% (${yearlySavings.savings}/year)
                         </div>
                       )}
@@ -246,87 +216,60 @@ export const PlanSelector: React.FC<PlanSelectorProps> = ({
                   )}
                 </div>
 
-                {plan.trial_days > 0 && !isCurrent && (
-                  <Badge variant="outline" className="mt-2">
+                {plan.trial_days > 0 && !isCurrent && (\n                  <Badge variant="outline" className="mt-2">
                     {plan.trial_days} days free trial
                   </Badge>
                 )}
               </CardHeader>
-
-              <CardContent className="space-y-4">
-                {/* Features List */}
-                <div className="space-y-2">
-                  <div className="flex items-center text-sm">
-                    <Check className="h-4 w-4 text-green-600 mr-2" />
+\n              <CardContent className="space-y-4">
+                {/* Features List */}\n                <div className="space-y-2">\n                  <div className="flex items-center text-sm">\n                    <Check className="h-4 w-4 text-green-600 mr-2" />
                     <span>{formatNumber(plan.features.max_users)} users</span>
-                  </div>
-                  <div className="flex items-center text-sm">
-                    <Check className="h-4 w-4 text-green-600 mr-2" />
+                  </div>\n                  <div className="flex items-center text-sm">\n                    <Check className="h-4 w-4 text-green-600 mr-2" />
                     <span>{formatNumber(plan.features.max_messages_per_month)} messages/month</span>
-                  </div>
-                  <div className="flex items-center text-sm">
-                    <Check className="h-4 w-4 text-green-600 mr-2" />
+                  </div>\n                  <div className="flex items-center text-sm">\n                    <Check className="h-4 w-4 text-green-600 mr-2" />
                     <span>{formatNumber(plan.features.max_tokens_per_month)} tokens/month</span>
-                  </div>
-                  <div className="flex items-center text-sm">
-                    <Check className="h-4 w-4 text-green-600 mr-2" />
+                  </div>\n                  <div className="flex items-center text-sm">\n                    <Check className="h-4 w-4 text-green-600 mr-2" />
                     <span>{plan.features.max_storage_gb} GB storage</span>
                   </div>
                   
-                  {plan.features.custom_tools && (
-                    <div className="flex items-center text-sm">
-                      <Check className="h-4 w-4 text-green-600 mr-2" />
+                  {plan.features.custom_tools && (\n                    <div className="flex items-center text-sm">\n                      <Check className="h-4 w-4 text-green-600 mr-2" />
                       <span>Custom tools</span>
                     </div>
                   )}
                   
-                  {plan.features.api_access && (
-                    <div className="flex items-center text-sm">
-                      <Check className="h-4 w-4 text-green-600 mr-2" />
+                  {plan.features.api_access && (\n                    <div className="flex items-center text-sm">\n                      <Check className="h-4 w-4 text-green-600 mr-2" />
                       <span>API access</span>
                     </div>
                   )}
                   
-                  {plan.features.priority_support && (
-                    <div className="flex items-center text-sm">
-                      <Check className="h-4 w-4 text-green-600 mr-2" />
+                  {plan.features.priority_support && (\n                    <div className="flex items-center text-sm">\n                      <Check className="h-4 w-4 text-green-600 mr-2" />
                       <span>Priority support</span>
                     </div>
                   )}
                   
-                  {plan.features.sso && (
-                    <div className="flex items-center text-sm">
-                      <Check className="h-4 w-4 text-green-600 mr-2" />
+                  {plan.features.sso && (\n                    <div className="flex items-center text-sm">\n                      <Check className="h-4 w-4 text-green-600 mr-2" />
                       <span>Single Sign-On (SSO)</span>
                     </div>
                   )}
                   
-                  {plan.features.white_labeling && (
-                    <div className="flex items-center text-sm">
-                      <Check className="h-4 w-4 text-green-600 mr-2" />
+                  {plan.features.white_labeling && (\n                    <div className="flex items-center text-sm">\n                      <Check className="h-4 w-4 text-green-600 mr-2" />
                       <span>White labeling</span>
                     </div>
                   )}
                   
-                  {plan.features.advanced_analytics && (
-                    <div className="flex items-center text-sm">
-                      <Check className="h-4 w-4 text-green-600 mr-2" />
+                  {plan.features.advanced_analytics && (\n                    <div className="flex items-center text-sm">\n                      <Check className="h-4 w-4 text-green-600 mr-2" />
                       <span>Advanced analytics</span>
                     </div>
                   )}
                   
-                  {plan.features.audit_logs && (
-                    <div className="flex items-center text-sm">
-                      <Check className="h-4 w-4 text-green-600 mr-2" />
+                  {plan.features.audit_logs && (\n                    <div className="flex items-center text-sm">\n                      <Check className="h-4 w-4 text-green-600 mr-2" />
                       <span>Audit logs</span>
                     </div>
                   )}
                 </div>
 
-                {/* Action Button */}
-                <div className="pt-4">
-                  {isCurrent ? (
-                    <Button variant="outline" className="w-full" disabled>
+                {/* Action Button */}\n                <div className="pt-4">
+                  {isCurrent ? (\n                    <Button variant="outline" className="w-full" disabled>
                       Current Plan
                     </Button>
                   ) : (
@@ -335,15 +278,13 @@ export const PlanSelector: React.FC<PlanSelectorProps> = ({
                         plan.type === 'pro' 
                           ? 'bg-blue-600 hover:bg-blue-700' 
                           : plan.type === 'enterprise'
-                          ? 'bg-purple-600 hover:bg-purple-700'
-                          : ''
+                          ? 'bg-purple-600 hover:bg-purple-700'\n                          : ''
                       }`}
                       onClick={() => handlePlanSelect(plan.id)}
                       disabled={isProcessing}
                     >
                       {isProcessing ? (
-                        <>
-                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        <>\n                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                           Processing...
                         </>
                       ) : (
@@ -359,8 +300,7 @@ export const PlanSelector: React.FC<PlanSelectorProps> = ({
                     </Button>
                   )}
                   
-                  {plan.type === 'enterprise' && (
-                    <Button variant="outline" className="w-full mt-2">
+                  {plan.type === 'enterprise' && (\n                    <Button variant="outline" className="w-full mt-2">
                       Contact Sales
                     </Button>
                   )}
@@ -371,94 +311,60 @@ export const PlanSelector: React.FC<PlanSelectorProps> = ({
         })}
       </div>
 
-      {/* Feature Comparison Table */}
-      <Card className="mt-8">
+      {/* Feature Comparison Table */}\n      <Card className="mt-8">
         <CardHeader>
           <CardTitle>Feature Comparison</CardTitle>
           <CardDescription>Compare features across all plans</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-left py-3 px-4">Feature</th>
-                  {plans.map((plan) => (
-                    <th key={plan.id} className="text-center py-3 px-4">
+        <CardContent>\n          <div className="overflow-x-auto">\n            <table className="w-full">
+              <thead>\n                <tr className="border-b">\n                  <th className="text-left py-3 px-4">Feature</th>
+                  {plans.map((plan) => (\n                    <th key={plan.id} className="text-center py-3 px-4">
                       {plan.name}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody>
-                <tr className="border-b">
-                  <td className="py-3 px-4 font-medium">Users</td>
-                  {plans.map((plan) => (
-                    <td key={plan.id} className="text-center py-3 px-4">
+              <tbody>\n                <tr className="border-b">\n                  <td className="py-3 px-4 font-medium">Users</td>
+                  {plans.map((plan) => (\n                    <td key={plan.id} className="text-center py-3 px-4">
                       {formatNumber(plan.features.max_users)}
                     </td>
                   ))}
-                </tr>
-                <tr className="border-b">
-                  <td className="py-3 px-4 font-medium">Messages/month</td>
-                  {plans.map((plan) => (
-                    <td key={plan.id} className="text-center py-3 px-4">
+                </tr>\n                <tr className="border-b">\n                  <td className="py-3 px-4 font-medium">Messages/month</td>
+                  {plans.map((plan) => (\n                    <td key={plan.id} className="text-center py-3 px-4">
                       {formatNumber(plan.features.max_messages_per_month)}
                     </td>
                   ))}
-                </tr>
-                <tr className="border-b">
-                  <td className="py-3 px-4 font-medium">Storage</td>
-                  {plans.map((plan) => (
-                    <td key={plan.id} className="text-center py-3 px-4">
+                </tr>\n                <tr className="border-b">\n                  <td className="py-3 px-4 font-medium">Storage</td>
+                  {plans.map((plan) => (\n                    <td key={plan.id} className="text-center py-3 px-4">
                       {plan.features.max_storage_gb} GB
                     </td>
                   ))}
-                </tr>
-                <tr className="border-b">
-                  <td className="py-3 px-4 font-medium">Custom Tools</td>
-                  {plans.map((plan) => (
-                    <td key={plan.id} className="text-center py-3 px-4">
-                      {plan.features.custom_tools ? (
-                        <Check className="h-5 w-5 text-green-600 mx-auto" />
-                      ) : (
-                        <span className="text-gray-400">—</span>
+                </tr>\n                <tr className="border-b">\n                  <td className="py-3 px-4 font-medium">Custom Tools</td>
+                  {plans.map((plan) => (\n                    <td key={plan.id} className="text-center py-3 px-4">
+                      {plan.features.custom_tools ? (\n                        <Check className="h-5 w-5 text-green-600 mx-auto" />
+                      ) : (\n                        <span className="text-gray-400">—</span>
+                      )}
+                    </td>
+                  ))}
+                </tr>\n                <tr className="border-b">\n                  <td className="py-3 px-4 font-medium">API Access</td>
+                  {plans.map((plan) => (\n                    <td key={plan.id} className="text-center py-3 px-4">
+                      {plan.features.api_access ? (\n                        <Check className="h-5 w-5 text-green-600 mx-auto" />
+                      ) : (\n                        <span className="text-gray-400">—</span>
+                      )}
+                    </td>
+                  ))}
+                </tr>\n                <tr className="border-b">\n                  <td className="py-3 px-4 font-medium">SSO</td>
+                  {plans.map((plan) => (\n                    <td key={plan.id} className="text-center py-3 px-4">
+                      {plan.features.sso ? (\n                        <Check className="h-5 w-5 text-green-600 mx-auto" />
+                      ) : (\n                        <span className="text-gray-400">—</span>
                       )}
                     </td>
                   ))}
                 </tr>
-                <tr className="border-b">
-                  <td className="py-3 px-4 font-medium">API Access</td>
-                  {plans.map((plan) => (
-                    <td key={plan.id} className="text-center py-3 px-4">
-                      {plan.features.api_access ? (
-                        <Check className="h-5 w-5 text-green-600 mx-auto" />
-                      ) : (
-                        <span className="text-gray-400">—</span>
-                      )}
-                    </td>
-                  ))}
-                </tr>
-                <tr className="border-b">
-                  <td className="py-3 px-4 font-medium">SSO</td>
-                  {plans.map((plan) => (
-                    <td key={plan.id} className="text-center py-3 px-4">
-                      {plan.features.sso ? (
-                        <Check className="h-5 w-5 text-green-600 mx-auto" />
-                      ) : (
-                        <span className="text-gray-400">—</span>
-                      )}
-                    </td>
-                  ))}
-                </tr>
-                <tr>
-                  <td className="py-3 px-4 font-medium">White Labeling</td>
-                  {plans.map((plan) => (
-                    <td key={plan.id} className="text-center py-3 px-4">
-                      {plan.features.white_labeling ? (
-                        <Check className="h-5 w-5 text-green-600 mx-auto" />
-                      ) : (
-                        <span className="text-gray-400">—</span>
+                <tr>\n                  <td className="py-3 px-4 font-medium">White Labeling</td>
+                  {plans.map((plan) => (\n                    <td key={plan.id} className="text-center py-3 px-4">
+                      {plan.features.white_labeling ? (\n                        <Check className="h-5 w-5 text-green-600 mx-auto" />
+                      ) : (\n                        <span className="text-gray-400">—</span>
                       )}
                     </td>
                   ))}

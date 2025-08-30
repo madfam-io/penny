@@ -7,8 +7,7 @@ import {
   createHttpMetricsCollector,
   createDatabaseMetricsCollector,
   createAIMetricsCollector,
-  prometheusPlugin,
-} from '@penny/telemetry';
+  prometheusPlugin,\n} from '@penny/telemetry';
 
 const metricsPlugin: FastifyPluginAsync = async (fastify) => {
   // Initialize exporters
@@ -20,8 +19,7 @@ const metricsPlugin: FastifyPluginAsync = async (fastify) => {
     prefix: 'penny',
     defaultTags: {
       service: 'api',
-      environment: process.env.NODE_ENV || 'development',
-      version: process.env.npm_package_version || '0.0.1',
+      environment: process.env.NODE_ENV || 'development',\n      version: process.env.npm_package_version || '0.0.1',
     },
     exportInterval: 60000, // Export every minute
     exporters: [prometheusExporter, databaseExporter],
@@ -36,10 +34,7 @@ const metricsPlugin: FastifyPluginAsync = async (fastify) => {
     includePath: true,
     normalizePath: (path) => {
       // Normalize paths to avoid high cardinality
-      return path
-        .replace(/\/\d+/g, '/:id')
-        .replace(/\/[a-f0-9-]{36}/g, '/:uuid')
-        .replace(/\?.*$/, '');
+      return path\n        .replace(/\/\d+/g, '/:id')\n        .replace(/\/[a-f0-9-]{36}/g, '/:uuid')\n        .replace(/\?.*$/, '');
     },
   });
 

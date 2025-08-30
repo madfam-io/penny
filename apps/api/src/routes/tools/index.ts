@@ -1,8 +1,5 @@
 import type { FastifyPluginAsync } from 'fastify';
-import { z } from 'zod';
-import { authenticate } from '../../middleware/auth.js';
-import { ToolRegistry, ToolExecutor, registerBuiltinTools } from '@penny/core';
-import { generateId } from '@penny/shared';
+import { z } from 'zod';\nimport { authenticate } from '../../middleware/auth.js';\nimport { ToolRegistry, ToolExecutor, registerBuiltinTools } from '@penny/core';\nimport { generateId } from '@penny/shared';
 import Redis from 'ioredis';
 
 // Initialize tool infrastructure
@@ -20,8 +17,7 @@ const executor = new ToolExecutor({
 
 const toolRoutes: FastifyPluginAsync = async (fastify) => {
   // List available tools
-  fastify.get(
-    '/',
+  fastify.get(\n    '/',
     {
       preHandler: authenticate,
       schema: {
@@ -70,8 +66,7 @@ const toolRoutes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Get tool details
-  fastify.get(
-    '/:name',
+  fastify.get(\n    '/:name',
     {
       preHandler: authenticate,
       schema: {
@@ -120,8 +115,7 @@ const toolRoutes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Execute tool
-  fastify.post(
-    '/:name/execute',
+  fastify.post(\n    '/:name/execute',
     {
       preHandler: authenticate,
       schema: {
@@ -188,8 +182,7 @@ const toolRoutes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Get execution status
-  fastify.get(
-    '/executions/:id',
+  fastify.get(\n    '/executions/:id',
     {
       preHandler: authenticate,
       schema: {
@@ -218,8 +211,7 @@ const toolRoutes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Cancel execution
-  fastify.post(
-    '/executions/:id/cancel',
+  fastify.post(\n    '/executions/:id/cancel',
     {
       preHandler: authenticate,
       schema: {
@@ -246,8 +238,7 @@ const toolRoutes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Get queue status (admin only)
-  fastify.get(
-    '/queue/status',
+  fastify.get(\n    '/queue/status',
     {
       preHandler: authenticate,
       schema: {

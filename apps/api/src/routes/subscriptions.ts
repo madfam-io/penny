@@ -1,7 +1,5 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';
-import { SubscriptionService } from '../services/SubscriptionService';
-import { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
+import { z } from 'zod';\nimport { SubscriptionService } from '../services/SubscriptionService';\nimport { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
 
 // Request/Response Schemas
 const CreateSubscriptionSchema = z.object({
@@ -110,8 +108,7 @@ const PaymentMethodSchema = z.object({
 export async function subscriptionRoutes(fastify: FastifyInstance) {
   const subscriptionService = new SubscriptionService();
 
-  // Get available plans
-  fastify.get('/billing/plans', {
+  // Get available plans\n  fastify.get('/billing/plans', {
     schema: {
       response: {
         200: z.array(PlanResponseSchema),
@@ -134,8 +131,7 @@ export async function subscriptionRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get current subscription
-  fastify.get('/billing/subscription', {
+  // Get current subscription\n  fastify.get('/billing/subscription', {
     schema: {
       response: {
         200: SubscriptionResponseSchema,
@@ -174,8 +170,7 @@ export async function subscriptionRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Create subscription
-  fastify.post('/billing/subscription', {
+  // Create subscription\n  fastify.post('/billing/subscription', {
     schema: {
       body: CreateSubscriptionSchema,
       response: {
@@ -232,8 +227,7 @@ export async function subscriptionRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Update subscription
-  fastify.put('/billing/subscription', {
+  // Update subscription\n  fastify.put('/billing/subscription', {
     schema: {
       body: UpdateSubscriptionSchema,
       response: {
@@ -287,8 +281,7 @@ export async function subscriptionRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Cancel subscription
-  fastify.post('/billing/subscription/cancel', {
+  // Cancel subscription\n  fastify.post('/billing/subscription/cancel', {
     schema: {
       body: z.object({
         immediately: z.boolean().default(false),
@@ -335,8 +328,7 @@ export async function subscriptionRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Reactivate subscription
-  fastify.post('/billing/subscription/reactivate', {
+  // Reactivate subscription\n  fastify.post('/billing/subscription/reactivate', {
     schema: {
       response: {
         200: SubscriptionResponseSchema,
@@ -380,8 +372,7 @@ export async function subscriptionRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get invoices
-  fastify.get('/billing/invoices', {
+  // Get invoices\n  fastify.get('/billing/invoices', {
     schema: {
       querystring: z.object({
         status: z.enum(['draft', 'open', 'paid', 'void', 'uncollectible']).optional(),
@@ -421,8 +412,7 @@ export async function subscriptionRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get single invoice
-  fastify.get('/billing/invoices/:id', {
+  // Get single invoice\n  fastify.get('/billing/invoices/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -462,8 +452,7 @@ export async function subscriptionRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get payment methods
-  fastify.get('/billing/payment-methods', {
+  // Get payment methods\n  fastify.get('/billing/payment-methods', {
     schema: {
       response: {
         200: z.array(PaymentMethodSchema),
@@ -490,8 +479,7 @@ export async function subscriptionRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Add payment method
-  fastify.post('/billing/payment-methods', {
+  // Add payment method\n  fastify.post('/billing/payment-methods', {
     schema: {
       body: z.object({
         paymentMethodId: z.string(), // From Stripe
@@ -546,8 +534,7 @@ export async function subscriptionRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Delete payment method
-  fastify.delete('/billing/payment-methods/:id', {
+  // Delete payment method\n  fastify.delete('/billing/payment-methods/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -587,8 +574,7 @@ export async function subscriptionRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Set default payment method
-  fastify.put('/billing/payment-methods/:id/default', {
+  // Set default payment method\n  fastify.put('/billing/payment-methods/:id/default', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -628,8 +614,7 @@ export async function subscriptionRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get subscription usage
-  fastify.get('/billing/usage', {
+  // Get subscription usage\n  fastify.get('/billing/usage', {
     schema: {
       querystring: z.object({
         period: z.enum(['current', 'previous', '7d', '30d']).default('current'),

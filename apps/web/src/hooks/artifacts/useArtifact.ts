@@ -1,1 +1,337 @@
-import { useState, useEffect, useCallback } from 'react';\nimport { Artifact } from '@penny/types';\nimport { useArtifactStore } from '../../store/artifactStore';\nimport { ArtifactExporter, ExportOptions, ExportResult } from '../../utils/artifacts/exporter';\nimport { ArtifactTransformer, TransformOptions } from '../../utils/artifacts/transformer';\n\nexport interface UseArtifactOptions {\n  enableAutoSave?: boolean;\n  autoSaveInterval?: number;\n  enableVersioning?: boolean;\n}\n\nexport interface UseArtifactResult {\n  artifact: Artifact | null;\n  loading: boolean;\n  error: string | null;\n  saving: boolean;\n  exporting: boolean;\n  \n  // Actions\n  refresh: () => Promise<void>;\n  save: (updates: Partial<Artifact>) => Promise<boolean>;\n  delete: () => Promise<boolean>;\n  export: (options: ExportOptions) => Promise<ExportResult>;\n  share: () => Promise<{ shareUrl: string; expiresAt: Date } | null>;\n  transform: (toType: Artifact['type'], options?: TransformOptions) => Promise<boolean>;\n  annotate: (annotation: any) => void;\n  \n  // Version control\n  versions: any[];\n  currentVersion: number;\n  createVersion: (description?: string) => Promise<boolean>;\n  restoreVersion: (version: number) => Promise<boolean>;\n  compareVersions: (v1: number, v2: number) => Promise<any>;\n  \n  // Metadata\n  isOwner: boolean;\n  canEdit: boolean;\n  canDelete: boolean;\n  canShare: boolean;\n}\n\nexport function useArtifact(artifactId: string, options: UseArtifactOptions = {}): UseArtifactResult {\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState<string | null>(null);\n  const [saving, setSaving] = useState(false);\n  const [exporting, setExporting] = useState(false);\n  const [versions, setVersions] = useState<any[]>([]);\n  \n  const {\n    artifacts,\n    currentUser,\n    fetchArtifact,\n    updateArtifact,\n    deleteArtifact,\n    shareArtifact,\n    addAnnotation\n  } = useArtifactStore();\n  \n  const artifact = artifacts.find(a => a.id === artifactId) || null;\n  \n  // Permissions\n  const isOwner = artifact?.createdBy === currentUser?.id;\n  const canEdit = isOwner || currentUser?.permissions?.includes('edit_artifacts');\n  const canDelete = isOwner || currentUser?.permissions?.includes('delete_artifacts');\n  const canShare = artifact?.isPublic || isOwner || currentUser?.permissions?.includes('share_artifacts');\n  \n  // Load artifact\n  const refresh = useCallback(async () => {\n    try {\n      setLoading(true);\n      setError(null);\n      await fetchArtifact(artifactId);\n    } catch (err) {\n      setError(err instanceof Error ? err.message : 'Failed to load artifact');\n    } finally {\n      setLoading(false);\n    }\n  }, [artifactId, fetchArtifact]);\n  \n  // Save artifact\n  const save = useCallback(async (updates: Partial<Artifact>): Promise<boolean> => {\n    if (!artifact || !canEdit) return false;\n    \n    try {\n      setSaving(true);\n      setError(null);\n      \n      const success = await updateArtifact(artifact.id, updates);\n      \n      // Create version if versioning is enabled\n      if (success && options.enableVersioning) {\n        await createVersion('Auto-save update');\n      }\n      \n      return success;\n    } catch (err) {\n      setError(err instanceof Error ? err.message : 'Failed to save artifact');\n      return false;\n    } finally {\n      setSaving(false);\n    }\n  }, [artifact, canEdit, updateArtifact, options.enableVersioning]);\n  \n  // Delete artifact\n  const deleteArtifactHandler = useCallback(async (): Promise<boolean> => {\n    if (!artifact || !canDelete) return false;\n    \n    try {\n      setError(null);\n      return await deleteArtifact(artifact.id);\n    } catch (err) {\n      setError(err instanceof Error ? err.message : 'Failed to delete artifact');\n      return false;\n    }\n  }, [artifact, canDelete, deleteArtifact]);\n  \n  // Export artifact\n  const exportArtifact = useCallback(async (options: ExportOptions): Promise<ExportResult> => {\n    if (!artifact) {\n      return { success: false, error: 'No artifact to export' };\n    }\n    \n    try {\n      setExporting(true);\n      setError(null);\n      return await ArtifactExporter.export(artifact, options);\n    } catch (err) {\n      const result = { success: false, error: err instanceof Error ? err.message : 'Export failed' };\n      setError(result.error!);\n      return result;\n    } finally {\n      setExporting(false);\n    }\n  }, [artifact]);\n  \n  // Share artifact\n  const share = useCallback(async (): Promise<{ shareUrl: string; expiresAt: Date } | null> => {\n    if (!artifact || !canShare) return null;\n    \n    try {\n      setError(null);\n      return await shareArtifact(artifact.id);\n    } catch (err) {\n      setError(err instanceof Error ? err.message : 'Failed to share artifact');\n      return null;\n    }\n  }, [artifact, canShare, shareArtifact]);\n  \n  // Transform artifact\n  const transform = useCallback(async (\n    toType: Artifact['type'], \n    transformOptions?: TransformOptions\n  ): Promise<boolean> => {\n    if (!artifact || !canEdit) return false;\n    \n    try {\n      setError(null);\n      \n      const result = ArtifactTransformer.transform(\n        artifact.content,\n        artifact.type,\n        toType,\n        transformOptions || {}\n      );\n      \n      if (!result.success) {\n        setError(result.error!);\n        return false;\n      }\n      \n      return await save({\n        type: toType,\n        content: result.data,\n        title: `${artifact.title} (Converted to ${toType})`\n      });\n    } catch (err) {\n      setError(err instanceof Error ? err.message : 'Transformation failed');\n      return false;\n    }\n  }, [artifact, canEdit, save]);\n  \n  // Add annotation\n  const annotate = useCallback((annotation: any) => {\n    if (!artifact || !canEdit) return;\n    \n    addAnnotation(artifact.id, {\n      id: Math.random().toString(36).substring(2),\n      ...annotation,\n      createdAt: new Date(),\n      createdBy: currentUser?.id || 'anonymous'\n    });\n  }, [artifact, canEdit, addAnnotation, currentUser]);\n  \n  // Version control\n  const createVersion = useCallback(async (description?: string): Promise<boolean> => {\n    if (!artifact || !options.enableVersioning) return false;\n    \n    try {\n      // Mock version creation - would call API\n      const version = {\n        id: Math.random().toString(36).substring(2),\n        artifactId: artifact.id,\n        version: (artifact.version || 0) + 1,\n        title: artifact.title,\n        description: description || 'Version checkpoint',\n        content: artifact.content,\n        createdAt: new Date(),\n        createdBy: currentUser?.id || 'anonymous',\n        status: 'published' as const\n      };\n      \n      setVersions(prev => [version, ...prev]);\n      return true;\n    } catch (err) {\n      setError(err instanceof Error ? err.message : 'Failed to create version');\n      return false;\n    }\n  }, [artifact, currentUser, options.enableVersioning]);\n  \n  const restoreVersion = useCallback(async (version: number): Promise<boolean> => {\n    if (!artifact || !canEdit) return false;\n    \n    try {\n      // Mock version restoration - would call API\n      const versionData = versions.find(v => v.version === version);\n      if (!versionData) {\n        setError('Version not found');\n        return false;\n      }\n      \n      return await save({\n        content: versionData.content,\n        version: (artifact.version || 0) + 1\n      });\n    } catch (err) {\n      setError(err instanceof Error ? err.message : 'Failed to restore version');\n      return false;\n    }\n  }, [artifact, canEdit, save, versions]);\n  \n  const compareVersions = useCallback(async (v1: number, v2: number): Promise<any> => {\n    if (!artifact) return null;\n    \n    try {\n      // Mock version comparison - would call API\n      const version1 = versions.find(v => v.version === v1);\n      const version2 = versions.find(v => v.version === v2);\n      \n      if (!version1 || !version2) {\n        setError('One or more versions not found');\n        return null;\n      }\n      \n      // Simple comparison\n      return {\n        fromVersion: v1,\n        toVersion: v2,\n        differences: [],\n        summary: { added: 0, modified: 0, removed: 0, similarity: 0.95 }\n      };\n    } catch (err) {\n      setError(err instanceof Error ? err.message : 'Version comparison failed');\n      return null;\n    }\n  }, [artifact, versions]);\n  \n  // Auto-save\n  useEffect(() => {\n    if (!options.enableAutoSave || !artifact || !canEdit) return;\n    \n    const interval = setInterval(() => {\n      // Auto-save logic would go here\n      // For now, just a placeholder\n    }, options.autoSaveInterval || 30000);\n    \n    return () => clearInterval(interval);\n  }, [artifact, canEdit, options.enableAutoSave, options.autoSaveInterval]);\n  \n  // Load versions\n  useEffect(() => {\n    if (!artifact || !options.enableVersioning) return;\n    \n    // Mock version loading - would call API\n    const loadVersions = async () => {\n      try {\n        // Mock versions data\n        const mockVersions = Array.from({ length: 5 }, (_, i) => ({\n          id: Math.random().toString(36).substring(2),\n          artifactId: artifact.id,\n          version: i + 1,\n          title: artifact.title,\n          description: `Version ${i + 1}`,\n          createdAt: new Date(Date.now() - i * 86400000), // Days ago\n          createdBy: currentUser?.id || 'anonymous',\n          status: 'published' as const\n        }));\n        \n        setVersions(mockVersions);\n      } catch (err) {\n        console.error('Failed to load versions:', err);\n      }\n    };\n    \n    loadVersions();\n  }, [artifact, currentUser, options.enableVersioning]);\n  \n  // Initial load\n  useEffect(() => {\n    refresh();\n  }, [refresh]);\n  \n  return {\n    artifact,\n    loading,\n    error,\n    saving,\n    exporting,\n    \n    // Actions\n    refresh,\n    save,\n    delete: deleteArtifactHandler,\n    export: exportArtifact,\n    share,\n    transform,\n    annotate,\n    \n    // Version control\n    versions,\n    currentVersion: artifact?.version || 1,\n    createVersion,\n    restoreVersion,\n    compareVersions,\n    \n    // Permissions\n    isOwner,\n    canEdit,\n    canDelete,\n    canShare\n  };\n}"
+import { useState, useEffect, useCallback } from 'react';\nimport { Artifact } from '@penny/types';\nimport { useArtifactStore } from '../../store/artifactStore';\nimport { ArtifactExporter, ExportOptions, ExportResult } from '../../utils/artifacts/exporter';\nimport { ArtifactTransformer, TransformOptions } from '../../utils/artifacts/transformer';
+
+export interface UseArtifactOptions {
+  enableAutoSave?: boolean;
+  autoSaveInterval?: number;
+  enableVersioning?: boolean;
+}
+
+export interface UseArtifactResult {
+  artifact: Artifact | null;
+  loading: boolean;
+  error: string | null;
+  saving: boolean;
+  exporting: boolean;
+  
+  // Actions
+  refresh: () => Promise<void>;
+  save: (updates: Partial<Artifact>) => Promise<boolean>;
+  delete: () => Promise<boolean>;
+  export: (options: ExportOptions) => Promise<ExportResult>;
+  share: () => Promise<{ shareUrl: string; expiresAt: Date } | null>;
+  transform: (toType: Artifact['type'], options?: TransformOptions) => Promise<boolean>;
+  annotate: (annotation: any) => void;
+  
+  // Version control
+  versions: any[];
+  currentVersion: number;
+  createVersion: (description?: string) => Promise<boolean>;
+  restoreVersion: (version: number) => Promise<boolean>;
+  compareVersions: (v1: number, v2: number) => Promise<any>;
+  
+  // Metadata
+  isOwner: boolean;
+  canEdit: boolean;
+  canDelete: boolean;
+  canShare: boolean;
+}
+
+export function useArtifact(artifactId: string, options: UseArtifactOptions = {}): UseArtifactResult {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [versions, setVersions] = useState<any[]>([]);
+  
+  const {
+    artifacts,
+    currentUser,
+    fetchArtifact,
+    updateArtifact,
+    deleteArtifact,
+    shareArtifact,
+    addAnnotation
+  } = useArtifactStore();
+  
+  const artifact = artifacts.find(a => a.id === artifactId) || null;
+  
+  // Permissions
+  const isOwner = artifact?.createdBy === currentUser?.id;
+  const canEdit = isOwner || currentUser?.permissions?.includes('edit_artifacts');
+  const canDelete = isOwner || currentUser?.permissions?.includes('delete_artifacts');
+  const canShare = artifact?.isPublic || isOwner || currentUser?.permissions?.includes('share_artifacts');
+  
+  // Load artifact
+  const refresh = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      await fetchArtifact(artifactId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load artifact');
+    } finally {
+      setLoading(false);
+    }
+  }, [artifactId, fetchArtifact]);
+  
+  // Save artifact
+  const save = useCallback(async (updates: Partial<Artifact>): Promise<boolean> => {
+    if (!artifact || !canEdit) return false;
+    
+    try {
+      setSaving(true);
+      setError(null);
+      
+      const success = await updateArtifact(artifact.id, updates);
+      
+      // Create version if versioning is enabled
+      if (success && options.enableVersioning) {
+        await createVersion('Auto-save update');
+      }
+      
+      return success;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save artifact');
+      return false;
+    } finally {
+      setSaving(false);
+    }
+  }, [artifact, canEdit, updateArtifact, options.enableVersioning]);
+  
+  // Delete artifact
+  const deleteArtifactHandler = useCallback(async (): Promise<boolean> => {
+    if (!artifact || !canDelete) return false;
+    
+    try {
+      setError(null);
+      return await deleteArtifact(artifact.id);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete artifact');
+      return false;
+    }
+  }, [artifact, canDelete, deleteArtifact]);
+  
+  // Export artifact
+  const exportArtifact = useCallback(async (options: ExportOptions): Promise<ExportResult> => {
+    if (!artifact) {
+      return { success: false, error: 'No artifact to export' };
+    }
+    
+    try {
+      setExporting(true);
+      setError(null);
+      return await ArtifactExporter.export(artifact, options);
+    } catch (err) {
+      const result = { success: false, error: err instanceof Error ? err.message : 'Export failed' };
+      setError(result.error!);
+      return result;
+    } finally {
+      setExporting(false);
+    }
+  }, [artifact]);
+  
+  // Share artifact
+  const share = useCallback(async (): Promise<{ shareUrl: string; expiresAt: Date } | null> => {
+    if (!artifact || !canShare) return null;
+    
+    try {
+      setError(null);
+      return await shareArtifact(artifact.id);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to share artifact');
+      return null;
+    }
+  }, [artifact, canShare, shareArtifact]);
+  
+  // Transform artifact
+  const transform = useCallback(async (
+    toType: Artifact['type'], 
+    transformOptions?: TransformOptions
+  ): Promise<boolean> => {
+    if (!artifact || !canEdit) return false;
+    
+    try {
+      setError(null);
+      
+      const result = ArtifactTransformer.transform(
+        artifact.content,
+        artifact.type,
+        toType,
+        transformOptions || {}
+      );
+      
+      if (!result.success) {
+        setError(result.error!);
+        return false;
+      }
+      
+      return await save({
+        type: toType,
+        content: result.data,
+        title: `${artifact.title} (Converted to ${toType})`
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Transformation failed');
+      return false;
+    }
+  }, [artifact, canEdit, save]);
+  
+  // Add annotation
+  const annotate = useCallback((annotation: any) => {
+    if (!artifact || !canEdit) return;
+    
+    addAnnotation(artifact.id, {
+      id: Math.random().toString(36).substring(2),
+      ...annotation,
+      createdAt: new Date(),
+      createdBy: currentUser?.id || 'anonymous'
+    });
+  }, [artifact, canEdit, addAnnotation, currentUser]);
+  
+  // Version control
+  const createVersion = useCallback(async (description?: string): Promise<boolean> => {
+    if (!artifact || !options.enableVersioning) return false;
+    
+    try {
+      // Mock version creation - would call API
+      const version = {
+        id: Math.random().toString(36).substring(2),
+        artifactId: artifact.id,
+        version: (artifact.version || 0) + 1,
+        title: artifact.title,
+        description: description || 'Version checkpoint',
+        content: artifact.content,
+        createdAt: new Date(),
+        createdBy: currentUser?.id || 'anonymous',
+        status: 'published' as const
+      };
+      
+      setVersions(prev => [version, ...prev]);
+      return true;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to create version');
+      return false;
+    }
+  }, [artifact, currentUser, options.enableVersioning]);
+  
+  const restoreVersion = useCallback(async (version: number): Promise<boolean> => {
+    if (!artifact || !canEdit) return false;
+    
+    try {
+      // Mock version restoration - would call API
+      const versionData = versions.find(v => v.version === version);
+      if (!versionData) {
+        setError('Version not found');
+        return false;
+      }
+      
+      return await save({
+        content: versionData.content,
+        version: (artifact.version || 0) + 1
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to restore version');
+      return false;
+    }
+  }, [artifact, canEdit, save, versions]);
+  
+  const compareVersions = useCallback(async (v1: number, v2: number): Promise<any> => {
+    if (!artifact) return null;
+    
+    try {
+      // Mock version comparison - would call API
+      const version1 = versions.find(v => v.version === v1);
+      const version2 = versions.find(v => v.version === v2);
+      
+      if (!version1 || !version2) {
+        setError('One or more versions not found');
+        return null;
+      }
+      
+      // Simple comparison
+      return {
+        fromVersion: v1,
+        toVersion: v2,
+        differences: [],
+        summary: { added: 0, modified: 0, removed: 0, similarity: 0.95 }
+      };
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Version comparison failed');
+      return null;
+    }
+  }, [artifact, versions]);
+  
+  // Auto-save
+  useEffect(() => {
+    if (!options.enableAutoSave || !artifact || !canEdit) return;
+    
+    const interval = setInterval(() => {
+      // Auto-save logic would go here
+      // For now, just a placeholder
+    }, options.autoSaveInterval || 30000);
+    
+    return () => clearInterval(interval);
+  }, [artifact, canEdit, options.enableAutoSave, options.autoSaveInterval]);
+  
+  // Load versions
+  useEffect(() => {
+    if (!artifact || !options.enableVersioning) return;
+    
+    // Mock version loading - would call API
+    const loadVersions = async () => {
+      try {
+        // Mock versions data
+        const mockVersions = Array.from({ length: 5 }, (_, i) => ({
+          id: Math.random().toString(36).substring(2),
+          artifactId: artifact.id,
+          version: i + 1,
+          title: artifact.title,\n          description: `Version ${i + 1}`,
+          createdAt: new Date(Date.now() - i * 86400000), // Days ago
+          createdBy: currentUser?.id || 'anonymous',
+          status: 'published' as const
+        }));
+        
+        setVersions(mockVersions);
+      } catch (err) {
+        console.error('Failed to load versions:', err);
+      }
+    };
+    
+    loadVersions();
+  }, [artifact, currentUser, options.enableVersioning]);
+  
+  // Initial load
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
+  
+  return {
+    artifact,
+    loading,
+    error,
+    saving,
+    exporting,
+    
+    // Actions
+    refresh,
+    save,
+    delete: deleteArtifactHandler,
+    export: exportArtifact,
+    share,
+    transform,
+    annotate,
+    
+    // Version control
+    versions,
+    currentVersion: artifact?.version || 1,
+    createVersion,
+    restoreVersion,
+    compareVersions,
+    
+    // Permissions
+    isOwner,
+    canEdit,
+    canDelete,
+    canShare
+  };
+}"

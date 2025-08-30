@@ -1,8 +1,4 @@
-import { ToolExecutor, ToolRegistry, ToolValidator } from '@penny/tools';
-import type { ToolContext, ToolResult, ToolExecution } from '@penny/tools';
-import { prisma } from '@penny/database';
-import { RBACService } from '@penny/security';
-import type { TenantId, UserId, Role } from '@penny/shared';
+import { ToolExecutor, ToolRegistry, ToolValidator } from '@penny/tools';\nimport type { ToolContext, ToolResult, ToolExecution } from '@penny/tools';\nimport { prisma } from '@penny/database';\nimport { RBACService } from '@penny/security';\nimport type { TenantId, UserId, Role } from '@penny/shared';
 import Redis from 'ioredis';
 import { EventEmitter } from 'events';
 
@@ -34,10 +30,7 @@ export class ToolExecutionService extends EventEmitter {
     // Initialize executor with comprehensive configuration
     this.executor = new ToolExecutor({
       registry: this.registry,
-      redis: this.redis,
-      maxConcurrency: parseInt(process.env.TOOL_MAX_CONCURRENCY || '10'),
-      defaultTimeout: parseInt(process.env.TOOL_DEFAULT_TIMEOUT || '30000'),
-      maxRetries: parseInt(process.env.TOOL_MAX_RETRIES || '3'),
+      redis: this.redis,\n      maxConcurrency: parseInt(process.env.TOOL_MAX_CONCURRENCY || '10'),\n      defaultTimeout: parseInt(process.env.TOOL_DEFAULT_TIMEOUT || '30000'),\n      maxRetries: parseInt(process.env.TOOL_MAX_RETRIES || '3'),
       enableSandbox: process.env.TOOL_ENABLE_SANDBOX !== 'false',
       enableMetrics: true,
       enableLogging: true,
@@ -77,8 +70,7 @@ export class ToolExecutionService extends EventEmitter {
 
       // Check execution permissions
       const canExecute = await this.registry.canExecute(toolName, tenantId, userId, userRoles);
-      if (!canExecute) {
-        throw new Error(`Insufficient permissions to execute tool ${toolName}`);
+      if (!canExecute) {\n        throw new Error(`Insufficient permissions to execute tool ${toolName}`);
       }
 
       // Check rate limits at service level
@@ -89,8 +81,7 @@ export class ToolExecutionService extends EventEmitter {
         tenantId,
         userId,
         conversationId: context.conversationId,
-        messageId: context.messageId,
-        executionId: `exec_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        messageId: context.messageId,\n        executionId: `exec_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         userAgent: context.userAgent,
         ipAddress: context.ipAddress,
         permissions: userRoles.map(role => role.name),
@@ -124,13 +115,11 @@ export class ToolExecutionService extends EventEmitter {
       };
 
     } catch (error: any) {
-      // Log and track execution failure
-      const executionId = `exec_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      // Log and track execution failure\n      const executionId = `exec_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       
       await this.storeExecutionError(executionId, toolName, error, context);
       await this.trackToolError(toolName, tenantId, userId, error);
-
-      throw new Error(`Tool execution failed: ${error.message}`);
+\n      throw new Error(`Tool execution failed: ${error.message}`);
     }
   }
 
@@ -169,8 +158,7 @@ export class ToolExecutionService extends EventEmitter {
         error: dbExecution.error ? JSON.parse(dbExecution.error) : null,
         metadata: dbExecution.metadata
       };
-    } catch (error: any) {
-      throw new Error(`Failed to get execution status: ${error.message}`);
+    } catch (error: any) {\n      throw new Error(`Failed to get execution status: ${error.message}`);
     }
   }
 
@@ -196,8 +184,7 @@ export class ToolExecutionService extends EventEmitter {
       }
 
       return { success: true, message: 'Execution cancelled successfully' };
-    } catch (error: any) {
-      throw new Error(`Failed to cancel execution: ${error.message}`);
+    } catch (error: any) {\n      throw new Error(`Failed to cancel execution: ${error.message}`);
     }
   }
 
@@ -253,8 +240,7 @@ export class ToolExecutionService extends EventEmitter {
         total: await prisma.toolExecution.count({ where }),
         hasMore: offset + limit < await prisma.toolExecution.count({ where })
       };
-    } catch (error: any) {
-      throw new Error(`Failed to get execution history: ${error.message}`);
+    } catch (error: any) {\n      throw new Error(`Failed to get execution history: ${error.message}`);
     }
   }
 
@@ -309,8 +295,7 @@ export class ToolExecutionService extends EventEmitter {
   private async checkServiceRateLimit(toolName: string, userId: string, tenantId: string) {
     if (!this.redis) return; // Skip if Redis not available
 
-    // Implement service-level rate limiting
-    const key = `service_ratelimit:${toolName}:${userId}:${tenantId}`;
+    // Implement service-level rate limiting\n    const key = `service_ratelimit:${toolName}:${userId}:${tenantId}`;
     const window = 3600; // 1 hour
     const limit = 1000; // 1000 executions per hour per user per tenant
 

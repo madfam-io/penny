@@ -165,7 +165,8 @@ async function pythonCodeHandler(
       metadata: {
         environment,
         packagesInstalled: executionResult.packagesInstalled || packages,
-        linesOfCode: code.split('\n').length,
+        linesOfCode: code.split('
+').length,
         executionId: executionResult.executionId,
         sandbox: true
       }
@@ -190,7 +191,8 @@ async function pythonCodeHandler(
  */
 function validateCodeSecurity(code: string): { safe: boolean; issues: string[] } {
   const issues: string[] = [];
-  const lines = code.split('\n');
+  const lines = code.split('
+');
 
   // Dangerous patterns to check for
   const dangerousPatterns = [
@@ -271,14 +273,19 @@ function mockPythonExecution(payload: any): any {
 
   // Generate mock output based on code content
   if (hasPrint) {
-    output += 'Hello from Python!\n';
+    output += 'Hello from Python!
+';
     if (hasDataFrame) {
-      output += 'DataFrame loaded successfully\n';
-      output += 'Shape: (100, 5)\n';
+      output += 'DataFrame loaded successfully
+';
+      output += 'Shape: (100, 5)
+';
     }
     if (hasMath) {
-      output += 'Mathematical calculation completed\n';
-      output += 'Result: 42.0\n';
+      output += 'Mathematical calculation completed
+';
+      output += 'Result: 42.0
+';
     }
   }
 

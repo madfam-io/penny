@@ -87,8 +87,7 @@ export interface TenantsPagination {
   sortOrder?: 'asc' | 'desc';
 }
 
-class TenantsApiClient {
-  private baseUrl = '/api/admin/tenants';
+class TenantsApiClient {\n  private baseUrl = '/api/admin/tenants';
 
   async getTenants(
     pagination: TenantsPagination,
@@ -112,8 +111,7 @@ class TenantsApiClient {
     
     const response = await fetch(`${this.baseUrl}?${params.toString()}`);
     
-    if (!response.ok) {
-      throw new Error(`Failed to fetch tenants: ${response.statusText}`);
+    if (!response.ok) {\n      throw new Error(`Failed to fetch tenants: ${response.statusText}`);
     }
     
     const data = await response.json();
@@ -135,14 +133,12 @@ class TenantsApiClient {
     };
   }
 
-  async getTenant(id: string): Promise<Tenant> {
-    const response = await fetch(`${this.baseUrl}/${id}`);
+  async getTenant(id: string): Promise<Tenant> {\n    const response = await fetch(`${this.baseUrl}/${id}`);
     
     if (!response.ok) {
       if (response.status === 404) {
         throw new Error('Tenant not found');
-      }
-      throw new Error(`Failed to fetch tenant: ${response.statusText}`);
+      }\n      throw new Error(`Failed to fetch tenant: ${response.statusText}`);
     }
     
     const tenant = await response.json();
@@ -185,8 +181,7 @@ class TenantsApiClient {
     };
   }
 
-  async updateTenant(id: string, data: UpdateTenantRequest): Promise<Tenant> {
-    const response = await fetch(`${this.baseUrl}/${id}`, {
+  async updateTenant(id: string, data: UpdateTenantRequest): Promise<Tenant> {\n    const response = await fetch(`${this.baseUrl}/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -215,8 +210,7 @@ class TenantsApiClient {
     };
   }
 
-  async deleteTenant(id: string): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/${id}`, {
+  async deleteTenant(id: string): Promise<void> {\n    const response = await fetch(`${this.baseUrl}/${id}`, {
       method: 'DELETE',
     });
     
@@ -235,11 +229,9 @@ class TenantsApiClient {
       params.set('page', pagination.page.toString());
       params.set('limit', pagination.limit.toString());
     }
+    \n    const response = await fetch(`${this.baseUrl}/${id}/users?${params.toString()}`);
     
-    const response = await fetch(`${this.baseUrl}/${id}/users?${params.toString()}`);
-    
-    if (!response.ok) {
-      throw new Error(`Failed to fetch tenant users: ${response.statusText}`);
+    if (!response.ok) {\n      throw new Error(`Failed to fetch tenant users: ${response.statusText}`);
     }
     
     return response.json();
@@ -258,21 +250,17 @@ class TenantsApiClient {
     if (options?.startDate) params.set('startDate', options.startDate.toISOString());
     if (options?.endDate) params.set('endDate', options.endDate.toISOString());
     if (options?.granularity) params.set('granularity', options.granularity);
+    \n    const response = await fetch(`${this.baseUrl}/${id}/usage?${params.toString()}`);
     
-    const response = await fetch(`${this.baseUrl}/${id}/usage?${params.toString()}`);
-    
-    if (!response.ok) {
-      throw new Error(`Failed to fetch tenant usage: ${response.statusText}`);
+    if (!response.ok) {\n      throw new Error(`Failed to fetch tenant usage: ${response.statusText}`);
     }
     
     return response.json();
   }
 
-  async getTenantBilling(id: string): Promise<any> {
-    const response = await fetch(`${this.baseUrl}/${id}/billing`);
+  async getTenantBilling(id: string): Promise<any> {\n    const response = await fetch(`${this.baseUrl}/${id}/billing`);
     
-    if (!response.ok) {
-      throw new Error(`Failed to fetch tenant billing: ${response.statusText}`);
+    if (!response.ok) {\n      throw new Error(`Failed to fetch tenant billing: ${response.statusText}`);
     }
     
     return response.json();
@@ -286,8 +274,7 @@ class TenantsApiClient {
       billingEmail?: string;
       paymentMethod?: string;
     }
-  ): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/${id}/billing`, {
+  ): Promise<void> {\n    const response = await fetch(`${this.baseUrl}/${id}/billing`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -301,8 +288,7 @@ class TenantsApiClient {
     }
   }
 
-  async suspendTenant(id: string, reason?: string): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/${id}/suspend`, {
+  async suspendTenant(id: string, reason?: string): Promise<void> {\n    const response = await fetch(`${this.baseUrl}/${id}/suspend`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -316,8 +302,7 @@ class TenantsApiClient {
     }
   }
 
-  async reactivateTenant(id: string): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/${id}/reactivate`, {
+  async reactivateTenant(id: string): Promise<void> {\n    const response = await fetch(`${this.baseUrl}/${id}/reactivate`, {
       method: 'POST',
     });
     
@@ -334,11 +319,9 @@ class TenantsApiClient {
     if (filters?.search) params.set('search', filters.search);
     if (filters?.status) params.set('status', filters.status);
     if (filters?.plan) params.set('plan', filters.plan);
+    \n    const response = await fetch(`${this.baseUrl}/export?${params.toString()}`);
     
-    const response = await fetch(`${this.baseUrl}/export?${params.toString()}`);
-    
-    if (!response.ok) {
-      throw new Error(`Failed to export tenants: ${response.statusText}`);
+    if (!response.ok) {\n      throw new Error(`Failed to export tenants: ${response.statusText}`);
     }
     
     return response.blob();

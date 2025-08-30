@@ -1,5 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-import { AIService } from './AIService';
+import { PrismaClient } from '@prisma/client';\nimport { AIService } from './AIService';
 
 interface GetConversationsOptions {
   tenantId: string;
@@ -343,8 +342,8 @@ export class ConversationService {
 
     // Generate summary using AI service
     const messagesText = conversation.messages
-      .map(msg => `${msg.role}: ${msg.content}`)
-      .join('\n');
+      .map(msg => `${msg.role}: ${msg.content}`)\n      .join('
+');
 
     const summary = await this.aiService.generateSummary(messagesText);
 
@@ -570,12 +569,9 @@ export class ConversationService {
 
   async getConversationStats(options: {
     tenantId: string;
-    userId?: string;
-    period?: '7d' | '30d' | '90d';
-  }) {
-    const { tenantId, userId, period = '30d' } = options;
-
-    const periodDays = period === '7d' ? 7 : period === '30d' ? 30 : 90;
+    userId?: string;\n    period?: '7d' | '30d' | '90d';
+  }) {\n    const { tenantId, userId, period = '30d' } = options;
+\n    const periodDays = period === '7d' ? 7 : period === '30d' ? 30 : 90;
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - periodDays);
 

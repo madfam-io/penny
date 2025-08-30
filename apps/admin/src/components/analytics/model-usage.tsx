@@ -13,22 +13,17 @@ const data = [
 export function ModelUsage() {
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={data}>
-        <XAxis dataKey="model" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-        <YAxis
-          stroke="#888888"
+      <BarChart data={data}>\n        <XAxis dataKey="model" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
+        <YAxis\n          stroke="#888888"
           fontSize={12}
           tickLine={false}
           axisLine={false}
           tickFormatter={(value) => `${value / 1000}k`}
         />
         <Tooltip
-          formatter={(value: number, name: string) => {
-            if (name === 'usage') return [`${(value / 1000).toFixed(1)}k requests`, 'Usage'];
-            return [`$${value}`, 'Cost'];
+          formatter={(value: number, name: string) => {\n            if (name === 'usage') return [`${(value / 1000).toFixed(1)}k requests`, 'Usage'];\n            return [`$${value}`, 'Cost'];
           }}
-        />
-        <Bar dataKey="usage" fill="#8884d8" />
+        />\n        <Bar dataKey="usage" fill="#8884d8" />
       </BarChart>
     </ResponsiveContainer>
   );

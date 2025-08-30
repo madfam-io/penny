@@ -8,12 +8,8 @@ import {
   CardTitle,
   Badge,
   Alert,
-  AlertDescription,
-} from '@penny/ui';
-import { Activity, Database, Server, Wifi, AlertTriangle, CheckCircle } from 'lucide-react';
-import { ServiceStatus } from '@/components/health/service-status';
-import { MetricsChart } from '@/components/health/metrics-chart';
-import { IncidentsList } from '@/components/health/incidents-list';
+  AlertDescription,\n} from '@penny/ui';
+import { Activity, Database, Server, Wifi, AlertTriangle, CheckCircle } from 'lucide-react';\nimport { ServiceStatus } from '@/components/health/service-status';\nimport { MetricsChart } from '@/components/health/metrics-chart';\nimport { IncidentsList } from '@/components/health/incidents-list';
 
 const services = [
   {
@@ -51,41 +47,30 @@ export default function HealthPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">System Health</h1>
-        <p className="text-muted-foreground">Monitor system status and performance metrics</p>
+      <div>\n        <h1 className="text-3xl font-bold tracking-tight">System Health</h1>\n        <p className="text-muted-foreground">Monitor system status and performance metrics</p>
       </div>
 
-      {hasIssues ? (
-        <Alert className="border-yellow-600 bg-yellow-50 dark:bg-yellow-950/20">
-          <AlertTriangle className="h-4 w-4 text-yellow-600" />
-          <AlertDescription className="text-yellow-800 dark:text-yellow-200">
+      {hasIssues ? (\n        <Alert className="border-yellow-600 bg-yellow-50 dark:bg-yellow-950/20">\n          <AlertTriangle className="h-4 w-4 text-yellow-600" />\n          <AlertDescription className="text-yellow-800 dark:text-yellow-200">
             Some services are experiencing degraded performance. Our team is investigating.
           </AlertDescription>
         </Alert>
-      ) : (
-        <Alert className="border-green-600 bg-green-50 dark:bg-green-950/20">
-          <CheckCircle className="h-4 w-4 text-green-600" />
-          <AlertDescription className="text-green-800 dark:text-green-200">
+      ) : (\n        <Alert className="border-green-600 bg-green-50 dark:bg-green-950/20">\n          <CheckCircle className="h-4 w-4 text-green-600" />\n          <AlertDescription className="text-green-800 dark:text-green-200">
             All systems are operational. No issues detected.
           </AlertDescription>
         </Alert>
       )}
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+\n      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {services.map((service) => (
           <ServiceStatus key={service.name} service={service} />
         ))}
       </div>
-
-      <div className="grid gap-4 md:grid-cols-2">
+\n      <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Response Time</CardTitle>
             <CardDescription>API response times over the last 24 hours</CardDescription>
           </CardHeader>
-          <CardContent>
-            <MetricsChart metric="latency" />
+          <CardContent>\n            <MetricsChart metric="latency" />
           </CardContent>
         </Card>
 
@@ -94,8 +79,7 @@ export default function HealthPage() {
             <CardTitle>Error Rate</CardTitle>
             <CardDescription>Error rate percentage over the last 24 hours</CardDescription>
           </CardHeader>
-          <CardContent>
-            <MetricsChart metric="errors" />
+          <CardContent>\n            <MetricsChart metric="errors" />
           </CardContent>
         </Card>
       </div>

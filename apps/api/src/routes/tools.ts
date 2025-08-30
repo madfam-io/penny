@@ -1,8 +1,5 @@
 import type { FastifyPluginAsync } from 'fastify';
-import { z } from 'zod';
-import { Role, toolInvocationSchema } from '@penny/shared';
-import { ToolRegistryService } from '../services/ToolRegistryService.js';
-import { ToolExecutionService } from '../services/ToolExecutionService.js';
+import { z } from 'zod';\nimport { Role, toolInvocationSchema } from '@penny/shared';\nimport { ToolRegistryService } from '../services/ToolRegistryService.js';\nimport { ToolExecutionService } from '../services/ToolExecutionService.js';
 
 const toolSearchSchema = z.object({
   query: z.string().optional(),
@@ -29,8 +26,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   const toolExecutor = new ToolExecutionService();
 
   // List available tools with search and filtering
-  fastify.get(
-    '/',
+  fastify.get(\n    '/',
     {
       schema: {
         description: 'List available tools for the current user with search and filtering',
@@ -88,8 +84,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Invoke a tool
-  fastify.post(
-    '/:name/invoke',
+  fastify.post(\n    '/:name/invoke',
     {
       schema: {
         description: 'Invoke a specific tool',
@@ -161,8 +156,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
           reply.code(404);
           return {
             error: {
-              code: 'TOOL_NOT_FOUND',
-              message: `Tool '${name}' not found`,
+              code: 'TOOL_NOT_FOUND',\n              message: `Tool '${name}' not found`,
             },
           };
       }
@@ -170,8 +164,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Get tool execution status
-  fastify.get(
-    '/runs/:runId',
+  fastify.get(\n    '/runs/:runId',
     {
       schema: {
         description: 'Get tool execution status',

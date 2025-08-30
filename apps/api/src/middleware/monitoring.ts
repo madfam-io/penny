@@ -1,1 +1,383 @@
-import { Request, Response, NextFunction } from 'fastify';\nimport { pennyMonitoring } from '@penny/monitoring';\nimport { performance } from 'perf_hooks';\n\n// Extend the Request type to include monitoring properties\ndeclare module 'fastify' {\n  interface FastifyRequest {\n    startTime?: number;\n    monitoringContext?: {\n      traceId?: string;\n      spanId?: string;\n      tenantId?: string;\n      userId?: string;\n    };\n  }\n}\n\nexport interface MonitoringConfig {\n  enableMetrics?: boolean;\n  enableTracing?: boolean;\n  enableLogging?: boolean;\n  enableAlerting?: boolean;\n  excludePaths?: string[];\n  slowRequestThreshold?: number;\n  errorAlertThreshold?: number;\n}\n\n/**\n * HTTP Request Monitoring Middleware\n */\nexport const createHttpMonitoringMiddleware = (config: MonitoringConfig = {}) => {\n  const {\n    enableMetrics = true,\n    enableTracing = true,\n    enableLogging = true,\n    enableAlerting = true,\n    excludePaths = ['/health', '/metrics', '/ping'],\n    slowRequestThreshold = 1000, // 1 second\n    errorAlertThreshold = 100 // Alert after 100 errors\n  } = config;\n\n  const monitoring = pennyMonitoring.getMonitoring();\n  const metrics = pennyMonitoring.getMetrics();\n  const logging = pennyMonitoring.getLogging();\n  const tracing = pennyMonitoring.getTracing();\n  const alerting = pennyMonitoring.getAlerting();\n\n  return async (request: any, reply: any, next: NextFunction) => {\n    const startTime = performance.now();\n    const path = request.url.split('?')[0];\n    \n    // Skip monitoring for excluded paths\n    if (excludePaths.includes(path)) {\n      return next();\n    }\n\n    // Set monitoring context\n    request.startTime = startTime;\n    request.monitoringContext = {\n      tenantId: request.headers['x-tenant-id'] || request.query?.tenantId,\n      userId: request.user?.id || request.headers['x-user-id']\n    };\n\n    // Start tracing span if enabled\n    let span: any = null;\n    if (enableTracing) {\n      span = tracing.traceHttpRequest(request, reply);\n      if (span) {\n        const spanContext = span.spanContext();\n        request.monitoringContext.traceId = spanContext.traceId;\n        request.monitoringContext.spanId = spanContext.spanId;\n      }\n    }\n\n    // Increment active requests metric\n    if (enableMetrics) {\n      metrics.recordApiCall(\n        path,\n        request.monitoringContext.tenantId || 'unknown',\n        request.monitoringContext.userId\n      );\n    }\n\n    // Handle response completion\n    const onResponse = () => {\n      const duration = performance.now() - startTime;\n      const statusCode = reply.statusCode || 200;\n      \n      try {\n        // Record metrics\n        if (enableMetrics) {\n          metrics.recordHttpRequest(\n            request.method,\n            path,\n            statusCode,\n            duration,\n            request.monitoringContext?.tenantId\n          );\n\n          // Record error metrics\n          if (statusCode >= 400) {\n            const severity = statusCode >= 500 ? 'high' : 'medium';\n            metrics.recordError('http', 'api-service', severity);\n          }\n        }\n\n        // Log request\n        if (enableLogging) {\n          logging.logHttpRequest(request, reply, duration);\n        }\n\n        // Alert on slow requests\n        if (enableAlerting && duration > slowRequestThreshold) {\n          alerting.sendAlert({\n            name: 'Slow HTTP Request',\n            severity: duration > slowRequestThreshold * 2 ? 'high' : 'medium',\n            message: `Request to ${path} took ${duration.toFixed(2)}ms`,\n            metadata: {\n              method: request.method,\n              path,\n              duration,\n              statusCode,\n              tenantId: request.monitoringContext?.tenantId,\n              userId: request.monitoringContext?.userId\n            }\n          });\n        }\n      } catch (error) {\n        logging.error('Monitoring middleware error', { error: error.message });\n      }\n    };\n\n    // Attach response handler\n    reply.raw.on('finish', onResponse);\n\n    next();\n  };\n};\n\n/**\n * Error Monitoring Middleware\n */\nexport const createErrorMonitoringMiddleware = (config: MonitoringConfig = {}) => {\n  const {\n    enableLogging = true,\n    enableMetrics = true,\n    enableAlerting = true\n  } = config;\n\n  const monitoring = pennyMonitoring.getMonitoring();\n  const metrics = pennyMonitoring.getMetrics();\n  const logging = pennyMonitoring.getLogging();\n  const tracing = pennyMonitoring.getTracing();\n  const alerting = pennyMonitoring.getAlerting();\n\n  return async (error: Error, request: any, reply: any, next: NextFunction) => {\n    try {\n      const context = {\n        method: request.method,\n        url: request.url,\n        userAgent: request.headers['user-agent'],\n        ip: request.ip,\n        tenantId: request.monitoringContext?.tenantId,\n        userId: request.monitoringContext?.userId,\n        traceId: request.monitoringContext?.traceId,\n        spanId: request.monitoringContext?.spanId\n      };\n\n      // Log error\n      if (enableLogging) {\n        logging.logError(error, context);\n      }\n\n      // Record error metrics\n      if (enableMetrics) {\n        const errorType = error.name || 'UnknownError';\n        metrics.recordError('application', 'api-service', 'high');\n      }\n\n      // Record tracing exception\n      tracing.recordException(error);\n\n      // Send alert for critical errors\n      if (enableAlerting) {\n        const isCritical = error.message.includes('CRITICAL') || \n                          error.name === 'DatabaseError' ||\n                          error.name === 'SecurityError';\n        \n        if (isCritical) {\n          await alerting.sendApplicationAlert('api-service', error, context);\n        }\n      }\n    } catch (monitoringError) {\n      console.error('Error in error monitoring middleware:', monitoringError);\n    }\n\n    next(error);\n  };\n};\n\n/**\n * Performance Monitoring Middleware\n */\nexport const createPerformanceMonitoringMiddleware = () => {\n  const monitoring = pennyMonitoring.getMonitoring();\n  const metrics = pennyMonitoring.getMetrics();\n  const logging = pennyMonitoring.getLogging();\n\n  return async (request: any, reply: any, next: NextFunction) => {\n    const startMemory = process.memoryUsage();\n    const startCpu = process.cpuUsage();\n    \n    const onResponse = () => {\n      const endMemory = process.memoryUsage();\n      const endCpu = process.cpuUsage(startCpu);\n      const duration = performance.now() - request.startTime;\n      \n      // Log performance metrics\n      logging.logPerformanceMetric('request_memory_delta', endMemory.heapUsed - startMemory.heapUsed, 'bytes', {\n        method: request.method,\n        path: request.url.split('?')[0],\n        duration\n      });\n\n      logging.logPerformanceMetric('request_cpu_time', endCpu.user + endCpu.system, 'microseconds', {\n        method: request.method,\n        path: request.url.split('?')[0],\n        duration\n      });\n    };\n\n    reply.raw.on('finish', onResponse);\n    next();\n  };\n};\n\n/**\n * Database Query Monitoring Wrapper\n */\nexport const monitorDatabaseQuery = async <T>(\n  operation: string,\n  query: string,\n  executor: () => Promise<T>\n): Promise<T> => {\n  const monitoring = pennyMonitoring.getMonitoring();\n  return monitoring.monitorDatabaseOperation(operation, query, executor);\n};\n\n/**\n * AI Model Call Monitoring Wrapper\n */\nexport const monitorAIModelCall = async <T>(\n  provider: string,\n  model: string,\n  tokens: { input: number; output: number },\n  executor: () => Promise<T>\n): Promise<T> => {\n  const monitoring = pennyMonitoring.getMonitoring();\n  return monitoring.monitorAIModelCall(provider, model, tokens, executor);\n};\n\n/**\n * Tool Execution Monitoring Wrapper\n */\nexport const monitorToolExecution = async <T>(\n  toolName: string,\n  parameters: Record<string, any>,\n  tenantId: string,\n  executor: () => Promise<T>\n): Promise<T> => {\n  const monitoring = pennyMonitoring.getMonitoring();\n  return monitoring.monitorToolExecution(toolName, parameters, tenantId, executor);\n};\n\n/**\n * Business Operation Monitoring Wrapper\n */\nexport const monitorBusinessOperation = async <T>(\n  operation: string,\n  executor: () => Promise<T>,\n  metadata?: Record<string, any>\n): Promise<T> => {\n  const monitoring = pennyMonitoring.getMonitoring();\n  return monitoring.monitorBusinessOperation(operation, executor, metadata);\n};\n\n/**\n * Rate Limiting with Monitoring\n */\nexport const createRateLimitingMiddleware = (options: {\n  windowMs: number;\n  max: number;\n  keyGenerator?: (request: any) => string;\n}) => {\n  const { windowMs, max, keyGenerator = (req) => req.ip } = options;\n  const requests = new Map<string, { count: number; resetTime: number }>();\n  const metrics = pennyMonitoring.getMetrics();\n  const alerting = pennyMonitoring.getAlerting();\n\n  return async (request: any, reply: any, next: NextFunction) => {\n    const key = keyGenerator(request);\n    const now = Date.now();\n    const windowStart = now - windowMs;\n    \n    // Clean up old entries\n    for (const [k, v] of requests.entries()) {\n      if (v.resetTime < now) {\n        requests.delete(k);\n      }\n    }\n    \n    const current = requests.get(key) || { count: 0, resetTime: now + windowMs };\n    \n    if (current.count >= max) {\n      // Rate limit exceeded\n      metrics.recordError('rate_limit', 'api-service', 'medium');\n      \n      // Alert if too many rate limit violations\n      if (current.count === max + 10) { // Alert after 10 additional attempts\n        await alerting.sendSecurityAlert('Rate Limit Exceeded', {\n          key,\n          attempts: current.count,\n          window: windowMs,\n          ip: request.ip,\n          userAgent: request.headers['user-agent']\n        });\n      }\n      \n      reply.status(429).send({\n        error: 'Too Many Requests',\n        retryAfter: Math.ceil((current.resetTime - now) / 1000)\n      });\n      return;\n    }\n    \n    current.count++;\n    requests.set(key, current);\n    \n    next();\n  };\n};\n\n/**\n * Health Check Endpoint\n */\nexport const createHealthCheckEndpoint = () => {\n  const health = pennyMonitoring.getHealth();\n  \n  return async (request: any, reply: any) => {\n    const healthData = health.getOverallHealth();\n    const systemHealth = await health.getSystemHealth();\n    \n    const status = healthData.status === 'healthy' ? 200 : \n                  healthData.status === 'degraded' ? 200 : 503;\n    \n    reply.status(status).send({\n      status: healthData.status,\n      timestamp: new Date().toISOString(),\n      service: 'penny-api',\n      version: process.env.npm_package_version || '1.0.0',\n      uptime: process.uptime(),\n      system: systemHealth,\n      checks: healthData.checks.map(check => ({\n        name: check.name,\n        status: check.status,\n        message: check.message,\n        responseTime: check.responseTime\n      })),\n      summary: healthData.summary\n    });\n  };\n};\n\n/**\n * Metrics Endpoint\n */\nexport const createMetricsEndpoint = () => {\n  const metrics = pennyMonitoring.getMetrics();\n  \n  return async (request: any, reply: any) => {\n    const prometheusMetrics = await metrics.getMetrics();\n    reply.header('Content-Type', 'text/plain; version=0.0.4; charset=utf-8');\n    reply.send(prometheusMetrics);\n  };\n};\n\nexport {\n  pennyMonitoring\n};"
+import { Request, Response, NextFunction } from 'fastify';\nimport { pennyMonitoring } from '@penny/monitoring';
+import { performance } from 'perf_hooks';
+
+// Extend the Request type to include monitoring properties
+declare module 'fastify' {
+  interface FastifyRequest {
+    startTime?: number;
+    monitoringContext?: {
+      traceId?: string;
+      spanId?: string;
+      tenantId?: string;
+      userId?: string;
+    };
+  }
+}
+
+export interface MonitoringConfig {
+  enableMetrics?: boolean;
+  enableTracing?: boolean;
+  enableLogging?: boolean;
+  enableAlerting?: boolean;
+  excludePaths?: string[];
+  slowRequestThreshold?: number;
+  errorAlertThreshold?: number;
+}
+
+/**
+ * HTTP Request Monitoring Middleware
+ */
+export const createHttpMonitoringMiddleware = (config: MonitoringConfig = {}) => {
+  const {
+    enableMetrics = true,
+    enableTracing = true,
+    enableLogging = true,
+    enableAlerting = true,\n    excludePaths = ['/health', '/metrics', '/ping'],
+    slowRequestThreshold = 1000, // 1 second
+    errorAlertThreshold = 100 // Alert after 100 errors
+  } = config;
+
+  const monitoring = pennyMonitoring.getMonitoring();
+  const metrics = pennyMonitoring.getMetrics();
+  const logging = pennyMonitoring.getLogging();
+  const tracing = pennyMonitoring.getTracing();
+  const alerting = pennyMonitoring.getAlerting();
+
+  return async (request: any, reply: any, next: NextFunction) => {
+    const startTime = performance.now();\n    const path = request.url.split('?')[0];
+    
+    // Skip monitoring for excluded paths
+    if (excludePaths.includes(path)) {
+      return next();
+    }
+
+    // Set monitoring context
+    request.startTime = startTime;
+    request.monitoringContext = {
+      tenantId: request.headers['x-tenant-id'] || request.query?.tenantId,
+      userId: request.user?.id || request.headers['x-user-id']
+    };
+
+    // Start tracing span if enabled
+    let span: any = null;
+    if (enableTracing) {
+      span = tracing.traceHttpRequest(request, reply);
+      if (span) {
+        const spanContext = span.spanContext();
+        request.monitoringContext.traceId = spanContext.traceId;
+        request.monitoringContext.spanId = spanContext.spanId;
+      }
+    }
+
+    // Increment active requests metric
+    if (enableMetrics) {
+      metrics.recordApiCall(
+        path,
+        request.monitoringContext.tenantId || 'unknown',
+        request.monitoringContext.userId
+      );
+    }
+
+    // Handle response completion
+    const onResponse = () => {
+      const duration = performance.now() - startTime;
+      const statusCode = reply.statusCode || 200;
+      
+      try {
+        // Record metrics
+        if (enableMetrics) {
+          metrics.recordHttpRequest(
+            request.method,
+            path,
+            statusCode,
+            duration,
+            request.monitoringContext?.tenantId
+          );
+
+          // Record error metrics
+          if (statusCode >= 400) {
+            const severity = statusCode >= 500 ? 'high' : 'medium';
+            metrics.recordError('http', 'api-service', severity);
+          }
+        }
+
+        // Log request
+        if (enableLogging) {
+          logging.logHttpRequest(request, reply, duration);
+        }
+
+        // Alert on slow requests
+        if (enableAlerting && duration > slowRequestThreshold) {
+          alerting.sendAlert({
+            name: 'Slow HTTP Request',
+            severity: duration > slowRequestThreshold * 2 ? 'high' : 'medium',
+            message: `Request to ${path} took ${duration.toFixed(2)}ms`,
+            metadata: {
+              method: request.method,
+              path,
+              duration,
+              statusCode,
+              tenantId: request.monitoringContext?.tenantId,
+              userId: request.monitoringContext?.userId
+            }
+          });
+        }
+      } catch (error) {
+        logging.error('Monitoring middleware error', { error: error.message });
+      }
+    };
+
+    // Attach response handler
+    reply.raw.on('finish', onResponse);
+
+    next();
+  };
+};
+
+/**
+ * Error Monitoring Middleware
+ */
+export const createErrorMonitoringMiddleware = (config: MonitoringConfig = {}) => {
+  const {
+    enableLogging = true,
+    enableMetrics = true,
+    enableAlerting = true
+  } = config;
+
+  const monitoring = pennyMonitoring.getMonitoring();
+  const metrics = pennyMonitoring.getMetrics();
+  const logging = pennyMonitoring.getLogging();
+  const tracing = pennyMonitoring.getTracing();
+  const alerting = pennyMonitoring.getAlerting();
+
+  return async (error: Error, request: any, reply: any, next: NextFunction) => {
+    try {
+      const context = {
+        method: request.method,
+        url: request.url,
+        userAgent: request.headers['user-agent'],
+        ip: request.ip,
+        tenantId: request.monitoringContext?.tenantId,
+        userId: request.monitoringContext?.userId,
+        traceId: request.monitoringContext?.traceId,
+        spanId: request.monitoringContext?.spanId
+      };
+
+      // Log error
+      if (enableLogging) {
+        logging.logError(error, context);
+      }
+
+      // Record error metrics
+      if (enableMetrics) {
+        const errorType = error.name || 'UnknownError';
+        metrics.recordError('application', 'api-service', 'high');
+      }
+
+      // Record tracing exception
+      tracing.recordException(error);
+
+      // Send alert for critical errors
+      if (enableAlerting) {
+        const isCritical = error.message.includes('CRITICAL') || 
+                          error.name === 'DatabaseError' ||
+                          error.name === 'SecurityError';
+        
+        if (isCritical) {
+          await alerting.sendApplicationAlert('api-service', error, context);
+        }
+      }
+    } catch (monitoringError) {
+      console.error('Error in error monitoring middleware:', monitoringError);
+    }
+
+    next(error);
+  };
+};
+
+/**
+ * Performance Monitoring Middleware
+ */
+export const createPerformanceMonitoringMiddleware = () => {
+  const monitoring = pennyMonitoring.getMonitoring();
+  const metrics = pennyMonitoring.getMetrics();
+  const logging = pennyMonitoring.getLogging();
+
+  return async (request: any, reply: any, next: NextFunction) => {
+    const startMemory = process.memoryUsage();
+    const startCpu = process.cpuUsage();
+    
+    const onResponse = () => {
+      const endMemory = process.memoryUsage();
+      const endCpu = process.cpuUsage(startCpu);
+      const duration = performance.now() - request.startTime;
+      
+      // Log performance metrics
+      logging.logPerformanceMetric('request_memory_delta', endMemory.heapUsed - startMemory.heapUsed, 'bytes', {
+        method: request.method,\n        path: request.url.split('?')[0],
+        duration
+      });
+
+      logging.logPerformanceMetric('request_cpu_time', endCpu.user + endCpu.system, 'microseconds', {
+        method: request.method,\n        path: request.url.split('?')[0],
+        duration
+      });
+    };
+
+    reply.raw.on('finish', onResponse);
+    next();
+  };
+};
+
+/**
+ * Database Query Monitoring Wrapper
+ */
+export const monitorDatabaseQuery = async <T>(
+  operation: string,
+  query: string,
+  executor: () => Promise<T>
+): Promise<T> => {
+  const monitoring = pennyMonitoring.getMonitoring();
+  return monitoring.monitorDatabaseOperation(operation, query, executor);
+};
+
+/**
+ * AI Model Call Monitoring Wrapper
+ */
+export const monitorAIModelCall = async <T>(
+  provider: string,
+  model: string,
+  tokens: { input: number; output: number },
+  executor: () => Promise<T>
+): Promise<T> => {
+  const monitoring = pennyMonitoring.getMonitoring();
+  return monitoring.monitorAIModelCall(provider, model, tokens, executor);
+};
+
+/**
+ * Tool Execution Monitoring Wrapper
+ */
+export const monitorToolExecution = async <T>(
+  toolName: string,
+  parameters: Record<string, any>,
+  tenantId: string,
+  executor: () => Promise<T>
+): Promise<T> => {
+  const monitoring = pennyMonitoring.getMonitoring();
+  return monitoring.monitorToolExecution(toolName, parameters, tenantId, executor);
+};
+
+/**
+ * Business Operation Monitoring Wrapper
+ */
+export const monitorBusinessOperation = async <T>(
+  operation: string,
+  executor: () => Promise<T>,
+  metadata?: Record<string, any>
+): Promise<T> => {
+  const monitoring = pennyMonitoring.getMonitoring();
+  return monitoring.monitorBusinessOperation(operation, executor, metadata);
+};
+
+/**
+ * Rate Limiting with Monitoring
+ */
+export const createRateLimitingMiddleware = (options: {
+  windowMs: number;
+  max: number;
+  keyGenerator?: (request: any) => string;
+}) => {
+  const { windowMs, max, keyGenerator = (req) => req.ip } = options;
+  const requests = new Map<string, { count: number; resetTime: number }>();
+  const metrics = pennyMonitoring.getMetrics();
+  const alerting = pennyMonitoring.getAlerting();
+
+  return async (request: any, reply: any, next: NextFunction) => {
+    const key = keyGenerator(request);
+    const now = Date.now();
+    const windowStart = now - windowMs;
+    
+    // Clean up old entries
+    for (const [k, v] of requests.entries()) {
+      if (v.resetTime < now) {
+        requests.delete(k);
+      }
+    }
+    
+    const current = requests.get(key) || { count: 0, resetTime: now + windowMs };
+    
+    if (current.count >= max) {
+      // Rate limit exceeded
+      metrics.recordError('rate_limit', 'api-service', 'medium');
+      
+      // Alert if too many rate limit violations
+      if (current.count === max + 10) { // Alert after 10 additional attempts
+        await alerting.sendSecurityAlert('Rate Limit Exceeded', {
+          key,
+          attempts: current.count,
+          window: windowMs,
+          ip: request.ip,
+          userAgent: request.headers['user-agent']
+        });
+      }
+      
+      reply.status(429).send({
+        error: 'Too Many Requests',
+        retryAfter: Math.ceil((current.resetTime - now) / 1000)
+      });
+      return;
+    }
+    
+    current.count++;
+    requests.set(key, current);
+    
+    next();
+  };
+};
+
+/**
+ * Health Check Endpoint
+ */
+export const createHealthCheckEndpoint = () => {
+  const health = pennyMonitoring.getHealth();
+  
+  return async (request: any, reply: any) => {
+    const healthData = health.getOverallHealth();
+    const systemHealth = await health.getSystemHealth();
+    
+    const status = healthData.status === 'healthy' ? 200 : 
+                  healthData.status === 'degraded' ? 200 : 503;
+    
+    reply.status(status).send({
+      status: healthData.status,
+      timestamp: new Date().toISOString(),
+      service: 'penny-api',\n      version: process.env.npm_package_version || '1.0.0',
+      uptime: process.uptime(),
+      system: systemHealth,
+      checks: healthData.checks.map(check => ({
+        name: check.name,
+        status: check.status,
+        message: check.message,
+        responseTime: check.responseTime
+      })),
+      summary: healthData.summary
+    });
+  };
+};
+
+/**
+ * Metrics Endpoint
+ */
+export const createMetricsEndpoint = () => {
+  const metrics = pennyMonitoring.getMetrics();
+  
+  return async (request: any, reply: any) => {
+    const prometheusMetrics = await metrics.getMetrics();
+    reply.header('Content-Type', 'text/plain; version=0.0.4; charset=utf-8');
+    reply.send(prometheusMetrics);
+  };
+};
+
+export {
+  pennyMonitoring
+};"

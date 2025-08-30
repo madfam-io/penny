@@ -1,8 +1,7 @@
 import type { FastifyPluginAsync } from 'fastify';
 
 const routes: FastifyPluginAsync = async (fastify) => {
-  fastify.get(
-    '/',
+  fastify.get(\n    '/',
     {
       schema: {
         description: 'Basic health check',
@@ -26,8 +25,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
     },
   );
 
-  fastify.get(
-    '/live',
+  fastify.get(\n    '/live',
     {
       schema: {
         description: 'Kubernetes liveness probe',
@@ -47,8 +45,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
     },
   );
 
-  fastify.get(
-    '/ready',
+  fastify.get(\n    '/ready',
     {
       schema: {
         description: 'Kubernetes readiness probe',
@@ -92,8 +89,7 @@ const routes: FastifyPluginAsync = async (fastify) => {
     },
   );
 
-  fastify.get(
-    '/metrics',
+  fastify.get(\n    '/metrics',
     {
       schema: {
         description: 'Application metrics',

@@ -1,6 +1,4 @@
-import { FastifyPluginAsync } from 'fastify';
-import { Type } from '@sinclair/typebox';
-import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
+import { FastifyPluginAsync } from 'fastify';\nimport { Type } from '@sinclair/typebox';\nimport { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 
 const ExecuteRequestSchema = Type.Object({
   code: Type.String({ minLength: 1, maxLength: 50000 }),
@@ -51,8 +49,7 @@ const ExecuteStreamResponseSchema = Type.Object({
 const executeRoute: FastifyPluginAsync = async (fastify) => {
   const server = fastify.withTypeProvider<TypeBoxTypeProvider>();
 
-  // Execute code synchronously
-  server.post('/', {
+  // Execute code synchronously\n  server.post('/', {
     schema: {
       body: ExecuteRequestSchema,
       response: {
@@ -117,8 +114,7 @@ const executeRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Execute code with streaming output
-  server.post('/stream', {
+  // Execute code with streaming output\n  server.post('/stream', {
     schema: {
       body: ExecuteRequestSchema
     }
@@ -148,8 +144,9 @@ const executeRoute: FastifyPluginAsync = async (fastify) => {
           data: chunk.data,
           timestamp: new Date().toISOString()
         };
-        
-        reply.raw.write(`data: ${JSON.stringify(event)}\n\n`);
+        \n        reply.raw.write(`data: ${JSON.stringify(event)}
+
+`);
       });
 
       // Send completion event
@@ -158,8 +155,9 @@ const executeRoute: FastifyPluginAsync = async (fastify) => {
         data: result,
         timestamp: new Date().toISOString()
       };
-      
-      reply.raw.write(`data: ${JSON.stringify(completionEvent)}\n\n`);
+      \n      reply.raw.write(`data: ${JSON.stringify(completionEvent)}
+
+`);
       reply.raw.end();
 
     } catch (error) {
@@ -173,14 +171,14 @@ const executeRoute: FastifyPluginAsync = async (fastify) => {
         },
         timestamp: new Date().toISOString()
       };
-      
-      reply.raw.write(`data: ${JSON.stringify(errorEvent)}\n\n`);
+      \n      reply.raw.write(`data: ${JSON.stringify(errorEvent)}
+
+`);
       reply.raw.end();
     }
   });
 
-  // Get execution status
-  server.get('/status/:executionId', {
+  // Get execution status\n  server.get('/status/:executionId', {
     schema: {
       params: Type.Object({
         executionId: Type.String({ format: 'uuid' })
@@ -210,13 +208,11 @@ const executeRoute: FastifyPluginAsync = async (fastify) => {
     // This would require storing execution state in memory or Redis
     
     return reply.status(404).send({
-      error: 'Not Found',
-      message: `Execution ${executionId} not found`
+      error: 'Not Found',\n      message: `Execution ${executionId} not found`
     });
   });
 
-  // Cancel execution
-  server.delete('/:executionId', {
+  // Cancel execution\n  server.delete('/:executionId', {
     schema: {
       params: Type.Object({
         executionId: Type.String({ format: 'uuid' })
@@ -239,8 +235,7 @@ const executeRoute: FastifyPluginAsync = async (fastify) => {
     // This would require tracking active executions and their processes
     
     return reply.status(404).send({
-      error: 'Not Found',
-      message: `Execution ${executionId} not found`
+      error: 'Not Found',\n      message: `Execution ${executionId} not found`
     });
   });
 };

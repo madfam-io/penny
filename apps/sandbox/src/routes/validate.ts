@@ -1,6 +1,4 @@
-import { FastifyPluginAsync } from 'fastify';
-import { Type } from '@sinclair/typebox';
-import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
+import { FastifyPluginAsync } from 'fastify';\nimport { Type } from '@sinclair/typebox';\nimport { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 
 const ValidateRequestSchema = Type.Object({
   code: Type.String({ minLength: 1, maxLength: 50000 }),
@@ -63,8 +61,7 @@ const ValidateResponseSchema = Type.Object({
 const validateRoute: FastifyPluginAsync = async (fastify) => {
   const server = fastify.withTypeProvider<TypeBoxTypeProvider>();
 
-  // Validate Python code
-  server.post('/', {
+  // Validate Python code\n  server.post('/', {
     schema: {
       body: ValidateRequestSchema,
       response: {
@@ -144,8 +141,7 @@ const validateRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Validate specific aspects of code
-  server.post('/security', {
+  // Validate specific aspects of code\n  server.post('/security', {
     schema: {
       body: Type.Object({
         code: Type.String({ minLength: 1, maxLength: 50000 })
@@ -198,8 +194,7 @@ const validateRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Validate syntax only
-  server.post('/syntax', {
+  // Validate syntax only\n  server.post('/syntax', {
     schema: {
       body: Type.Object({
         code: Type.String({ minLength: 1, maxLength: 50000 })
@@ -263,36 +258,22 @@ async function validatePythonSyntax(code: string): Promise<Array<{
     const python = spawn('python', ['-c', `
 import ast
 import sys
+\ncode = '''${code.replace(/'''/g, '\"""')}'''
 
-code = '''${code.replace(/'''/g, '\\"""')}'''
-
-try:
-    ast.parse(code)
-    print('{"valid": true}')
+try:\n    ast.parse(code)\n    print('{"valid": true}')
 except SyntaxError as e:
     import json
-    print(json.dumps({
-        "valid": false,
-        "error": {
-            "message": str(e),
-            "line": e.lineno,
-            "column": e.offset,
-            "type": "SyntaxError"
+    print(json.dumps({\n        "valid": false,\n        "error": {\n            "message": str(e),\n            "line": e.lineno,\n            "column": e.offset,\n            "type": "SyntaxError"
         }
     }))
 except Exception as e:
     import json
-    print(json.dumps({
-        "valid": false,
-        "error": {
-            "message": str(e),
-            "type": type(e).__name__
+    print(json.dumps({\n        "valid": false,\n        "error": {\n            "message": str(e),\n            "type": type(e).__name__
         }
     }))
 `]);
 
-    return new Promise((resolve) => {
-      let output = '';
+    return new Promise((resolve) => {\n      let output = '';
       python.stdout.on('data', (data: Buffer) => {
         output += data.toString();
       });
@@ -318,13 +299,12 @@ except Exception as e:
     });
 
   } catch (error) {
-    // Fallback: basic regex-based checks
-    const lines = code.split('\n');
+    // Fallback: basic regex-based checks\n    const lines = code.split('
+');
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
       
-      // Check for common syntax issues
-      if (line.trim().endsWith(':') && !line.match(/^\s*(if|elif|else|for|while|def|class|try|except|finally|with)\b/)) {
+      // Check for common syntax issues\n      if (line.trim().endsWith(':') && !line.match(/^\s*(if|elif|else|for|while|def|class|try|except|finally|with)\b/)) {
         issues.push({
           type: 'warning',
           severity: 'medium',
@@ -347,8 +327,8 @@ async function checkCodeStyle(code: string): Promise<Array<{
   column?: number;
   rule?: string;
 }>> {
-  const issues: any[] = [];
-  const lines = code.split('\n');
+  const issues: any[] = [];\n  const lines = code.split('
+');
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -364,8 +344,7 @@ async function checkCodeStyle(code: string): Promise<Array<{
       });
     }
 
-    // Check for tabs instead of spaces
-    if (line.includes('\t')) {
+    // Check for tabs instead of spaces\n    if (line.includes('	')) {
       issues.push({
         type: 'warning',
         severity: 'low',
@@ -375,8 +354,7 @@ async function checkCodeStyle(code: string): Promise<Array<{
       });
     }
 
-    // Check for trailing whitespace
-    if (line.endsWith(' ') || line.endsWith('\t')) {
+    // Check for trailing whitespace\n    if (line.endsWith(' ') || line.endsWith('	')) {
       issues.push({
         type: 'info',
         severity: 'low',
@@ -428,8 +406,8 @@ function generateSuggestions(code: string, analysisResult: any, securityCheck: a
 }
 
 function extractBlockedImports(code: string): string[] {
-  const blockedImports: string[] = [];
-  const lines = code.split('\n');
+  const blockedImports: string[] = [];\n  const lines = code.split('
+');
   
   for (const line of lines) {
     const importMatch = line.match(/^\s*(?:import|from)\s+([a-zA-Z_][a-zA-Z0-9_.]*)/);
@@ -448,8 +426,7 @@ function findDangerousPatterns(code: string): string[] {
   if (code.includes('eval(') || code.includes('exec(')) {
     patterns.push('Dynamic code execution');
   }
-  
-  if (code.includes('__import__')) {
+  \n  if (code.includes('__import__')) {
     patterns.push('Dynamic imports');
   }
   

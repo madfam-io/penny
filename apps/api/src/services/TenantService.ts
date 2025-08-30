@@ -167,8 +167,7 @@ export class TenantService {
         name: data.name,
         slug: data.slug,
         logo: data.logo,
-        favicon: data.favicon,
-        primaryColor: data.primaryColor || '#3b82f6',
+        favicon: data.favicon,\n        primaryColor: data.primaryColor || '#3b82f6',
         customCss: data.customCss,
         settings: data.settings || {},
         features: data.features || {},
@@ -236,13 +235,11 @@ export class TenantService {
     };
   }
 
-  async getTenantStats(tenantId: string, options: {
-    period: '7d' | '30d' | '90d';
+  async getTenantStats(tenantId: string, options: {\n    period: '7d' | '30d' | '90d';
     granularity: 'day' | 'week' | 'month';
   }) {
     const { period, granularity } = options;
-    
-    const periodDays = period === '7d' ? 7 : period === '30d' ? 30 : 90;
+    \n    const periodDays = period === '7d' ? 7 : period === '30d' ? 30 : 90;
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - periodDays);
 

@@ -1,15 +1,12 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';
-import { TenantService } from '../services/TenantService';
-import { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
+import { z } from 'zod';\nimport { TenantService } from '../services/TenantService';\nimport { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
 
 // Request/Response Schemas
 const CreateTenantSchema = z.object({
   name: z.string().min(1).max(255),
   slug: z.string().min(1).max(100).regex(/^[a-z0-9-]+$/),
   logo: z.string().url().optional(),
-  favicon: z.string().url().optional(),
-  primaryColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/).default('#3b82f6'),
+  favicon: z.string().url().optional(),\n  primaryColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/).default('#3b82f6'),
   customCss: z.string().max(50000).optional(),
   settings: MetadataSchema,
   features: MetadataSchema,
@@ -78,8 +75,7 @@ const TenantStatsSchema = z.object({
 export async function tenantRoutes(fastify: FastifyInstance) {
   const tenantService = new TenantService();
 
-  // Admin only: Get all tenants
-  fastify.get('/admin/tenants', {
+  // Admin only: Get all tenants\n  fastify.get('/admin/tenants', {
     schema: {
       querystring: TenantQuerySchema,
       response: {
@@ -111,8 +107,7 @@ export async function tenantRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get current tenant info
-  fastify.get('/tenant', {
+  // Get current tenant info\n  fastify.get('/tenant', {
     schema: {
       response: {
         200: TenantResponseSchema,
@@ -122,7 +117,7 @@ export async function tenantRoutes(fastify: FastifyInstance) {
       },
       tags: ['Tenants'],
       summary: 'Get current tenant',
-      description: 'Get current user\'s tenant information',
+      description: 'Get current user's tenant information',
     },
     preHandler: [fastify.authenticate],
   }, async (request: FastifyRequest, reply: FastifyReply) => {
@@ -148,8 +143,7 @@ export async function tenantRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Admin only: Get tenant by ID
-  fastify.get('/admin/tenants/:id', {
+  // Admin only: Get tenant by ID\n  fastify.get('/admin/tenants/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -189,8 +183,7 @@ export async function tenantRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Admin only: Create tenant
-  fastify.post('/admin/tenants', {
+  // Admin only: Create tenant\n  fastify.post('/admin/tenants', {
     schema: {
       body: CreateTenantSchema,
       response: {
@@ -228,8 +221,7 @@ export async function tenantRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Update current tenant
-  fastify.put('/tenant', {
+  // Update current tenant\n  fastify.put('/tenant', {
     schema: {
       body: UpdateTenantSchema,
       response: {
@@ -268,8 +260,7 @@ export async function tenantRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Admin only: Update tenant by ID
-  fastify.put('/admin/tenants/:id', {
+  // Admin only: Update tenant by ID\n  fastify.put('/admin/tenants/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -312,8 +303,7 @@ export async function tenantRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Admin only: Delete tenant
-  fastify.delete('/admin/tenants/:id', {
+  // Admin only: Delete tenant\n  fastify.delete('/admin/tenants/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -353,11 +343,9 @@ export async function tenantRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get tenant statistics
-  fastify.get('/tenant/stats', {
+  // Get tenant statistics\n  fastify.get('/tenant/stats', {
     schema: {
-      querystring: z.object({
-        period: z.enum(['7d', '30d', '90d', '1y']).default('30d'),
+      querystring: z.object({\n        period: z.enum(['7d', '30d', '90d', '1y']).default('30d'),
         granularity: z.enum(['day', 'week', 'month']).default('day'),
       }),
       response: {
@@ -372,8 +360,7 @@ export async function tenantRoutes(fastify: FastifyInstance) {
     preHandler: [fastify.authenticate, fastify.requireTenantAdmin],
   }, async (request: FastifyRequest, reply: FastifyReply) => {
     const { tenantId } = request.user;
-    const { period, granularity } = z.object({
-      period: z.enum(['7d', '30d', '90d', '1y']).default('30d'),
+    const { period, granularity } = z.object({\n      period: z.enum(['7d', '30d', '90d', '1y']).default('30d'),
       granularity: z.enum(['day', 'week', 'month']).default('day'),
     }).parse(request.query);
     
@@ -393,8 +380,7 @@ export async function tenantRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get tenant usage limits and current usage
-  fastify.get('/tenant/usage', {
+  // Get tenant usage limits and current usage\n  fastify.get('/tenant/usage', {
     schema: {
       response: {
         200: z.object({
@@ -437,8 +423,7 @@ export async function tenantRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Validate tenant slug availability
-  fastify.get('/tenant/slug/:slug/available', {
+  // Validate tenant slug availability\n  fastify.get('/tenant/slug/:slug/available', {
     schema: {
       params: z.object({
         slug: z.string().min(1).max(100).regex(/^[a-z0-9-]+$/),

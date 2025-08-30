@@ -189,7 +189,8 @@ export class AnthropicProvider implements ModelProvider {
     const textContent = response.content
       .filter((c): c is Anthropic.TextBlock => c.type === 'text')
       .map((c) => c.text)
-      .join('\n');
+      .join('
+');
 
     return {
       id: response.id,

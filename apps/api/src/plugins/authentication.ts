@@ -1,7 +1,5 @@
 import type { FastifyPluginAsync, FastifyRequest } from 'fastify';
-import fp from 'fastify-plugin';
-import jwt from '@fastify/jwt';
-import { AuthenticationError, AuthorizationError, type Role } from '@penny/shared';
+import fp from 'fastify-plugin';\nimport jwt from '@fastify/jwt';\nimport { AuthenticationError, AuthorizationError, type Role } from '@penny/shared';
 
 interface JWTPayload {
   sub: string; // userId
@@ -11,8 +9,7 @@ interface JWTPayload {
   iat: number;
   exp: number;
 }
-
-declare module '@fastify/jwt' {
+\ndeclare module '@fastify/jwt' {
   interface FastifyJWT {
     payload: JWTPayload;
   }
@@ -22,8 +19,7 @@ const authentication: FastifyPluginAsync = async (fastify) => {
   // Register JWT plugin
   await fastify.register(jwt, {
     secret: process.env.JWT_SECRET || 'change-this-in-production',
-    sign: {
-      expiresIn: process.env.JWT_EXPIRES_IN || '7d',
+    sign: {\n      expiresIn: process.env.JWT_EXPIRES_IN || '7d',
     },
   });
 
@@ -67,8 +63,7 @@ const authentication: FastifyPluginAsync = async (fastify) => {
       const hasPermission = allowedRoles.some((role) => userRoles.includes(role));
 
       if (!hasPermission) {
-        throw new AuthorizationError(
-          `Insufficient permissions. Required roles: ${allowedRoles.join(', ')}`,
+        throw new AuthorizationError(\n          `Insufficient permissions. Required roles: ${allowedRoles.join(', ')}`,
         );
       }
     };

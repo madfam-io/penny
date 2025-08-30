@@ -414,7 +414,8 @@ export class SandboxClient {
             if (done) break;
 
             const chunk = decoder.decode(value, { stream: true });
-            const lines = chunk.split('\n');
+            const lines = chunk.split('
+');
 
             for (const line of lines) {
               if (line.startsWith('data: ')) {

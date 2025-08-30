@@ -1,6 +1,4 @@
-import { FastifyInstance } from 'fastify';
-import { build } from '../app';
-import { PrismaClient } from '@prisma/client';
+import { FastifyInstance } from 'fastify';\nimport { build } from '../app';\nimport { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -25,8 +23,7 @@ describe('Authentication API Integration Tests', () => {
 
     it('should register new user successfully', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/register',
+        method: 'POST',\n        url: '/auth/register',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -50,8 +47,7 @@ describe('Authentication API Integration Tests', () => {
 
     it('should hash password correctly', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/register',
+        method: 'POST',\n        url: '/auth/register',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -79,14 +75,12 @@ describe('Authentication API Integration Tests', () => {
 
     it('should reject weak passwords', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/register',
+        method: 'POST',\n        url: '/auth/register',
         headers: {
           'Content-Type': 'application/json',
         },
         payload: {
-          email: 'weakpass@example.com',
-          password: '123',
+          email: 'weakpass@example.com',\n          password: '123',
           name: 'Weak Password User',
           tenantId: 'test-tenant-id',
         },
@@ -100,8 +94,7 @@ describe('Authentication API Integration Tests', () => {
     it('should reject duplicate email addresses', async () => {
       // Register first user
       await app.inject({
-        method: 'POST',
-        url: '/auth/register',
+        method: 'POST',\n        url: '/auth/register',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -115,8 +108,7 @@ describe('Authentication API Integration Tests', () => {
 
       // Try to register second user with same email
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/register',
+        method: 'POST',\n        url: '/auth/register',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -135,8 +127,7 @@ describe('Authentication API Integration Tests', () => {
 
     it('should validate email format', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/register',
+        method: 'POST',\n        url: '/auth/register',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -155,8 +146,7 @@ describe('Authentication API Integration Tests', () => {
 
     it('should create audit log entry for registration', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/register',
+        method: 'POST',\n        url: '/auth/register',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -206,8 +196,7 @@ describe('Authentication API Integration Tests', () => {
 
     it('should login with valid credentials', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/login',
+        method: 'POST',\n        url: '/auth/login',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -232,8 +221,7 @@ describe('Authentication API Integration Tests', () => {
 
     it('should reject invalid email', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/login',
+        method: 'POST',\n        url: '/auth/login',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -250,8 +238,7 @@ describe('Authentication API Integration Tests', () => {
 
     it('should reject invalid password', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/login',
+        method: 'POST',\n        url: '/auth/login',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -274,8 +261,7 @@ describe('Authentication API Integration Tests', () => {
       });
 
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/login',
+        method: 'POST',\n        url: '/auth/login',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -292,8 +278,7 @@ describe('Authentication API Integration Tests', () => {
 
     it('should update last login timestamp', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/login',
+        method: 'POST',\n        url: '/auth/login',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -317,8 +302,7 @@ describe('Authentication API Integration Tests', () => {
 
     it('should create session record', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/login',
+        method: 'POST',\n        url: '/auth/login',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': 'Test User Agent',
@@ -337,14 +321,12 @@ describe('Authentication API Integration Tests', () => {
         where: { userId: testUser.id },
       });
       expect(sessions).toHaveLength(1);
-      expect(sessions[0].userAgent).toBe('Test User Agent');
-      expect(sessions[0].ipAddress).toBe('192.168.1.1');
+      expect(sessions[0].userAgent).toBe('Test User Agent');\n      expect(sessions[0].ipAddress).toBe('192.168.1.1');
     });
 
     it('should create audit log for successful login', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/login',
+        method: 'POST',\n        url: '/auth/login',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -369,8 +351,7 @@ describe('Authentication API Integration Tests', () => {
 
     it('should create audit log for failed login', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/login',
+        method: 'POST',\n        url: '/auth/login',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -414,8 +395,7 @@ describe('Authentication API Integration Tests', () => {
       // Generate refresh token
       refreshToken = jwt.sign(
         { userId: testUser.id, type: 'refresh' },
-        process.env.JWT_SECRET!,
-        { expiresIn: '30d' }
+        process.env.JWT_SECRET!,\n        { expiresIn: '30d' }
       );
 
       // Create session
@@ -424,8 +404,7 @@ describe('Authentication API Integration Tests', () => {
           id: 'test-session-id',
           userId: testUser.id,
           refreshToken: refreshToken,
-          userAgent: 'Test Agent',
-          ipAddress: '127.0.0.1',
+          userAgent: 'Test Agent',\n          ipAddress: '127.0.0.1',
           expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
         },
       });
@@ -438,8 +417,7 @@ describe('Authentication API Integration Tests', () => {
 
     it('should refresh token with valid refresh token', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/refresh',
+        method: 'POST',\n        url: '/auth/refresh',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -457,8 +435,7 @@ describe('Authentication API Integration Tests', () => {
 
     it('should reject invalid refresh token', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/refresh',
+        method: 'POST',\n        url: '/auth/refresh',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -474,13 +451,11 @@ describe('Authentication API Integration Tests', () => {
       // Create expired refresh token
       const expiredToken = jwt.sign(
         { userId: testUser.id, type: 'refresh' },
-        process.env.JWT_SECRET!,
-        { expiresIn: '-1d' }
+        process.env.JWT_SECRET!,\n        { expiresIn: '-1d' }
       );
 
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/refresh',
+        method: 'POST',\n        url: '/auth/refresh',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -515,8 +490,7 @@ describe('Authentication API Integration Tests', () => {
       // Generate access token
       validToken = jwt.sign(
         { userId: testUser.id, tenantId: testUser.tenantId },
-        process.env.JWT_SECRET!,
-        { expiresIn: '1h' }
+        process.env.JWT_SECRET!,\n        { expiresIn: '1h' }
       );
 
       // Create session
@@ -524,8 +498,7 @@ describe('Authentication API Integration Tests', () => {
         data: {
           userId: testUser.id,
           refreshToken: 'test-refresh-token',
-          userAgent: 'Test Agent',
-          ipAddress: '127.0.0.1',
+          userAgent: 'Test Agent',\n          ipAddress: '127.0.0.1',
           expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
         },
       });
@@ -539,8 +512,7 @@ describe('Authentication API Integration Tests', () => {
 
     it('should logout and invalidate session', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/logout',
+        method: 'POST',\n        url: '/auth/logout',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${validToken}`,
@@ -558,11 +530,9 @@ describe('Authentication API Integration Tests', () => {
 
     it('should create audit log for logout', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/logout',
+        method: 'POST',\n        url: '/auth/logout',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
       });
 
@@ -580,8 +550,7 @@ describe('Authentication API Integration Tests', () => {
 
     it('should require authentication', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/auth/logout',
+        method: 'POST',\n        url: '/auth/logout',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -608,8 +577,7 @@ describe('Authentication API Integration Tests', () => {
 
       validToken = jwt.sign(
         { userId: testUser.id, tenantId: testUser.tenantId },
-        process.env.JWT_SECRET!,
-        { expiresIn: '1h' }
+        process.env.JWT_SECRET!,\n        { expiresIn: '1h' }
       );
     });
 
@@ -619,10 +587,8 @@ describe('Authentication API Integration Tests', () => {
 
     it('should return current user info', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/auth/me',
-        headers: {
-          Authorization: `Bearer ${validToken}`,
+        method: 'GET',\n        url: '/auth/me',
+        headers: {\n          Authorization: `Bearer ${validToken}`,
         },
       });
 
@@ -636,8 +602,7 @@ describe('Authentication API Integration Tests', () => {
 
     it('should require authentication', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/auth/me',
+        method: 'GET',\n        url: '/auth/me',
       });
 
       expect(response.statusCode).toBe(401);

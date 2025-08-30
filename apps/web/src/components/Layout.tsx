@@ -1,6 +1,4 @@
-import { ReactNode } from 'react';
-import Sidebar from './Sidebar';
-import Header from './Header';
+import { ReactNode } from 'react';\nimport Sidebar from './Sidebar';\nimport Header from './Header';
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,13 +10,11 @@ export default function Layout({ children }: LayoutProps) {
       {/* Sidebar */}
       <Sidebar />
 
-      {/* Main content area */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      {/* Main content area */}\n      <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <Header />
 
-        {/* Page content */}
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-white dark:bg-gray-800">
+        {/* Page content */}\n        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-white dark:bg-gray-800">
           {children}
         </main>
       </div>

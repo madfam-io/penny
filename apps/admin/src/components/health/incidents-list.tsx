@@ -1,6 +1,5 @@
 'use client';
-
-import { Badge } from '@penny/ui';
+\nimport { Badge } from '@penny/ui';
 import { format, formatDistanceToNow } from 'date-fns';
 import { AlertTriangle, CheckCircle, Clock } from 'lucide-react';
 
@@ -16,8 +15,7 @@ interface Incident {
 }
 
 const incidents: Incident[] = [
-  {
-    id: '1',
+  {\n    id: '1',
     title: 'Increased WebSocket latency',
     description: 'Some users experiencing delayed real-time updates',
     severity: 'minor',
@@ -25,8 +23,7 @@ const incidents: Incident[] = [
     service: 'WebSocket Service',
     startedAt: new Date(Date.now() - 1000 * 60 * 45),
   },
-  {
-    id: '2',
+  {\n    id: '2',
     title: 'Database connection spike',
     description: 'Temporary spike in database connections causing slowdowns',
     severity: 'major',
@@ -35,8 +32,7 @@ const incidents: Incident[] = [
     startedAt: new Date(Date.now() - 1000 * 60 * 60 * 3),
     resolvedAt: new Date(Date.now() - 1000 * 60 * 60 * 2),
   },
-  {
-    id: '3',
+  {\n    id: '3',
     title: 'API rate limiting issues',
     description: 'Rate limiting incorrectly triggered for some tenants',
     severity: 'minor',
@@ -63,35 +59,26 @@ const statusIcons = {
 export function IncidentsList() {
   return (
     <div className="space-y-4">
-      {incidents.length === 0 ? (
-        <p className="text-center text-muted-foreground py-8">
+      {incidents.length === 0 ? (\n        <p className="text-center text-muted-foreground py-8">
           No incidents reported in the last 30 days
         </p>
       ) : (
         incidents.map((incident) => {
           const Icon = statusIcons[incident.status];
 
-          return (
-            <div key={incident.id} className="flex items-start gap-4 p-4 rounded-lg border">
+          return (\n            <div key={incident.id} className="flex items-start gap-4 p-4 rounded-lg border">
               <Icon
                 className={`h-5 w-5 mt-1 ${
                   incident.status === 'resolved' ? 'text-green-600' : 'text-yellow-600'
                 }`}
               />
-
-              <div className="flex-1 space-y-1">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h4 className="font-medium">{incident.title}</h4>
-                    <p className="text-sm text-muted-foreground">{incident.description}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <Badge variant={severityColors[incident.severity]}>{incident.severity}</Badge>
-                    <Badge variant="outline">{incident.service}</Badge>
+\n              <div className="flex-1 space-y-1">\n                <div className="flex items-start justify-between">
+                  <div>\n                    <h4 className="font-medium">{incident.title}</h4>\n                    <p className="text-sm text-muted-foreground">{incident.description}</p>
+                  </div>\n                  <div className="flex gap-2">
+                    <Badge variant={severityColors[incident.severity]}>{incident.severity}</Badge>\n                    <Badge variant="outline">{incident.service}</Badge>
                   </div>
                 </div>
-
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+\n                <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <span>
                     Started {formatDistanceToNow(incident.startedAt, { addSuffix: true })}
                   </span>

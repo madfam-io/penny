@@ -360,7 +360,8 @@ function convertToCSV(kpiData: any): string {
     headers.map(header => `"${row[header] || ''}"`)
   );
   
-  return [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
+  return [headers.join(','), ...rows.map(row => row.join(','))].join('
+');
 }
 
 /**

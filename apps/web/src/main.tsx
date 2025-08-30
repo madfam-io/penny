@@ -1,10 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-
-import App from './App';
-import './styles/globals.css';
+import ReactDOM from 'react-dom/client';\nimport { QueryClient, QueryClientProvider } from '@tanstack/react-query';\nimport { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+\nimport App from './App';\nimport './styles/globals.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {

@@ -2,11 +2,7 @@ import NextAuth from 'next-auth';
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
-import GithubProvider from 'next-auth/providers/github';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { prisma } from '@penny/database';
-import { PasswordService, JWTService, SessionService } from '@penny/security';
-import { generateId } from '@penny/shared';
+import GithubProvider from 'next-auth/providers/github';\nimport { PrismaAdapter } from '@next-auth/prisma-adapter';\nimport { prisma } from '@penny/database';\nimport { PasswordService, JWTService, SessionService } from '@penny/security';\nimport { generateId } from '@penny/shared';
 
 const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -78,8 +74,7 @@ const authOptions: NextAuthOptions = {
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
     }),
   ],
-  pages: {
-    signIn: '/login',
+  pages: {\n    signIn: '/login',
   },
   session: {
     strategy: 'jwt',

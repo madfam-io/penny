@@ -408,4 +408,239 @@ export class EventTrackingService extends EventEmitter {
 
   private async calculateRealTimeConversionRate(tenantId: string): Promise<number> {
     try {
-      const realtimeKey = `realtime:${tenantId}`;\n      const conversions = parseInt(await this.redis.hget(realtimeKey, 'event:conversion') || '0');\n      const pageViews = parseInt(await this.redis.hget(realtimeKey, 'event:page_view') || '0');\n      \n      return pageViews > 0 ? (conversions / pageViews) * 100 : 0;\n    } catch (error) {\n      return 0;\n    }\n  }\n\n  private async calculateRealTimeErrorRate(tenantId: string): Promise<number> {\n    try {\n      const realtimeKey = `realtime:${tenantId}`;\n      const errors = parseInt(await this.redis.hget(realtimeKey, 'event:error') || '0');\n      const total = parseInt(await this.redis.hget(realtimeKey, 'total_events') || '0');\n      \n      return total > 0 ? (errors / total) * 100 : 0;\n    } catch (error) {\n      return 0;\n    }\n  }\n\n  /**\n   * Get events for a specific time range\n   */\n  async getEvents(options: {\n    tenantId?: string;\n    eventName?: string;\n    userId?: string;\n    sessionId?: string;\n    startDate?: Date;\n    endDate?: Date;\n    limit?: number;\n    offset?: number;\n  } = {}): Promise<{\n    events: AnalyticsEvent[];\n    total: number;\n    hasMore: boolean;\n  }> {\n    const {\n      tenantId = 'default',\n      eventName,\n      userId,\n      sessionId,\n      startDate = new Date(Date.now() - 24 * 60 * 60 * 1000),\n      endDate = new Date(),\n      limit = 100,\n      offset = 0\n    } = options;\n\n    // This is a simplified implementation\n    // In production, you'd want to use a more sophisticated query mechanism\n    const events: AnalyticsEvent[] = [];\n    \n    try {\n      // Get all event keys for the tenant\n      const eventKeys = await this.redis.keys(`events:${tenantId}:*`);\n      \n      // Filter and collect events\n      for (const key of eventKeys) {\n        const eventData = await this.redis.get(key);\n        if (eventData) {\n          const event: AnalyticsEvent = JSON.parse(eventData);\n          \n          // Apply filters\n          if (eventName && event.eventName !== eventName) continue;\n          if (userId && event.userId !== userId) continue;\n          if (sessionId && event.sessionId !== sessionId) continue;\n          if (event.timestamp < startDate || event.timestamp > endDate) continue;\n          \n          events.push(event);\n        }\n      }\n      \n      // Sort by timestamp descending\n      events.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());\n      \n      // Apply pagination\n      const paginatedEvents = events.slice(offset, offset + limit);\n      \n      return {\n        events: paginatedEvents,\n        total: events.length,\n        hasMore: offset + limit < events.length\n      };\n    } catch (error) {\n      this.emit('queryError', error);\n      return { events: [], total: 0, hasMore: false };\n    }\n  }\n\n  /**\n   * Get aggregated event data\n   */\n  async getAggregatedData(options: {\n    tenantId?: string;\n    eventName?: string;\n    groupBy: 'hour' | 'day' | 'week' | 'month';\n    startDate?: Date;\n    endDate?: Date;\n  }): Promise<Array<{ timestamp: Date; count: number }>> {\n    const {\n      tenantId = 'default',\n      eventName,\n      groupBy = 'day',\n      startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),\n      endDate = new Date()\n    } = options;\n\n    const result: Array<{ timestamp: Date; count: number }> = [];\n    \n    try {\n      // Generate date range based on groupBy\n      const dates = this.generateDateRange(startDate, endDate, groupBy);\n      \n      for (const date of dates) {\n        const key = groupBy === 'hour' \n          ? `events:hourly:${tenantId}:${this.formatHour(date)}`\n          : `events:daily:${tenantId}:${this.formatDate(date)}`;\n        \n        const count = eventName \n          ? parseInt(await this.redis.hget(key, eventName) || '0')\n          : parseInt(await this.redis.hget(key, 'total') || '0');\n        \n        result.push({ timestamp: date, count });\n      }\n      \n      return result;\n    } catch (error) {\n      this.emit('aggregationError', error);\n      return [];\n    }\n  }\n\n  /**\n   * Get real-time metrics\n   */\n  getRealTimeMetrics(): RealTimeMetrics {\n    return this.realTimeMetrics;\n  }\n\n  /**\n   * Generate data quality report\n   */\n  async generateDataQualityReport(tenantId: string = 'default', days: number = 7): Promise<DataQualityReport> {\n    const endDate = new Date();\n    const startDate = new Date(endDate.getTime() - days * 24 * 60 * 60 * 1000);\n    \n    const { events } = await this.getEvents({\n      tenantId,\n      startDate,\n      endDate,\n      limit: 10000 // Sample size\n    });\n\n    let validEvents = 0;\n    let invalidEvents = 0;\n    let duplicateEvents = 0;\n    const issues: Array<{ type: string; count: number; examples: any[] }> = [];\n    const eventIds = new Set<string>();\n\n    for (const event of events) {\n      // Check for duplicates\n      if (eventIds.has(event.id)) {\n        duplicateEvents++;\n      } else {\n        eventIds.add(event.id);\n      }\n\n      // Validate event\n      const validation = this.validateEvent(event);\n      if (validation.isValid) {\n        validEvents++;\n      } else {\n        invalidEvents++;\n        for (const error of validation.errors) {\n          let issue = issues.find(i => i.type === error);\n          if (!issue) {\n            issue = { type: error, count: 0, examples: [] };\n            issues.push(issue);\n          }\n          issue.count++;\n          if (issue.examples.length < 3) {\n            issue.examples.push(event);\n          }\n        }\n      }\n    }\n\n    const qualityScore = events.length > 0 ? (validEvents / events.length) * 100 : 100;\n\n    return {\n      totalEvents: events.length,\n      validEvents,\n      invalidEvents,\n      duplicateEvents,\n      qualityScore,\n      issues,\n      generatedAt: new Date()\n    };\n  }\n\n  private formatDate(date: Date): string {\n    return date.toISOString().split('T')[0];\n  }\n\n  private formatHour(date: Date): string {\n    return date.toISOString().substring(0, 13);\n  }\n\n  private generateDateRange(start: Date, end: Date, groupBy: 'hour' | 'day' | 'week' | 'month'): Date[] {\n    const dates: Date[] = [];\n    const current = new Date(start);\n\n    while (current <= end) {\n      dates.push(new Date(current));\n      \n      switch (groupBy) {\n        case 'hour':\n          current.setHours(current.getHours() + 1);\n          break;\n        case 'day':\n          current.setDate(current.getDate() + 1);\n          break;\n        case 'week':\n          current.setDate(current.getDate() + 7);\n          break;\n        case 'month':\n          current.setMonth(current.getMonth() + 1);\n          break;\n      }\n    }\n\n    return dates;\n  }\n}"
+      const realtimeKey = `realtime:${tenantId}`;
+      const conversions = parseInt(await this.redis.hget(realtimeKey, 'event:conversion') || '0');
+      const pageViews = parseInt(await this.redis.hget(realtimeKey, 'event:page_view') || '0');
+      
+      return pageViews > 0 ? (conversions / pageViews) * 100 : 0;
+    } catch (error) {
+      return 0;
+    }
+  }
+
+  private async calculateRealTimeErrorRate(tenantId: string): Promise<number> {
+    try {
+      const realtimeKey = `realtime:${tenantId}`;
+      const errors = parseInt(await this.redis.hget(realtimeKey, 'event:error') || '0');
+      const total = parseInt(await this.redis.hget(realtimeKey, 'total_events') || '0');
+      
+      return total > 0 ? (errors / total) * 100 : 0;
+    } catch (error) {
+      return 0;
+    }
+  }
+
+  /**
+   * Get events for a specific time range
+   */
+  async getEvents(options: {
+    tenantId?: string;
+    eventName?: string;
+    userId?: string;
+    sessionId?: string;
+    startDate?: Date;
+    endDate?: Date;
+    limit?: number;
+    offset?: number;
+  } = {}): Promise<{
+    events: AnalyticsEvent[];
+    total: number;
+    hasMore: boolean;
+  }> {
+    const {
+      tenantId = 'default',
+      eventName,
+      userId,
+      sessionId,
+      startDate = new Date(Date.now() - 24 * 60 * 60 * 1000),
+      endDate = new Date(),
+      limit = 100,
+      offset = 0
+    } = options;
+
+    // This is a simplified implementation
+    // In production, you'd want to use a more sophisticated query mechanism
+    const events: AnalyticsEvent[] = [];
+    
+    try {
+      // Get all event keys for the tenant
+      const eventKeys = await this.redis.keys(`events:${tenantId}:*`);
+      
+      // Filter and collect events
+      for (const key of eventKeys) {
+        const eventData = await this.redis.get(key);
+        if (eventData) {
+          const event: AnalyticsEvent = JSON.parse(eventData);
+          
+          // Apply filters
+          if (eventName && event.eventName !== eventName) continue;
+          if (userId && event.userId !== userId) continue;
+          if (sessionId && event.sessionId !== sessionId) continue;
+          if (event.timestamp < startDate || event.timestamp > endDate) continue;
+          
+          events.push(event);
+        }
+      }
+      
+      // Sort by timestamp descending
+      events.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+      
+      // Apply pagination
+      const paginatedEvents = events.slice(offset, offset + limit);
+      
+      return {
+        events: paginatedEvents,
+        total: events.length,
+        hasMore: offset + limit < events.length
+      };
+    } catch (error) {
+      this.emit('queryError', error);
+      return { events: [], total: 0, hasMore: false };
+    }
+  }
+
+  /**
+   * Get aggregated event data
+   */
+  async getAggregatedData(options: {
+    tenantId?: string;
+    eventName?: string;
+    groupBy: 'hour' | 'day' | 'week' | 'month';
+    startDate?: Date;
+    endDate?: Date;
+  }): Promise<Array<{ timestamp: Date; count: number }>> {
+    const {
+      tenantId = 'default',
+      eventName,
+      groupBy = 'day',
+      startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+      endDate = new Date()
+    } = options;
+
+    const result: Array<{ timestamp: Date; count: number }> = [];
+    
+    try {
+      // Generate date range based on groupBy
+      const dates = this.generateDateRange(startDate, endDate, groupBy);
+      
+      for (const date of dates) {
+        const key = groupBy === 'hour' 
+          ? `events:hourly:${tenantId}:${this.formatHour(date)}`
+          : `events:daily:${tenantId}:${this.formatDate(date)}`;
+        
+        const count = eventName 
+          ? parseInt(await this.redis.hget(key, eventName) || '0')
+          : parseInt(await this.redis.hget(key, 'total') || '0');
+        
+        result.push({ timestamp: date, count });
+      }
+      
+      return result;
+    } catch (error) {
+      this.emit('aggregationError', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get real-time metrics
+   */
+  getRealTimeMetrics(): RealTimeMetrics {
+    return this.realTimeMetrics;
+  }
+
+  /**
+   * Generate data quality report
+   */
+  async generateDataQualityReport(tenantId: string = 'default', days: number = 7): Promise<DataQualityReport> {
+    const endDate = new Date();
+    const startDate = new Date(endDate.getTime() - days * 24 * 60 * 60 * 1000);
+    
+    const { events } = await this.getEvents({
+      tenantId,
+      startDate,
+      endDate,
+      limit: 10000 // Sample size
+    });
+
+    let validEvents = 0;
+    let invalidEvents = 0;
+    let duplicateEvents = 0;
+    const issues: Array<{ type: string; count: number; examples: any[] }> = [];
+    const eventIds = new Set<string>();
+
+    for (const event of events) {
+      // Check for duplicates
+      if (eventIds.has(event.id)) {
+        duplicateEvents++;
+      } else {
+        eventIds.add(event.id);
+      }
+
+      // Validate event
+      const validation = this.validateEvent(event);
+      if (validation.isValid) {
+        validEvents++;
+      } else {
+        invalidEvents++;
+        for (const error of validation.errors) {
+          let issue = issues.find(i => i.type === error);
+          if (!issue) {
+            issue = { type: error, count: 0, examples: [] };
+            issues.push(issue);
+          }
+          issue.count++;
+          if (issue.examples.length < 3) {
+            issue.examples.push(event);
+          }
+        }
+      }
+    }
+
+    const qualityScore = events.length > 0 ? (validEvents / events.length) * 100 : 100;
+
+    return {
+      totalEvents: events.length,
+      validEvents,
+      invalidEvents,
+      duplicateEvents,
+      qualityScore,
+      issues,
+      generatedAt: new Date()
+    };
+  }
+
+  private formatDate(date: Date): string {
+    return date.toISOString().split('T')[0];
+  }
+
+  private formatHour(date: Date): string {
+    return date.toISOString().substring(0, 13);
+  }
+
+  private generateDateRange(start: Date, end: Date, groupBy: 'hour' | 'day' | 'week' | 'month'): Date[] {
+    const dates: Date[] = [];
+    const current = new Date(start);
+
+    while (current <= end) {
+      dates.push(new Date(current));
+      
+      switch (groupBy) {
+        case 'hour':
+          current.setHours(current.getHours() + 1);
+          break;
+        case 'day':
+          current.setDate(current.getDate() + 1);
+          break;
+        case 'week':
+          current.setDate(current.getDate() + 7);
+          break;
+        case 'month':
+          current.setMonth(current.getMonth() + 1);
+          break;
+      }
+    }
+
+    return dates;
+  }
+}"

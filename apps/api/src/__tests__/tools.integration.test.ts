@@ -1,6 +1,4 @@
-import { FastifyInstance } from 'fastify';
-import { build } from '../app';
-import { PrismaClient } from '@prisma/client';
+import { FastifyInstance } from 'fastify';\nimport { build } from '../app';\nimport { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 
 describe('Tool Execution Integration Tests', () => {
@@ -35,8 +33,7 @@ describe('Tool Execution Integration Tests', () => {
     // Generate valid token
     validToken = jwt.sign(
       { userId: testUser.id, tenantId: testUser.tenantId },
-      process.env.JWT_SECRET!,
-      { expiresIn: '1h' }
+      process.env.JWT_SECRET!,\n      { expiresIn: '1h' }
     );
   });
 
@@ -49,8 +46,7 @@ describe('Tool Execution Integration Tests', () => {
   describe('GET /tools', () => {
     it('should list available tools for user', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/tools',
+        method: 'GET',\n        url: '/tools',
         headers: {
           Authorization: `Bearer ${validToken}`,
         },
@@ -89,20 +85,15 @@ describe('Tool Execution Integration Tests', () => {
 
       const viewerToken = jwt.sign(
         { userId: viewerUser.id, tenantId: viewerUser.tenantId },
-        process.env.JWT_SECRET!,
-        { expiresIn: '1h' }
+        process.env.JWT_SECRET!,\n        { expiresIn: '1h' }
       );
 
       const creatorResponse = await app.inject({
-        method: 'GET',
-        url: '/tools',
-        headers: { Authorization: `Bearer ${validToken}` },
+        method: 'GET',\n        url: '/tools',\n        headers: { Authorization: `Bearer ${validToken}` },
       });
 
       const viewerResponse = await app.inject({
-        method: 'GET',
-        url: '/tools',
-        headers: { Authorization: `Bearer ${viewerToken}` },
+        method: 'GET',\n        url: '/tools',\n        headers: { Authorization: `Bearer ${viewerToken}` },
       });
 
       expect(creatorResponse.statusCode).toBe(200);
@@ -117,8 +108,7 @@ describe('Tool Execution Integration Tests', () => {
 
     it('should require authentication', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/tools',
+        method: 'GET',\n        url: '/tools',
       });
 
       expect(response.statusCode).toBe(401);
@@ -128,11 +118,9 @@ describe('Tool Execution Integration Tests', () => {
   describe('POST /tools/:name/execute', () => {
     it('should execute get_company_kpis tool successfully', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/tools/get_company_kpis/execute',
+        method: 'POST',\n        url: '/tools/get_company_kpis/execute',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
         payload: {
           parameters: {
@@ -152,17 +140,14 @@ describe('Tool Execution Integration Tests', () => {
 
     it('should execute load_dashboard tool successfully', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/tools/load_dashboard/execute',
+        method: 'POST',\n        url: '/tools/load_dashboard/execute',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
         payload: {
           parameters: {
             dashboardId: 'executive-dashboard',
-            filters: {
-              dateRange: '2024-01-01,2024-01-31',
+            filters: {\n              dateRange: '2024-01-01,2024-01-31',
             },
           },
         },
@@ -177,11 +162,9 @@ describe('Tool Execution Integration Tests', () => {
 
     it('should validate tool parameters', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/tools/get_company_kpis/execute',
+        method: 'POST',\n        url: '/tools/get_company_kpis/execute',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
         payload: {
           parameters: {
@@ -211,17 +194,14 @@ describe('Tool Execution Integration Tests', () => {
 
       const viewerToken = jwt.sign(
         { userId: viewerUser.id, tenantId: viewerUser.tenantId },
-        process.env.JWT_SECRET!,
-        { expiresIn: '1h' }
+        process.env.JWT_SECRET!,\n        { expiresIn: '1h' }
       );
 
       // Try to execute a tool that requires CREATOR permissions
       const response = await app.inject({
-        method: 'POST',
-        url: '/tools/python_code/execute',
+        method: 'POST',\n        url: '/tools/python_code/execute',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${viewerToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${viewerToken}`,
         },
         payload: {
           parameters: {
@@ -235,15 +215,12 @@ describe('Tool Execution Integration Tests', () => {
 
     it('should handle tool execution errors gracefully', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/tools/python_code/execute',
+        method: 'POST',\n        url: '/tools/python_code/execute',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
         payload: {
-          parameters: {
-            code: 'raise Exception("Test error")',
+          parameters: {\n            code: 'raise Exception("Test error")',
           },
         },
       });
@@ -257,11 +234,9 @@ describe('Tool Execution Integration Tests', () => {
 
     it('should create execution record', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/tools/get_company_kpis/execute',
+        method: 'POST',\n        url: '/tools/get_company_kpis/execute',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
         payload: {
           parameters: {
@@ -289,11 +264,9 @@ describe('Tool Execution Integration Tests', () => {
 
     it('should create audit log for tool execution', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/tools/get_company_kpis/execute',
+        method: 'POST',\n        url: '/tools/get_company_kpis/execute',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
         payload: {
           parameters: {
@@ -327,11 +300,9 @@ describe('Tool Execution Integration Tests', () => {
       for (let i = 0; i < 10; i++) {
         requests.push(
           app.inject({
-            method: 'POST',
-            url: '/tools/get_company_kpis/execute',
+            method: 'POST',\n            url: '/tools/get_company_kpis/execute',
             headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${validToken}`,
+              'Content-Type': 'application/json',\n              Authorization: `Bearer ${validToken}`,
             },
             payload: {
               parameters: {
@@ -354,15 +325,12 @@ describe('Tool Execution Integration Tests', () => {
   describe('Python Code Sandbox Security', () => {
     it('should block malicious file system access', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/tools/python_code/execute',
+        method: 'POST',\n        url: '/tools/python_code/execute',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
         payload: {
-          parameters: {
-            code: 'import os\nos.system("rm -rf /")',
+          parameters: {\n            code: 'import os\nos.system("rm -rf /")',
           },
         },
       });
@@ -375,15 +343,12 @@ describe('Tool Execution Integration Tests', () => {
 
     it('should block network access', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/tools/python_code/execute',
+        method: 'POST',\n        url: '/tools/python_code/execute',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
         payload: {
-          parameters: {
-            code: `
+          parameters: {\n            code: `
 import urllib.request
 urllib.request.urlopen('http://google.com')
             `,
@@ -399,15 +364,12 @@ urllib.request.urlopen('http://google.com')
 
     it('should enforce execution timeout', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/tools/python_code/execute',
+        method: 'POST',\n        url: '/tools/python_code/execute',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
         payload: {
-          parameters: {
-            code: `
+          parameters: {\n            code: `
 import time
 time.sleep(60)  # Should timeout before this completes
             `,
@@ -424,15 +386,12 @@ time.sleep(60)  # Should timeout before this completes
 
     it('should enforce memory limits', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/tools/python_code/execute',
+        method: 'POST',\n        url: '/tools/python_code/execute',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
         payload: {
-          parameters: {
-            code: `
+          parameters: {\n            code: `
 # Try to allocate large amounts of memory
 data = []
 for i in range(1000000):
@@ -450,15 +409,12 @@ for i in range(1000000):
 
     it('should allow safe Python operations', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/tools/python_code/execute',
+        method: 'POST',\n        url: '/tools/python_code/execute',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
         payload: {
-          parameters: {
-            code: `
+          parameters: {\n            code: `
 import pandas as pd
 import numpy as np
 
@@ -482,15 +438,12 @@ print(result)
     it('should maintain session isolation between executions', async () => {
       // First execution sets a variable
       const response1 = await app.inject({
-        method: 'POST',
-        url: '/tools/python_code/execute',
+        method: 'POST',\n        url: '/tools/python_code/execute',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
         payload: {
-          parameters: {
-            code: 'secret_var = "should_not_persist"',
+          parameters: {\n            code: 'secret_var = "should_not_persist"',
           },
         },
       });
@@ -499,11 +452,9 @@ print(result)
 
       // Second execution tries to access the variable
       const response2 = await app.inject({
-        method: 'POST',
-        url: '/tools/python_code/execute',
+        method: 'POST',\n        url: '/tools/python_code/execute',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
         payload: {
           parameters: {
@@ -522,11 +473,9 @@ print(result)
   describe('Tool Registry Management', () => {
     it('should handle non-existent tool', async () => {
       const response = await app.inject({
-        method: 'POST',
-        url: '/tools/nonexistent_tool/execute',
+        method: 'POST',\n        url: '/tools/nonexistent_tool/execute',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
         payload: {
           parameters: {},
@@ -538,10 +487,8 @@ print(result)
 
     it('should validate tool exists in registry', async () => {
       const response = await app.inject({
-        method: 'GET',
-        url: '/tools/get_company_kpis',
-        headers: {
-          Authorization: `Bearer ${validToken}`,
+        method: 'GET',\n        url: '/tools/get_company_kpis',
+        headers: {\n          Authorization: `Bearer ${validToken}`,
         },
       });
 

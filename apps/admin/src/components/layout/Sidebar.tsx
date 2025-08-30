@@ -2,11 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
+import { useState } from 'react';\nimport { Button } from '@/components/ui/button';\nimport { Badge } from '@/components/ui/badge';\nimport { ScrollArea } from '@/components/ui/scroll-area';\nimport { Separator } from '@/components/ui/separator';
 import { 
   LayoutDashboard,
   Users,
@@ -24,8 +20,7 @@ import {
   Bell,
   HelpCircle,
   LogOut
-} from 'lucide-react';
-import { cn } from '@/utils/cn';
+} from 'lucide-react';\nimport { cn } from '@/utils/cn';
 
 interface SidebarProps {
   collapsed: boolean;
@@ -39,22 +34,18 @@ const navigationItems = [
     title: 'Overview',
     items: [
       {
-        title: 'Dashboard',
-        href: '/dashboard',
+        title: 'Dashboard',\n        href: '/dashboard',
         icon: LayoutDashboard,
         badge: null
       },
       {
-        title: 'Analytics',
-        href: '/analytics',
+        title: 'Analytics',\n        href: '/analytics',
         icon: BarChart3,
         badge: null
       },
       {
-        title: 'Activity',
-        href: '/activity',
-        icon: Activity,
-        badge: '12'
+        title: 'Activity',\n        href: '/activity',
+        icon: Activity,\n        badge: '12'
       }
     ]
   },
@@ -62,26 +53,22 @@ const navigationItems = [
     title: 'Management',
     items: [
       {
-        title: 'Users',
-        href: '/users',
+        title: 'Users',\n        href: '/users',
         icon: Users,
         badge: null
       },
       {
-        title: 'Tenants',
-        href: '/tenants',
+        title: 'Tenants',\n        href: '/tenants',
         icon: Building2,
         badge: null
       },
       {
-        title: 'Conversations',
-        href: '/conversations',
+        title: 'Conversations',\n        href: '/conversations',
         icon: MessageCircle,
         badge: null
       },
       {
-        title: 'Tools',
-        href: '/tools',
+        title: 'Tools',\n        href: '/tools',
         icon: Wrench,
         badge: null
       }
@@ -91,8 +78,7 @@ const navigationItems = [
     title: 'Financial',
     items: [
       {
-        title: 'Billing',
-        href: '/billing',
+        title: 'Billing',\n        href: '/billing',
         icon: CreditCard,
         badge: null
       }
@@ -102,20 +88,16 @@ const navigationItems = [
     title: 'System',
     items: [
       {
-        title: 'Audit Logs',
-        href: '/audit',
-        icon: Shield,
-        badge: '3'
+        title: 'Audit Logs',\n        href: '/audit',
+        icon: Shield,\n        badge: '3'
       },
       {
-        title: 'Webhooks',
-        href: '/webhooks',
+        title: 'Webhooks',\n        href: '/webhooks',
         icon: Webhook,
         badge: null
       },
       {
-        title: 'Settings',
-        href: '/settings',
+        title: 'Settings',\n        href: '/settings',
         icon: Settings,
         badge: null
       }
@@ -125,15 +107,12 @@ const navigationItems = [
 
 const bottomItems = [
   {
-    title: 'Help & Support',
-    href: '/help',
+    title: 'Help & Support',\n    href: '/help',
     icon: HelpCircle
   },
   {
-    title: 'Notifications',
-    href: '/notifications',
-    icon: Bell,
-    badge: '5'
+    title: 'Notifications',\n    href: '/notifications',
+    icon: Bell,\n    badge: '5'
   }
 ];
 
@@ -141,8 +120,7 @@ export function Sidebar({ collapsed, mobileOpen, onCollapse, onMobileToggle }: S
   const pathname = usePathname();
 
   const NavItem = ({ item, isNested = false }: { item: any; isNested?: boolean }) => {
-    const Icon = item.icon;
-    const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+    const Icon = item.icon;\n    const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
     
     return (
       <Link
@@ -162,8 +140,7 @@ export function Sidebar({ collapsed, mobileOpen, onCollapse, onMobileToggle }: S
         {!collapsed && (
           <>
             <span className="flex-1">{item.title}</span>
-            {item.badge && (
-              <Badge variant="secondary" className="h-5 px-2 text-xs">
+            {item.badge && (\n              <Badge variant="secondary" className="h-5 px-2 text-xs">
                 {item.badge}
               </Badge>
             )}
@@ -173,84 +150,59 @@ export function Sidebar({ collapsed, mobileOpen, onCollapse, onMobileToggle }: S
     );
   };
 
-  const sidebarContent = (
-    <div className="flex flex-col h-full">
-      {/* Logo */}
-      <div className="p-6 border-b">
-        <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <LayoutDashboard className="h-5 w-5 text-primary-foreground" />
+  const sidebarContent = (\n    <div className="flex flex-col h-full">
+      {/* Logo */}\n      <div className="p-6 border-b">\n        <Link href="/dashboard" className="flex items-center gap-2">\n          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">\n            <LayoutDashboard className="h-5 w-5 text-primary-foreground" />
           </div>
           {!collapsed && (
-            <div>
-              <h1 className="text-xl font-bold">PENNY Admin</h1>
-              <p className="text-xs text-muted-foreground">Management Console</p>
+            <div>\n              <h1 className="text-xl font-bold">PENNY Admin</h1>\n              <p className="text-xs text-muted-foreground">Management Console</p>
             </div>
           )}
         </Link>
       </div>
 
-      {/* Navigation */}
-      <ScrollArea className="flex-1 px-4 py-6">
-        <div className="space-y-6">
+      {/* Navigation */}\n      <ScrollArea className="flex-1 px-4 py-6">\n        <div className="space-y-6">
           {navigationItems.map((section) => (
             <div key={section.title}>
-              {!collapsed && (
-                <h2 className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+              {!collapsed && (\n                <h2 className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                   {section.title}
                 </h2>
-              )}
-              <div className="space-y-1">
+              )}\n              <div className="space-y-1">
                 {section.items.map((item) => (
                   <NavItem key={item.href} item={item} />
                 ))}
-              </div>
-              {!collapsed && <Separator className="my-4" />}
+              </div>\n              {!collapsed && <Separator className="my-4" />}
             </div>
           ))}
         </div>
       </ScrollArea>
 
-      {/* Bottom Items */}
-      <div className="border-t p-4">
-        <div className="space-y-1">
+      {/* Bottom Items */}\n      <div className="border-t p-4">\n        <div className="space-y-1">
           {bottomItems.map((item) => (
             <NavItem key={item.href} item={item} />
           ))}
         </div>
+        \n        {!collapsed && <Separator className="my-4" />}
         
-        {!collapsed && <Separator className="my-4" />}
-        
-        <Button
-          variant="ghost"
-          size="sm"
+        <Button\n          variant="ghost"\n          size="sm"
           className={cn(
             'w-full justify-start text-muted-foreground',
             collapsed && 'justify-center px-2'
           )}
-        >
-          <LogOut className="h-4 w-4" />
-          {!collapsed && <span className="ml-2">Sign out</span>}
+        >\n          <LogOut className="h-4 w-4" />\n          {!collapsed && <span className="ml-2">Sign out</span>}
         </Button>
       </div>
 
-      {/* Collapse Button */}
-      <div className="hidden lg:block border-t p-4">
-        <Button
-          variant="ghost"
-          size="sm"
+      {/* Collapse Button */}\n      <div className="hidden lg:block border-t p-4">
+        <Button\n          variant="ghost"\n          size="sm"
           onClick={() => onCollapse(!collapsed)}
           className={cn(
             'w-full justify-start',
             collapsed && 'justify-center px-2'
           )}
         >
-          {collapsed ? (
-            <ChevronRight className="h-4 w-4" />
+          {collapsed ? (\n            <ChevronRight className="h-4 w-4" />
           ) : (
-            <>
-              <ChevronLeft className="h-4 w-4" />
-              <span className="ml-2">Collapse</span>
+            <>\n              <ChevronLeft className="h-4 w-4" />\n              <span className="ml-2">Collapse</span>
             </>
           )}
         </Button>

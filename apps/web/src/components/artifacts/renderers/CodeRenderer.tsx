@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { CodeArtifact } from '@penny/types';
+import React, { useEffect, useRef, useState, useCallback } from 'react';\nimport { CodeArtifact } from '@penny/types';
 
 interface CodeRendererProps {
   artifact: CodeArtifact;
@@ -21,16 +20,13 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
   onLoadStart,
   onLoadEnd,
   onAnnotate,
-  isFullscreen = false,
-  className = ''
+  isFullscreen = false,\n  className = ''
 }) => {
   const editorRef = useRef<HTMLDivElement>(null);
-  const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);\n  const [searchTerm, setSearchTerm] = useState('');
   const [searchVisible, setSearchVisible] = useState(false);
   const [currentLine, setCurrentLine] = useState(1);
-  const [totalLines, setTotalLines] = useState(0);
-  const [selectedText, setSelectedText] = useState('');
+  const [totalLines, setTotalLines] = useState(0);\n  const [selectedText, setSelectedText] = useState('');
   const [copied, setCopied] = useState(false);
 
   const { code, language, filename, config } = artifact.content;
@@ -41,8 +37,7 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
     setLoading(true);
     
     // Simulate syntax highlighting load
-    const timer = setTimeout(() => {
-      setTotalLines(code.split('\n').length);
+    const timer = setTimeout(() => {\n      setTotalLines(code.split('\n').length);
       setLoading(false);
       onLoadEnd?.();
     }, 100);
@@ -75,8 +70,7 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
       }
       
       if (e.key === 'Escape' && searchVisible) {
-        setSearchVisible(false);
-        setSearchTerm('');
+        setSearchVisible(false);\n        setSearchTerm('');
       }
     };
 
@@ -100,84 +94,49 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
     if (onAnnotate) {
       onAnnotate({
         type: 'line',
-        line: lineNumber,
-        code: code.split('\n')[lineNumber - 1]
+        line: lineNumber,\n        code: code.split('\n')[lineNumber - 1]
       });
     }
   }, [code, onAnnotate]);
 
   const handleTextSelection = useCallback(() => {
-    const selection = window.getSelection();
-    const text = selection?.toString() || '';
+    const selection = window.getSelection();\n    const text = selection?.toString() || '';
     setSelectedText(text);
   }, []);
 
   const highlightSearchTerm = useCallback((text: string) => {
     if (!searchTerm) return text;
-    
-    const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-    return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800">$1</mark>');
+    \n    const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');\n    return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800">$1</mark>');
   }, [searchTerm]);
 
   const getLanguageIcon = (lang: string) => {
-    const icons: { [key: string]: string } = {
-      javascript: '🟨',
-      typescript: '🔷',
-      python: '🐍',
-      java: '☕',
-      cpp: '⚙️',
-      c: '⚙️',
-      rust: '🦀',
-      go: '🔵',
-      php: '🐘',
-      ruby: '💎',
-      swift: '🧡',
-      kotlin: '🟣',
-      scala: '🔴',
-      html: '🌐',
-      css: '🎨',
-      json: '📄',
-      xml: '📋',
-      yaml: '📝',
-      markdown: '📖',
-      sql: '🗃️',
-      bash: '💻',
-      powershell: '💻',
-      dockerfile: '🐳'
-    };
-    return icons[lang.toLowerCase()] || '📄';
+    const icons: { [key: string]: string } = {\n      javascript: '🟨',\n      typescript: '🔷',\n      python: '🐍',\n      java: '☕',\n      cpp: '⚙️',\n      c: '⚙️',\n      rust: '🦀',\n      go: '🔵',\n      php: '🐘',\n      ruby: '💎',\n      swift: '🧡',\n      kotlin: '🟣',\n      scala: '🔴',\n      html: '🌐',\n      css: '🎨',\n      json: '📄',\n      xml: '📋',\n      yaml: '📝',\n      markdown: '📖',\n      sql: '🗃️',\n      bash: '💻',\n      powershell: '💻',\n      dockerfile: '🐳'
+    };\n    return icons[lang.toLowerCase()] || '📄';
   };
 
-  const renderLineNumbers = () => {
-    const lines = code.split('\n');
+  const renderLineNumbers = () => {\n    const lines = code.split('\n');
     return lines.map((_, index) => (
       <div
-        key={index + 1}
-        className={`line-number px-2 py-0 text-right text-xs select-none cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 ${
+        key={index + 1}\n        className={`line-number px-2 py-0 text-right text-xs select-none cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 ${
           currentLine === index + 1 ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400'
         } ${config.highlightLines?.includes(index + 1) ? 'bg-yellow-100 dark:bg-yellow-900' : ''}`}
-        onClick={() => handleLineClick(index + 1)}
-        style={{ width: '60px', minWidth: '60px' }}
+        onClick={() => handleLineClick(index + 1)}\n        style={{ width: '60px', minWidth: '60px' }}
       >
         {index + 1}
       </div>
     ));
   };
 
-  const renderCode = () => {
-    const lines = code.split('\n');
+  const renderCode = () => {\n    const lines = code.split('\n');
     return lines.map((line, index) => (
       <div
-        key={index}
-        className={`code-line px-4 py-0 font-mono text-sm whitespace-pre ${
+        key={index}\n        className={`code-line px-4 py-0 font-mono text-sm whitespace-pre ${
           currentLine === index + 1 ? 'bg-blue-50 dark:bg-blue-900/20' : ''
-        } ${config.highlightLines?.includes(index + 1) ? 'bg-yellow-50 dark:bg-yellow-900/20' : ''}`}
-        style={{ minHeight: '1.5rem', lineHeight: '1.5rem' }}
+        } ${config.highlightLines?.includes(index + 1) ? 'bg-yellow-50 dark:bg-yellow-900/20' : ''}`}\n        style={{ minHeight: '1.5rem', lineHeight: '1.5rem' }}
       >
         {searchTerm ? (
           <span dangerouslySetInnerHTML={{ __html: highlightSearchTerm(line) }} />
-        ) : (
-          <span>{line || ' '}</span>
+        ) : (\n          <span>{line || ' '}</span>
         )}
       </div>
     ));
@@ -186,16 +145,11 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
   const containerClasses = [
     'code-renderer w-full h-full flex flex-col',
     isDarkMode ? 'dark bg-gray-900 text-gray-100' : 'bg-white text-gray-900',
-    className
-  ].filter(Boolean).join(' ');
+    className\n  ].filter(Boolean).join(' ');
 
   if (loading) {
     return (
-      <div className={containerClasses}>
-        <div className="flex-1 flex items-center justify-center">
-          <div className="flex items-center space-x-2">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-            <span className="text-sm">Loading code...</span>
+      <div className={containerClasses}>\n        <div className="flex-1 flex items-center justify-center">\n          <div className="flex items-center space-x-2">\n            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>\n            <span className="text-sm">Loading code...</span>
           </div>
         </div>
       </div>
@@ -204,51 +158,33 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
 
   return (
     <div className={containerClasses}>
-      {/* Code header */}
-      <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-        <div className="flex items-center space-x-2">
-          <span className="text-lg">{getLanguageIcon(language)}</span>
-          <span className="font-medium">{language}</span>
+      {/* Code header */}\n      <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">\n        <div className="flex items-center space-x-2">\n          <span className="text-lg">{getLanguageIcon(language)}</span>\n          <span className="font-medium">{language}</span>
           {filename && (
-            <>
-              <span className="text-gray-400">•</span>
-              <span className="text-sm text-gray-600 dark:text-gray-400">{filename}</span>
+            <>\n              <span className="text-gray-400">•</span>\n              <span className="text-sm text-gray-600 dark:text-gray-400">{filename}</span>
             </>
           )}
         </div>
-        
-        <div className="flex items-center space-x-2">
-          {/* Line info */}
-          <span className="text-xs text-gray-500 dark:text-gray-400">
+        \n        <div className="flex items-center space-x-2">
+          {/* Line info */}\n          <span className="text-xs text-gray-500 dark:text-gray-400">
             {totalLines} lines • Line {currentLine}
           </span>
           
           {/* Search toggle */}
           {interactive && (
             <button
-              onClick={() => setSearchVisible(!searchVisible)}
-              className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
-              title="Search (Ctrl+F)"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              onClick={() => setSearchVisible(!searchVisible)}\n              className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"\n              title="Search (Ctrl+F)"
+            >\n              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </button>
           )}
           
           {/* Copy button */}
           <button
-            onClick={handleCopy}
-            className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 relative"
-            title="Copy to clipboard"
+            onClick={handleCopy}\n            className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 relative"\n            title="Copy to clipboard"
           >
-            {copied ? (
-              <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            {copied ? (\n              <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-            ) : (
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            ) : (\n              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
             )}
           </button>
@@ -256,61 +192,45 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
       </div>
 
       {/* Search bar */}
-      {searchVisible && (
-        <div className="p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-          <div className="flex items-center space-x-2">
-            <input
-              type="text"
-              placeholder="Search in code..."
+      {searchVisible && (\n        <div className="p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">\n          <div className="flex items-center space-x-2">
+            <input\n              type="text"\n              placeholder="Search in code..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="flex-1 px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+              onChange={(e) => setSearchTerm(e.target.value)}\n              className="flex-1 px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
               autoFocus
             />
             <button
               onClick={() => {
-                setSearchVisible(false);
-                setSearchTerm('');
-              }}
-              className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                setSearchVisible(false);\n                setSearchTerm('');
+              }}\n              className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+            >\n              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
         </div>
       )}
 
-      {/* Code content */}
-      <div className="flex-1 flex overflow-hidden">
+      {/* Code content */}\n      <div className="flex-1 flex overflow-hidden">
         {/* Line numbers */}
-        {config.showLineNumbers && (
-          <div className="flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 overflow-hidden">
+        {config.showLineNumbers && (\n          <div className="flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 overflow-hidden">
             {renderLineNumbers()}
           </div>
         )}
 
         {/* Code content */}
         <div 
-          ref={editorRef}
-          className="flex-1 overflow-auto font-mono text-sm"
-          onMouseUp={handleTextSelection}
-          style={{ fontSize: `${config.fontSize}px` }}
+          ref={editorRef}\n          className="flex-1 overflow-auto font-mono text-sm"
+          onMouseUp={handleTextSelection}\n          style={{ fontSize: `${config.fontSize}px` }}
         >
           {renderCode()}
         </div>
       </div>
 
-      {/* Status bar */}
-      <div className="flex items-center justify-between px-3 py-2 text-xs border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-        <div className="flex items-center space-x-4">
+      {/* Status bar */}\n      <div className="flex items-center justify-between px-3 py-2 text-xs border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">\n        <div className="flex items-center space-x-4">
           <span>Language: {language}</span>
           <span>Encoding: UTF-8</span>
           <span>Tab Size: {config.tabSize}</span>
         </div>
-        
-        <div className="flex items-center space-x-4">
+        \n        <div className="flex items-center space-x-4">
           {selectedText && (
             <span>{selectedText.length} characters selected</span>
           )}

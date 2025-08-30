@@ -1,1 +1,241 @@
-import React, { useState, useEffect } from 'react';\nimport { AlertTriangle, CheckCircle, XCircle, Activity, Cpu, HardDrive, Wifi } from 'lucide-react';\n\ninterface HealthCheck {\n  name: string;\n  status: 'healthy' | 'unhealthy' | 'degraded';\n  lastCheck: string;\n  responseTime: number;\n  message?: string;\n  metadata?: any;\n}\n\ninterface SystemMetrics {\n  cpu: { usage: number; cores: number };\n  memory: { used: number; total: number; percentage: number };\n  disk: { used: number; total: number; percentage: number };\n  network: { bytesReceived: number; bytesSent: number };\n}\n\ninterface SystemHealthProps {\n  refreshInterval?: number;\n}\n\nexport const SystemHealth: React.FC<SystemHealthProps> = ({ \n  refreshInterval = 30000 \n}) => {\n  const [healthChecks, setHealthChecks] = useState<HealthCheck[]>([]);\n  const [systemMetrics, setSystemMetrics] = useState<SystemMetrics | null>(null);\n  const [overallStatus, setOverallStatus] = useState<'healthy' | 'unhealthy' | 'degraded'>('healthy');\n  const [loading, setLoading] = useState(true);\n  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());\n\n  const fetchHealthData = async () => {\n    try {\n      const [healthResponse, metricsResponse] = await Promise.all([\n        fetch('/api/health'),\n        fetch('/api/metrics/system')\n      ]);\n\n      if (healthResponse.ok) {\n        const healthData = await healthResponse.json();\n        setHealthChecks(healthData.checks || []);\n        setOverallStatus(healthData.status || 'healthy');\n      }\n\n      if (metricsResponse.ok) {\n        const metricsData = await metricsResponse.json();\n        setSystemMetrics(metricsData);\n      }\n\n      setLastUpdated(new Date());\n      setLoading(false);\n    } catch (error) {\n      console.error('Failed to fetch health data:', error);\n      setLoading(false);\n    }\n  };\n\n  useEffect(() => {\n    fetchHealthData();\n    const interval = setInterval(fetchHealthData, refreshInterval);\n    return () => clearInterval(interval);\n  }, [refreshInterval]);\n\n  const getStatusIcon = (status: string) => {\n    switch (status) {\n      case 'healthy':\n        return <CheckCircle className=\"w-5 h-5 text-green-500\" />;\n      case 'degraded':\n        return <AlertTriangle className=\"w-5 h-5 text-yellow-500\" />;\n      case 'unhealthy':\n        return <XCircle className=\"w-5 h-5 text-red-500\" />;\n      default:\n        return <Activity className=\"w-5 h-5 text-gray-500\" />;\n    }\n  };\n\n  const getStatusColor = (status: string) => {\n    switch (status) {\n      case 'healthy':\n        return 'bg-green-100 text-green-800 border-green-200';\n      case 'degraded':\n        return 'bg-yellow-100 text-yellow-800 border-yellow-200';\n      case 'unhealthy':\n        return 'bg-red-100 text-red-800 border-red-200';\n      default:\n        return 'bg-gray-100 text-gray-800 border-gray-200';\n    }\n  };\n\n  const formatBytes = (bytes: number): string => {\n    const units = ['B', 'KB', 'MB', 'GB', 'TB'];\n    let size = bytes;\n    let unitIndex = 0;\n    \n    while (size >= 1024 && unitIndex < units.length - 1) {\n      size /= 1024;\n      unitIndex++;\n    }\n    \n    return `${size.toFixed(1)} ${units[unitIndex]}`;\n  };\n\n  const getMetricStatus = (percentage: number, type: 'cpu' | 'memory' | 'disk') => {\n    const thresholds = {\n      cpu: { warning: 70, critical: 90 },\n      memory: { warning: 80, critical: 95 },\n      disk: { warning: 85, critical: 95 }\n    };\n    \n    const threshold = thresholds[type];\n    if (percentage >= threshold.critical) return 'critical';\n    if (percentage >= threshold.warning) return 'warning';\n    return 'normal';\n  };\n\n  if (loading) {\n    return (\n      <div className=\"p-6 bg-white rounded-lg shadow-sm border\">\n        <div className=\"animate-pulse\">\n          <div className=\"h-6 bg-gray-200 rounded mb-4\"></div>\n          <div className=\"space-y-3\">\n            <div className=\"h-4 bg-gray-200 rounded\"></div>\n            <div className=\"h-4 bg-gray-200 rounded\"></div>\n            <div className=\"h-4 bg-gray-200 rounded\"></div>\n          </div>\n        </div>\n      </div>\n    );\n  }\n\n  return (\n    <div className=\"space-y-6\">\n      {/* Overall Status Header */}\n      <div className={`p-4 rounded-lg border-2 ${getStatusColor(overallStatus)}`}>\n        <div className=\"flex items-center justify-between\">\n          <div className=\"flex items-center space-x-3\">\n            {getStatusIcon(overallStatus)}\n            <div>\n              <h2 className=\"text-lg font-semibold capitalize\">\n                System {overallStatus}\n              </h2>\n              <p className=\"text-sm opacity-75\">\n                Last updated: {lastUpdated.toLocaleTimeString()}\n              </p>\n            </div>\n          </div>\n          <button\n            onClick={fetchHealthData}\n            className=\"px-3 py-1 text-sm bg-white bg-opacity-20 rounded hover:bg-opacity-30 transition-colors\"\n          >\n            Refresh\n          </button>\n        </div>\n      </div>\n\n      {/* System Metrics */}\n      {systemMetrics && (\n        <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4\">\n          {/* CPU Usage */}\n          <div className=\"p-4 bg-white rounded-lg shadow-sm border\">\n            <div className=\"flex items-center justify-between mb-3\">\n              <div className=\"flex items-center space-x-2\">\n                <Cpu className=\"w-5 h-5 text-blue-500\" />\n                <span className=\"font-medium\">CPU Usage</span>\n              </div>\n              <span className={`text-sm px-2 py-1 rounded ${\n                getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'critical' ? 'bg-red-100 text-red-800' :\n                getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'warning' ? 'bg-yellow-100 text-yellow-800' :\n                'bg-green-100 text-green-800'\n              }`}>\n                {systemMetrics.cpu.usage.toFixed(1)}%\n              </span>\n            </div>\n            <div className=\"w-full bg-gray-200 rounded-full h-2\">\n              <div\n                className={`h-2 rounded-full ${\n                  getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'critical' ? 'bg-red-500' :\n                  getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'warning' ? 'bg-yellow-500' :\n                  'bg-green-500'\n                }`}\n                style={{ width: `${systemMetrics.cpu.usage}%` }}\n              ></div>\n            </div>\n            <p className=\"text-xs text-gray-500 mt-1\">\n              {systemMetrics.cpu.cores} cores available\n            </p>\n          </div>\n\n          {/* Memory Usage */}\n          <div className=\"p-4 bg-white rounded-lg shadow-sm border\">\n            <div className=\"flex items-center justify-between mb-3\">\n              <div className=\"flex items-center space-x-2\">\n                <Activity className=\"w-5 h-5 text-green-500\" />\n                <span className=\"font-medium\">Memory</span>\n              </div>\n              <span className={`text-sm px-2 py-1 rounded ${\n                getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'critical' ? 'bg-red-100 text-red-800' :\n                getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'warning' ? 'bg-yellow-100 text-yellow-800' :\n                'bg-green-100 text-green-800'\n              }`}>\n                {systemMetrics.memory.percentage.toFixed(1)}%\n              </span>\n            </div>\n            <div className=\"w-full bg-gray-200 rounded-full h-2\">\n              <div\n                className={`h-2 rounded-full ${\n                  getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'critical' ? 'bg-red-500' :\n                  getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'warning' ? 'bg-yellow-500' :\n                  'bg-green-500'\n                }`}\n                style={{ width: `${systemMetrics.memory.percentage}%` }}\n              ></div>\n            </div>\n            <p className=\"text-xs text-gray-500 mt-1\">\n              {formatBytes(systemMetrics.memory.used)} / {formatBytes(systemMetrics.memory.total)}\n            </p>\n          </div>\n\n          {/* Disk Usage */}\n          <div className=\"p-4 bg-white rounded-lg shadow-sm border\">\n            <div className=\"flex items-center justify-between mb-3\">\n              <div className=\"flex items-center space-x-2\">\n                <HardDrive className=\"w-5 h-5 text-purple-500\" />\n                <span className=\"font-medium\">Disk Usage</span>\n              </div>\n              <span className={`text-sm px-2 py-1 rounded ${\n                getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'critical' ? 'bg-red-100 text-red-800' :\n                getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'warning' ? 'bg-yellow-100 text-yellow-800' :\n                'bg-green-100 text-green-800'\n              }`}>\n                {systemMetrics.disk.percentage.toFixed(1)}%\n              </span>\n            </div>\n            <div className=\"w-full bg-gray-200 rounded-full h-2\">\n              <div\n                className={`h-2 rounded-full ${\n                  getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'critical' ? 'bg-red-500' :\n                  getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'warning' ? 'bg-yellow-500' :\n                  'bg-green-500'\n                }`}\n                style={{ width: `${systemMetrics.disk.percentage}%` }}\n              ></div>\n            </div>\n            <p className=\"text-xs text-gray-500 mt-1\">\n              {formatBytes(systemMetrics.disk.used)} / {formatBytes(systemMetrics.disk.total)}\n            </p>\n          </div>\n\n          {/* Network I/O */}\n          <div className=\"p-4 bg-white rounded-lg shadow-sm border\">\n            <div className=\"flex items-center justify-between mb-3\">\n              <div className=\"flex items-center space-x-2\">\n                <Wifi className=\"w-5 h-5 text-orange-500\" />\n                <span className=\"font-medium\">Network I/O</span>\n              </div>\n            </div>\n            <div className=\"space-y-2\">\n              <div className=\"flex justify-between text-sm\">\n                <span>Received:</span>\n                <span className=\"font-medium\">\n                  {formatBytes(systemMetrics.network.bytesReceived)}\n                </span>\n              </div>\n              <div className=\"flex justify-between text-sm\">\n                <span>Sent:</span>\n                <span className=\"font-medium\">\n                  {formatBytes(systemMetrics.network.bytesSent)}\n                </span>\n              </div>\n            </div>\n          </div>\n        </div>\n      )}\n\n      {/* Health Checks */}\n      <div className=\"bg-white rounded-lg shadow-sm border\">\n        <div className=\"p-4 border-b\">\n          <h3 className=\"text-lg font-semibold\">Service Health Checks</h3>\n        </div>\n        <div className=\"divide-y\">\n          {healthChecks.map((check) => (\n            <div key={check.name} className=\"p-4\">\n              <div className=\"flex items-center justify-between\">\n                <div className=\"flex items-center space-x-3\">\n                  {getStatusIcon(check.status)}\n                  <div>\n                    <h4 className=\"font-medium\">{check.name}</h4>\n                    {check.message && (\n                      <p className=\"text-sm text-gray-600\">{check.message}</p>\n                    )}\n                  </div>\n                </div>\n                <div className=\"text-right\">\n                  <div className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${\n                    getStatusColor(check.status)\n                  }`}>\n                    {check.status}\n                  </div>\n                  <p className=\"text-xs text-gray-500 mt-1\">\n                    {check.responseTime}ms\n                  </p>\n                  <p className=\"text-xs text-gray-400\">\n                    {new Date(check.lastCheck).toLocaleTimeString()}\n                  </p>\n                </div>\n              </div>\n            </div>\n          ))}\n        </div>\n      </div>\n    </div>\n  );\n};
+import React, { useState, useEffect } from 'react';
+import { AlertTriangle, CheckCircle, XCircle, Activity, Cpu, HardDrive, Wifi } from 'lucide-react';
+
+interface HealthCheck {
+  name: string;
+  status: 'healthy' | 'unhealthy' | 'degraded';
+  lastCheck: string;
+  responseTime: number;
+  message?: string;
+  metadata?: any;
+}
+
+interface SystemMetrics {
+  cpu: { usage: number; cores: number };
+  memory: { used: number; total: number; percentage: number };
+  disk: { used: number; total: number; percentage: number };
+  network: { bytesReceived: number; bytesSent: number };
+}
+
+interface SystemHealthProps {
+  refreshInterval?: number;
+}
+
+export const SystemHealth: React.FC<SystemHealthProps> = ({ 
+  refreshInterval = 30000 
+}) => {
+  const [healthChecks, setHealthChecks] = useState<HealthCheck[]>([]);
+  const [systemMetrics, setSystemMetrics] = useState<SystemMetrics | null>(null);
+  const [overallStatus, setOverallStatus] = useState<'healthy' | 'unhealthy' | 'degraded'>('healthy');
+  const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+
+  const fetchHealthData = async () => {
+    try {
+      const [healthResponse, metricsResponse] = await Promise.all([\n        fetch('/api/health'),\n        fetch('/api/metrics/system')
+      ]);
+
+      if (healthResponse.ok) {
+        const healthData = await healthResponse.json();
+        setHealthChecks(healthData.checks || []);
+        setOverallStatus(healthData.status || 'healthy');
+      }
+
+      if (metricsResponse.ok) {
+        const metricsData = await metricsResponse.json();
+        setSystemMetrics(metricsData);
+      }
+
+      setLastUpdated(new Date());
+      setLoading(false);
+    } catch (error) {
+      console.error('Failed to fetch health data:', error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchHealthData();
+    const interval = setInterval(fetchHealthData, refreshInterval);
+    return () => clearInterval(interval);
+  }, [refreshInterval]);
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'healthy':
+        return <CheckCircle className="w-5 h-5 text-green-500" />;
+      case 'degraded':\n        return <AlertTriangle className="w-5 h-5 text-yellow-500" />;
+      case 'unhealthy':\n        return <XCircle className="w-5 h-5 text-red-500" />;
+      default:\n        return <Activity className="w-5 h-5 text-gray-500" />;
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'healthy':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'degraded':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'unhealthy':
+        return 'bg-red-100 text-red-800 border-red-200';
+      default:
+        return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
+  const formatBytes = (bytes: number): string => {
+    const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+    let size = bytes;
+    let unitIndex = 0;
+    
+    while (size >= 1024 && unitIndex < units.length - 1) {
+      size /= 1024;
+      unitIndex++;
+    }
+    
+    return `${size.toFixed(1)} ${units[unitIndex]}`;
+  };
+
+  const getMetricStatus = (percentage: number, type: 'cpu' | 'memory' | 'disk') => {
+    const thresholds = {
+      cpu: { warning: 70, critical: 90 },
+      memory: { warning: 80, critical: 95 },
+      disk: { warning: 85, critical: 95 }
+    };
+    
+    const threshold = thresholds[type];
+    if (percentage >= threshold.critical) return 'critical';
+    if (percentage >= threshold.warning) return 'warning';
+    return 'normal';
+  };
+
+  if (loading) {
+    return (\n      <div className="p-6 bg-white rounded-lg shadow-sm border">\n        <div className="animate-pulse">\n          <div className="h-6 bg-gray-200 rounded mb-4"></div>\n          <div className="space-y-3">\n            <div className="h-4 bg-gray-200 rounded"></div>\n            <div className="h-4 bg-gray-200 rounded"></div>\n            <div className="h-4 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (\n    <div className="space-y-6">
+      {/* Overall Status Header */}\n      <div className={`p-4 rounded-lg border-2 ${getStatusColor(overallStatus)}`}>\n        <div className="flex items-center justify-between">\n          <div className="flex items-center space-x-3">
+            {getStatusIcon(overallStatus)}
+            <div>\n              <h2 className="text-lg font-semibold capitalize">
+                System {overallStatus}
+              </h2>\n              <p className="text-sm opacity-75">
+                Last updated: {lastUpdated.toLocaleTimeString()}
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={fetchHealthData}\n            className="px-3 py-1 text-sm bg-white bg-opacity-20 rounded hover:bg-opacity-30 transition-colors"
+          >
+            Refresh
+          </button>
+        </div>
+      </div>
+
+      {/* System Metrics */}
+      {systemMetrics && (\n        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* CPU Usage */}\n          <div className="p-4 bg-white rounded-lg shadow-sm border">\n            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">\n                <Cpu className="w-5 h-5 text-blue-500" />\n                <span className="font-medium">CPU Usage</span>
+              </div>\n              <span className={`text-sm px-2 py-1 rounded ${
+                getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'critical' ? 'bg-red-100 text-red-800' :
+                getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'warning' ? 'bg-yellow-100 text-yellow-800' :
+                'bg-green-100 text-green-800'
+              }`}>
+                {systemMetrics.cpu.usage.toFixed(1)}%
+              </span>
+            </div>\n            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div\n                className={`h-2 rounded-full ${
+                  getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'critical' ? 'bg-red-500' :
+                  getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'warning' ? 'bg-yellow-500' :
+                  'bg-green-500'
+                }`}\n                style={{ width: `${systemMetrics.cpu.usage}%` }}
+              ></div>
+            </div>\n            <p className="text-xs text-gray-500 mt-1">
+              {systemMetrics.cpu.cores} cores available
+            </p>
+          </div>
+
+          {/* Memory Usage */}\n          <div className="p-4 bg-white rounded-lg shadow-sm border">\n            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">\n                <Activity className="w-5 h-5 text-green-500" />\n                <span className="font-medium">Memory</span>
+              </div>\n              <span className={`text-sm px-2 py-1 rounded ${
+                getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'critical' ? 'bg-red-100 text-red-800' :
+                getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'warning' ? 'bg-yellow-100 text-yellow-800' :
+                'bg-green-100 text-green-800'
+              }`}>
+                {systemMetrics.memory.percentage.toFixed(1)}%
+              </span>
+            </div>\n            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div\n                className={`h-2 rounded-full ${
+                  getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'critical' ? 'bg-red-500' :
+                  getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'warning' ? 'bg-yellow-500' :
+                  'bg-green-500'
+                }`}\n                style={{ width: `${systemMetrics.memory.percentage}%` }}
+              ></div>
+            </div>\n            <p className="text-xs text-gray-500 mt-1">
+              {formatBytes(systemMetrics.memory.used)} / {formatBytes(systemMetrics.memory.total)}
+            </p>
+          </div>
+
+          {/* Disk Usage */}\n          <div className="p-4 bg-white rounded-lg shadow-sm border">\n            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">\n                <HardDrive className="w-5 h-5 text-purple-500" />\n                <span className="font-medium">Disk Usage</span>
+              </div>\n              <span className={`text-sm px-2 py-1 rounded ${
+                getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'critical' ? 'bg-red-100 text-red-800' :
+                getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'warning' ? 'bg-yellow-100 text-yellow-800' :
+                'bg-green-100 text-green-800'
+              }`}>
+                {systemMetrics.disk.percentage.toFixed(1)}%
+              </span>
+            </div>\n            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div\n                className={`h-2 rounded-full ${
+                  getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'critical' ? 'bg-red-500' :
+                  getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'warning' ? 'bg-yellow-500' :
+                  'bg-green-500'
+                }`}\n                style={{ width: `${systemMetrics.disk.percentage}%` }}
+              ></div>
+            </div>\n            <p className="text-xs text-gray-500 mt-1">
+              {formatBytes(systemMetrics.disk.used)} / {formatBytes(systemMetrics.disk.total)}
+            </p>
+          </div>
+
+          {/* Network I/O */}\n          <div className="p-4 bg-white rounded-lg shadow-sm border">\n            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">\n                <Wifi className="w-5 h-5 text-orange-500" />\n                <span className="font-medium">Network I/O</span>
+              </div>
+            </div>\n            <div className="space-y-2">\n              <div className="flex justify-between text-sm">
+                <span>Received:</span>\n                <span className="font-medium">
+                  {formatBytes(systemMetrics.network.bytesReceived)}
+                </span>
+              </div>\n              <div className="flex justify-between text-sm">
+                <span>Sent:</span>\n                <span className="font-medium">
+                  {formatBytes(systemMetrics.network.bytesSent)}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Health Checks */}\n      <div className="bg-white rounded-lg shadow-sm border">\n        <div className="p-4 border-b">\n          <h3 className="text-lg font-semibold">Service Health Checks</h3>
+        </div>\n        <div className="divide-y">
+          {healthChecks.map((check) => (\n            <div key={check.name} className="p-4">\n              <div className="flex items-center justify-between">\n                <div className="flex items-center space-x-3">
+                  {getStatusIcon(check.status)}
+                  <div>\n                    <h4 className="font-medium">{check.name}</h4>
+                    {check.message && (\n                      <p className="text-sm text-gray-600">{check.message}</p>
+                    )}
+                  </div>
+                </div>\n                <div className="text-right">\n                  <div className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
+                    getStatusColor(check.status)
+                  }`}>
+                    {check.status}
+                  </div>\n                  <p className="text-xs text-gray-500 mt-1">
+                    {check.responseTime}ms
+                  </p>\n                  <p className="text-xs text-gray-400">
+                    {new Date(check.lastCheck).toLocaleTimeString()}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};

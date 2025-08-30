@@ -15,8 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@penny/ui';
+  DropdownMenuTrigger,\n} from '@penny/ui';
 import { MoreHorizontal, Settings, Users, Shield, Trash } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -33,35 +32,29 @@ interface Tenant {
 
 // Mock data
 const tenants: Tenant[] = [
-  {
-    id: '1',
+  {\n    id: '1',
     name: 'Acme Corporation',
     slug: 'acme-corp',
     plan: 'enterprise',
     status: 'active',
     users: 250,
-    storage: 128.5,
-    createdAt: new Date('2024-01-15'),
+    storage: 128.5,\n    createdAt: new Date('2024-01-15'),
   },
-  {
-    id: '2',
+  {\n    id: '2',
     name: 'TechStart Inc',
     slug: 'techstart',
     plan: 'pro',
     status: 'active',
     users: 45,
-    storage: 23.8,
-    createdAt: new Date('2024-02-01'),
+    storage: 23.8,\n    createdAt: new Date('2024-02-01'),
   },
-  {
-    id: '3',
+  {\n    id: '3',
     name: 'Digital Agency',
     slug: 'digital-agency',
     plan: 'starter',
     status: 'trial',
     users: 12,
-    storage: 5.2,
-    createdAt: new Date('2024-02-20'),
+    storage: 5.2,\n    createdAt: new Date('2024-02-20'),
   },
 ];
 
@@ -102,9 +95,7 @@ export function TenantsTable({ searchQuery }: { searchQuery: string }) {
         {filteredTenants.map((tenant) => (
           <TableRow key={tenant.id}>
             <TableCell>
-              <div>
-                <div className="font-medium">{tenant.name}</div>
-                <div className="text-sm text-muted-foreground">{tenant.slug}</div>
+              <div>\n                <div className="font-medium">{tenant.name}</div>\n                <div className="text-sm text-muted-foreground">{tenant.slug}</div>
               </div>
             </TableCell>
             <TableCell>
@@ -115,33 +106,23 @@ export function TenantsTable({ searchQuery }: { searchQuery: string }) {
             </TableCell>
             <TableCell>{tenant.users}</TableCell>
             <TableCell>{tenant.storage} GB</TableCell>
-            <TableCell>{format(tenant.createdAt, 'MMM d, yyyy')}</TableCell>
-            <TableCell className="text-right">
+            <TableCell>{format(tenant.createdAt, 'MMM d, yyyy')}</TableCell>\n            <TableCell className="text-right">
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="h-8 w-8 p-0">
-                    <span className="sr-only">Open menu</span>
-                    <MoreHorizontal className="h-4 w-4" />
+                <DropdownMenuTrigger asChild>\n                  <Button variant="ghost" className="h-8 w-8 p-0">\n                    <span className="sr-only">Open menu</span>\n                    <MoreHorizontal className="h-4 w-4" />
                   </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
+                </DropdownMenuTrigger>\n                <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <Settings className="mr-2 h-4 w-4" />
+                  <DropdownMenuItem>\n                    <Settings className="mr-2 h-4 w-4" />
                     <span>Settings</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Users className="mr-2 h-4 w-4" />
+                  <DropdownMenuItem>\n                    <Users className="mr-2 h-4 w-4" />
                     <span>Manage Users</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Shield className="mr-2 h-4 w-4" />
+                  <DropdownMenuItem>\n                    <Shield className="mr-2 h-4 w-4" />
                     <span>Security</span>
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem className="text-red-600">
-                    <Trash className="mr-2 h-4 w-4" />
+                  <DropdownMenuSeparator />\n                  <DropdownMenuItem className="text-red-600">\n                    <Trash className="mr-2 h-4 w-4" />
                     <span>Delete</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>

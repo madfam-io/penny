@@ -35,9 +35,7 @@ export class VirtualFileSystem {
   private maxFiles = 1000;
   private currentSize = 0;
   private currentFileCount = 0;
-
-  constructor(rootPath = '/workspace') {
-    this.root = this.createDirectory('', rootPath);
+\n  constructor(rootPath = '/workspace') {\n    this.root = this.createDirectory('', rootPath);
   }
 
   // File operations
@@ -51,13 +49,11 @@ export class VirtualFileSystem {
     }
 
     // Check total size limit
-    if (this.currentSize + buffer.length > this.maxTotalSize) {
-      throw new Error(`Total filesystem size would exceed limit: ${this.currentSize + buffer.length} > ${this.maxTotalSize}`);
+    if (this.currentSize + buffer.length > this.maxTotalSize) {\n      throw new Error(`Total filesystem size would exceed limit: ${this.currentSize + buffer.length} > ${this.maxTotalSize}`);
     }
 
     // Check file count limit
-    if (!this.fileExists(normalizedPath) && this.currentFileCount >= this.maxFiles) {
-      throw new Error(`File count exceeds limit: ${this.currentFileCount} >= ${this.maxFiles}`);
+    if (!this.fileExists(normalizedPath) && this.currentFileCount >= this.maxFiles) {\n      throw new Error(`File count exceeds limit: ${this.currentFileCount} >= ${this.maxFiles}`);
     }
 
     const { dir, name } = this.parsePath(normalizedPath);
@@ -95,13 +91,11 @@ export class VirtualFileSystem {
     const { dir, name } = this.parsePath(normalizedPath);
     
     const directory = this.getDirectory(dir);
-    if (!directory) {
-      throw new Error(`Directory not found: ${dir}`);
+    if (!directory) {\n      throw new Error(`Directory not found: ${dir}`);
     }
 
     const file = directory.files.get(name);
-    if (!file) {
-      throw new Error(`File not found: ${filePath}`);
+    if (!file) {\n      throw new Error(`File not found: ${filePath}`);
     }
 
     return file.content;
@@ -125,13 +119,11 @@ export class VirtualFileSystem {
     const { dir, name } = this.parsePath(normalizedPath);
     
     const directory = this.getDirectory(dir);
-    if (!directory) {
-      throw new Error(`Directory not found: ${dir}`);
+    if (!directory) {\n      throw new Error(`Directory not found: ${dir}`);
     }
 
     const file = directory.files.get(name);
-    if (!file) {
-      throw new Error(`File not found: ${filePath}`);
+    if (!file) {\n      throw new Error(`File not found: ${filePath}`);
     }
 
     directory.files.delete(name);
@@ -145,13 +137,11 @@ export class VirtualFileSystem {
     const { dir, name } = this.parsePath(normalizedPath);
     
     const directory = this.getDirectory(dir);
-    if (!directory) {
-      throw new Error(`Directory not found: ${dir}`);
+    if (!directory) {\n      throw new Error(`Directory not found: ${dir}`);
     }
 
     const file = directory.files.get(name);
-    if (!file) {
-      throw new Error(`File not found: ${filePath}`);
+    if (!file) {\n      throw new Error(`File not found: ${filePath}`);
     }
 
     return { ...file.metadata };
@@ -187,17 +177,14 @@ export class VirtualFileSystem {
     const { dir: parentPath, name } = this.parsePath(normalizedPath);
     
     const parentDir = this.getDirectory(parentPath);
-    if (!parentDir) {
-      throw new Error(`Parent directory not found: ${parentPath}`);
+    if (!parentDir) {\n      throw new Error(`Parent directory not found: ${parentPath}`);
     }
 
     const directory = parentDir.directories.get(name);
-    if (!directory) {
-      throw new Error(`Directory not found: ${dirPath}`);
+    if (!directory) {\n      throw new Error(`Directory not found: ${dirPath}`);
     }
 
-    if (!recursive && (directory.files.size > 0 || directory.directories.size > 0)) {
-      throw new Error(`Directory not empty: ${dirPath}`);
+    if (!recursive && (directory.files.size > 0 || directory.directories.size > 0)) {\n      throw new Error(`Directory not empty: ${dirPath}`);
     }
 
     if (recursive) {
@@ -216,8 +203,7 @@ export class VirtualFileSystem {
     const normalizedPath = this.normalizePath(dirPath);
     const directory = this.getDirectory(normalizedPath);
     
-    if (!directory) {
-      throw new Error(`Directory not found: ${dirPath}`);
+    if (!directory) {\n      throw new Error(`Directory not found: ${dirPath}`);
     }
 
     const files = Array.from(directory.files.values()).map(file => ({
@@ -260,8 +246,7 @@ export class VirtualFileSystem {
         const subdirPath = path.join(hostPath, name);
         await this.syncDirectoryToHost(subdir, subdirPath);
       }
-    } catch (error) {
-      throw new Error(`Failed to sync to host: ${error.message}`);
+    } catch (error) {\n      throw new Error(`Failed to sync to host: ${error.message}`);
     }
   }
 
@@ -317,16 +302,13 @@ export class VirtualFileSystem {
   }
 
   private normalizePath(filePath: string): string {
-    // Remove leading slash and normalize path separators
-    return path.normalize(filePath.replace(/^\/+/, '')).replace(/\\/g, '/');
+    // Remove leading slash and normalize path separators\n    return path.normalize(filePath.replace(/^\/+/, '')).replace(/\\/g, '/');
   }
 
   private parsePath(filePath: string): { dir: string; name: string } {
-    const normalized = this.normalizePath(filePath);
-    const lastSlash = normalized.lastIndexOf('/');
+    const normalized = this.normalizePath(filePath);\n    const lastSlash = normalized.lastIndexOf('/');
     
-    if (lastSlash === -1) {
-      return { dir: '', name: normalized };
+    if (lastSlash === -1) {\n      return { dir: '', name: normalized };
     }
     
     return {
@@ -335,12 +317,10 @@ export class VirtualFileSystem {
     };
   }
 
-  private getDirectory(dirPath: string): VirtualDirectory | null {
-    if (!dirPath || dirPath === '') {
+  private getDirectory(dirPath: string): VirtualDirectory | null {\n    if (!dirPath || dirPath === '') {
       return this.root;
     }
-
-    const parts = dirPath.split('/').filter(part => part !== '');
+\n    const parts = dirPath.split('/').filter(part => part !== '');
     let current = this.root;
 
     for (const part of parts) {
@@ -354,17 +334,13 @@ export class VirtualFileSystem {
     return current;
   }
 
-  private ensureDirectory(dirPath: string): VirtualDirectory {
-    if (!dirPath || dirPath === '') {
+  private ensureDirectory(dirPath: string): VirtualDirectory {\n    if (!dirPath || dirPath === '') {
       return this.root;
     }
+\n    const parts = dirPath.split('/').filter(part => part !== '');
+    let current = this.root;\n    let currentPath = '';
 
-    const parts = dirPath.split('/').filter(part => part !== '');
-    let current = this.root;
-    let currentPath = '';
-
-    for (const part of parts) {
-      currentPath = currentPath ? `${currentPath}/${part}` : part;
+    for (const part of parts) {\n      currentPath = currentPath ? `${currentPath}/${part}` : part;
       
       if (!current.directories.has(part)) {
         const newDir = {
@@ -393,21 +369,7 @@ export class VirtualFileSystem {
 
   private detectMimeType(filename: string): string {
     const ext = path.extname(filename).toLowerCase();
-    const mimeTypes: Record<string, string> = {
-      '.txt': 'text/plain',
-      '.py': 'text/x-python',
-      '.js': 'text/javascript',
-      '.json': 'application/json',
-      '.csv': 'text/csv',
-      '.html': 'text/html',
-      '.css': 'text/css',
-      '.png': 'image/png',
-      '.jpg': 'image/jpeg',
-      '.jpeg': 'image/jpeg',
-      '.gif': 'image/gif',
-      '.svg': 'image/svg+xml',
-      '.pdf': 'application/pdf',
-      '.zip': 'application/zip'
+    const mimeTypes: Record<string, string> = {\n      '.txt': 'text/plain',\n      '.py': 'text/x-python',\n      '.js': 'text/javascript',\n      '.json': 'application/json',\n      '.csv': 'text/csv',\n      '.html': 'text/html',\n      '.css': 'text/css',\n      '.png': 'image/png',\n      '.jpg': 'image/jpeg',\n      '.jpeg': 'image/jpeg',\n      '.gif': 'image/gif',\n      '.svg': 'image/svg+xml',\n      '.pdf': 'application/pdf',\n      '.zip': 'application/zip'
     };
     return mimeTypes[ext] || 'application/octet-stream';
   }
@@ -457,8 +419,7 @@ export class VirtualFileSystem {
   }
 
   // Cleanup
-  clear(): void {
-    this.root = this.createDirectory('', '/workspace');
+  clear(): void {\n    this.root = this.createDirectory('', '/workspace');
     this.currentSize = 0;
     this.currentFileCount = 0;
   }

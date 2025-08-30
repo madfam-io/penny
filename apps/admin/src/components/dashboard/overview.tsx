@@ -15,17 +15,14 @@ const data = [
 export function Overview() {
   return (
     <ResponsiveContainer width="100%" height={350}>
-      <LineChart data={data}>
-        <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-        <YAxis
-          stroke="#888888"
+      <LineChart data={data}>\n        <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
+        <YAxis\n          stroke="#888888"
           fontSize={12}
           tickLine={false}
           axisLine={false}
           tickFormatter={(value) => `${value}`}
         />
-        <Tooltip />
-        <Line type="monotone" dataKey="total" stroke="#8884d8" strokeWidth={2} dot={false} />
+        <Tooltip />\n        <Line type="monotone" dataKey="total" stroke="#8884d8" strokeWidth={2} dot={false} />
       </LineChart>
     </ResponsiveContainer>
   );

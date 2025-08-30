@@ -48,9 +48,7 @@ type OutputTab = 'output' | 'variables' | 'plots' | 'metrics';
 
 const OutputPanel: React.FC<OutputPanelProps> = ({
   output,
-  isStreaming = false,
-  className = '',
-  maxHeight = '400px',
+  isStreaming = false,\n  className = '',\n  maxHeight = '400px',
   showVariables = true,
   showPlots = true,
   showMetrics = true,
@@ -97,8 +95,7 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url;
-    a.download = `output-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.txt`;
+    a.href = url;\n    a.download = `output-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -110,39 +107,27 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
     if (!hasStdout && !hasStderr) {
       return (
         <div className="empty-output">
-          {isStreaming ? (
-            <div className="streaming-indicator">
-              <div className="spinner" />
+          {isStreaming ? (\n            <div className="streaming-indicator">\n              <div className="spinner" />
               <span>Executing code...</span>
             </div>
-          ) : (
-            <span className="text-gray-500">No output yet. Run some code to see results here.</span>
+          ) : (\n            <span className="text-gray-500">No output yet. Run some code to see results here.</span>
           )}
         </div>
       );
     }
 
-    return (
-      <div className="output-content">
-        {hasStdout && (
-          <div className="stdout-section">
-            <pre className="output-text">{output.stdout}</pre>
+    return (\n      <div className="output-content">
+        {hasStdout && (\n          <div className="stdout-section">\n            <pre className="output-text">{output.stdout}</pre>
           </div>
         )}
         
-        {hasStderr && (
-          <div className="stderr-section">
-            <div className="stderr-header">
-              <span className="error-icon">⚠️</span>
+        {hasStderr && (\n          <div className="stderr-section">\n            <div className="stderr-header">\n              <span className="error-icon">⚠️</span>
               <span>Errors/Warnings</span>
-            </div>
-            <pre className="output-text error">{output.stderr}</pre>
+            </div>\n            <pre className="output-text error">{output.stderr}</pre>
           </div>
         )}
         
-        {isStreaming && (
-          <div className="streaming-cursor">
-            <span className="blinking-cursor">|</span>
+        {isStreaming && (\n          <div className="streaming-cursor">\n            <span className="blinking-cursor">|</span>
           </div>
         )}
       </div>
@@ -153,44 +138,28 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
     const variables = Object.entries(output.variables || {});
     
     if (variables.length === 0) {
-      return (
-        <div className="empty-section">
-          <span className="text-gray-500">No variables to display</span>
+      return (\n        <div className="empty-section">\n          <span className="text-gray-500">No variables to display</span>
         </div>
       );
     }
 
-    return (
-      <div className="variables-list">
-        {variables.map(([name, data]) => (
-          <div key={name} className="variable-item">
-            <div className="variable-header">
-              <span className="variable-name">{name}</span>
-              <span className="variable-type">{data.type}</span>
-              {data.shape && (
-                <span className="variable-shape">
-                  {Array.isArray(data.shape) ? `(${data.shape.join(', ')})` : data.shape}
+    return (\n      <div className="variables-list">
+        {variables.map(([name, data]) => (\n          <div key={name} className="variable-item">\n            <div className="variable-header">\n              <span className="variable-name">{name}</span>\n              <span className="variable-type">{data.type}</span>\n              {data.shape && (\n                <span className="variable-shape">\n                  {Array.isArray(data.shape) ? `(${data.shape.join(', ')})` : data.shape}
                 </span>
               )}
-              {data.size && (
-                <span className="variable-size">
+              {data.size && (\n                <span className="variable-size">
                   {formatBytes(data.size)}
                 </span>
               )}
             </div>
-            
-            <div className="variable-content">
-              {data.preview ? (
-                <pre className="variable-preview">{data.preview}</pre>
-              ) : data.serializable ? (
-                <pre className="variable-value">{JSON.stringify(data.value, null, 2)}</pre>
-              ) : (
-                <span className="variable-repr">{String(data.value).slice(0, 200)}...</span>
+            \n            <div className="variable-content">
+              {data.preview ? (\n                <pre className="variable-preview">{data.preview}</pre>
+              ) : data.serializable ? (\n                <pre className="variable-value">{JSON.stringify(data.value, null, 2)}</pre>
+              ) : (\n                <span className="variable-repr">{String(data.value).slice(0, 200)}...</span>
               )}
             </div>
             
-            {data.truncated && (
-              <div className="truncated-indicator">
+            {data.truncated && (\n              <div className="truncated-indicator">
                 <span>... (truncated)</span>
               </div>
             )}
@@ -202,58 +171,39 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
 
   const renderPlots = () => {
     if (!output.plots || output.plots.length === 0) {
-      return (
-        <div className="empty-section">
-          <span className="text-gray-500">No plots to display</span>
+      return (\n        <div className="empty-section">\n          <span className="text-gray-500">No plots to display</span>
         </div>
       );
     }
 
-    return (
-      <div className="plots-grid">
-        {output.plots.map((plot, index) => (
-          <div key={plot.id} className="plot-item">
-            <div className="plot-header">
-              <span className="plot-title">
-                {plot.metadata?.title || `Plot ${index + 1}`}
-              </span>
-              <div className="plot-actions">
-                <button
-                  className="btn-icon"
-                  onClick={() => downloadPlot(plot)}
-                  title="Download plot"
+    return (\n      <div className="plots-grid">
+        {output.plots.map((plot, index) => (\n          <div key={plot.id} className="plot-item">\n            <div className="plot-header">\n              <span className="plot-title">\n                {plot.metadata?.title || `Plot ${index + 1}`}
+              </span>\n              <div className="plot-actions">
+                <button\n                  className="btn-icon"
+                  onClick={() => downloadPlot(plot)}\n                  title="Download plot"
                 >
                   💾
                 </button>
-                <button
-                  className="btn-icon"
-                  onClick={() => copyPlotToClipboard(plot)}
-                  title="Copy to clipboard"
+                <button\n                  className="btn-icon"
+                  onClick={() => copyPlotToClipboard(plot)}\n                  title="Copy to clipboard"
                 >
                   📋
                 </button>
               </div>
             </div>
-            
-            <div className="plot-content">
+            \n            <div className="plot-content">
               {plot.format === 'html' ? (
                 <iframe
-                  srcDoc={atob(plot.data)}
-                  className="plot-iframe"
+                  srcDoc={atob(plot.data)}\n                  className="plot-iframe"
                   title={plot.metadata?.title}
                 />
               ) : (
-                <img
-                  src={`data:image/${plot.format};base64,${plot.data}`}
-                  alt={plot.metadata?.title}
-                  className="plot-image"
+                <img\n                  src={`data:image/${plot.format};base64,${plot.data}`}
+                  alt={plot.metadata?.title}\n                  className="plot-image"
                 />
               )}
             </div>
-            
-            <div className="plot-metadata">
-              <span className="plot-format">{plot.format.toUpperCase()}</span>
-              <span className="plot-dimensions">
+            \n            <div className="plot-metadata">\n              <span className="plot-format">{plot.format.toUpperCase()}</span>\n              <span className="plot-dimensions">
                 {plot.metadata.width}×{plot.metadata.height}
               </span>
             </div>
@@ -265,48 +215,30 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
 
   const renderMetrics = () => {
     if (!output.executionTime && !output.timestamp) {
-      return (
-        <div className="empty-section">
-          <span className="text-gray-500">No metrics available</span>
+      return (\n        <div className="empty-section">\n          <span className="text-gray-500">No metrics available</span>
         </div>
       );
     }
 
-    return (
-      <div className="metrics-grid">
-        {output.executionTime !== undefined && (
-          <div className="metric-item">
-            <span className="metric-label">Execution Time</span>
-            <span className="metric-value">{formatDuration(output.executionTime)}</span>
+    return (\n      <div className="metrics-grid">
+        {output.executionTime !== undefined && (\n          <div className="metric-item">\n            <span className="metric-label">Execution Time</span>\n            <span className="metric-value">{formatDuration(output.executionTime)}</span>
           </div>
         )}
         
-        {output.timestamp && (
-          <div className="metric-item">
-            <span className="metric-label">Executed</span>
-            <span className="metric-value">
+        {output.timestamp && (\n          <div className="metric-item">\n            <span className="metric-label">Executed</span>\n            <span className="metric-value">
               {formatDistanceToNow(output.timestamp, { addSuffix: true })}
             </span>
           </div>
         )}
-        
-        <div className="metric-item">
-          <span className="metric-label">Output Lines</span>
-          <span className="metric-value">
-            {(output.stdout?.split('\n').length || 0) + (output.stderr?.split('\n').length || 0)}
+        \n        <div className="metric-item">\n          <span className="metric-label">Output Lines</span>\n          <span className="metric-value">\n            {(output.stdout?.split('
+').length || 0) + (output.stderr?.split('\n').length || 0)}
           </span>
         </div>
-        
-        <div className="metric-item">
-          <span className="metric-label">Variables</span>
-          <span className="metric-value">
+        \n        <div className="metric-item">\n          <span className="metric-label">Variables</span>\n          <span className="metric-value">
             {Object.keys(output.variables || {}).length}
           </span>
         </div>
-        
-        <div className="metric-item">
-          <span className="metric-label">Plots</span>
-          <span className="metric-value">
+        \n        <div className="metric-item">\n          <span className="metric-label">Plots</span>\n          <span className="metric-value">
             {output.plots?.length || 0}
           </span>
         </div>
@@ -315,15 +247,12 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
   };
 
   const downloadPlot = (plot: PlotData) => {
-    const link = document.createElement('a');
-    link.href = `data:image/${plot.format};base64,${plot.data}`;
-    link.download = `${plot.metadata?.title || 'plot'}.${plot.format}`;
+    const link = document.createElement('a');\n    link.href = `data:image/${plot.format};base64,${plot.data}`;\n    link.download = `${plot.metadata?.title || 'plot'}.${plot.format}`;
     link.click();
   };
 
   const copyPlotToClipboard = async (plot: PlotData) => {
-    try {
-      const blob = await fetch(`data:image/${plot.format};base64,${plot.data}`).then(r => r.blob());
+    try {\n      const blob = await fetch(`data:image/${plot.format};base64,${plot.data}`).then(r => r.blob());
       await navigator.clipboard.write([
         new ClipboardItem({ [blob.type]: blob })
       ]);
@@ -332,18 +261,13 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
     }
   };
 
-  const formatBytes = (bytes: number): string => {
-    if (bytes === 0) return '0 B';
+  const formatBytes = (bytes: number): string => {\n    if (bytes === 0) return '0 B';
     const k = 1024;
     const sizes = ['B', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));\n    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
-  const formatDuration = (ms: number): string => {
-    if (ms < 1000) return `${ms}ms`;
-    if (ms < 60000) return `${(ms / 1000).toFixed(2)}s`;
-    return `${(ms / 60000).toFixed(2)}m`;
+  const formatDuration = (ms: number): string => {\n    if (ms < 1000) return `${ms}ms`;\n    if (ms < 60000) return `${(ms / 1000).toFixed(2)}s`;\n    return `${(ms / 60000).toFixed(2)}m`;
   };
 
   const getTabCount = (tab: OutputTab): number => {
@@ -357,83 +281,64 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
     }
   };
 
-  return (
-    <div className={`output-panel ${className} ${isExpanded ? 'expanded' : ''}`}>
-      <div className="output-header">
-        <div className="output-tabs">
-          <button
-            className={`tab-button ${activeTab === 'output' ? 'active' : ''}`}
+  return (\n    <div className={`output-panel ${className} ${isExpanded ? 'expanded' : ''}`}>\n      <div className="output-header">\n        <div className="output-tabs">
+          <button\n            className={`tab-button ${activeTab === 'output' ? 'active' : ''}`}
             onClick={() => setActiveTab('output')}
           >
             Output
-            {(output.stdout || output.stderr) && (
-              <span className="tab-indicator">•</span>
+            {(output.stdout || output.stderr) && (\n              <span className="tab-indicator">•</span>
             )}
           </button>
           
           {showVariables && (
-            <button
-              className={`tab-button ${activeTab === 'variables' ? 'active' : ''}`}
+            <button\n              className={`tab-button ${activeTab === 'variables' ? 'active' : ''}`}
               onClick={() => setActiveTab('variables')}
             >
               Variables
-              {getTabCount('variables') > 0 && (
-                <span className="tab-count">({getTabCount('variables')})</span>
+              {getTabCount('variables') > 0 && (\n                <span className="tab-count">({getTabCount('variables')})</span>
               )}
             </button>
           )}
           
           {showPlots && (
-            <button
-              className={`tab-button ${activeTab === 'plots' ? 'active' : ''}`}
+            <button\n              className={`tab-button ${activeTab === 'plots' ? 'active' : ''}`}
               onClick={() => setActiveTab('plots')}
             >
               Plots
-              {getTabCount('plots') > 0 && (
-                <span className="tab-count">({getTabCount('plots')})</span>
+              {getTabCount('plots') > 0 && (\n                <span className="tab-count">({getTabCount('plots')})</span>
               )}
             </button>
           )}
           
           {showMetrics && (
-            <button
-              className={`tab-button ${activeTab === 'metrics' ? 'active' : ''}`}
+            <button\n              className={`tab-button ${activeTab === 'metrics' ? 'active' : ''}`}
               onClick={() => setActiveTab('metrics')}
             >
               Metrics
             </button>
           )}
         </div>
-        
-        <div className="output-actions">
-          <button
-            className="btn-icon"
+        \n        <div className="output-actions">
+          <button\n            className="btn-icon"
             onClick={() => setIsExpanded(!isExpanded)}
             title={isExpanded ? 'Collapse' : 'Expand'}
-          >
-            {isExpanded ? '⏷' : '⏶'}
+          >\n            {isExpanded ? '⏷' : '⏶'}
           </button>
           
           {activeTab === 'output' && (
             <>
-              <button
-                className="btn-icon"
-                onClick={clearOutput}
-                title="Clear output"
+              <button\n                className="btn-icon"
+                onClick={clearOutput}\n                title="Clear output"
               >
                 🗑️
               </button>
-              <button
-                className="btn-icon"
-                onClick={() => copyToClipboard(output.stdout + output.stderr)}
-                title="Copy to clipboard"
+              <button\n                className="btn-icon"
+                onClick={() => copyToClipboard(output.stdout + output.stderr)}\n                title="Copy to clipboard"
               >
                 📋
               </button>
-              <button
-                className="btn-icon"
-                onClick={downloadOutput}
-                title="Download output"
+              <button\n                className="btn-icon"
+                onClick={downloadOutput}\n                title="Download output"
               >
                 💾
               </button>
@@ -443,8 +348,7 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
       </div>
       
       <div 
-        ref={outputRef}
-        className="output-body"
+        ref={outputRef}\n        className="output-body"
         style={{ maxHeight: isExpanded ? 'none' : maxHeight }}
       >
         {activeTab === 'output' && renderOutput()}
@@ -452,8 +356,7 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
         {activeTab === 'plots' && renderPlots()}
         {activeTab === 'metrics' && renderMetrics()}
       </div>
-
-      <style jsx>{`
+\n      <style jsx>{`
         .output-panel {
           border: 1px solid #d1d5db;
           border-radius: 8px;

@@ -1,23 +1,19 @@
 'use client';
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { useState } from 'react';\nimport { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger,\n} from '@/components/ui/dropdown-menu';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { Badge } from '@/components/ui/badge';
+  DialogTitle,\n} from '@/components/ui/dialog';\nimport { Badge } from '@/components/ui/badge';
 import { 
   ChevronDown, 
   Trash2, 
@@ -31,8 +27,7 @@ import {
   CheckCircle,
   AlertTriangle,
   Loader2
-} from 'lucide-react';
-import { cn } from '@/utils/cn';
+} from 'lucide-react';\nimport { cn } from '@/utils/cn';
 
 export interface BulkAction {
   id: string;
@@ -101,17 +96,12 @@ export function BulkActions({
         'flex items-center justify-between p-3 bg-muted/50 border rounded-lg',
         className
       )}>
-        <div className="flex items-center gap-3">
-          <Badge variant="secondary" className="text-sm">
+        <div className="flex items-center gap-3">\n          <Badge variant="secondary" className="text-sm">
             {selectedCount} selected
           </Badge>
-          
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          \n          <div className="flex items-center gap-2 text-sm text-muted-foreground">
             {selectedCount < totalCount && onSelectAll && (
-              <Button
-                variant="link"
-                size="sm"
-                className="h-auto p-0"
+              <Button\n                variant="link"\n                size="sm"\n                className="h-auto p-0"
                 onClick={onSelectAll}
               >
                 Select all {totalCount}
@@ -119,10 +109,7 @@ export function BulkActions({
             )}
             
             {onClearSelection && (
-              <Button
-                variant="link"
-                size="sm"
-                className="h-auto p-0"
+              <Button\n                variant="link"\n                size="sm"\n                className="h-auto p-0"
                 onClick={onClearSelection}
               >
                 Clear selection
@@ -130,24 +117,20 @@ export function BulkActions({
             )}
           </div>
         </div>
-
-        <div className="flex items-center gap-2">
+\n        <div className="flex items-center gap-2">
           {/* Quick Actions */}
           {actions.slice(0, 2).map((action) => {
             const Icon = action.icon;
             return (
               <Button
                 key={action.id}
-                variant={action.variant || 'outline'}
-                size="sm"
+                variant={action.variant || 'outline'}\n                size="sm"
                 onClick={() => handleAction(action)}
                 disabled={loading || isExecuting || action.disabled}
                 title={action.tooltip}
               >
-                {isExecuting ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <Icon className="mr-2 h-4 w-4" />
+                {isExecuting ? (\n                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (\n                  <Icon className="mr-2 h-4 w-4" />
                 )}
                 {action.label}
               </Button>
@@ -157,13 +140,10 @@ export function BulkActions({
           {/* More Actions Dropdown */}
           {actions.length > 2 && (
             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
-                  More
-                  <ChevronDown className="ml-2 h-4 w-4" />
+              <DropdownMenuTrigger asChild>\n                <Button variant="outline" size="sm">
+                  More\n                  <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              </DropdownMenuTrigger>\n              <DropdownMenuContent align="end">
                 {actions.slice(2).map((action, index) => {
                   const Icon = action.icon;
                   return (
@@ -176,8 +156,7 @@ export function BulkActions({
                           action.variant === 'destructive' && 
                           'text-red-600 focus:text-red-600'
                         )}
-                      >
-                        <Icon className="mr-2 h-4 w-4" />
+                      >\n                        <Icon className="mr-2 h-4 w-4" />
                         {action.label}
                       </DropdownMenuItem>
                     </div>
@@ -192,23 +171,17 @@ export function BulkActions({
       {/* Confirmation Dialog */}
       <Dialog open={!!confirmAction} onOpenChange={() => setConfirmAction(null)}>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              {confirmAction?.variant === 'destructive' ? (
-                <AlertTriangle className="h-5 w-5 text-red-600" />
-              ) : (
-                <CheckCircle className="h-5 w-5 text-blue-600" />
+          <DialogHeader>\n            <DialogTitle className="flex items-center gap-2">
+              {confirmAction?.variant === 'destructive' ? (\n                <AlertTriangle className="h-5 w-5 text-red-600" />
+              ) : (\n                <CheckCircle className="h-5 w-5 text-blue-600" />
               )}
               {confirmAction?.confirmTitle || `Confirm ${confirmAction?.label}`}
             </DialogTitle>
-            <DialogDescription>
-              {confirmAction?.confirmDescription || 
-               `Are you sure you want to ${confirmAction?.label.toLowerCase()} ${selectedCount} item${selectedCount === 1 ? '' : 's'}?`}
+            <DialogDescription>\n              {confirmAction?.confirmDescription || \n               `Are you sure you want to ${confirmAction?.label.toLowerCase()} ${selectedCount} item${selectedCount === 1 ? '' : 's'}?`}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="outline"
+            <Button\n              variant="outline"
               onClick={() => setConfirmAction(null)}
               disabled={isExecuting}
             >
@@ -220,14 +193,12 @@ export function BulkActions({
               disabled={isExecuting}
             >
               {isExecuting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <>\n                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Processing...
                 </>
               ) : (
                 <>
-                  {confirmAction?.icon && (
-                    <confirmAction.icon className="mr-2 h-4 w-4" />
+                  {confirmAction?.icon && (\n                    <confirmAction.icon className="mr-2 h-4 w-4" />
                   )}
                   Confirm
                 </>
