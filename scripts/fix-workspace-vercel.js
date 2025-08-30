@@ -62,13 +62,14 @@ files.forEach(file => {
 
 console.log(`\n✅ Fixed ${fixedCount} package.json files`);
 
-// Also check if the root package.json has workspaces and temporarily remove it
+// Don't remove workspaces - Turbo needs it for resolution
+// Just ensure packageManager is set
 const rootPkg = path.join(process.cwd(), 'package.json');
 if (fs.existsSync(rootPkg)) {
   const pkg = JSON.parse(fs.readFileSync(rootPkg, 'utf8'));
-  if (pkg.workspaces) {
-    console.log('\nRemoving workspaces from root package.json for Vercel...');
-    delete pkg.workspaces;
+  if (!pkg.packageManager) {
+    console.log('\nAdding packageManager to root package.json...');
+    pkg.packageManager = 'npm@10.8.2';
     fs.writeFileSync(rootPkg, JSON.stringify(pkg, null, 2) + '\n');
   }
 }
