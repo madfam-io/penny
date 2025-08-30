@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { PageErrorBoundary, SectionErrorBoundary, FormErrorBoundary } from '@/components/error-boundaries';
 import { SystemSettings } from '@/components/settings/SystemSettings';
 import { SecuritySettings } from '@/components/settings/SecuritySettings';
 import { EmailSettings } from '@/components/settings/EmailSettings';
@@ -11,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/ui';
 import { Settings, Shield, Mail, Plug, Wrench, Database, Save } from 'lucide-react';
 import { Button } from '@penny/ui';
 
-export default function SettingsPage() {
+function SettingsPageContent() {
   const breadcrumbItems = [
     { label: 'Dashboard', href: '/dashboard' },
     { label: 'System Settings' }
@@ -88,5 +89,13 @@ export default function SettingsPage() {
         </TabsContent>
       </Tabs>
     </div>
+  );
+}
+
+export default function SettingsPage() {
+  return (
+    <PageErrorBoundary pageName="Settings">
+      <SettingsPageContent />
+    </PageErrorBoundary>
   );
 }

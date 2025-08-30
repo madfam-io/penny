@@ -11,12 +11,18 @@ import {
   Input,
 } from '@penny/ui';
 import { Plus, Search } from 'lucide-react';
+import { PageErrorBoundary, TableErrorBoundary, FormErrorBoundary } from '@/components/error-boundaries';
 import { TenantsTable } from '@/components/tenants/tenants-table';
 import { CreateTenantDialog } from '@/components/tenants/create-tenant-dialog';
 
-export default function TenantsPage() {
+function TenantsPageContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+
+  const handleRefreshTable = () => {
+    // This would typically trigger a refetch of tenant data
+    window.location.reload();
+  };
 
   return (
     <div className="space-y-8">
@@ -48,11 +54,30 @@ export default function TenantsPage() {
               className="pl-8"
             />
           </div>
-          <TenantsTable searchQuery={searchQuery} />
+          <TableErrorBoundary 
+            tableName="Tenants" 
+            onRefresh={handleRefreshTable}
+            colSpan={6}
+          >
+            <TenantsTable searchQuery={searchQuery} />
+          </TableErrorBoundary>
         </CardContent>
       </Card>
 
-      <CreateTenantDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} />
+      <FormErrorBoundary 
+        formName="Create Tenant Dialog"
+        onReset={() => setIsCreateOpen(false)}
+      >
+        <CreateTenantDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} />
+      </FormErrorBoundary>
     </div>
+  );
+}
+
+export default function TenantsPage() {
+  return (
+    <PageErrorBoundary pageName="Tenants">
+      <TenantsPageContent />
+    </PageErrorBoundary>
   );
 }
