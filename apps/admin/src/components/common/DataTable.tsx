@@ -20,15 +20,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@penny/uitable';
-import { Button } from '@penny/uibutton';
-import { Input } from '@penny/uiinput';
+} from '@penny/ui';
+import { Button } from '@penny/ui';
+import { Input } from '@penny/ui';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from '@penny/uidropdown-menu';
+} from '@penny/ui';
 import { 
   ChevronLeft, 
   ChevronRight, 

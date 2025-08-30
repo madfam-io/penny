@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@penny/uicard';
-import { Badge } from '@penny/uibadge';
-import { Button } from '@penny/uibutton';
-import { ScrollArea } from '@penny/uiscroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/uitabs';
+import { Card, CardContent, CardHeader, CardTitle } from '@penny/ui';
+import { Badge } from '@penny/ui';
+import { Button } from '@penny/ui';
+import { ScrollArea } from '@penny/ui';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/ui';
 import { 
   Clock, 
   User, 

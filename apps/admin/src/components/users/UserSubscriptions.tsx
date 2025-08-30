@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@penny/uicard';
-import { Badge } from '@penny/uibadge';
-import { Button } from '@penny/uibutton';
-import { Progress } from '@penny/uiprogress';
+import { Card, CardContent, CardHeader, CardTitle } from '@penny/ui';
+import { Badge } from '@penny/ui';
+import { Button } from '@penny/ui';
+import { Progress } from '@penny/ui';
 import { 
   CreditCard, 
   Calendar, 

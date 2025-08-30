@@ -1,24 +1,24 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Button } from '@penny/uibutton';
-import { Input } from '@penny/uiinput';
-import { Label } from '@penny/uilabel';
+import { Button } from '@penny/ui';
+import { Input } from '@penny/ui';
+import { Label } from '@penny/ui';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@penny/uiselect';
+} from '@penny/ui';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@penny/uipopover';
-import { Calendar } from '@penny/uicalendar';
-import { Checkbox } from '@penny/uicheckbox';
-import { Badge } from '@penny/uibadge';
+} from '@penny/ui';
+import { Calendar } from '@penny/ui';
+import { Checkbox } from '@penny/ui';
+import { Badge } from '@penny/ui';
 import { 
   Filter, 
   X, 

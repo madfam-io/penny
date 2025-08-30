@@ -5,8 +5,8 @@ import { ToolStats } from '@/components/tools/ToolStats';
 import { CreateToolDialog } from '@/components/tools/CreateToolDialog';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { LoadingSpinner } from '@penny/uiLoadingSpinner';
-import { Card, CardContent, CardHeader, CardTitle } from '@penny/uicard';
-import { Button } from '@penny/uibutton';
+import { Card, CardContent, CardHeader, CardTitle } from '@penny/ui';
+import { Button } from '@penny/ui';
 import { Wrench, Plus, Download, RefreshCw, Settings, Filter } from 'lucide-react';
 
 export default function ToolsPage() {

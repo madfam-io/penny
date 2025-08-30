@@ -6,10 +6,10 @@ import { UserActivityLog } from '@/components/users/UserActivityLog';
 import { UserSubscriptions } from '@/components/users/UserSubscriptions';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { LoadingSpinner } from '@penny/uiLoadingSpinner';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/uitabs';
-import { Card, CardContent, CardHeader, CardTitle } from '@penny/uicard';
-import { Badge } from '@penny/uibadge';
-import { Button } from '@penny/uibutton';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/ui';
+import { Card, CardContent, CardHeader, CardTitle } from '@penny/ui';
+import { Badge } from '@penny/ui';
+import { Button } from '@penny/ui';
 import { ArrowLeft, Edit, Shield, Trash2, UserCheck } from 'lucide-react';
 import Link from 'next/link';
 

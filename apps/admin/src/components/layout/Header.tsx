@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@penny/uibutton';
+import { Button } from '@penny/ui';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,9 +9,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@penny/uidropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@penny/uiavatar';
-import { Badge } from '@penny/uibadge';
+} from '@penny/ui';
+import { Avatar, AvatarFallback, AvatarImage } from '@penny/ui';
+import { Badge } from '@penny/ui';
 import { 
   Menu,
   PanelLeftClose,
@@ -26,7 +26,7 @@ import {
   Monitor,
   HelpCircle
 } from 'lucide-react';
-import { Input } from '@penny/uiinput';
+import { Input } from '@penny/ui';
 
 interface HeaderProps {
   onMobileMenuClick: () => void;

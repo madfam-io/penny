@@ -3,10 +3,10 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { Button } from '@penny/uibutton';
-import { Badge } from '@penny/uibadge';
-import { ScrollArea } from '@penny/uiscroll-area';
-import { Separator } from '@penny/uiseparator';
+import { Button } from '@penny/ui';
+import { Badge } from '@penny/ui';
+import { ScrollArea } from '@penny/ui';
+import { Separator } from '@penny/ui';
 import { 
   LayoutDashboard,
   Users,

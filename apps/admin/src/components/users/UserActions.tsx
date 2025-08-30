@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@penny/uibutton';
+import { Button } from '@penny/ui';
 import {
   Dialog,
   DialogContent,
@@ -9,10 +9,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@penny/uidialog';
-import { Input } from '@penny/uiinput';
-import { Label } from '@penny/uilabel';
-import { Textarea } from '@penny/uitextarea';
+} from '@penny/ui';
+import { Input } from '@penny/ui';
+import { Label } from '@penny/ui';
+import { Textarea } from '@penny/ui';
 import { 
   UserCheck, 
   UserX, 

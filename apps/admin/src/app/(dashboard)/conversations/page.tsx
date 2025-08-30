@@ -4,8 +4,8 @@ import { ConversationFilters } from '@/components/conversations/ConversationFilt
 import { ConversationStats } from '@/components/conversations/ConversationStats';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { LoadingSpinner } from '@penny/uiLoadingSpinner';
-import { Card, CardContent, CardHeader, CardTitle } from '@penny/uicard';
-import { Button } from '@penny/uibutton';
+import { Card, CardContent, CardHeader, CardTitle } from '@penny/ui';
+import { Button } from '@penny/ui';
 import { MessageCircle, Download, RefreshCw, Search, Filter } from 'lucide-react';
 
 export default function ConversationsPage() {

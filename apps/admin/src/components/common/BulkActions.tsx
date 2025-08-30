@@ -1,14 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@penny/uibutton';
+import { Button } from '@penny/ui';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@penny/uidropdown-menu';
+} from '@penny/ui';
 import {
   Dialog,
   DialogContent,
@@ -16,8 +16,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@penny/uidialog';
-import { Badge } from '@penny/uibadge';
+} from '@penny/ui';
+import { Badge } from '@penny/ui';
 import { 
   ChevronDown, 
   Trash2, 

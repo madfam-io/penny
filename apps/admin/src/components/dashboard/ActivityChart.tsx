@@ -14,9 +14,9 @@ import {
   Area,
   AreaChart
 } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle } from '@penny/uicard';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/uitabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@penny/uiselect';
+import { Card, CardContent, CardHeader, CardTitle } from '@penny/ui';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/ui';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@penny/ui';
 import { BarChart3, TrendingUp, Activity } from 'lucide-react';
 import { useState } from 'react';
 

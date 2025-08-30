@@ -5,10 +5,10 @@ import { AuditStats } from '@/components/audit/AuditStats';
 import { AuditExport } from '@/components/audit/AuditExport';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { LoadingSpinner } from '@penny/uiLoadingSpinner';
-import { Card, CardContent, CardHeader, CardTitle } from '@penny/uicard';
-import { Button } from '@penny/uibutton';
+import { Card, CardContent, CardHeader, CardTitle } from '@penny/ui';
+import { Button } from '@penny/ui';
 import { Shield, Download, RefreshCw, Search, Filter, AlertTriangle } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@penny/uialert';
+import { Alert, AlertDescription, AlertTitle } from '@penny/ui';
 
 export default function AuditLogPage() {
   const breadcrumbItems = [

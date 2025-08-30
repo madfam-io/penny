@@ -1,10 +1,10 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@penny/uicard';
-import { Badge } from '@penny/uibadge';
-import { Button } from '@penny/uibutton';
-import { Separator } from '@penny/uiseparator';
-import { Avatar, AvatarFallback, AvatarImage } from '@penny/uiavatar';
+import { Card, CardContent, CardHeader, CardTitle } from '@penny/ui';
+import { Badge } from '@penny/ui';
+import { Button } from '@penny/ui';
+import { Separator } from '@penny/ui';
+import { Avatar, AvatarFallback, AvatarImage } from '@penny/ui';
 import { 
   User, 
   Mail, 

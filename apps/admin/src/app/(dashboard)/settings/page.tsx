@@ -7,9 +7,9 @@ import { MaintenanceMode } from '@/components/settings/MaintenanceMode';
 import { BackupSettings } from '@/components/settings/BackupSettings';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { LoadingSpinner } from '@penny/uiLoadingSpinner';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/uitabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/ui';
 import { Settings, Shield, Mail, Plug, Wrench, Database, Save } from 'lucide-react';
-import { Button } from '@penny/uibutton';
+import { Button } from '@penny/ui';
 
 export default function SettingsPage() {
   const breadcrumbItems = [

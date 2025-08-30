@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent } from '@penny/uicard';
+import { Card, CardContent } from '@penny/ui';
 import { cn } from '@/utils/cn';
 import { LucideIcon, TrendingUp, TrendingDown } from 'lucide-react';
 

@@ -7,10 +7,10 @@ import { TenantSettings } from '@/components/tenants/TenantSettings';
 import { TenantUsage } from '@/components/tenants/TenantUsage';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { LoadingSpinner } from '@penny/uiLoadingSpinner';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/uitabs';
-import { Card, CardContent, CardHeader, CardTitle } from '@penny/uicard';
-import { Badge } from '@penny/uibadge';
-import { Button } from '@penny/uibutton';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/ui';
+import { Card, CardContent, CardHeader, CardTitle } from '@penny/ui';
+import { Badge } from '@penny/ui';
+import { Button } from '@penny/ui';
 import { ArrowLeft, Edit, Settings, Trash2, Users, CreditCard, BarChart3 } from 'lucide-react';
 import Link from 'next/link';
 
