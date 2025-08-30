@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { Modal } from '../ui/Modal';
-import { Button } from '@penny/ui';
+import { Button } from '../../components/ui/button';
 
 export interface SessionManagerProps {
   // How long before session expiry to show warning (in seconds)

@@ -242,7 +242,7 @@ export function useNotifications(options: UseNotificationsOptions = {}): UseNoti
 
   // Setup auto-read timer for new notifications
   const setupAutoRead = useCallback((notification: Notification) => {
-    if (autoMarkAsRead && !notification.readAt && notification.type !== 'urgent') {
+    if (autoMarkAsRead && !notification.readAt && notification.priority !== 'urgent') {
       const timeout = setTimeout(() => {
         markAsRead(notification.id);
       }, autoMarkAsReadDelay);

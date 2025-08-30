@@ -62,6 +62,7 @@ export interface ChatState {
   error: string | null;
   participants: string[];
   typingUsers: string[];
+  hasMore: boolean;
 }
 
 export interface UseChatReturn extends ChatState {
@@ -70,11 +71,15 @@ export interface UseChatReturn extends ChatState {
   editMessage: (messageId: string, content: string) => Promise<void>;
   deleteMessage: (messageId: string) => Promise<void>;
   reactToMessage: (messageId: string, emoji: string, action: 'add' | 'remove') => Promise<void>;
+  markAsRead: (messageId?: string) => Promise<void>;
   
   // Conversation management
   joinConversation: (conversationId: string) => Promise<void>;
   leaveConversation: () => Promise<void>;
   loadMessages: (limit?: number, offset?: number) => Promise<void>;
+  
+  // Pagination
+  hasMore: boolean;
   
   // Streaming
   streamCompletion: (content: string, options?: { model?: string; temperature?: number }) => Promise<void>;
@@ -95,7 +100,8 @@ export function useChat(options: UseChatOptions = {}): UseChatReturn {
     isLoading: false,
     error: null,
     participants: [],
-    typingUsers: []
+    typingUsers: [],
+    hasMore: false
   });
 
   const conversationIdRef = useRef<string | null>(null);
@@ -210,6 +216,16 @@ export function useChat(options: UseChatOptions = {}): UseChatReturn {
     if (!socket) throw new Error('WebSocket not connected');
 
     emit('message_reaction', { messageId, reaction: emoji, action });
+  }, [socket, emit]);
+
+  // Mark message as read
+  const markAsRead = useCallback(async (messageId?: string) => {
+    if (!socket || !conversationIdRef.current) return;
+
+    emit('message_read', { 
+      conversationId: conversationIdRef.current,
+      messageId: messageId || null
+    });
   }, [socket, emit]);
 
   // Load messages
@@ -499,6 +515,7 @@ export function useChat(options: UseChatOptions = {}): UseChatReturn {
     editMessage,
     deleteMessage,
     reactToMessage,
+    markAsRead,
     joinConversation,
     leaveConversation,
     loadMessages,

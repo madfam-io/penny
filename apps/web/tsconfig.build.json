@@ -30,7 +30,6 @@
     "paths": {
       "@/*": ["./src/*"],
       "@penny/types": ["../../packages/shared/src/types"],
-      "@penny/ui": ["../../packages/ui/src"],
       "@penny/api-client": ["../../packages/api-client/src"],
       "@penny/security": ["../../packages/security/src"]
     }

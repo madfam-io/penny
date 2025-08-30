@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Eye, EyeOff, Mail, Lock, LogIn, Github, Chrome } from 'lucide-react';
-import { useAuth } from '../../hooks/useAuth';
-import { Button } from '@penny/ui';
+import { useAuth, LoginData } from '../../hooks/useAuth';
+import { Button } from '../../components/ui/button';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -37,7 +37,7 @@ export const LoginPage: React.FC = () => {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      await login(data);
+      await login(data as LoginData);
       navigate(from, { replace: true });
     } catch (error) {
       setError('root', {

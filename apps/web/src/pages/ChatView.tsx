@@ -2,18 +2,14 @@ import { useState, useRef, useEffect } from 'react';
 import { Send, Paperclip, Bot, User, Loader2 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import MessageBubble from '@/components/MessageBubble';
-import ArtifactViewer from '@/components/ArtifactViewer';
+import ArtifactViewer, { type Artifact } from '@/components/ArtifactViewer';
 
 interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
-  artifacts?: Array<{
-    id: string;
-    type: string;
-    name: string;
-  }>;
+  artifacts?: Artifact[];
 }
 
 export default function ChatView() {
@@ -29,6 +25,13 @@ export default function ChatView() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [selectedArtifact, setSelectedArtifact] = useState<string | null>(null);
+
+  // Find the selected artifact from all messages
+  const selectedArtifactObject = selectedArtifact 
+    ? messages
+        .flatMap(msg => msg.artifacts || [])
+        .find(artifact => artifact.id === selectedArtifact) || null
+    : null;
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -66,6 +69,11 @@ export default function ChatView() {
             id: 'art_1',
             type: 'dashboard',
             name: 'Company KPIs - MTD',
+            content: {
+              data: [],
+              config: {}
+            },
+            createdAt: new Date().toISOString(),
           },
         ],
       };
@@ -138,9 +146,9 @@ export default function ChatView() {
       </div>
 
       {/* Artifact viewer */}
-      {selectedArtifact && (
+      {selectedArtifactObject && (
 <div className="w-1/2 border-l border-gray-200 dark:border-gray-700">
-          <ArtifactViewer artifactId={selectedArtifact} onClose={() => setSelectedArtifact(null)} />
+          <ArtifactViewer artifact={selectedArtifactObject} onClose={() => setSelectedArtifact(null)} />
         </div>
       )}
     </div>

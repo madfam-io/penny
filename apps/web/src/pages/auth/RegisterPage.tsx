@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Eye, EyeOff, Mail, Lock, User, Building, UserPlus, CheckCircle, XCircle } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-import { Button } from '@penny/ui';
+import { Button } from '../../components/ui/button';
 
 const registerSchema = z.object({
   name: z.string().min(1, 'Name is required').max(255, 'Name is too long'),

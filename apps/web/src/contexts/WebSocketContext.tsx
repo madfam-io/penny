@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { useWebSocket } from '../hooks/useWebSocket';
+import { useWebSocket, ConnectionState } from '../hooks/useWebSocket';
 import { useNotifications, UseNotificationsReturn } from '../hooks/useNotifications';
 
 export interface WebSocketContextValue {
@@ -9,7 +9,7 @@ export interface WebSocketContextValue {
   send: (data: any) => void;
   subscribe: (event: string, callback: (data: any) => void) => () => void;
   isConnected?: boolean;
-  connectionState?: string;
+  connectionState?: ConnectionState;
   lastError?: Error | null;
   reconnectAttempts?: number;
   socket?: any;
@@ -53,8 +53,8 @@ export function WebSocketProvider({
     url,
     autoConnect,
     reconnectionAttempts: reconnectAttempts,
-    reconnectInterval,
-    heartbeatInterval
+    reconnectionDelay: reconnectInterval,
+    timeout: heartbeatInterval
   });
 
   const notifications = useNotifications({
@@ -65,7 +65,12 @@ export function WebSocketProvider({
 
   const contextValue: WebSocketContextValue = {
     ...webSocket,
-    notifications
+    notifications,
+    send: (data: any) => webSocket.emit('message', data),
+    subscribe: (event: string, callback: (data: any) => void) => {
+      webSocket.on(event, callback);
+      return () => webSocket.off(event, callback);
+    }
   };
 
   // Request notification permissions on mount if notifications are enabled

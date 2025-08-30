@@ -29,7 +29,7 @@ export interface WebSocketHookReturn {
   connect: () => void;
   disconnect: () => void;
   emit: (event: string, data?: any) => void;
-  on: (event: string, callback: (...args: any[]) => void) => void;
+  on: (event: string, callback: (...args: any[]) => void) => () => void;
   off: (event: string, callback?: (...args: any[]) => void) => void;
   isConnected: boolean;
 }
@@ -46,7 +46,8 @@ const DEFAULT_CONFIG: WebSocketConfig = {
 };
 
 export function useWebSocket(config: WebSocketConfig = {}): WebSocketHookReturn {
-  const { user, token } = useAuth();
+  const { user, tenant, getAccessToken } = useAuth();
+  const token = getAccessToken();
   const socketRef = useRef<Socket | null>(null);
   const configRef = useRef({ ...DEFAULT_CONFIG, ...config });
   const pingIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -127,7 +128,7 @@ export function useWebSocket(config: WebSocketConfig = {}): WebSocketHookReturn 
         },
         query: {
           userId: user.id,
-          tenantId: user.tenantId
+          tenantId: tenant?.id || 'default'
         }
       });
 
@@ -275,6 +276,7 @@ export function useWebSocket(config: WebSocketConfig = {}): WebSocketHookReturn 
   // Add event listener
   const on = useCallback((event: string, callback: (...args: any[]) => void) => {
     socketRef.current?.on(event, callback);
+    return () => socketRef.current?.off(event, callback);
   }, []);
 
   // Remove event listener

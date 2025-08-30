@@ -365,9 +365,7 @@ export function ChatProvider({
     conversationId: state.currentConversationId || undefined
   });
 
-  const presence = usePresence({
-    enabled: enablePresence
-  });
+  const presence = usePresence();
 
   const typing = useTyping({
     conversationId: state.currentConversationId || undefined,
@@ -430,10 +428,31 @@ export function ChatProvider({
   // Sync chat messages with state
   useEffect(() => {
     if (state.currentConversationId && chat.messages.length > 0) {
+      // Convert useChat messages to ChatContext message format
+      const convertedMessages: Message[] = chat.messages.map((chatMessage) => ({
+        id: chatMessage.id,
+        conversationId: chatMessage.conversationId,
+        userId: chatMessage.userId || 'anonymous',
+        userName: 'User', // Default name, should come from user data
+        content: chatMessage.content,
+        type: chatMessage.type === 'text' ? 'text' : chatMessage.type === 'system' ? 'system' : 'text',
+        metadata: chatMessage.metadata,
+        attachments: chatMessage.attachments || [],
+        reactions: [], // Convert from chat.reactions if needed
+        mentions: [], // Extract from metadata if needed
+        replyTo: chatMessage.parentMessageId,
+        editedAt: undefined,
+        deletedAt: undefined,
+        createdAt: chatMessage.createdAt,
+        updatedAt: chatMessage.updatedAt,
+        isStreaming: false,
+        acknowledgments: [] // Convert if needed
+      }));
+      
       dispatch({
         type: 'SET_MESSAGES',
         conversationId: state.currentConversationId,
-        messages: chat.messages,
+        messages: convertedMessages,
         hasMore: chat.hasMore
       });
     }

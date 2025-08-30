@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => ({
           'react-vendor': ['react', 'react-dom'],
           router: ['@tanstack/react-router'],
           query: ['@tanstack/react-query'],
-          'ui-vendor': ['@penny/ui', 'lucide-react'],
+          'ui-vendor': ['lucide-react'],
           markdown: ['react-markdown', 'rehype-highlight', 'remark-gfm'],
           state: ['zustand'],
         },

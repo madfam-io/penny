@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Mail, ArrowLeft, CheckCircle } from 'lucide-react';
-import { Button } from '@penny/ui';
+import { Button } from '../../components/ui/button';
 
 const forgotPasswordSchema = z.object({
   email: z.string().email('Invalid email address'),
