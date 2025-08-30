@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
   "buildCommand": "cd /vercel/path0/apps/web && npm run build",
-  "outputDirectory": "apps/web/dist",
+  "outputDirectory": "dist",
   "installCommand": "cd /vercel/path0 && node scripts/fix-workspace-vercel.js && npm install",
   "regions": ["iad1"],
   "rewrites": [
