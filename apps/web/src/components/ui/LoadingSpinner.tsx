@@ -35,7 +35,8 @@ export function LoadingSpinner({
   );
 
   if (fullScreen) {
-    return (\n      <div className="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50">
+    return (
+      <div className="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50">
         {spinner}
       </div>
     );

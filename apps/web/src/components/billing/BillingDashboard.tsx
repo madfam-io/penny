@@ -167,7 +167,8 @@ export const BillingDashboard: React.FC = () => {
     );
   }
 
-  return (\n    <div className="max-w-7xl mx-auto p-6 space-y-6">
+  return (
+    <div className="max-w-7xl mx-auto p-6 space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>\n          <h1 className="text-3xl font-bold text-gray-900">Billing & Usage</h1>
@@ -277,7 +278,8 @@ export const BillingDashboard: React.FC = () => {
                       </div>
                     </div>
                   </div>
-\n                  <div className="grid grid-cols-2 gap-4">
+
+                  <div className="grid grid-cols-2 gap-4">
                     <div>\n                      <label className="text-sm font-medium text-gray-700">Next billing date</label>
                       <p className="text-gray-900">{formatDate(subscription.current_period_end)}</p>
                     </div>
@@ -287,7 +289,8 @@ export const BillingDashboard: React.FC = () => {
                       </div>
                     )}
                   </div>
-\n                  <div className="flex space-x-3 pt-4 border-t">
+
+                  <div className="flex space-x-3 pt-4 border-t">
                     {!isCanceled && !willCancel && (\n                      <Button variant="outline" onClick={handleCancelSubscription}>
                         Cancel Subscription
                       </Button>

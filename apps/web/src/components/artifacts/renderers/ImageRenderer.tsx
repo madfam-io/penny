@@ -260,7 +260,8 @@ const ImageRenderer: React.FC<ImageRendererProps> = ({
             </div>
           )}
         </div>
-\n        <div className="flex items-center space-x-2">
+
+        <div className="flex items-center space-x-2">
           {/* Metadata toggle */}
           {config.showMetadata && (
             <button

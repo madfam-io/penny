@@ -429,7 +429,8 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
           </div>
         </div>
       )}
-\n      <style jsx>{`
+
+      <style jsx>{`
         .plot-viewer {
           border: 1px solid #d1d5db;
           border-radius: 8px;

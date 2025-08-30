@@ -182,7 +182,8 @@ export function useChat(options: UseChatOptions = {}): UseChatReturn {
       temperature: options.temperature,
       artifactsEnabled: true
     };
-\n    updateState({ streamingMessage: { id: '', content: '', isComplete: false, toolCalls: [] } });
+
+    updateState({ streamingMessage: { id: '', content: '', isComplete: false, toolCalls: [] } });
     emit('stream_completion', streamData);
   }, [socket, emit, enableStreaming, updateState]);
 

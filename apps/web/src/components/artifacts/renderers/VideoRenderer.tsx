@@ -153,7 +153,8 @@ const VideoRenderer: React.FC<VideoRendererProps> = ({
                 />
               </div>
             </div>
-\n            <div className="flex items-center space-x-2">
+
+            <div className="flex items-center space-x-2">
               <span className="text-xs text-gray-400">
                 {artifact.metadata?.dimensions ?
                  `${artifact.metadata.dimensions.width}x${artifact.metadata.dimensions.height}` : 

@@ -35,7 +35,8 @@ export const ToolCard: React.FC<ToolCardProps> = ({
       </div>
 
       <div className={viewMode === 'grid' ? '' : 'flex-1'}>\n        <p className="text-gray-700 mb-4 line-clamp-3">{tool.description}</p>
-\n        <div className="flex flex-wrap gap-2 mb-4">
+
+        <div className="flex flex-wrap gap-2 mb-4">
           {tool.tags.slice(0, 3).map((tag: string) => (
             <span
               key={tag}
@@ -45,7 +46,8 @@ export const ToolCard: React.FC<ToolCardProps> = ({
             </span>
           ))}
         </div>
-\n        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+
+        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
           <span>by {tool.author}</span>
           {tool.metadata?.usageCount && (\n            <div className="flex items-center space-x-1">
               <Users size={14} />
@@ -53,7 +55,8 @@ export const ToolCard: React.FC<ToolCardProps> = ({
             </div>
           )}
         </div>
-\n        <div className="flex space-x-2">
+
+        <div className="flex space-x-2">
           <button
             onClick={onExecute}
             disabled={!canExecute}

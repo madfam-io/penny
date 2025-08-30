@@ -46,15 +46,18 @@ export default function Sidebar() {
         <button className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg bg-brand-100 dark:bg-brand-900 text-brand-900 dark:text-brand-100">\n          <MessageSquare className="h-5 w-5" />
           <span>Chat</span>
         </button>
-\n        <button className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
+
+        <button className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
           <LayoutDashboard className="h-5 w-5" />
           <span>Dashboards</span>
         </button>
-\n        <button className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
+
+        <button className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
           <Bot className="h-5 w-5" />
           <span>Tools</span>
         </button>
-\n        <button className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
+
+        <button className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
           <FileText className="h-5 w-5" />
           <span>Artifacts</span>
         </button>

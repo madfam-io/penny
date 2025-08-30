@@ -119,7 +119,8 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
       );
     }
 
-    return (\n      <div className="output-content">
+    return (
+      <div className="output-content">
         {hasStdout && (\n          <div className="stdout-section">
             <pre className="output-text">{output.stdout}</pre>
           </div>
@@ -144,13 +145,15 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
     const variables = Object.entries(output.variables || {});
     
     if (variables.length === 0) {
-      return (\n        <div className="empty-section">
+      return (
+        <div className="empty-section">
           <span className="text-gray-500">No variables to display</span>
         </div>
       );
     }
 
-    return (\n      <div className="variables-list">
+    return (
+      <div className="variables-list">
         {variables.map(([name, data]) => (\n          <div key={name} className="variable-item">
             <div className="variable-header">\n              <span className="variable-name">{name}</span>
               <span className="variable-type">{data.type}</span>\n              {data.shape && (\n                <span className="variable-shape">\n                  {Array.isArray(data.shape) ? `(${data.shape.join(', ')})` : data.shape}
@@ -182,13 +185,15 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
 
   const renderPlots = () => {
     if (!output.plots || output.plots.length === 0) {
-      return (\n        <div className="empty-section">
+      return (
+        <div className="empty-section">
           <span className="text-gray-500">No plots to display</span>
         </div>
       );
     }
 
-    return (\n      <div className="plots-grid">
+    return (
+      <div className="plots-grid">
         {output.plots.map((plot, index) => (\n          <div key={plot.id} className="plot-item">
             <div className="plot-header">\n              <span className="plot-title">\n                {plot.metadata?.title || `Plot ${index + 1}`}
               </span>
@@ -237,13 +242,15 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
 
   const renderMetrics = () => {
     if (!output.executionTime && !output.timestamp) {
-      return (\n        <div className="empty-section">
+      return (
+        <div className="empty-section">
           <span className="text-gray-500">No metrics available</span>
         </div>
       );
     }
 
-    return (\n      <div className="metrics-grid">
+    return (
+      <div className="metrics-grid">
         {output.executionTime !== undefined && (\n          <div className="metric-item">
             <span className="metric-label">Execution Time</span>\n            <span className="metric-value">{formatDuration(output.executionTime)}</span>
           </div>
@@ -407,7 +414,8 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
         {activeTab === 'plots' && renderPlots()}
         {activeTab === 'metrics' && renderMetrics()}
       </div>
-\n      <style jsx>{`
+
+      <style jsx>{`
         .output-panel {
           border: 1px solid #d1d5db;
           border-radius: 8px;

@@ -139,10 +139,12 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
       default:\n        return <div className="w-4 h-4" />;
     }
   };
-\n  const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff7c7c', '#8dd1e1'];
+
+  const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff7c7c', '#8dd1e1'];
 
   if (loading) {
-    return (\n      <div className="space-y-6 animate-pulse">
+    return (
+      <div className="space-y-6 animate-pulse">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (\n            <div key={i} className="bg-gray-200 h-32 rounded-lg"></div>
           ))}
@@ -153,7 +155,8 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
     );
   }
 
-  return (\n    <div className="space-y-6">
+  return (
+    <div className="space-y-6">
       {/* Time Range Selector */}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Real-time Metrics</h2>\n        <div className="flex space-x-2">\n          {['1h', '24h', '7d', '30d'].map((range) => (

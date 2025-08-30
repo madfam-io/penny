@@ -343,7 +343,8 @@ const TableRenderer: React.FC<TableRendererProps> = ({
               </select>
             )}
           </div>
-\n          <div className="flex items-center space-x-1">
+
+          <div className="flex items-center space-x-1">
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage <= 1}

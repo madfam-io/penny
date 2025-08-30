@@ -180,7 +180,8 @@ export const PaymentMethods: React.FC = () => {
     );
   }
 
-  return (\n    <div className="space-y-6">
+  return (
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>\n          <h2 className="text-2xl font-bold text-gray-900">Payment Methods</h2>
@@ -234,7 +235,8 @@ export const PaymentMethods: React.FC = () => {
                     </Badge>
                   </div>
                 )}
-\n                <CardHeader className="pb-4">
+
+                <CardHeader className="pb-4">
                   <div className="flex items-center justify-between">\n                    <div className="flex items-center space-x-3">
                       {getCardIcon(method.brand)}
                       <div>\n                        <CardTitle className="text-base capitalize">
@@ -247,7 +249,8 @@ export const PaymentMethods: React.FC = () => {
                     </div>
                   </div>
                 </CardHeader>
-\n                <CardContent className="space-y-4">
+
+                <CardContent className="space-y-4">
                   {/* Expiry Information */}
                   {method.exp_month && method.exp_year && (\n                    <div className="flex items-center space-x-2">
                       <Calendar className="h-4 w-4 text-gray-500" />\n                      <span className="text-sm text-gray-600">

@@ -63,7 +63,8 @@ export const LoginPage: React.FC = () => {
             Welcome back! Please enter your details.
           </p>
         </div>
-\n        <div className="bg-white py-8 px-6 shadow-xl rounded-lg sm:px-8">
+
+        <div className="bg-white py-8 px-6 shadow-xl rounded-lg sm:px-8">
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             {errors.root && (\n              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
                 {errors.root.message}
@@ -108,7 +109,8 @@ export const LoginPage: React.FC = () => {
               {errors.password && (\n                <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
               )}
             </div>
-\n            <div className="flex items-center justify-between">
+
+            <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <input
                   {...register('rememberMe')}
@@ -132,13 +134,15 @@ export const LoginPage: React.FC = () => {
                 {isLoading ? 'Signing in...' : 'Sign in'}
               </Button>
             </div>
-\n            <div className="relative">
+
+            <div className="relative">
               <div className="absolute inset-0 flex items-center">\n                <div className="w-full border-t border-gray-300" />
               </div>\n              <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-white text-gray-500">Or continue with</span>
               </div>
             </div>
-\n            <div className="grid grid-cols-2 gap-3">
+
+            <div className="grid grid-cols-2 gap-3">
               <button\n                type="button"
                 onClick={() => handleOAuthLogin('google')}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -154,7 +158,8 @@ export const LoginPage: React.FC = () => {
               </button>
             </div>
           </form>
-\n          <div className="mt-6 text-center">
+
+          <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Don't have an account?{' '}
               <Link\n                to="/auth/register"\n                className="font-medium text-indigo-600 hover:text-indigo-500"

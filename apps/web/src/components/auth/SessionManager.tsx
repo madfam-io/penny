@@ -126,7 +126,8 @@ export function SessionManager({
           </span>
           . Would you like to extend your session?
         </p>
-\n        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Button
             onClick={handleExtendSession}
             className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium"
@@ -141,7 +142,8 @@ export function SessionManager({
             Logout
           </Button>
         </div>
-\n        <p className="text-xs text-gray-400 mt-3">
+
+        <p className="text-xs text-gray-400 mt-3">
           You'll be automatically logged out when the session expires.
         </p>
       </div>

@@ -72,7 +72,8 @@ export const ResetPasswordPage: React.FC = () => {
     
     return { score, feedback };
   };
-\n  const passwordStrength = getPasswordStrength(password || '');
+
+  const passwordStrength = getPasswordStrength(password || '');
 
   const getStrengthColor = (score: number): string => {
     if (score < 40) return 'bg-red-500';
@@ -141,13 +142,15 @@ export const ResetPasswordPage: React.FC = () => {
               Your password has been successfully reset.
             </p>
           </div>
-\n          <div className="bg-white py-8 px-6 shadow-xl rounded-lg sm:px-8">
+
+          <div className="bg-white py-8 px-6 shadow-xl rounded-lg sm:px-8">
             <div className="space-y-6 text-center">\n              <div className="bg-green-50 p-4 rounded-md">
                 <p className="text-sm text-green-800">
                   You can now sign in with your new password. Redirecting to login...
                 </p>
               </div>
-\n              <div className="pt-4">
+
+              <div className="pt-4">
                 <Link\n                  to="/auth/login"\n                  className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-500"
                 >
                   Continue to sign in
@@ -160,7 +163,8 @@ export const ResetPasswordPage: React.FC = () => {
     );
   }
 
-  return (\n    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4 sm:px-6 lg:px-8">
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">\n        <div className="text-center">
           <div className="mx-auto h-12 w-12 bg-indigo-600 rounded-lg flex items-center justify-center">\n            <Lock className="h-6 w-6 text-white" />
           </div>\n          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
@@ -169,7 +173,8 @@ export const ResetPasswordPage: React.FC = () => {
             Enter your new password below.
           </p>
         </div>
-\n        <div className="bg-white py-8 px-6 shadow-xl rounded-lg sm:px-8">
+
+        <div className="bg-white py-8 px-6 shadow-xl rounded-lg sm:px-8">
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             {errors.root && (\n              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
                 {errors.root.message}
@@ -218,7 +223,8 @@ export const ResetPasswordPage: React.FC = () => {
                   {password.length > 0 && (\n                    <div className="mt-2 space-y-1">
                       {PASSWORD_REQUIREMENTS.map((req, index) => {
                         const isValid = req.regex.test(password);
-                        return (\n                          <div key={index} className="flex items-center text-xs">
+                        return (
+                          <div key={index} className="flex items-center text-xs">
                             {isValid ? (\n                              <CheckCircle className="h-3 w-3 text-green-500 mr-2" />
                             ) : (\n                              <XCircle className="h-3 w-3 text-red-500 mr-2" />
                             )}
@@ -274,7 +280,8 @@ export const ResetPasswordPage: React.FC = () => {
               )}
             </div>
           </form>
-\n          <div className="mt-6 text-center">
+
+          <div className="mt-6 text-center">
             <Link\n              to="/auth/login"\n              className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-500"
             >\n              <ArrowLeft className="h-4 w-4 mr-1" />
               Back to sign in

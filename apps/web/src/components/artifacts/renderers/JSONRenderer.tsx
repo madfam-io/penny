@@ -56,7 +56,8 @@ const JSONRenderer: React.FC<JSONRendererProps> = ({
   // Convert JSON to tree structure
   const jsonTree = useMemo(() => {
     if (!jsonData) return [];
-\n    const buildTree = (obj: any, path = '/', level = 0): JSONNode[] => {
+
+    const buildTree = (obj: any, path = '/', level = 0): JSONNode[] => {
       const nodes: JSONNode[] = [];
 
       if (Array.isArray(obj)) {
@@ -277,7 +278,8 @@ const JSONRenderer: React.FC<JSONRendererProps> = ({
             </div>
           )}
         </div>
-\n        <div className="flex items-center space-x-2">
+
+        <div className="flex items-center space-x-2">
           {/* Expand/Collapse controls */}
           {viewMode === 'tree' && (
             <>

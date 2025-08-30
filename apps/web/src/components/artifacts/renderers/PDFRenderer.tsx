@@ -91,7 +91,8 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({
             </button>
           </div>
         </div>
-\n        <div className="flex items-center space-x-2">
+
+        <div className="flex items-center space-x-2">
           <button className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
             Print
           </button>\n          <button className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-700">

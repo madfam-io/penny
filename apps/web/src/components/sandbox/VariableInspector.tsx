@@ -342,7 +342,8 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
     }, 0);
   }, [variables]);
 
-  return (\n    <div className={`variable-inspector ${className}`}>
+  return (
+    <div className={`variable-inspector ${className}`}>
       <div className="inspector-header">
         <div className="inspector-title">
           <span>Variables ({Object.keys(variables).length})</span>
@@ -409,7 +410,8 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
           ))
         )}
       </div>
-\n      <style jsx>{`
+
+      <style jsx>{`
         .variable-inspector {
           border: 1px solid #d1d5db;
           border-radius: 8px;

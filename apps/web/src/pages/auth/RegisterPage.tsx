@@ -70,7 +70,8 @@ export const RegisterPage: React.FC = () => {
     
     return { score, feedback };
   };
-\n  const passwordStrength = getPasswordStrength(password || '');
+
+  const passwordStrength = getPasswordStrength(password || '');
 
   const getStrengthColor = (score: number): string => {
     if (score < 40) return 'bg-red-500';
@@ -116,7 +117,8 @@ export const RegisterPage: React.FC = () => {
             Start your journey with PENNY today
           </p>
         </div>
-\n        <div className="bg-white py-8 px-6 shadow-xl rounded-lg sm:px-8">
+
+        <div className="bg-white py-8 px-6 shadow-xl rounded-lg sm:px-8">
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             {errors.root && (\n              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
                 {errors.root.message}
@@ -210,7 +212,8 @@ export const RegisterPage: React.FC = () => {
                   {password.length > 0 && (\n                    <div className="mt-2 space-y-1">
                       {PASSWORD_REQUIREMENTS.map((req, index) => {
                         const isValid = req.regex.test(password);
-                        return (\n                          <div key={index} className="flex items-center text-xs">
+                        return (
+                          <div key={index} className="flex items-center text-xs">
                             {isValid ? (\n                              <CheckCircle className="h-3 w-3 text-green-500 mr-2" />
                             ) : (\n                              <XCircle className="h-3 w-3 text-red-500 mr-2" />
                             )}
@@ -252,7 +255,8 @@ export const RegisterPage: React.FC = () => {
               {errors.confirmPassword && (\n                <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>
               )}
             </div>
-\n            <div className="flex items-start">
+
+            <div className="flex items-start">
               <div className="flex items-center h-5">
                 <input
                   {...register('acceptTerms')}
@@ -282,7 +286,8 @@ export const RegisterPage: React.FC = () => {
               </Button>
             </div>
           </form>
-\n          <div className="mt-6 text-center">
+
+          <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">\n              Already have an account?{' '}
               <Link\n                to="/auth/login"\n                className="font-medium text-indigo-600 hover:text-indigo-500"
               >

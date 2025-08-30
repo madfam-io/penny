@@ -73,7 +73,8 @@ export default function ChatView() {
     }, 1500);
   };
 
-  return (\n    <div className="flex h-full">
+  return (
+    <div className="flex h-full">
       {/* Chat section */}
       <div className={cn('flex flex-col', selectedArtifact ? 'w-1/2' : 'w-full')}>
         {/* Messages */}
@@ -99,7 +100,8 @@ export default function ChatView() {
           <div className="flex items-end gap-2">\n            <button className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
               <Paperclip className="h-5 w-5 text-gray-600 dark:text-gray-400" />
             </button>
-\n            <div className="flex-1">
+
+            <div className="flex-1">
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}

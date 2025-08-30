@@ -121,7 +121,8 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
     );
   }
 
-  return (\n    <div className="space-y-6">
+  return (
+    <div className="space-y-6">
       {/* Overall Status Header */}
       <div className={`p-4 rounded-lg border-2 ${getStatusColor(overallStatus)}`}>
         <div className="flex items-center justify-between">

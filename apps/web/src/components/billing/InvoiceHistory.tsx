@@ -206,7 +206,8 @@ export const InvoiceHistory: React.FC = () => {
           <span className="text-red-800">{error}</span>
         </div>
       )}
-\n      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Invoice List */}
         <div className="lg:col-span-2">
           <Card>
@@ -241,7 +242,8 @@ export const InvoiceHistory: React.FC = () => {
                             </div>
                           </div>
                         </div>
-\n                        <div className="flex items-center space-x-2">
+
+                        <div className="flex items-center space-x-2">
                           <Button\n                            variant="ghost"\n                            size="sm"
                             onClick={() => viewInvoiceDetails(invoice)}
                           >\n                            <Eye className="h-4 w-4" />
@@ -321,7 +323,8 @@ export const InvoiceHistory: React.FC = () => {
                       </div>
                     )}
                   </div>
-\n                  <div className="border-t pt-4">
+
+                  <div className="border-t pt-4">
                     <h4 className="font-semibold mb-3">Amount Breakdown</h4>\n                    <div className="space-y-2">
                       <div className="flex justify-between">\n                        <span className="text-gray-600">Subtotal</span>
                         <span>{formatCurrency(selectedInvoice.subtotal, selectedInvoice.currency)}</span>

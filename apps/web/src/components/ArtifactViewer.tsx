@@ -56,7 +56,8 @@ export default function ArtifactViewer({
     // Create download link
     const dataStr = JSON.stringify(artifact.content, null, 2);
     const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-\n    const exportFileDefaultName = `${artifact.name.toLowerCase().replace(/\s+/g, '-')}.json`;
+    
+    const exportFileDefaultName = `${artifact.name.toLowerCase().replace(/\s+/g, '-')}.json`;
 
     const linkElement = document.createElement('a');
     linkElement.setAttribute('href', dataUri);
@@ -74,7 +75,8 @@ export default function ArtifactViewer({
             {artifact.type}
           </span>
         </div>
-\n        <div className="flex items-center gap-2">
+
+        <div className="flex items-center gap-2">
           <button
             onClick={handleRefresh}
             className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
@@ -127,7 +129,8 @@ export default function ArtifactViewer({
 function DashboardRenderer({ content }: { content: any }) {
   const widgets = content?.widgets || [];
 
-  return (\n    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {widgets.map((widget: any, index: number) => (
         <WidgetRenderer key={index} widget={widget} />
       ))}
@@ -147,7 +150,8 @@ function WidgetRenderer({ widget }: { widget: any }) {
   };
 
   if (widget.type === 'metric') {
-    return (\n      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
+    return (
+      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
         <div className="flex items-center justify-between mb-2">\n          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">{widget.title}</h3>
           <span className="text-gray-400">{getIcon()}</span>
         </div>\n        <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">
@@ -174,7 +178,8 @@ function WidgetRenderer({ widget }: { widget: any }) {
   }
 
   if (widget.type === 'chart') {
-    return (\n      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 col-span-2">
+    return (
+      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 col-span-2">
         <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
           {widget.title}
         </h3>\n        <div className="h-48 flex items-center justify-center text-gray-400">
@@ -187,7 +192,8 @@ function WidgetRenderer({ widget }: { widget: any }) {
 
   if (widget.type === 'gauge') {
     const percentage = (widget.value / widget.max) * 100;
-    return (\n      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
+    return (
+      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
         <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
           {widget.title}
         </h3>\n        <div className="relative h-32">
@@ -224,7 +230,8 @@ function ChartRenderer({ content }: { content: any }) {
 function TableRenderer({ content }: { content: any }) {
   const { columns = [], rows = [] } = content;
 
-  return (\n    <div className="overflow-x-auto">
+  return (
+    <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">\n        <thead className="bg-gray-50 dark:bg-gray-900">
           <tr>
             {columns.map((col: string, i: number) => (
@@ -257,7 +264,8 @@ function TableRenderer({ content }: { content: any }) {
 
 // Document Renderer Component
 function DocumentRenderer({ content }: { content: any }) {
-  return (\n    <div className="prose dark:prose-invert max-w-none">
+  return (
+    <div className="prose dark:prose-invert max-w-none">
       {typeof content === 'string' ? (
         <div dangerouslySetInnerHTML={{ __html: content }} />
       ) : (\n        <pre className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-auto">
@@ -274,7 +282,8 @@ function CodeRenderer({ content }: { content: any }) {
     typeof content === 'string' ? content : content.code || JSON.stringify(content, null, 2);
   const language = content.language || 'javascript';
 
-  return (\n    <div className="bg-gray-900 rounded-lg p-4">
+  return (
+    <div className="bg-gray-900 rounded-lg p-4">
       <div className="flex items-center justify-between mb-2">\n        <span className="text-xs text-gray-400">{language}</span>
         <button
           onClick={() => navigator.clipboard.writeText(code)}
@@ -294,7 +303,8 @@ function ImageRenderer({ content }: { content: any }) {
   const src = typeof content === 'string' ? content : content.url || content.src;
   const alt = content.alt || 'Generated image';
 
-  return (\n    <div className="flex items-center justify-center">
+  return (
+    <div className="flex items-center justify-center">
       <img src={src} alt={alt} className="max-w-full h-auto rounded-lg shadow-lg" />
     </div>
   );

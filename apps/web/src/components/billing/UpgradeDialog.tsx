@@ -154,7 +154,8 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
 
   if (!open) return null;
 
-  return (\n    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between">
@@ -166,7 +167,8 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
           >\n            <X className="h-4 w-4" />
           </Button>
         </div>
-\n        <div className="p-6 space-y-8">
+
+        <div className="p-6 space-y-8">
           {/* Billing Toggle */}
           <div className="flex justify-center">
             <div className="flex items-center bg-gray-100 rounded-lg p-1">
@@ -221,7 +223,8 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
                       </Badge>
                     </div>
                   )}
-\n                  <CardHeader className="text-center pb-4">
+
+                  <CardHeader className="text-center pb-4">
                     <div className="flex justify-center mb-3">\n                      <div className={`p-3 rounded-full bg-${plan.color}-100`}>
                         <PlanIcon className={`h-8 w-8 text-${plan.color}-600`} />
                       </div>
@@ -354,7 +357,8 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
                   </div>
                 )}
               </div>
-\n              <div className="space-y-3">
+
+              <div className="space-y-3">
                 <Button
                   onClick={handleUpgrade}
                   disabled={processing || !isCurrentPlanLower(selectedPlan)}
@@ -372,7 +376,8 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
                     </>
                   )}
                 </Button>
-\n                <div className="text-xs text-gray-600">
+
+                <div className="text-xs text-gray-600">
                   • 14-day free trial included<br />
                   • Cancel anytime<br />
                   • Prorated billing

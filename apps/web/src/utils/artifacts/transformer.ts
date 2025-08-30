@@ -188,7 +188,8 @@ export class ArtifactTransformer {
       } else {
         return { success: false, error: 'Data cannot be converted to CSV' };
       }
-\n      const headers = tableData.columns.map((col: any) => col.title || col.key).join(',');
+
+      const headers = tableData.columns.map((col: any) => col.title || col.key).join(',');
       const rows = tableData.data.map((row: any) => 
         tableData.columns.map((col: any) => {
           const value = row[col.key] || '';
@@ -437,7 +438,8 @@ export class ArtifactTransformer {
     const lines = csvString.trim().split('\
 ');
     if (lines.length < 2) return [];
-\n    const headers = lines[0].split(',').map(h => h.trim());
+
+    const headers = lines[0].split(',').map(h => h.trim());
     return lines.slice(1).map(line => {
       const values = line.split(',').map(v => v.trim());
       const obj: any = {};
@@ -449,7 +451,8 @@ export class ArtifactTransformer {
       return obj;
     });
   }
-\n  private static flattenObject(obj: any, prefix = ''): Record<string, any> {
+
+  private static flattenObject(obj: any, prefix = ''): Record<string, any> {
     const flattened: Record<string, any> = {};
     
     for (const key in obj) {

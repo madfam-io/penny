@@ -150,13 +150,15 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
   }
 
   if (error) {
-    return (\n      <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+    return (
+      <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
         <span className="text-red-800">{error}</span>
       </div>
     );
   }
 
-  return (\n    <div className="space-y-6">
+  return (
+    <div className="space-y-6">
       {/* Period Selector */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">Usage Metrics</h2>\n        <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">

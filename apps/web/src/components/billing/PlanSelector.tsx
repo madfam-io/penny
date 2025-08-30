@@ -170,13 +170,15 @@ export const PlanSelector: React.FC<PlanSelectorProps> = ({
   }
 
   if (error) {
-    return (\n      <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+    return (
+      <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
         <span className="text-red-800">{error}</span>
       </div>
     );
   }
 
-  return (\n    <div className="space-y-6">
+  return (
+    <div className="space-y-6">
       {/* Billing Interval Toggle */}
       <div className="flex justify-center">
         <div className="flex items-center bg-gray-100 rounded-lg p-1">
@@ -213,7 +215,8 @@ export const PlanSelector: React.FC<PlanSelectorProps> = ({
           const isCurrent = isCurrentPlan(plan.name);
           const isUpgrade = isPlanUpgrade(plan.type);
 
-          return (\n            <Card key={plan.id} className={`relative ${getPlanColor(plan.type)} ${plan.type === 'pro' ? 'transform scale-105' : ''}`}>
+          return (
+            <Card key={plan.id} className={`relative ${getPlanColor(plan.type)} ${plan.type === 'pro' ? 'transform scale-105' : ''}`}>
               {plan.type === 'pro' && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                   <Badge className="bg-blue-600 text-white">Most Popular</Badge>
@@ -245,7 +248,8 @@ export const PlanSelector: React.FC<PlanSelectorProps> = ({
                   </Badge>
                 )}
               </CardHeader>
-\n              <CardContent className="space-y-4">
+
+              <CardContent className="space-y-4">
                 {/* Features List */}
                 <div className="space-y-2">
                   <div className="flex items-center text-sm">\n                    <Check className="h-4 w-4 text-green-600 mr-2" />

@@ -78,7 +78,8 @@ export class ArtifactDetector {
       // Check for common patterns\n      if (pathname.includes('/embed') || urlObj.hostname.includes('youtube') || urlObj.hostname.includes('vimeo')) {
         return { type: 'video', confidence: 0.9 };
       }
-\n      if (pathname.includes('/map') || urlObj.hostname.includes('maps.google') || urlObj.hostname.includes('openstreetmap')) {
+
+      if (pathname.includes('/map') || urlObj.hostname.includes('maps.google') || urlObj.hostname.includes('openstreetmap')) {
         return { type: 'map', confidence: 0.9 };
       }
 

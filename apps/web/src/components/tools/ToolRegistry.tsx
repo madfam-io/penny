@@ -180,7 +180,8 @@ export const ToolRegistry: React.FC<ToolRegistryProps> = ({
   }
 
   if (error) {
-    return (\n      <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+    return (
+      <div className="bg-red-50 border border-red-200 rounded-lg p-6">
         <h3 className="text-red-800 font-semibold mb-2">Error Loading Tools</h3>\n        <p className="text-red-700 mb-4">{error}</p>
         <button
           onClick={loadTools}
@@ -192,7 +193,8 @@ export const ToolRegistry: React.FC<ToolRegistryProps> = ({
     );
   }
 
-  return (\n    <div className="space-y-6">
+  return (
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>\n          <h2 className="text-2xl font-bold text-gray-900">Tool Registry</h2>

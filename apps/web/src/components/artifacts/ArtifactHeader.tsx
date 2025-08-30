@@ -130,7 +130,8 @@ export const ArtifactHeader: React.FC<ArtifactHeaderProps> = ({
   const buttonClasses = 'p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed';
   const iconClasses = 'w-4 h-4';
 
-  return (\n    <div className="artifact-header flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+  return (
+    <div className="artifact-header flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
       {/* Left section - Title and metadata */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center space-x-3">

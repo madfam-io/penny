@@ -65,7 +65,8 @@ export const ForgotPasswordPage: React.FC = () => {
               We've sent password reset instructions to
             </p>\n            <p className="font-medium text-gray-900">{getValues('email')}</p>
           </div>
-\n          <div className="bg-white py-8 px-6 shadow-xl rounded-lg sm:px-8">
+
+          <div className="bg-white py-8 px-6 shadow-xl rounded-lg sm:px-8">
             <div className="space-y-6 text-center">\n              <div className="bg-blue-50 p-4 rounded-md">
                 <p className="text-sm text-blue-800">
                   <strong>Didn't receive the email?</strong> Check your spam folder or{' '}
@@ -77,7 +78,8 @@ export const ForgotPasswordPage: React.FC = () => {
                   </button>
                 </p>
               </div>
-\n              <div className="pt-4">
+
+              <div className="pt-4">
                 <Link\n                  to="/auth/login"\n                  className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-500"
                 >\n                  <ArrowLeft className="h-4 w-4 mr-1" />
                   Back to sign in
@@ -90,7 +92,8 @@ export const ForgotPasswordPage: React.FC = () => {
     );
   }
 
-  return (\n    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4 sm:px-6 lg:px-8">
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">\n        <div className="text-center">
           <div className="mx-auto h-12 w-12 bg-indigo-600 rounded-lg flex items-center justify-center">\n            <Mail className="h-6 w-6 text-white" />
           </div>\n          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
@@ -99,7 +102,8 @@ export const ForgotPasswordPage: React.FC = () => {
             No worries! Enter your email and we'll send you reset instructions.
           </p>
         </div>
-\n        <div className="bg-white py-8 px-6 shadow-xl rounded-lg sm:px-8">
+
+        <div className="bg-white py-8 px-6 shadow-xl rounded-lg sm:px-8">
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             {errors.root && (\n              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
                 {errors.root.message}
@@ -130,7 +134,8 @@ export const ForgotPasswordPage: React.FC = () => {
               </Button>
             </div>
           </form>
-\n          <div className="mt-6 text-center">
+
+          <div className="mt-6 text-center">
             <Link\n              to="/auth/login"\n              className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-500"
             >\n              <ArrowLeft className="h-4 w-4 mr-1" />
               Back to sign in
