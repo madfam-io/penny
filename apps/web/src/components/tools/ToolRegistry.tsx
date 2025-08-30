@@ -47,7 +47,8 @@ export const ToolRegistry: React.FC<ToolRegistryProps> = ({
   const [showExecutionModal, setShowExecutionModal] = useState(false);
   const [executionResult, setExecutionResult] = useState<any>(null);
   
-  // Filter states\n  const [searchQuery, setSearchQuery] = useState('');
+  // Filter states
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showOnlyFeatured, setShowOnlyFeatured] = useState(false);
   const [sortBy, setSortBy] = useState<'name' | 'category' | 'rating' | 'usage'>('name');
@@ -182,7 +183,8 @@ export const ToolRegistry: React.FC<ToolRegistryProps> = ({
   if (error) {
     return (
       <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-        <h3 className="text-red-800 font-semibold mb-2">Error Loading Tools</h3>\n        <p className="text-red-700 mb-4">{error}</p>
+        <h3 className="text-red-800 font-semibold mb-2">Error Loading Tools</h3>
+<p className="text-red-700 mb-4">{error}</p>
         <button
           onClick={loadTools}
           className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
@@ -197,14 +199,17 @@ export const ToolRegistry: React.FC<ToolRegistryProps> = ({
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <div>\n          <h2 className="text-2xl font-bold text-gray-900">Tool Registry</h2>
+        <div>
+<h2 className="text-2xl font-bold text-gray-900">Tool Registry</h2>
           <p className="text-gray-600">
             Browse and execute tools to enhance your workflow
           </p>
-        </div>\n        <div className="flex space-x-2">
+        </div>
+<div className="flex space-x-2">
           <button
             onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
-            className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50"\n            title={`Switch to ${viewMode === 'grid' ? 'list' : 'grid'} view`}
+            className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+            title={`Switch to ${viewMode === 'grid' ? 'list' : 'grid'} view`}
           >
             {viewMode === 'grid' ? <List size={20} /> : <Grid size={20} />}
           </button>
@@ -217,7 +222,9 @@ export const ToolRegistry: React.FC<ToolRegistryProps> = ({
           {/* Search */}
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-            <input\n              type="text"\n              placeholder="Search tools..."
+            <input
+              type="text"
+              placeholder="Search tools..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -242,16 +249,22 @@ export const ToolRegistry: React.FC<ToolRegistryProps> = ({
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
             className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >\n            <option value="name">Sort by Name</option>\n            <option value="category">Sort by Category</option>\n            <option value="rating">Sort by Rating</option>\n            <option value="usage">Sort by Usage</option>
+          >
+<option value="name">Sort by Name</option>
+<option value="category">Sort by Category</option>
+<option value="rating">Sort by Rating</option>
+<option value="usage">Sort by Usage</option>
           </select>
 
           {/* Featured Filter */}
           <label className="flex items-center space-x-2 cursor-pointer">
-            <input\n              type="checkbox"
+            <input
+              type="checkbox"
               checked={showOnlyFeatured}
               onChange={(e) => setShowOnlyFeatured(e.target.checked)}
               className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-            />\n            <span className="text-sm text-gray-700">Featured only</span>
+            />
+<span className="text-sm text-gray-700">Featured only</span>
             <Star size={16} className="text-yellow-500" />
           </label>
         </div>
@@ -263,7 +276,8 @@ export const ToolRegistry: React.FC<ToolRegistryProps> = ({
           Showing {filteredTools.length} of {tools.length} tools
         </span>
         {searchQuery && (
-          <span>\n            Search results for "{searchQuery}"
+          <span>
+Search results for "{searchQuery}"
           </span>
         )}
       </div>
@@ -285,8 +299,10 @@ export const ToolRegistry: React.FC<ToolRegistryProps> = ({
               userPermissions={permissions}
             />
           ))
-        ) : (\n          <div className="col-span-full text-center py-12">
-            <Filter className="mx-auto h-12 w-12 text-gray-400" />\n            <h3 className="mt-4 text-lg font-medium text-gray-900">No tools found</h3>
+        ) : (
+<div className="col-span-full text-center py-12">
+            <Filter className="mx-auto h-12 w-12 text-gray-400" />
+<h3 className="mt-4 text-lg font-medium text-gray-900">No tools found</h3>
             <p className="mt-2 text-gray-500">
               {searchQuery || selectedCategory !== 'all' || showOnlyFeatured
                 ? 'Try adjusting your search criteria or filters'
@@ -310,10 +326,14 @@ export const ToolRegistry: React.FC<ToolRegistryProps> = ({
       </div>
 
       {/* Tool Execution Modal */}
-      {showExecutionModal && selectedTool && (\n        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg max-w-4xl max-h-[90vh] overflow-hidden">\n            <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <div className="flex items-center space-x-3">\n                <span className="text-2xl">{selectedTool.icon}</span>
-                <div>\n                  <h3 className="text-lg font-semibold">{selectedTool.displayName}</h3>
+      {showExecutionModal && selectedTool && (
+<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg max-w-4xl max-h-[90vh] overflow-hidden">
+<div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <div className="flex items-center space-x-3">
+<span className="text-2xl">{selectedTool.icon}</span>
+                <div>
+<h3 className="text-lg font-semibold">{selectedTool.displayName}</h3>
                   <p className="text-sm text-gray-600">{selectedTool.description}</p>
                 </div>
               </div>
@@ -323,7 +343,8 @@ export const ToolRegistry: React.FC<ToolRegistryProps> = ({
               >
                 ×
               </button>
-            </div>\n            <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+            </div>
+<div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
               <ToolExecution
                 tool={selectedTool}
                 onComplete={handleExecutionComplete}
@@ -335,8 +356,10 @@ export const ToolRegistry: React.FC<ToolRegistryProps> = ({
       )}
 
       {/* Results Modal */}
-      {executionResult && (\n        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg max-w-6xl max-h-[90vh] overflow-hidden">\n            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+      {executionResult && (
+<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg max-w-6xl max-h-[90vh] overflow-hidden">
+<div className="flex items-center justify-between p-6 border-b border-gray-200">
               <h3 className="text-lg font-semibold">Execution Results</h3>
               <button
                 onClick={() => setExecutionResult(null)}
@@ -344,7 +367,8 @@ export const ToolRegistry: React.FC<ToolRegistryProps> = ({
               >
                 ×
               </button>
-            </div>\n            <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+            </div>
+<div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
               <ToolResults result={executionResult} />
             </div>
           </div>

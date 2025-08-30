@@ -19,7 +19,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   interactive = true,
   onError,
   onLoadStart,
-  onLoadEnd,\n  className = ''
+  onLoadEnd,
+  className = ''
 }) => {
   const [showToc, setShowToc] = useState(false);
   const [activeHeading, setActiveHeading] = useState<string>('');
@@ -32,29 +33,37 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     onLoadStart?.();
     
     let html = md
-      // Headers\n      .replace(/^### (.*$)/gim, '<h3 id="$1">$1</h3>')
+      // Headers
+      .replace(/^### (.*$)/gim, '<h3 id="$1">$1</h3>')
       .replace(/^## (.*$)/gim, '<h2 id="$1">$1</h2>')
       .replace(/^# (.*$)/gim, '<h1 id="$1">$1</h1>')
      
-     // Code blocks\n      .replace(/```(\w+)?
+     // Code blocks
+      .replace(/```(\w+)?
 ([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
       .replace(/`([^`]+)`/g, '<code>$1</code>')
      
      // Links
       .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
      
-     // Images\n      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="max-w-full h-auto rounded" />')
+     // Images
+      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="max-w-full h-auto rounded" />')
       
-      // Bold and italic\n      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      // Bold and italic
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
       .replace(/\*([^*]+)\*/g, '<em>$1</em>')
       
-      // Lists\n      .replace(/^\* (.+)/gm, '<li>$1</li>')
+      // Lists
+      .replace(/^\* (.+)/gm, '<li>$1</li>')
       .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
       .replace(/^\d+\. (.+)/gm, '<li>$1</li>')
      
-     // Blockquotes\n      .replace(/^> (.+)/gm, '<blockquote class="border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic">$1</blockquote>')
+     // Blockquotes
+      .replace(/^> (.+)/gm, '<blockquote class="border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic">$1</blockquote>')
       
-      // Line breaks\n      .replace(/\n/g, '<br>');
+      // Line breaks
+      .replace(/
+/g, '<br>');
 
     onLoadEnd?.();
     return html;
@@ -71,7 +80,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     while ((match = headingRegex.exec(content)) !== null) {
       matches.push({
         level: match[1].length,
-        title: match[2],\n        id: match[2].toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')
+        title: match[2],
+        id: match[2].toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')
       });
     }
     
@@ -89,7 +99,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   const containerClasses = [
     'markdown-renderer w-full h-full flex',
     isDarkMode ? 'dark' : '',
-    className\n  ].filter(Boolean).join(' ');
+    className
+  ].filter(Boolean).join(' ');
 
   const contentClasses = [
     'flex-1 overflow-auto p-6 prose prose-gray max-w-none',
@@ -99,17 +110,21 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     'prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded',
     'prose-blockquote:border-l-blue-500',
     'prose-a:text-blue-600 hover:prose-a:text-blue-800',
-    'prose-img:rounded-lg prose-img:shadow-md'\n  ].join(' ');
+    'prose-img:rounded-lg prose-img:shadow-md'
+  ].join(' ');
 
   return (
     <div className={containerClasses}>
       {/* Table of contents sidebar */}
-      {showToc && headings.length > 0 && (\n        <div className="w-64 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-4 overflow-auto">
-          <div className="flex items-center justify-between mb-4">\n            <h3 className="font-semibold text-sm">Table of Contents</h3>
+      {showToc && headings.length > 0 && (
+<div className="w-64 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-4 overflow-auto">
+          <div className="flex items-center justify-between mb-4">
+<h3 className="font-semibold text-sm">Table of Contents</h3>
             <button
               onClick={() => setShowToc(false)}
               className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
-            >\n              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            >
+<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -135,8 +150,11 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
       <div className="flex-1 flex flex-col">
         {/* Toolbar */}
         <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-          <div className="flex items-center space-x-2">\n            <span className="text-sm font-medium">Markdown</span>
-            <span className="text-xs text-gray-500 dark:text-gray-400">\n              {content.split('\n').length} lines • {content.split(/\s+/).length} words
+          <div className="flex items-center space-x-2">
+<span className="text-sm font-medium">Markdown</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400">
+{content.split('
+').length} lines • {content.split(/\s+/).length} words
             </span>
           </div>
          
@@ -149,7 +167,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
                   showToc ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : ''
                 }`}
                 title="Table of Contents"
-              >\n                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              >
+<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                 </svg>
               </button>
@@ -160,7 +179,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
               onClick={() => window.print()}
               className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
               title="Print"
-            >\n              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            >
+<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
               </svg>
             </button>

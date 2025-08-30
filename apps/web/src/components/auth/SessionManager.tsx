@@ -34,7 +34,8 @@ export function SessionManager({
       }
 
       try {
-        // Decode JWT to get expiration time\n        const payload = JSON.parse(atob(token.split('.')[1]));
+        // Decode JWT to get expiration time
+        const payload = JSON.parse(atob(token.split('.')[1]));
         const expirationTime = payload.exp * 1000; // Convert to milliseconds
         const currentTime = Date.now();
         const remaining = Math.max(0, expirationTime - currentTime);
@@ -67,7 +68,8 @@ export function SessionManager({
   const handleExtendSession = async () => {
     try {
       // Make a request to refresh the token
-      // This could be done through the auth hook if you have a refresh method\n      const response = await fetch('/api/v1/auth/refresh', {
+      // This could be done through the auth hook if you have a refresh method
+      const response = await fetch('/api/v1/auth/refresh', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -103,13 +105,20 @@ export function SessionManager({
     <Modal
       isOpen={showWarning}
       onClose={() => {}} // Prevent closing by clicking overlay
-      title="Session Expiring Soon"\n      size="sm"
-    >\n      <div className="text-center">
+      title="Session Expiring Soon"
+      size="sm"
+    >
+      <div className="text-center">
         <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 mb-4">
-          <svg\n            className="h-6 w-6 text-yellow-600"
-            fill="none"\n            viewBox="0 0 24 24"\n            stroke="currentColor"
+          <svg
+            className="h-6 w-6 text-yellow-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            <path\n              strokeLinecap="round"\n              strokeLinejoin="round"
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
               strokeWidth={2}
               d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.664-.833-2.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"
             />
@@ -120,7 +129,8 @@ export function SessionManager({
           Your session will expire soon
         </h3>
        
-       <p className="text-sm text-gray-500 mb-4">\n          Your session will expire in{' '} 
+        <p className="text-sm text-gray-500 mb-4">
+          Your session will expire in{' '} 
          <span className="font-mono font-medium text-red-600">
             {formatTime(timeRemaining)}
           </span>
@@ -137,7 +147,8 @@ export function SessionManager({
           
           <Button
             onClick={handleLogout}
-            variant="outline"\n            className="border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-md text-sm font-medium"
+            variant="outline"
+            className="border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-md text-sm font-medium"
           >
             Logout
           </Button>

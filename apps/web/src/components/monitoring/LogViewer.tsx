@@ -101,10 +101,14 @@ export const LogViewer: React.FC<LogViewerProps> = ({
         return <XCircle className="w-4 h-4 text-red-500" />;
       case 'warn':
         return <AlertTriangle className="w-4 h-4 text-yellow-500" />;
-      case 'info':\n        return <Info className="w-4 h-4 text-blue-500" />;
-      case 'debug':\n        return <CheckCircle className="w-4 h-4 text-green-500" />;
-      case 'trace':\n        return <div className="w-4 h-4 bg-gray-400 rounded-full"></div>;
-      default:\n        return <div className="w-4 h-4 bg-gray-300 rounded-full"></div>;
+      case 'info':
+        return <Info className="w-4 h-4 text-blue-500" />;
+      case 'debug':
+        return <CheckCircle className="w-4 h-4 text-green-500" />;
+      case 'trace':
+        return <div className="w-4 h-4 bg-gray-400 rounded-full"></div>;
+      default:
+        return <div className="w-4 h-4 bg-gray-300 rounded-full"></div>;
     }
   };
 
@@ -141,7 +145,10 @@ export const LogViewer: React.FC<LogViewerProps> = ({
     const csv = [
       ['Timestamp', 'Level', 'Service', 'Message', 'Metadata'].join(','),
       ...exportData.map(log => [
-        log.timestamp,\n        log.level,\n        log.service || '',\n        `"${log.message.replace(/"/g, '""')}"`,
+        log.timestamp,
+        log.level,
+        log.service || '',
+        `"${log.message.replace(/"/g, '""')}"`,
         `"${log.metadata.replace(/"/g, '""')}"`
       ].join(','))
     ].join('
@@ -160,7 +167,8 @@ export const LogViewer: React.FC<LogViewerProps> = ({
     <div className="bg-white rounded-lg shadow-sm border">
       {/* Header */}
       <div className="p-4 border-b">
-        <div className="flex items-center justify-between mb-4">\n          <h3 className="text-lg font-semibold">System Logs</h3>
+        <div className="flex items-center justify-between mb-4">
+<h3 className="text-lg font-semibold">System Logs</h3>
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setShowFilters(!showFilters)}
@@ -174,7 +182,8 @@ export const LogViewer: React.FC<LogViewerProps> = ({
               onClick={exportLogs}
               className="p-2 text-gray-600 hover:bg-gray-100 rounded"
               title="Export logs"
-            >\n              <Download className="w-4 h-4" />
+            >
+<Download className="w-4 h-4" />
             </button>
             <button
               onClick={fetchLogs}
@@ -191,7 +200,9 @@ export const LogViewer: React.FC<LogViewerProps> = ({
         {/* Search */}
         <div className="relative">
           <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          <input\n            type="text"\n            placeholder="Search logs..."
+          <input
+            type="text"
+            placeholder="Search logs..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -199,36 +210,49 @@ export const LogViewer: React.FC<LogViewerProps> = ({
         </div>
 
         {/* Filters */}
-        {showFilters && (\n          <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>\n              <label className="block text-sm font-medium text-gray-700 mb-1">
+        {showFilters && (
+<div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+<label className="block text-sm font-medium text-gray-700 mb-1">
                 Log Level
               </label>
               <select
                 value={selectedLevel}
                 onChange={(e) => setSelectedLevel(e.target.value)}
                 className="w-full border rounded px-3 py-2 text-sm"
-              >\n                <option value="all">All Levels</option>\n                <option value="error">Error</option>\n                <option value="warn">Warning</option>\n                <option value="info">Info</option>\n                <option value="debug">Debug</option>\n                <option value="trace">Trace</option>
+              >
+<option value="all">All Levels</option>
+<option value="error">Error</option>
+<option value="warn">Warning</option>
+<option value="info">Info</option>
+<option value="debug">Debug</option>
+<option value="trace">Trace</option>
               </select>
             </div>
-            <div>\n              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div>
+<label className="block text-sm font-medium text-gray-700 mb-1">
                 Service
               </label>
               <select
                 value={selectedService}
                 onChange={(e) => setSelectedService(e.target.value)}
                 className="w-full border rounded px-3 py-2 text-sm"
-              >\n                <option value="all">All Services</option>
+              >
+<option value="all">All Services</option>
                 {services.map(service => (
                   <option key={service} value={service}>{service}</option>
                 ))}
               </select>
-            </div>\n            <div className="flex items-end">
+            </div>
+<div className="flex items-end">
               <label className="flex items-center space-x-2">
-                <input\n                  type="checkbox"
+                <input
+                  type="checkbox"
                   checked={autoScroll}
                   onChange={(e) => setAutoScroll(e.target.checked)}
                   className="rounded"
-                />\n                <span className="text-sm text-gray-700">Auto-scroll</span>
+                />
+<span className="text-sm text-gray-700">Auto-scroll</span>
               </label>
             </div>
           </div>
@@ -241,14 +265,17 @@ export const LogViewer: React.FC<LogViewerProps> = ({
         className="overflow-y-auto font-mono text-sm"
         style={{ height }}
       >
-        {loading && filteredLogs.length === 0 ? (\n          <div className="p-8 text-center text-gray-500">
+        {loading && filteredLogs.length === 0 ? (
+<div className="p-8 text-center text-gray-500">
             <div className="animate-spin w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-2"></div>
             Loading logs...
           </div>
-        ) : filteredLogs.length === 0 ? (\n          <div className="p-8 text-center text-gray-500">
+        ) : filteredLogs.length === 0 ? (
+<div className="p-8 text-center text-gray-500">
             No logs found matching your criteria.
           </div>
-        ) : (\n          <div className="divide-y divide-gray-200">
+        ) : (
+<div className="divide-y divide-gray-200">
             {filteredLogs.map((log) => (
               <div 
                 key={log.id}
@@ -257,10 +284,13 @@ export const LogViewer: React.FC<LogViewerProps> = ({
                 <div className="flex items-start space-x-3">
                   <div className="flex-shrink-0 mt-1">
                     {getLevelIcon(log.level)}
-                  </div>\n                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center space-x-2 mb-1">\n                      <span className="text-xs text-gray-500">
+                  </div>
+<div className="flex-1 min-w-0">
+                    <div className="flex items-center space-x-2 mb-1">
+<span className="text-xs text-gray-500">
                         {formatTimestamp(log.timestamp)}
-                      </span>\n                      <span className={`text-xs px-2 py-0.5 rounded font-medium ${
+                      </span>
+<span className={`text-xs px-2 py-0.5 rounded font-medium ${
                         log.level === 'error' ? 'bg-red-100 text-red-800' :
                         log.level === 'warn' ? 'bg-yellow-100 text-yellow-800' :
                         log.level === 'info' ? 'bg-blue-100 text-blue-800' :
@@ -269,21 +299,26 @@ export const LogViewer: React.FC<LogViewerProps> = ({
                       }`}>
                         {log.level.toUpperCase()}
                       </span>
-                      {log.service && (\n                        <span className="text-xs bg-gray-100 text-gray-800 px-2 py-0.5 rounded">
+                      {log.service && (
+<span className="text-xs bg-gray-100 text-gray-800 px-2 py-0.5 rounded">
                           {log.service}
                         </span>
                       )}
-                      {log.traceId && (\n                        <span className="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded">
+                      {log.traceId && (
+<span className="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded">
                           trace: {log.traceId.substring(0, 8)}...
                         </span>
                       )}
-                    </div>\n                    <div className="text-gray-900 break-words">
+                    </div>
+<div className="text-gray-900 break-words">
                       {log.message}
                     </div>
-                    {log.metadata && Object.keys(log.metadata).length > 0 && (\n                      <details className="mt-2">
+                    {log.metadata && Object.keys(log.metadata).length > 0 && (
+<details className="mt-2">
                         <summary className="cursor-pointer text-xs text-gray-500 hover:text-gray-700">
                           Show metadata
-                        </summary>\n                        <pre className="mt-1 text-xs bg-gray-100 p-2 rounded overflow-x-auto">
+                        </summary>
+<pre className="mt-1 text-xs bg-gray-100 p-2 rounded overflow-x-auto">
                           {JSON.stringify(log.metadata, null, 2)}
                         </pre>
                       </details>
@@ -300,8 +335,10 @@ export const LogViewer: React.FC<LogViewerProps> = ({
       <div className="p-3 border-t bg-gray-50 flex items-center justify-between text-xs text-gray-500">
         <span>
           Showing {filteredLogs.length} of {logs.length} entries
-        </span>\n        <div className="flex items-center space-x-4">
-          {autoRefresh && (\n            <div className="flex items-center space-x-1">
+        </span>
+<div className="flex items-center space-x-4">
+          {autoRefresh && (
+<div className="flex items-center space-x-1">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               <span>Auto-refresh: {refreshInterval / 1000}s</span>
             </div>

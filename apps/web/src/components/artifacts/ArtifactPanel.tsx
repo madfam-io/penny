@@ -32,7 +32,8 @@ export const ArtifactPanel: React.FC<ArtifactPanelProps> = ({
   onShare,
   onEdit,
   onDelete,
-  onAnnotate,\n  className = '',
+  onAnnotate,
+  className = '',
   theme = 'auto',
   resizable = true,
   collapsible = true,
@@ -151,7 +152,8 @@ export const ArtifactPanel: React.FC<ArtifactPanelProps> = ({
     isFullscreen ? 'fixed inset-0 z-50' : 'relative',
     isCollapsed ? 'w-12' : '',
     isResizing ? 'select-none' : '',
-    className\n  ].filter(Boolean).join(' ');
+    className
+  ].filter(Boolean).join(' ');
 
   const contentStyle: React.CSSProperties = {
     width: isFullscreen ? '100%' : isCollapsed ? '48px' : `${width}px`,
@@ -178,22 +180,28 @@ export const ArtifactPanel: React.FC<ArtifactPanelProps> = ({
         >
           <svg
             className={`w-3 h-3 text-gray-600 transition-transform ${isCollapsed ? 'rotate-180' : ''} ${position === 'left' ? 'rotate-180' : ''}`}
-            fill="none"\n            stroke="currentColor"\n            viewBox="0 0 24 24"
-          >\n            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
       )}
 
       {/* Collapsed state */}
-      {isCollapsed && (\n        <div className="flex flex-col items-center py-4 space-y-2">
+      {isCollapsed && (
+<div className="flex flex-col items-center py-4 space-y-2">
           <button
             onClick={handleCollapse}
             className="p-2 hover:bg-gray-100 rounded"
             aria-label="Expand panel"
-          >\n            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          >
+<svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-          </button>\n          <div className="text-xs text-gray-500 text-center writing-mode-vertical">
+          </button>
+<div className="text-xs text-gray-500 text-center writing-mode-vertical">
             {artifacts.length} artifact{artifacts.length !== 1 ? 's' : ''}
           </div>
         </div>
@@ -214,7 +222,8 @@ export const ArtifactPanel: React.FC<ArtifactPanelProps> = ({
           )}
 
           {/* Active artifact viewer */}
-          {activeArtifact && (\n            <div className="flex-1 overflow-hidden">
+          {activeArtifact && (
+<div className="flex-1 overflow-hidden">
               <ArtifactViewer
                 artifact={activeArtifact}
                 isFullscreen={isFullscreen}
@@ -235,7 +244,8 @@ export const ArtifactPanel: React.FC<ArtifactPanelProps> = ({
               onClick={onClose}
               className="absolute top-2 right-2 p-1 hover:bg-gray-100 rounded z-30"
               aria-label="Close panel"
-            >\n              <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            >
+<svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>

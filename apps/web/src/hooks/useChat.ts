@@ -337,7 +337,8 @@ export function useChat(options: UseChatOptions = {}): UseChatReturn {
     const handleStreamStart = (data: any) => {
       updateState({
         streamingMessage: {
-          id: data.userMessageId || '',\n          content: '',
+          id: data.userMessageId || '',
+          content: '',
           isComplete: false,
           toolCalls: []
         }

@@ -75,7 +75,8 @@ export class ArtifactDetector {
       const urlObj = new URL(url);
       const pathname = urlObj.pathname.toLowerCase();
       
-      // Check for common patterns\n      if (pathname.includes('/embed') || urlObj.hostname.includes('youtube') || urlObj.hostname.includes('vimeo')) {
+      // Check for common patterns
+      if (pathname.includes('/embed') || urlObj.hostname.includes('youtube') || urlObj.hostname.includes('vimeo')) {
         return { type: 'video', confidence: 0.9 };
       }
 
@@ -265,7 +266,8 @@ export class ArtifactDetector {
   private static detectFromString(content: string): DetectionResult {
     const trimmed = content.trim();
 
-    // Check for JSON\n    if ((trimmed.startsWith('{') && trimmed.endsWith('}')) ||
+    // Check for JSON
+    if ((trimmed.startsWith('{') && trimmed.endsWith('}')) ||
        (trimmed.startsWith('[') && trimmed.endsWith(']'))) {
       try {
         JSON.parse(content);
@@ -275,18 +277,23 @@ export class ArtifactDetector {
       }
     }
 
-    // Check for HTML\n    if (trimmed.includes('<html') || trimmed.includes('<!DOCTYPE') ||
+    // Check for HTML
+    if (trimmed.includes('<html') || trimmed.includes('<!DOCTYPE') ||
        (trimmed.includes('<') && trimmed.includes('>'))) {
       return { type: 'html', confidence: 0.8 };
     }
 
-    // Check for Markdown\n    if (trimmed.includes('# ') || trimmed.includes('## ') ||
+    // Check for Markdown
+    if (trimmed.includes('# ') || trimmed.includes('## ') ||
        trimmed.includes('```') || trimmed.includes('[') && trimmed.includes('](')) {
       return { type: 'markdown', confidence: 0.7 };
     }
 
-    // Check for CSV-like content\n    if (trimmed.includes(',') && trimmed.split('\n').length > 1) {
-      const lines = trimmed.split('\n');
+    // Check for CSV-like content
+    if (trimmed.includes(',') && trimmed.split('
+').length > 1) {
+      const lines = trimmed.split('
+');
       const firstLine = lines[0];
       const secondLine = lines[1];
       
@@ -357,9 +364,11 @@ export class ArtifactDetector {
   }
 
   private static generateTitleFromFilename(filename: string): string {
-    // Remove extension\n    const nameWithoutExt = filename.replace(/\.[^/.]+$/, '');
+    // Remove extension
+    const nameWithoutExt = filename.replace(/\.[^/.]+$/, '');
     
-    // Replace underscores and hyphens with spaces\n    const formatted = nameWithoutExt.replace(/[_-]/g, ' ');
+    // Replace underscores and hyphens with spaces
+    const formatted = nameWithoutExt.replace(/[_-]/g, ' ');
     
     // Capitalize first letter of each word
     return formatted.replace(/\b\w/g, letter => letter.toUpperCase());

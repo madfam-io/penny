@@ -23,7 +23,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   onChange,
   language = 'python',
   theme = 'light',
-  readOnly = false,\n  height = '400px',\n  width = '100%',\n  className = '',
+  readOnly = false,
+  height = '400px',
+  width = '100%',
+  className = '',
   onSave,
   onRun,
   showLineNumbers = true,
@@ -219,7 +222,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     highlightLine,
     clearDecorations,
     goToLine,
-    getSelectionText,\n    getValue: () => monacoRef.current?.getValue() || '',
+    getSelectionText,
+    getValue: () => monacoRef.current?.getValue() || '',
     focus: () => monacoRef.current?.focus(),
   }));
 
@@ -237,14 +241,16 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
             </button>
           )}
           {onSave && (
-            <button\n              className="btn btn-secondary btn-sm"
+            <button
+              className="btn btn-secondary btn-sm"
               onClick={() => onSave(monacoRef.current?.getValue() || '')}
               title="Save (Ctrl+S)"
             >
               💾 Save
             </button>
           )}
-          <button\n            className="btn btn-secondary btn-sm"
+          <button
+            className="btn btn-secondary btn-sm"
             onClick={formatCode}
             title="Format Code"
           >
@@ -256,7 +262,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
           <span className="language-indicator">
             {language.toUpperCase()}
           </span>
-          {readOnly && (\n            <span className="readonly-indicator">
+          {readOnly && (
+<span className="readonly-indicator">
               🔒 Read Only
             </span>
           )}

@@ -13,7 +13,11 @@ import { ResetPasswordPage } from '../pages/auth/ResetPasswordPage';
 export function AuthRoutes() {
   return (
     <GuestOnlyRoute redirectTo="/dashboard">
-      <Routes>\n        <Route path="/login" element={<LoginPage />} />\n        <Route path="/register" element={<RegisterPage />} />\n        <Route path="/forgot-password" element={<ForgotPasswordPage />} />\n        <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         {/* Redirect /auth to /auth/login */}
         <Route path="/" element={<Navigate to="/login" replace />} />
         {/* Catch all - redirect to login */}

@@ -217,8 +217,12 @@ export class ArtifactExporter {
   private static async exportChartAsSVG(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
     const chartData = artifact.content;
     
-    // Mock SVG generation\n    const svg = `
-      <svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">\n        <rect width="800" height="600" fill="#f8f9fa"/>\n        <text x="50" y="50" font-family="Arial" font-size="24" fill="#333">${artifact.title}</text>\n        <rect x="100" y="100" width="200" height="300" fill="#007bff"/>
+    // Mock SVG generation
+    const svg = `
+      <svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+<rect width="800" height="600" fill="#f8f9fa"/>
+<text x="50" y="50" font-family="Arial" font-size="24" fill="#333">${artifact.title}</text>
+<rect x="100" y="100" width="200" height="300" fill="#007bff"/>
         <!-- Chart elements would be generated here based on chartData -->
       </svg>
     `;
@@ -279,7 +283,8 @@ endobj\
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       </head>
       <body>
-        <h1>${artifact.title}</h1>\n        <canvas id="chart" width="800" height="400"></canvas>
+        <h1>${artifact.title}</h1>
+<canvas id="chart" width="800" height="400"></canvas>
         <script>
           const ctx = document.getElementById('chart').getContext('2d');
           new Chart(ctx, ${JSON.stringify({
@@ -330,7 +335,8 @@ endobj\
   }
 
   private static async exportTableAsPDF(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
-    // Mock table PDF generation\n    const mockPDFContent = `%PDF-1.4\
+    // Mock table PDF generation
+    const mockPDFContent = `%PDF-1.4\
 % Table: ${artifact.title}\
 `;
     
@@ -433,7 +439,8 @@ ${content}`;
 
   private static async exportAsHTML(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
     const content = typeof artifact.content === 'string'
-      ? artifact.content\n      : `<pre>${JSON.stringify(artifact.content, null, 2)}</pre>`;
+      ? artifact.content
+      : `<pre>${JSON.stringify(artifact.content, null, 2)}</pre>`;
    
    const html = `
       <!DOCTYPE html>
@@ -501,10 +508,14 @@ ${content}`;
       <!DOCTYPE html>
       <html>
       <head>
-        <title>${artifact.title}</title>\n        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">\n        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+        <title>${artifact.title}</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
       </head>
       <body>
-        <h1>${artifact.title}</h1>\n        <pre><code class="language-${codeData.language}">${codeData.code}</code></pre>\n        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+        <h1>${artifact.title}</h1>
+<pre><code class="language-${codeData.language}">${codeData.code}</code></pre>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
       </body>
       </html>
     `;

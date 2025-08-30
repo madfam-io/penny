@@ -58,7 +58,8 @@ export default function ChatView() {
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content:\n          "I understand you want to analyze some data. Let me help you with that. Here's a dashboard showing your company KPIs for this month.",
+        content:
+          "I understand you want to analyze some data. Let me help you with that. Here's a dashboard showing your company KPIs for this month.",
         timestamp: new Date(),
         artifacts: [
           {
@@ -87,8 +88,10 @@ export default function ChatView() {
             />
           ))}
 
-          {isLoading && (\n            <div className="flex items-center gap-2 text-gray-500">
-              <Loader2 className="h-4 w-4 animate-spin" />\n              <span className="text-sm">PENNY is thinking...</span>
+          {isLoading && (
+<div className="flex items-center gap-2 text-gray-500">
+              <Loader2 className="h-4 w-4 animate-spin" />
+<span className="text-sm">PENNY is thinking...</span>
             </div>
           )}
 
@@ -97,7 +100,8 @@ export default function ChatView() {
 
         {/* Input area */}
         <div className="border-t border-gray-200 dark:border-gray-700 p-4">
-          <div className="flex items-end gap-2">\n            <button className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+          <div className="flex items-end gap-2">
+<button className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
               <Paperclip className="h-5 w-5 text-gray-600 dark:text-gray-400" />
             </button>
 
@@ -111,7 +115,8 @@ export default function ChatView() {
                     handleSend();
                   }
                 }}
-                placeholder="Ask PENNY anything..."\n                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                placeholder="Ask PENNY anything..."
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                 rows={1}
               />
             </div>
@@ -125,14 +130,16 @@ export default function ChatView() {
                   ? 'bg-brand-500 hover:bg-brand-600 text-white'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed',
               )}
-            >\n              <Send className="h-5 w-5" />
+            >
+<Send className="h-5 w-5" />
             </button>
           </div>
         </div>
       </div>
 
       {/* Artifact viewer */}
-      {selectedArtifact && (\n        <div className="w-1/2 border-l border-gray-200 dark:border-gray-700">
+      {selectedArtifact && (
+<div className="w-1/2 border-l border-gray-200 dark:border-gray-700">
           <ArtifactViewer artifactId={selectedArtifact} onClose={() => setSelectedArtifact(null)} />
         </div>
       )}

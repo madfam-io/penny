@@ -55,10 +55,13 @@ class ArtifactErrorBoundary extends React.Component<
     if (this.state.hasError) {
       return (
         <div className="flex items-center justify-center h-64 bg-red-50 border border-red-200 rounded-lg">
-          <div className="text-center p-6">\n            <div className="text-red-600 mb-2">
-              <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.962-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+          <div className="text-center p-6">
+<div className="text-red-600 mb-2">
+              <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.962-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
               </svg>
-            </div>\n            <h3 className="text-lg font-medium text-red-900 mb-2">Artifact Loading Error</h3>
+            </div>
+<h3 className="text-lg font-medium text-red-900 mb-2">Artifact Loading Error</h3>
             <p className="text-sm text-red-700 mb-4">
               {this.state.error?.message || 'An unexpected error occurred while loading this artifact.'}
             </p>
@@ -85,7 +88,8 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
   onShare,
   onEdit,
   onDelete,
-  onAnnotate,\n  className = '',
+  onAnnotate,
+  className = '',
   theme = 'auto',
   interactive = true
 }) => {
@@ -147,11 +151,15 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
       default:
         return (
           <div className="flex items-center justify-center h-64 bg-gray-50 border border-gray-200 rounded-lg">
-            <div className="text-center p-6">\n              <div className="text-gray-400 mb-2">
-                <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            <div className="text-center p-6">
+<div className="text-gray-400 mb-2">
+                <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-              </div>\n              <h3 className="text-lg font-medium text-gray-900 mb-2">Unsupported Artifact Type</h3>
-              <p className="text-sm text-gray-600">\n                The artifact type "{artifact.type}" is not yet supported.
+              </div>
+<h3 className="text-lg font-medium text-gray-900 mb-2">Unsupported Artifact Type</h3>
+              <p className="text-sm text-gray-600">
+The artifact type "{artifact.type}" is not yet supported.
               </p>
             </div>
           </div>
@@ -165,13 +173,15 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
       'flex flex-col h-full',
       isFullscreen ? 'fixed inset-0 z-50 bg-white' : 'relative',
       theme === 'dark' ? 'dark bg-gray-900 text-white' : 'bg-white text-gray-900',
-      className\n    ].filter(Boolean).join(' ');
+      className
+    ].filter(Boolean).join(' ');
   }, [isFullscreen, theme, className]);
 
   const contentClasses = useMemo(() => {
     return [
       'flex-1 overflow-hidden',
-      loading ? 'flex items-center justify-center' : ''\n    ].filter(Boolean).join(' ');
+      loading ? 'flex items-center justify-center' : ''
+    ].filter(Boolean).join(' ');
   }, [loading]);
 
   if (error) {
@@ -186,11 +196,15 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
           onDelete={onDelete}
           isFullscreen={isFullscreen}
           theme={theme}
-        />\n        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center p-6">\n            <div className="text-red-600 mb-2">
-              <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        />
+<div className="flex-1 flex items-center justify-center">
+          <div className="text-center p-6">
+<div className="text-red-600 mb-2">
+              <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-            </div>\n            <h3 className="text-lg font-medium text-red-900 mb-2">Error Loading Artifact</h3>
+            </div>
+<h3 className="text-lg font-medium text-red-900 mb-2">Error Loading Artifact</h3>
             <p className="text-sm text-red-700 mb-4">{error}</p>
             <button
               onClick={() => setError(null)}
@@ -205,7 +219,8 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
   }
 
   return (
-    <ArtifactErrorBoundary onError={handleError}>\n      <div className={containerClasses} role="main" aria-label={`Artifact: ${artifact.title}`}>
+    <ArtifactErrorBoundary onError={handleError}>
+<div className={containerClasses} role="main" aria-label={`Artifact: ${artifact.title}`}>
         <ArtifactHeader
           artifact={artifact}
           onFullscreenToggle={onFullscreenToggle}
@@ -219,8 +234,10 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
         />
         
         <div className={contentClasses}>
-          {loading && (\n            <div className="flex items-center space-x-2">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>\n              <span className="text-sm text-gray-600">Loading artifact...</span>
+          {loading && (
+<div className="flex items-center space-x-2">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+<span className="text-sm text-gray-600">Loading artifact...</span>
             </div>
           )}
           

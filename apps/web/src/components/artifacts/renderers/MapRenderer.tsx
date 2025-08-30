@@ -19,7 +19,8 @@ const MapRenderer: React.FC<MapRendererProps> = ({
   onError,
   onLoadStart,
   onLoadEnd,
-  onAnnotate,\n  className = ''
+  onAnnotate,
+  className = ''
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
@@ -92,7 +93,8 @@ const MapRenderer: React.FC<MapRendererProps> = ({
   const containerClasses = [
     'map-renderer w-full h-full flex flex-col',
     isDarkMode ? 'dark' : '',
-    className\n  ].filter(Boolean).join(' ');
+    className
+  ].filter(Boolean).join(' ');
 
   return (
     <div className={containerClasses}>
@@ -106,7 +108,12 @@ const MapRenderer: React.FC<MapRendererProps> = ({
               value={mapStyle}
               onChange={(e) => setMapStyle(e.target.value as any)}
               className="px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-            >\n              <option value="streets">Streets</option>\n              <option value="satellite">Satellite</option>\n              <option value="terrain">Terrain</option>\n              <option value="dark">Dark</option>\n              <option value="light">Light</option>
+            >
+<option value="streets">Streets</option>
+<option value="satellite">Satellite</option>
+<option value="terrain">Terrain</option>
+<option value="dark">Dark</option>
+<option value="light">Light</option>
             </select>
           </div>
 
@@ -146,8 +153,10 @@ const MapRenderer: React.FC<MapRendererProps> = ({
 
       {/* Map Container */}
       <div className="flex-1 relative overflow-hidden">
-        {loading && (\n          <div className="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-gray-900/80 z-20">
-            <div className="flex items-center space-x-2">\n              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+        {loading && (
+<div className="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-gray-900/80 z-20">
+            <div className="flex items-center space-x-2">
+<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
               <span className="text-sm">Loading map...</span>
             </div>
           </div>
@@ -163,7 +172,8 @@ const MapRenderer: React.FC<MapRendererProps> = ({
               ? 'linear-gradient(45deg, #1a5f3f, #2d5a3d, #1a5f3f)' 
               : mapStyle === 'dark'
               ? 'linear-gradient(45deg, #1f2937, #374151, #1f2937)'
-              : 'linear-gradient(45deg, #e5e7eb, #f3f4f6, #e5e7eb)',\n            backgroundSize: '40px 40px'
+              : 'linear-gradient(45deg, #e5e7eb, #f3f4f6, #e5e7eb)',
+            backgroundSize: '40px 40px'
           }}
         >
           {/* Grid pattern to simulate map tiles */}
@@ -176,12 +186,14 @@ const MapRenderer: React.FC<MapRendererProps> = ({
           }} />
 
           {/* Zoom Controls */}
-          {config.controls.zoom && (\n            <div className="absolute top-4 right-4 flex flex-col bg-white dark:bg-gray-800 rounded shadow-lg z-10">
+          {config.controls.zoom && (
+<div className="absolute top-4 right-4 flex flex-col bg-white dark:bg-gray-800 rounded shadow-lg z-10">
               <button
                 onClick={handleZoomIn}
                 className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-600"
                 title="Zoom in"
-              >\n                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              >
+<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
               </button>
@@ -189,7 +201,8 @@ const MapRenderer: React.FC<MapRendererProps> = ({
                 onClick={handleZoomOut}
                 className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                 title="Zoom out"
-              >\n                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              >
+<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                 </svg>
               </button>
@@ -221,10 +234,13 @@ const MapRenderer: React.FC<MapRendererProps> = ({
                 </div>
                 
                 {/* Marker Popup */}
-                {(isSelected || marker.popup) && (marker.title || marker.description) && (\n                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-white dark:bg-gray-800 p-2 rounded shadow-lg border border-gray-200 dark:border-gray-700 whitespace-nowrap z-20">
-                    {marker.title && (\n                      <div className="font-medium text-sm">{marker.title}</div>
+                {(isSelected || marker.popup) && (marker.title || marker.description) && (
+<div className="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 bg-white dark:bg-gray-800 p-2 rounded shadow-lg border border-gray-200 dark:border-gray-700 whitespace-nowrap z-20">
+                    {marker.title && (
+<div className="font-medium text-sm">{marker.title}</div>
                     )}
-                    {marker.description && (\n                      <div className="text-xs text-gray-600 dark:text-gray-400">{marker.description}</div>
+                    {marker.description && (
+<div className="text-xs text-gray-600 dark:text-gray-400">{marker.description}</div>
                     )}
                     {/* Popup arrow */}
                     <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-2 border-r-2 border-t-4 border-transparent border-t-white dark:border-t-gray-800"></div>
@@ -235,8 +251,10 @@ const MapRenderer: React.FC<MapRendererProps> = ({
           })}
 
           {/* Scale */}
-          {config.controls.scale && (\n            <div className="absolute bottom-4 left-4 bg-white dark:bg-gray-800 px-2 py-1 rounded shadow-lg text-xs">
-              <div className="flex items-center space-x-2">\n                <div className="w-16 h-1 bg-gray-400 dark:bg-gray-500"></div>
+          {config.controls.scale && (
+<div className="absolute bottom-4 left-4 bg-white dark:bg-gray-800 px-2 py-1 rounded shadow-lg text-xs">
+              <div className="flex items-center space-x-2">
+<div className="w-16 h-1 bg-gray-400 dark:bg-gray-500"></div>
                 <span>1 km</span>
               </div>
             </div>
@@ -244,17 +262,23 @@ const MapRenderer: React.FC<MapRendererProps> = ({
         </div>
 
         {/* Layers Panel */}
-        {showLayers && layers.length > 0 && (\n          <div className="absolute top-4 left-4 bg-white dark:bg-gray-800 rounded shadow-lg border border-gray-200 dark:border-gray-700 p-3 z-10">
-            <h3 className="font-medium text-sm mb-2">Map Layers</h3>\n            <div className="space-y-2">
-              {layers.map((layer, index) => (\n                <label key={layer.id} className="flex items-center space-x-2 text-sm">
-                  <input\n                    type="checkbox"
+        {showLayers && layers.length > 0 && (
+<div className="absolute top-4 left-4 bg-white dark:bg-gray-800 rounded shadow-lg border border-gray-200 dark:border-gray-700 p-3 z-10">
+            <h3 className="font-medium text-sm mb-2">Map Layers</h3>
+<div className="space-y-2">
+              {layers.map((layer, index) => (
+<label key={layer.id} className="flex items-center space-x-2 text-sm">
+                  <input
+                    type="checkbox"
                     checked={layer.visible}
                     onChange={() => {
-                      // Handle layer visibility toggle\n                      console.log(`Toggle layer: ${layer.id}`);
+                      // Handle layer visibility toggle
+                      console.log(`Toggle layer: ${layer.id}`);
                     }}
                     className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />
-                  <span>{layer.id}</span>\n                  <span className="text-xs text-gray-500 dark:text-gray-400">({layer.type})</span>
+                  <span>{layer.id}</span>
+<span className="text-xs text-gray-500 dark:text-gray-400">({layer.type})</span>
                 </label>
               ))}
             </div>

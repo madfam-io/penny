@@ -177,7 +177,8 @@ export const InvoiceHistory: React.FC = () => {
     <div className="space-y-6">
       {/* Header and Filters */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
-        <div>\n          <h2 className="text-2xl font-bold text-gray-900">Invoice History</h2>
+        <div>
+<h2 className="text-2xl font-bold text-gray-900">Invoice History</h2>
           <p className="text-gray-600">View and manage your billing invoices</p>
         </div>
        
@@ -185,7 +186,9 @@ export const InvoiceHistory: React.FC = () => {
           {/* Search */}
           <div className="relative">
             <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-            <input\n              type="text"\n              placeholder="Search invoices..."
+            <input
+              type="text"
+              placeholder="Search invoices..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -197,12 +200,18 @@ export const InvoiceHistory: React.FC = () => {
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >\n            <option value="all">All Status</option>\n            <option value="paid">Paid</option>\n            <option value="open">Open</option>\n            <option value="draft">Draft</option>\n            <option value="void">Void</option>
+          >
+<option value="all">All Status</option>
+<option value="paid">Paid</option>
+<option value="open">Open</option>
+<option value="draft">Draft</option>
+<option value="void">Void</option>
           </select>
         </div>
       </div>
 
-      {error && (\n        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+      {error && (
+<div className="p-4 bg-red-50 border border-red-200 rounded-lg">
           <span className="text-red-800">{error}</span>
         </div>
       )}
@@ -211,31 +220,40 @@ export const InvoiceHistory: React.FC = () => {
         {/* Invoice List */}
         <div className="lg:col-span-2">
           <Card>
-            <CardHeader>\n              <CardTitle className="flex items-center">
+            <CardHeader>
+<CardTitle className="flex items-center">
                 <FileText className="h-5 w-5 mr-2" />
                 Invoices ({filteredInvoices.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {filteredInvoices.length === 0 ? (\n                <div className="text-center py-8">
-                  <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />\n                  <p className="text-gray-600">No invoices found</p>
+              {filteredInvoices.length === 0 ? (
+<div className="text-center py-8">
+                  <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+<p className="text-gray-600">No invoices found</p>
                 </div>
-              ) : (\n                <div className="space-y-4">
+              ) : (
+<div className="space-y-4">
                   {filteredInvoices.map((invoice) => (
                     <div
                       key={invoice.id}
                       className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
-                    >\n                      <div className="flex items-center justify-between">
+                    >
+<div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
-                          <div>\n                            <div className="flex items-center space-x-2">
+                          <div>
+<div className="flex items-center space-x-2">
                               <h3 className="font-semibold">{invoice.number}</h3>
                               <Badge className={getStatusColor(invoice.status)}>
                                 {invoice.status}
                               </Badge>
-                            </div>\n                            <div className="flex items-center space-x-4 mt-1 text-sm text-gray-600">
-                              <span className="flex items-center">\n                                <Calendar className="h-4 w-4 mr-1" />
+                            </div>
+<div className="flex items-center space-x-4 mt-1 text-sm text-gray-600">
+                              <span className="flex items-center">
+<Calendar className="h-4 w-4 mr-1" />
                                 {formatDate(invoice.created_at)}
-                              </span>\n                              <span className="flex items-center">
+                              </span>
+<span className="flex items-center">
                                 <DollarSign className="h-4 w-4 mr-1" />
                                 {formatCurrency(invoice.total, invoice.currency)}
                               </span>
@@ -244,21 +262,31 @@ export const InvoiceHistory: React.FC = () => {
                         </div>
 
                         <div className="flex items-center space-x-2">
-                          <Button\n                            variant="ghost"\n                            size="sm"
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             onClick={() => viewInvoiceDetails(invoice)}
-                          >\n                            <Eye className="h-4 w-4" />
+                          >
+<Eye className="h-4 w-4" />
                           </Button>
                           
                           {invoice.pdf_url && (
-                            <Button\n                              variant="ghost"\n                              size="sm"
+                            <Button
+                              variant="ghost"
+                              size="sm"
                               onClick={() => downloadInvoicePDF(invoice)}
-                            >\n                              <Download className="h-4 w-4" />
+                            >
+<Download className="h-4 w-4" />
                             </Button>
                           )}
                           
                           {invoice.hosted_url && (
-                            <Button\n                              variant="ghost"\n                              size="sm"\n                              onClick={() => window.open(invoice.hosted_url, '_blank')}
-                            >\n                              <ExternalLink className="h-4 w-4" />
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => window.open(invoice.hosted_url, '_blank')}
+                            >
+<ExternalLink className="h-4 w-4" />
                             </Button>
                           )}
                         </div>
@@ -266,16 +294,19 @@ export const InvoiceHistory: React.FC = () => {
 
                       {/* Invoice period and amounts */}
                       <div className="mt-3 pt-3 border-t text-sm">
-                        <div className="flex justify-between items-center">\n                          <span className="text-gray-600">
+                        <div className="flex justify-between items-center">
+<span className="text-gray-600">
                             Period: {formatDate(invoice.period_start)} - {formatDate(invoice.period_end)}
                           </span>
-                          {invoice.amount_due > 0 && (\n                            <span className="text-red-600 font-medium">
+                          {invoice.amount_due > 0 && (
+<span className="text-red-600 font-medium">
                               Due: {formatCurrency(invoice.amount_due, invoice.currency)}
                             </span>
                           )}
                         </div>
                         
-                        {invoice.paid_at && (\n                          <div className="text-green-600 text-xs mt-1">
+                        {invoice.paid_at && (
+<div className="text-green-600 text-xs mt-1">
                             Paid on {formatDate(invoice.paid_at)}
                           </div>
                         )}
@@ -289,20 +320,25 @@ export const InvoiceHistory: React.FC = () => {
         </div>
 
         {/* Invoice Details */}
-        <div>\n          <Card className="sticky top-6">
+        <div>
+<Card className="sticky top-6">
             <CardHeader>
               <CardTitle>Invoice Details</CardTitle>
-              <CardDescription>\n                {selectedInvoice ? `Invoice ${selectedInvoice.number}` : 'Select an invoice to view details'}
+              <CardDescription>
+{selectedInvoice ? `Invoice ${selectedInvoice.number}` : 'Select an invoice to view details'}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {loadingDetails ? (\n                <div className="flex items-center justify-center p-8">
+              {loadingDetails ? (
+<div className="flex items-center justify-center p-8">
                   <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
                 </div>
-              ) : selectedInvoice ? (\n                <div className="space-y-4">
+              ) : selectedInvoice ? (
+<div className="space-y-4">
                   {/* Invoice Summary */}
                   <div className="space-y-3">
-                    <div className="flex justify-between">\n                      <span className="text-gray-600">Status</span>
+                    <div className="flex justify-between">
+<span className="text-gray-600">Status</span>
                       <Badge className={getStatusColor(selectedInvoice.status)}>
                         {selectedInvoice.status}
                       </Badge>
@@ -318,19 +354,24 @@ export const InvoiceHistory: React.FC = () => {
                       <span>{formatDate(selectedInvoice.due_date)}</span>
                     </div>
                     
-                    {selectedInvoice.paid_at && (\n                      <div className="flex justify-between">
-                        <span className="text-gray-600">Paid Date</span>\n                        <span className="text-green-600">{formatDate(selectedInvoice.paid_at)}</span>
+                    {selectedInvoice.paid_at && (
+<div className="flex justify-between">
+                        <span className="text-gray-600">Paid Date</span>
+<span className="text-green-600">{formatDate(selectedInvoice.paid_at)}</span>
                       </div>
                     )}
                   </div>
 
                   <div className="border-t pt-4">
-                    <h4 className="font-semibold mb-3">Amount Breakdown</h4>\n                    <div className="space-y-2">
-                      <div className="flex justify-between">\n                        <span className="text-gray-600">Subtotal</span>
+                    <h4 className="font-semibold mb-3">Amount Breakdown</h4>
+<div className="space-y-2">
+                      <div className="flex justify-between">
+<span className="text-gray-600">Subtotal</span>
                         <span>{formatCurrency(selectedInvoice.subtotal, selectedInvoice.currency)}</span>
                       </div>
                       
-                      {selectedInvoice.tax > 0 && (\n                        <div className="flex justify-between">
+                      {selectedInvoice.tax > 0 && (
+<div className="flex justify-between">
                           <span className="text-gray-600">Tax</span>
                           <span>{formatCurrency(selectedInvoice.tax, selectedInvoice.currency)}</span>
                         </div>
@@ -341,7 +382,8 @@ export const InvoiceHistory: React.FC = () => {
                         <span>{formatCurrency(selectedInvoice.total, selectedInvoice.currency)}</span>
                       </div>
                       
-                      {selectedInvoice.amount_due > 0 && (\n                        <div className="flex justify-between text-red-600 font-semibold">
+                      {selectedInvoice.amount_due > 0 && (
+<div className="flex justify-between text-red-600 font-semibold">
                           <span>Amount Due</span>
                           <span>{formatCurrency(selectedInvoice.amount_due, selectedInvoice.currency)}</span>
                         </div>
@@ -350,24 +392,33 @@ export const InvoiceHistory: React.FC = () => {
                   </div>
 
                   {/* Line Items */}
-                  {lineItems.length > 0 && (\n                    <div className="border-t pt-4">
-                      <h4 className="font-semibold mb-3">Line Items</h4>\n                      <div className="space-y-3">
-                        {lineItems.map((item) => (\n                          <div key={item.id} className="border rounded p-3">
-                            <div className="flex justify-between items-start mb-2">\n                              <div className="flex-1">
+                  {lineItems.length > 0 && (
+<div className="border-t pt-4">
+                      <h4 className="font-semibold mb-3">Line Items</h4>
+<div className="space-y-3">
+                        {lineItems.map((item) => (
+<div key={item.id} className="border rounded p-3">
+                            <div className="flex justify-between items-start mb-2">
+<div className="flex-1">
                                 <div className="font-medium text-sm">{item.description}</div>
-                                {item.usage_type && (\n                                  <div className="text-xs text-gray-600 capitalize">\n                                    {item.usage_type.replace('_', ' ')} usage
+                                {item.usage_type && (
+<div className="text-xs text-gray-600 capitalize">
+{item.usage_type.replace('_', ' ')} usage
                                   </div>
                                 )}
-                              </div>\n                              <div className="text-right">
+                              </div>
+<div className="text-right">
                                 <div className="font-semibold">
                                   {formatCurrency(item.amount, selectedInvoice.currency)}
-                                </div>\n                                <div className="text-xs text-gray-600">
+                                </div>
+<div className="text-xs text-gray-600">
                                   {item.quantity} × {formatCurrency(item.unit_amount, selectedInvoice.currency)}
                                 </div>
                               </div>
                             </div>
                             
-                            {item.period_start && item.period_end && (\n                              <div className="text-xs text-gray-600 border-t pt-2">
+                            {item.period_start && item.period_end && (
+<div className="text-xs text-gray-600 border-t pt-2">
                                 Period: {formatDate(item.period_start)} - {formatDate(item.period_end)}
                               </div>
                             )}
@@ -380,25 +431,34 @@ export const InvoiceHistory: React.FC = () => {
                   {/* Actions */}
                   <div className="border-t pt-4 space-y-2">
                     {selectedInvoice.pdf_url && (
-                      <Button\n                        variant="outline"\n                        size="sm"
+                      <Button
+                        variant="outline"
+                        size="sm"
                         onClick={() => downloadInvoicePDF(selectedInvoice)}
                         className="w-full"
-                      >\n                        <Download className="h-4 w-4 mr-2" />
+                      >
+<Download className="h-4 w-4 mr-2" />
                         Download PDF
                       </Button>
                     )}
                     
                     {selectedInvoice.hosted_url && (
-                      <Button\n                        variant="outline"\n                        size="sm"\n                        onClick={() => window.open(selectedInvoice.hosted_url, '_blank')}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => window.open(selectedInvoice.hosted_url, '_blank')}
                         className="w-full"
-                      >\n                        <ExternalLink className="h-4 w-4 mr-2" />
+                      >
+<ExternalLink className="h-4 w-4 mr-2" />
                         View in Stripe
                       </Button>
                     )}
                   </div>
                 </div>
-              ) : (\n                <div className="text-center py-8">
-                  <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />\n                  <p className="text-gray-600">Select an invoice to view details</p>
+              ) : (
+<div className="text-center py-8">
+                  <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+<p className="text-gray-600">Select an invoice to view details</p>
                 </div>
               )}
             </CardContent>

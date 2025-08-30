@@ -184,32 +184,40 @@ export const PaymentMethods: React.FC = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <div>\n          <h2 className="text-2xl font-bold text-gray-900">Payment Methods</h2>
+        <div>
+<h2 className="text-2xl font-bold text-gray-900">Payment Methods</h2>
           <p className="text-gray-600">Manage your payment methods and billing information</p>
         </div>
-        <Button onClick={handleAddPaymentMethod} disabled={processing === 'add'}>\n          <Plus className="h-4 w-4 mr-2" />
+        <Button onClick={handleAddPaymentMethod} disabled={processing === 'add'}>
+<Plus className="h-4 w-4 mr-2" />
           {processing === 'add' ? 'Adding...' : 'Add Payment Method'}
         </Button>
       </div>
 
-      {error && (\n        <div className="p-4 bg-red-50 border border-red-200 rounded-lg flex items-center">
-          <AlertCircle className="h-5 w-5 text-red-600 mr-2" />\n          <span className="text-red-800">{error}</span>
+      {error && (
+<div className="p-4 bg-red-50 border border-red-200 rounded-lg flex items-center">
+          <AlertCircle className="h-5 w-5 text-red-600 mr-2" />
+<span className="text-red-800">{error}</span>
         </div>
       )}
 
       {/* Payment Methods Grid */}
       {paymentMethods.length === 0 ? (
-        <Card>\n          <CardContent className="flex flex-col items-center justify-center py-12">
-            <CreditCard className="h-12 w-12 text-gray-400 mb-4" />\n            <h3 className="text-lg font-semibold text-gray-900 mb-2">No payment methods</h3>
+        <Card>
+<CardContent className="flex flex-col items-center justify-center py-12">
+            <CreditCard className="h-12 w-12 text-gray-400 mb-4" />
+<h3 className="text-lg font-semibold text-gray-900 mb-2">No payment methods</h3>
             <p className="text-gray-600 text-center mb-6">
               Add a payment method to manage your subscription and billing
             </p>
-            <Button onClick={handleAddPaymentMethod} disabled={processing === 'add'}>\n              <Plus className="h-4 w-4 mr-2" />
+            <Button onClick={handleAddPaymentMethod} disabled={processing === 'add'}>
+<Plus className="h-4 w-4 mr-2" />
               Add Your First Payment Method
             </Button>
           </CardContent>
         </Card>
-      ) : (\n        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      ) : (
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {paymentMethods.map((method) => {
             const expired = isExpired(method.exp_month, method.exp_year);
             const expiringSoon = isExpiringSoon(method.exp_month, method.exp_year);
@@ -230,16 +238,19 @@ export const PaymentMethods: React.FC = () => {
               >
                 {method.is_default && (
                   <div className="absolute -top-2 -right-2">
-                    <Badge className="bg-green-600 text-white">\n                      <Star className="h-3 w-3 mr-1" />
+                    <Badge className="bg-green-600 text-white">
+<Star className="h-3 w-3 mr-1" />
                       Default
                     </Badge>
                   </div>
                 )}
 
                 <CardHeader className="pb-4">
-                  <div className="flex items-center justify-between">\n                    <div className="flex items-center space-x-3">
+                  <div className="flex items-center justify-between">
+<div className="flex items-center space-x-3">
                       {getCardIcon(method.brand)}
-                      <div>\n                        <CardTitle className="text-base capitalize">
+                      <div>
+<CardTitle className="text-base capitalize">
                           {method.brand || method.type} •••• {method.last4}
                         </CardTitle>
                         <CardDescription>
@@ -252,15 +263,19 @@ export const PaymentMethods: React.FC = () => {
 
                 <CardContent className="space-y-4">
                   {/* Expiry Information */}
-                  {method.exp_month && method.exp_year && (\n                    <div className="flex items-center space-x-2">
-                      <Calendar className="h-4 w-4 text-gray-500" />\n                      <span className="text-sm text-gray-600">
+                  {method.exp_month && method.exp_year && (
+<div className="flex items-center space-x-2">
+                      <Calendar className="h-4 w-4 text-gray-500" />
+<span className="text-sm text-gray-600">
                         Expires {formatExpiryDate(method.exp_month, method.exp_year)}
                       </span>
-                      {expired && (\n                        <Badge variant="destructive" className="text-xs">
+                      {expired && (
+<Badge variant="destructive" className="text-xs">
                           Expired
                         </Badge>
                       )}
-                      {expiringSoon && !expired && (\n                        <Badge className="bg-yellow-100 text-yellow-800 text-xs">
+                      {expiringSoon && !expired && (
+<Badge className="bg-yellow-100 text-yellow-800 text-xs">
                           Expiring Soon
                         </Badge>
                       )}
@@ -268,18 +283,24 @@ export const PaymentMethods: React.FC = () => {
                   )}
 
                   {/* Warning Messages */}
-                  {expired && (\n                    <div className="p-3 bg-red-100 border border-red-200 rounded-md">
-                      <div className="flex items-start">\n                        <AlertCircle className="h-4 w-4 text-red-600 mr-2 mt-0.5" />
-                        <div className="text-sm">\n                          <p className="text-red-800 font-medium">Card Expired</p>
+                  {expired && (
+<div className="p-3 bg-red-100 border border-red-200 rounded-md">
+                      <div className="flex items-start">
+<AlertCircle className="h-4 w-4 text-red-600 mr-2 mt-0.5" />
+                        <div className="text-sm">
+<p className="text-red-800 font-medium">Card Expired</p>
                           <p className="text-red-700">Update your payment method to continue service.</p>
                         </div>
                       </div>
                     </div>
                   )}
 
-                  {expiringSoon && !expired && (\n                    <div className="p-3 bg-yellow-100 border border-yellow-200 rounded-md">
-                      <div className="flex items-start">\n                        <AlertCircle className="h-4 w-4 text-yellow-600 mr-2 mt-0.5" />
-                        <div className="text-sm">\n                          <p className="text-yellow-800 font-medium">Card Expiring Soon</p>
+                  {expiringSoon && !expired && (
+<div className="p-3 bg-yellow-100 border border-yellow-200 rounded-md">
+                      <div className="flex items-start">
+<AlertCircle className="h-4 w-4 text-yellow-600 mr-2 mt-0.5" />
+                        <div className="text-sm">
+<p className="text-yellow-800 font-medium">Card Expiring Soon</p>
                           <p className="text-yellow-700">Please update your payment information.</p>
                         </div>
                       </div>
@@ -289,7 +310,9 @@ export const PaymentMethods: React.FC = () => {
                   {/* Actions */}
                   <div className="flex space-x-2 pt-2">
                     {!method.is_default && (
-                      <Button\n                        variant="outline"\n                        size="sm"
+                      <Button
+                        variant="outline"
+                        size="sm"
                         onClick={() => handleSetDefault(method.id)}
                         disabled={isProcessingThis}
                         className="flex-1"
@@ -297,14 +320,17 @@ export const PaymentMethods: React.FC = () => {
                         {isProcessingThis ? (
                           'Setting...'
                         ) : (
-                          <>\n                            <Check className="h-4 w-4 mr-1" />
+                          <>
+<Check className="h-4 w-4 mr-1" />
                             Set Default
                           </>
                         )}
                       </Button>
                     )}
                     
-                    <Button\n                      variant="outline"\n                      size="sm"
+                    <Button
+                      variant="outline"
+                      size="sm"
                       onClick={() => handleRemove(method.id)}
                       disabled={isProcessingThis}
                       className={`${method.is_default ? 'flex-1' : ''} text-red-600 hover:text-red-700 hover:bg-red-50`}
@@ -312,7 +338,8 @@ export const PaymentMethods: React.FC = () => {
                       {isProcessingThis ? (
                         'Removing...'
                       ) : (
-                        <>\n                          <Trash2 className="h-4 w-4 mr-1" />
+                        <>
+<Trash2 className="h-4 w-4 mr-1" />
                           Remove
                         </>
                       )}
@@ -325,8 +352,10 @@ export const PaymentMethods: React.FC = () => {
 
           {/* Add New Card */}
           <Card className="border-2 border-dashed border-gray-300 hover:border-gray-400 transition-colors">
-            <CardContent className="flex flex-col items-center justify-center py-12">\n              <Plus className="h-8 w-8 text-gray-400 mb-3" />
-              <h3 className="font-semibold text-gray-900 mb-2">Add Payment Method</h3>\n              <p className="text-gray-600 text-center text-sm mb-4">
+            <CardContent className="flex flex-col items-center justify-center py-12">
+<Plus className="h-8 w-8 text-gray-400 mb-3" />
+              <h3 className="font-semibold text-gray-900 mb-2">Add Payment Method</h3>
+<p className="text-gray-600 text-center text-sm mb-4">
                 Add a new credit or debit card
               </p>
               <Button
@@ -343,14 +372,18 @@ export const PaymentMethods: React.FC = () => {
 
       {/* Payment Security Info */}
       <Card className="bg-blue-50 border-blue-200">
-        <CardContent className="pt-6">\n          <div className="flex items-start space-x-3">
-            <div className="bg-blue-100 p-2 rounded-lg">\n              <CreditCard className="h-5 w-5 text-blue-600" />
+        <CardContent className="pt-6">
+<div className="flex items-start space-x-3">
+            <div className="bg-blue-100 p-2 rounded-lg">
+<CreditCard className="h-5 w-5 text-blue-600" />
             </div>
-            <div>\n              <h3 className="font-semibold text-blue-900">Secure Payment Processing</h3>
+            <div>
+<h3 className="font-semibold text-blue-900">Secure Payment Processing</h3>
               <p className="text-blue-800 text-sm mt-1">
                 Your payment information is encrypted and processed securely through Stripe. 
                 We never store your full card details on our servers.
-              </p>\n              <div className="flex items-center space-x-4 mt-3 text-xs text-blue-700">
+              </p>
+<div className="flex items-center space-x-4 mt-3 text-xs text-blue-700">
                 <span>• PCI DSS Compliant</span>
                 <span>• 256-bit SSL Encryption</span>
                 <span>• Fraud Protection</span>

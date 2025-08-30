@@ -198,11 +198,13 @@ export const ArtifactTabs: React.FC<ArtifactTabsProps> = ({
 
   const tabsClasses = [
     'flex items-center border-b border-gray-200',
-    theme === 'dark' ? 'border-gray-700' : 'border-gray-200'\n  ].join(' ');
+    theme === 'dark' ? 'border-gray-700' : 'border-gray-200'
+  ].join(' ');
 
   const scrollButtonClasses = [
     'flex-shrink-0 p-1 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed',
-    theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-100'\n  ].join(' ');
+    theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
+  ].join(' ');
 
   return (
     <div className={tabsClasses} role="tablist">
@@ -213,7 +215,8 @@ export const ArtifactTabs: React.FC<ArtifactTabsProps> = ({
           disabled={!canScrollLeft}
           className={scrollButtonClasses}
           aria-label="Scroll tabs left"
-        >\n          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        >
+<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
@@ -242,7 +245,8 @@ export const ArtifactTabs: React.FC<ArtifactTabsProps> = ({
                 : 'text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300',
             isDragging ? 'opacity-50' : '',
             isDropTarget ? 'bg-blue-100' : '',
-            reorderable ? 'cursor-move' : 'cursor-pointer'\n          ].filter(Boolean).join(' ');
+            reorderable ? 'cursor-move' : 'cursor-pointer'
+          ].filter(Boolean).join(' ');
 
           const tabStyle: React.CSSProperties = {
             maxWidth: `${maxTabWidth}px`,
@@ -283,9 +287,11 @@ export const ArtifactTabs: React.FC<ArtifactTabsProps> = ({
               {closeable && (
                 <button
                   onClick={(e) => handleTabClose(e, artifact.id)}
-                  className="flex-shrink-0 ml-1 p-1 rounded hover:bg-gray-200 hover:text-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-400"\n                  aria-label={`Close ${artifact.title}`}
+                  className="flex-shrink-0 ml-1 p-1 rounded hover:bg-gray-200 hover:text-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-400"
+                  aria-label={`Close ${artifact.title}`}
                   tabIndex={-1}
-                >\n                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                >
+<svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -302,7 +308,8 @@ export const ArtifactTabs: React.FC<ArtifactTabsProps> = ({
           disabled={!canScrollRight}
           className={scrollButtonClasses}
           aria-label="Scroll tabs right"
-        >\n          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        >
+<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>

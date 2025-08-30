@@ -42,7 +42,8 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
   variables,
   onVariableSelect,
   onVariableDelete,
-  onVariableExport,\n  className = '',
+  onVariableExport,
+  className = '',
   searchable = true,
   groupByType = false,
   showMemoryUsage = true
@@ -203,21 +204,30 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
         {/* Statistics for numeric arrays */}
         {data.statistics && (
           <div className="statistics-section">
-            <h4>Statistics</h4>\n            <div className="statistics-grid">
-              {data.statistics.min !== undefined && (\n                <div className="stat-item">
-                  <span className="stat-label">Min</span>\n                  <span className="stat-value">{data.statistics.min.toFixed(4)}</span>
+            <h4>Statistics</h4>
+<div className="statistics-grid">
+              {data.statistics.min !== undefined && (
+<div className="stat-item">
+                  <span className="stat-label">Min</span>
+<span className="stat-value">{data.statistics.min.toFixed(4)}</span>
                 </div>
               )}
-              {data.statistics.max !== undefined && (\n                <div className="stat-item">
-                  <span className="stat-label">Max</span>\n                  <span className="stat-value">{data.statistics.max.toFixed(4)}</span>
+              {data.statistics.max !== undefined && (
+<div className="stat-item">
+                  <span className="stat-label">Max</span>
+<span className="stat-value">{data.statistics.max.toFixed(4)}</span>
                 </div>
               )}
-              {data.statistics.mean !== undefined && (\n                <div className="stat-item">
-                  <span className="stat-label">Mean</span>\n                  <span className="stat-value">{data.statistics.mean.toFixed(4)}</span>
+              {data.statistics.mean !== undefined && (
+<div className="stat-item">
+                  <span className="stat-label">Mean</span>
+<span className="stat-value">{data.statistics.mean.toFixed(4)}</span>
                 </div>
               )}
-              {data.statistics.std !== undefined && (\n                <div className="stat-item">
-                  <span className="stat-label">Std</span>\n                  <span className="stat-value">{data.statistics.std.toFixed(4)}</span>
+              {data.statistics.std !== undefined && (
+<div className="stat-item">
+                  <span className="stat-label">Std</span>
+<span className="stat-value">{data.statistics.std.toFixed(4)}</span>
                 </div>
               )}
             </div>
@@ -225,17 +235,22 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
         )}
 
         {/* DataFrame columns */}
-        {data.columns && (\n          <div className="columns-section">
-            <h4>Columns ({data.columns.length})</h4>\n            <div className="columns-list">
-              {data.columns.map((col, index) => (\n                <span key={index} className="column-item">{col}</span>
+        {data.columns && (
+<div className="columns-section">
+            <h4>Columns ({data.columns.length})</h4>
+<div className="columns-list">
+              {data.columns.map((col, index) => (
+<span key={index} className="column-item">{col}</span>
               ))}
             </div>
           </div>
         )}
 
         {/* Data preview */}
-        {(data.head || data.value) && (\n          <div className="preview-section">
-            <h4>Preview</h4>\n            <div className="preview-content">
+        {(data.head || data.value) && (
+<div className="preview-section">
+            <h4>Preview</h4>
+<div className="preview-content">
               {data.head ? (
                 <pre>{JSON.stringify(data.head, null, 2)}</pre>
               ) : data.serializable ? (
@@ -248,21 +263,26 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
         )}
 
         {/* Export options */}
-        {onVariableExport && data.serializable && (\n          <div className="export-section">
-            <h4>Export</h4>\n            <div className="export-buttons">
-              <button\n                className="export-btn"
+        {onVariableExport && data.serializable && (
+<div className="export-section">
+            <h4>Export</h4>
+<div className="export-buttons">
+              <button
+                className="export-btn"
                 onClick={() => onVariableExport(name, 'json')}
               >
                 JSON
               </button>
               {(data.type === 'pandas.DataFrame' || data.type === 'pandas.Series') && (
-                <button\n                  className="export-btn"
+                <button
+                  className="export-btn"
                   onClick={() => onVariableExport(name, 'csv')}
                 >
                   CSV
                 </button>
               )}
-              <button\n                className="export-btn"
+              <button
+                className="export-btn"
                 onClick={() => onVariableExport(name, 'pickle')}
               >
                 Pickle
@@ -293,13 +313,17 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
               e.stopPropagation();
               toggleExpanded(name);
             }}
-          >\n            {isExpanded ? '▼' : '▶'}
+          >
+{isExpanded ? '▼' : '▶'}
           </button>
          
          <span className="variable-icon">{getTypeIcon(data.type)}</span>
-          <span className="variable-name">{name}</span>\n          <span className="variable-type">{data.type}</span>
+          <span className="variable-name">{name}</span>
+<span className="variable-type">{data.type}</span>
          
-         {data.shape && (\n            <span className="variable-shape">\n              {Array.isArray(data.shape) ? `(${data.shape.join(', ')})` : data.shape}
+         {data.shape && (
+<span className="variable-shape">
+{Array.isArray(data.shape) ? `(${data.shape.join(', ')})` : data.shape}
             </span>
           )}
           
@@ -307,12 +331,14 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
             <span className="variable-size">{formatBytes(data.size)}</span>
           )}
           
-          {showMemoryUsage && data.memory_usage && (\n            <span className="variable-memory">{formatBytes(data.memory_usage)}</span>
+          {showMemoryUsage && data.memory_usage && (
+<span className="variable-memory">{formatBytes(data.memory_usage)}</span>
           )}
          
          <div className="variable-actions">
             {onVariableDelete && (
-              <button\n                className="action-btn delete"
+              <button
+                className="action-btn delete"
                 onClick={(e) => {
                   e.stopPropagation();
                   onVariableDelete(name);
@@ -327,7 +353,8 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
        
        <div className="variable-value">
           {formatValue(data)}
-          {data.truncated && (\n            <span className="truncated-indicator"> (truncated)</span>
+          {data.truncated && (
+<span className="truncated-indicator"> (truncated)</span>
           )}
         </div>
         
@@ -347,14 +374,18 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
       <div className="inspector-header">
         <div className="inspector-title">
           <span>Variables ({Object.keys(variables).length})</span>
-          {showMemoryUsage && totalMemory > 0 && (\n            <span className="total-memory">
+          {showMemoryUsage && totalMemory > 0 && (
+<span className="total-memory">
               Total: {formatBytes(totalMemory)}
             </span>
           )}
         </div>
         
-        {searchable && (\n          <div className="search-box">
-            <input\n              type="text"\n              placeholder="Search variables..."
+        {searchable && (
+<div className="search-box">
+            <input
+              type="text"
+              placeholder="Search variables..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
@@ -384,7 +415,8 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
        
        <div className="view-controls">
           <label>
-            <input\n              type="checkbox"
+            <input
+              type="checkbox"
               checked={groupByType}
               onChange={(e) => setGroupByType(e.target.checked)}
             />
@@ -394,13 +426,17 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
       </div>
      
      <div className="variables-list">
-        {Object.keys(variables).length === 0 ? (\n          <div className="empty-state">
+        {Object.keys(variables).length === 0 ? (
+<div className="empty-state">
             <span>No variables defined</span>
           </div>
         ) : (
-          Object.entries(groupedVariables).map(([groupName, groupVariables]) => (\n            <div key={groupName} className="variable-group">
-              {groupByType && groupName && (\n                <div className="group-header">
-                  <span className="group-icon">{getTypeIcon(groupName)}</span>\n                  <span className="group-name">{groupName}</span>
+          Object.entries(groupedVariables).map(([groupName, groupVariables]) => (
+<div key={groupName} className="variable-group">
+              {groupByType && groupName && (
+<div className="group-header">
+                  <span className="group-icon">{getTypeIcon(groupName)}</span>
+<span className="group-name">{groupName}</span>
                   <span className="group-count">({groupVariables.length})</span>
                 </div>
               )}

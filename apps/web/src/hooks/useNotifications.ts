@@ -140,7 +140,8 @@ export function useNotifications(options: UseNotificationsOptions = {}): UseNoti
     }
 
     const browserNotification = new Notification(notification.title, {
-      body: notification.message,\n      icon: '/icons/notification.png',
+      body: notification.message,
+      icon: '/icons/notification.png',
       tag: notification.id,
       requireInteraction: notification.priority === 'urgent',
       silent: false

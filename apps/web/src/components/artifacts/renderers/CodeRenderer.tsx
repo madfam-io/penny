@@ -21,7 +21,8 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
   onLoadStart,
   onLoadEnd,
   onAnnotate,
-  isFullscreen = false,\n  className = ''
+  isFullscreen = false,
+  className = ''
 }) => {
   const editorRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
@@ -41,7 +42,8 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
     
     // Simulate syntax highlighting load
     const timer = setTimeout(() => {
-      setTotalLines(code.split('\n').length);
+      setTotalLines(code.split('
+').length);
       setLoading(false);
       onLoadEnd?.();
     }, 100);
@@ -99,7 +101,9 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
     if (onAnnotate) {
       onAnnotate({
         type: 'line',
-        line: lineNumber,\n        code: code.split('\n')[lineNumber - 1]
+        line: lineNumber,
+        code: code.split('
+')[lineNumber - 1]
       });
     }
   }, [code, onAnnotate]);
@@ -113,20 +117,42 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
   const highlightSearchTerm = useCallback((text: string) => {
     if (!searchTerm) return text;
    
-   const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+   const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\]/g, '\$&')})`, 'gi');
     return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800">$1</mark>');
   }, [searchTerm]);
 
   const getLanguageIcon = (lang: string) => {
     const icons: { [key: string]: string } = {
       javascript: '🟨',
-      typescript: '🔷',\n      python: '🐍',\n      java: '☕',\n      cpp: '⚙️',\n      c: '⚙️',\n      rust: '🦀',\n      go: '🔵',\n      php: '🐘',\n      ruby: '💎',\n      swift: '🧡',\n      kotlin: '🟣',\n      scala: '🔴',\n      html: '🌐',\n      css: '🎨',\n      json: '📄',\n      xml: '📋',\n      yaml: '📝',\n      markdown: '📖',\n      sql: '🗃️',\n      bash: '💻',\n      powershell: '💻',\n      dockerfile: '🐳'
+      typescript: '🔷',
+      python: '🐍',
+      java: '☕',
+      cpp: '⚙️',
+      c: '⚙️',
+      rust: '🦀',
+      go: '🔵',
+      php: '🐘',
+      ruby: '💎',
+      swift: '🧡',
+      kotlin: '🟣',
+      scala: '🔴',
+      html: '🌐',
+      css: '🎨',
+      json: '📄',
+      xml: '📋',
+      yaml: '📝',
+      markdown: '📖',
+      sql: '🗃️',
+      bash: '💻',
+      powershell: '💻',
+      dockerfile: '🐳'
     };
     return icons[lang.toLowerCase()] || '📄';
   };
 
   const renderLineNumbers = () => {
-    const lines = code.split('\n');
+    const lines = code.split('
+');
     return lines.map((_, index) => (
       <div
         key={index + 1}
@@ -164,12 +190,15 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
   const containerClasses = [
     'code-renderer w-full h-full flex flex-col',
     isDarkMode ? 'dark bg-gray-900 text-gray-100' : 'bg-white text-gray-900',
-    className\n  ].filter(Boolean).join(' ');
+    className
+  ].filter(Boolean).join(' ');
 
   if (loading) {
     return (
-      <div className={containerClasses}>\n        <div className="flex-1 flex items-center justify-center">
-          <div className="flex items-center space-x-2">\n            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+      <div className={containerClasses}>
+<div className="flex-1 flex items-center justify-center">
+          <div className="flex items-center space-x-2">
+<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
             <span className="text-sm">Loading code...</span>
           </div>
         </div>
@@ -181,10 +210,12 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
     <div className={containerClasses}>
       {/* Code header */}
       <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-        <div className="flex items-center space-x-2">\n          <span className="text-lg">{getLanguageIcon(language)}</span>
+        <div className="flex items-center space-x-2">
+<span className="text-lg">{getLanguageIcon(language)}</span>
           <span className="font-medium">{language}</span>
           {filename && (
-            <>\n              <span className="text-gray-400">•</span>
+            <>
+<span className="text-gray-400">•</span>
               <span className="text-sm text-gray-600 dark:text-gray-400">{filename}</span>
             </>
           )}
@@ -202,7 +233,8 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
               onClick={() => setSearchVisible(!searchVisible)}
               className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
               title="Search (Ctrl+F)"
-            >\n              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            >
+<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </button>
@@ -214,10 +246,12 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
             className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 relative"
             title="Copy to clipboard"
           >
-            {copied ? (\n              <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {copied ? (
+<svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-            ) : (\n              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            ) : (
+<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
             )}
@@ -226,9 +260,12 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
       </div>
 
       {/* Search bar */}
-      {searchVisible && (\n        <div className="p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+      {searchVisible && (
+<div className="p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
           <div className="flex items-center space-x-2">
-            <input\n              type="text"\n              placeholder="Search in code..."
+            <input
+              type="text"
+              placeholder="Search in code..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="flex-1 px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
@@ -240,7 +277,8 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
                 setSearchTerm('');
               }}
               className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
-            >\n              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            >
+<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -251,7 +289,8 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
       {/* Code content */}
       <div className="flex-1 flex overflow-hidden">
         {/* Line numbers */}
-        {config.showLineNumbers && (\n          <div className="flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 overflow-hidden">
+        {config.showLineNumbers && (
+<div className="flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 overflow-hidden">
             {renderLineNumbers()}
           </div>
         )}

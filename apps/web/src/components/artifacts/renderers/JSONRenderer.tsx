@@ -28,7 +28,8 @@ const JSONRenderer: React.FC<JSONRendererProps> = ({
   interactive = true,
   onError,
   onLoadStart,
-  onLoadEnd,\n  className = ''
+  onLoadEnd,
+  className = ''
 }) => {
   const [expandedPaths, setExpandedPaths] = useState<Set<string>>(new Set(['/']));
   const [searchTerm, setSearchTerm] = useState('');
@@ -224,11 +225,15 @@ const JSONRenderer: React.FC<JSONRendererProps> = ({
 
   if (!jsonData) {
     return (
-      <div className={containerClasses}>\n        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center">\n            <div className="text-red-500 mb-2">
-              <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      <div className={containerClasses}>
+<div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+<div className="text-red-500 mb-2">
+              <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-            </div>\n            <h3 className="text-lg font-medium mb-2">Invalid JSON</h3>
+            </div>
+<h3 className="text-lg font-medium mb-2">Invalid JSON</h3>
             <p className="text-sm text-gray-600">Unable to parse JSON content</p>
           </div>
         </div>
@@ -268,11 +273,14 @@ const JSONRenderer: React.FC<JSONRendererProps> = ({
           {/* Search */}
           {viewMode === 'tree' && (
             <div className="relative">
-              <input\n                type="text"\n                placeholder="Search JSON..."
+              <input
+                type="text"
+                placeholder="Search JSON..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-8 pr-4 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
-              />\n              <svg className="absolute left-2 top-1.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              />
+<svg className="absolute left-2 top-1.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
@@ -303,7 +311,8 @@ const JSONRenderer: React.FC<JSONRendererProps> = ({
             onClick={() => handleCopy(jsonData)}
             className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
             title="Copy JSON"
-          >\n            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          >
+<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
           </button>
@@ -312,13 +321,17 @@ const JSONRenderer: React.FC<JSONRendererProps> = ({
 
       {/* Content */}
       <div className="flex-1 overflow-auto">
-        {viewMode === 'tree' ? (\n          <div className="p-4">
-            {filteredTree.length === 0 ? (\n              <div className="text-center py-8 text-gray-500">
+        {viewMode === 'tree' ? (
+<div className="p-4">
+            {filteredTree.length === 0 ? (
+<div className="text-center py-8 text-gray-500">
                 {searchTerm ? 'No matches found' : 'No data to display'}
               </div>
-            ) : (\n              <div className="space-y-1">
+            ) : (
+<div className="space-y-1">
                 {filteredTree.map((node, index) => (
-                  <div\n                    key={`${node.path}-${index}`}
+                  <div
+                    key={`${node.path}-${index}`}
                     className={`flex items-center hover:bg-gray-100 dark:hover:bg-gray-800 rounded px-2 py-1 cursor-pointer ${
                       selectedPath === node.path ? 'bg-blue-100 dark:bg-blue-900/30' : ''
                     }`}
@@ -333,14 +346,17 @@ const JSONRenderer: React.FC<JSONRendererProps> = ({
                             expandedPaths.has(node.path) ? 'rotate-90' : ''
                           }`}
                           fill="none"
-                          stroke="currentColor"\n                          viewBox="0 0 24 24"
-                        >\n                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       )}
                     </div>
 
                     {/* Key */}
-                    {node.key && (\n                      <span className="font-medium text-gray-700 dark:text-gray-300 mr-2">
+                    {node.key && (
+<span className="font-medium text-gray-700 dark:text-gray-300 mr-2">
                         {node.key}:
                       </span>
                     )}
@@ -363,7 +379,8 @@ const JSONRenderer: React.FC<JSONRendererProps> = ({
                       }}
                       className="ml-auto p-1 opacity-0 group-hover:opacity-100 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
                       title="Copy value"
-                    >\n                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    >
+<svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                       </svg>
                     </button>
@@ -372,7 +389,8 @@ const JSONRenderer: React.FC<JSONRendererProps> = ({
               </div>
             )}
           </div>
-        ) : (\n          <pre className="p-4 text-sm font-mono whitespace-pre-wrap overflow-auto">
+        ) : (
+<pre className="p-4 text-sm font-mono whitespace-pre-wrap overflow-auto">
             {JSON.stringify(jsonData, null, 2)}
           </pre>
         )}
@@ -392,7 +410,8 @@ const JSONRenderer: React.FC<JSONRendererProps> = ({
           )}
         </div>
         
-        {selectedPath && (\n          <span className="font-mono text-gray-600 dark:text-gray-400">
+        {selectedPath && (
+<span className="font-mono text-gray-600 dark:text-gray-400">
             Path: {selectedPath}
           </span>
         )}

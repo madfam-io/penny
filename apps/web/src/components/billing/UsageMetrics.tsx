@@ -161,7 +161,8 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
     <div className="space-y-6">
       {/* Period Selector */}
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Usage Metrics</h2>\n        <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+        <h2 className="text-2xl font-bold text-gray-900">Usage Metrics</h2>
+<div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
           {[
             { id: 'hour', label: 'Last Hour' },
             { id: 'day', label: 'Today' },
@@ -202,23 +203,27 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
              <CardContent className="space-y-4">
                 {/* Usage Numbers */}
                 <div className="flex justify-between items-end">
-                  <div>\n                    <div className="text-2xl font-bold">
+                  <div>
+<div className="text-2xl font-bold">
                       {usage.usage_type === 'storage' 
                         ? formatBytes(usage.current_usage)
                         : formatNumber(usage.current_usage)
                       }
-                    </div>\n                    <div className="text-sm text-gray-600">
+                    </div>
+<div className="text-sm text-gray-600">
                       of {usage.limit === -1 ? 'unlimited' : 
                         usage.usage_type === 'storage' 
                           ? formatBytes(usage.limit)
                           : formatNumber(usage.limit)
                       }
                     </div>
-                  </div>\n                  <div className="text-right">
+                  </div>
+<div className="text-right">
                     <div className="text-sm font-semibold">
                       {Math.min(usage.percentage_used, 100).toFixed(1)}%
                     </div>
-                    {usage.limit_exceeded && (\n                      <Badge variant="destructive" className="text-xs">
+                    {usage.limit_exceeded && (
+<Badge variant="destructive" className="text-xs">
                         Over limit
                       </Badge>
                     )}
@@ -231,7 +236,8 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
                     value={Math.min(usage.percentage_used, 100)}
                    className="h-3"
                   />
-                  {usage.overage > 0 && (\n                    <div className="flex items-center space-x-1 text-sm text-red-600">
+                  {usage.overage > 0 && (
+<div className="flex items-center space-x-1 text-sm text-red-600">
                       <AlertTriangle className="h-4 w-4" />
                       <span>
                         {formatNumber(usage.overage)} units over limit
@@ -241,13 +247,17 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
                 </div>
 
                 {/* Trend Information */}
-                {trend && (\n                  <div className="pt-2 border-t text-sm text-gray-600">
+                {trend && (
+<div className="pt-2 border-t text-sm text-gray-600">
                     <div className="flex justify-between">
-                      <span>Daily average:</span>\n                      <span className="font-medium">
+                      <span>Daily average:</span>
+<span className="font-medium">
                         {formatNumber(trend.average_daily_usage)}
                       </span>
-                    </div>\n                    <div className="flex justify-between">
-                      <span>Peak usage:</span>\n                      <span className="font-medium">
+                    </div>
+<div className="flex justify-between">
+                      <span>Peak usage:</span>
+<span className="font-medium">
                         {formatNumber(trend.peak_usage)}
                       </span>
                     </div>
@@ -268,13 +278,17 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
               Track your usage patterns over time
             </CardDescription>
           </CardHeader>
-          <CardContent>\n            <div className="space-y-6">
-              {trends.slice(0, 3).map((trend) => (\n                <div key={trend.usage_type} className="space-y-3">
-                  <div className="flex items-center justify-between">\n                    <div className="flex items-center space-x-2">
+          <CardContent>
+<div className="space-y-6">
+              {trends.slice(0, 3).map((trend) => (
+<div key={trend.usage_type} className="space-y-3">
+                  <div className="flex items-center justify-between">
+<div className="flex items-center space-x-2">
                       {getUsageIcon(trend.usage_type)}
                       <h4 className="font-medium">{formatUsageType(trend.usage_type)}</h4>
                       {getTrendIcon(trend.trend_direction)}
-                    </div>\n                    <div className="text-sm text-gray-600">
+                    </div>
+<div className="text-sm text-gray-600">
                       Total: {formatNumber(trend.total_usage)}
                     </div>
                   </div>
@@ -288,7 +302,8 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
                       return (
                         <div
                           key={index}
-                          className="flex-1 bg-blue-200 rounded-t hover:bg-blue-300 transition-colors cursor-pointer"\n                          style={{ height: `${Math.max(height, 2)}%` }}
+                          className="flex-1 bg-blue-200 rounded-t hover:bg-blue-300 transition-colors cursor-pointer"
+                          style={{ height: `${Math.max(height, 2)}%` }}
                           title={`${new Date(day.date).toLocaleDateString()}: ${formatNumber(day.usage)}`}
                         />
                       );
@@ -307,27 +322,34 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
       )}
 
       {/* Usage Alerts */}
-      {usageData.some(u => u.limit_exceeded || u.percentage_used >= 90) && (\n        <Card className="border-yellow-200 bg-yellow-50">
-          <CardHeader>\n            <CardTitle className="flex items-center text-yellow-800">
+      {usageData.some(u => u.limit_exceeded || u.percentage_used >= 90) && (
+<Card className="border-yellow-200 bg-yellow-50">
+          <CardHeader>
+<CardTitle className="flex items-center text-yellow-800">
               <AlertTriangle className="h-5 w-5 mr-2" />
               Usage Alerts
             </CardTitle>
-          </CardHeader>\n          <CardContent className="space-y-3">
+          </CardHeader>
+<CardContent className="space-y-3">
             {usageData
               .filter(u => u.limit_exceeded || u.percentage_used >= 90)
-              .map(usage => (\n                <div key={usage.usage_type} className="flex items-center justify-between p-3 bg-white rounded-lg">
+              .map(usage => (
+<div key={usage.usage_type} className="flex items-center justify-between p-3 bg-white rounded-lg">
                   <div className="flex items-center space-x-3">
                     {getUsageIcon(usage.usage_type)}
-                    <div>\n                      <div className="font-medium text-gray-900">
+                    <div>
+<div className="font-medium text-gray-900">
                         {formatUsageType(usage.usage_type)}
-                      </div>\n                      <div className="text-sm text-gray-600">
+                      </div>
+<div className="text-sm text-gray-600">
                         {usage.limit_exceeded
                          ? `Over limit by ${formatNumber(usage.overage)} units`
                           : `${usage.percentage_used.toFixed(1)}% of limit used`
                         }
                       </div>
                     </div>
-                  </div>\n                  <Button variant="outline" size="sm">
+                  </div>
+<Button variant="outline" size="sm">
                     Upgrade Plan
                   </Button>
                 </div>

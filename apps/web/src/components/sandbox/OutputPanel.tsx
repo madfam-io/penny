@@ -48,7 +48,9 @@ type OutputTab = 'output' | 'variables' | 'plots' | 'metrics';
 
 const OutputPanel: React.FC<OutputPanelProps> = ({
   output,
-  isStreaming = false,\n  className = '',\n  maxHeight = '400px',
+  isStreaming = false,
+  className = '',
+  maxHeight = '400px',
   showVariables = true,
   showPlots = true,
   showMetrics = true,
@@ -113,7 +115,8 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
               <div className="spinner" />
               <span>Executing code...</span>
             </div>
-          ) : (\n            <span className="text-gray-500">No output yet. Run some code to see results here.</span>
+          ) : (
+<span className="text-gray-500">No output yet. Run some code to see results here.</span>
           )}
         </div>
       );
@@ -121,19 +124,24 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
 
     return (
       <div className="output-content">
-        {hasStdout && (\n          <div className="stdout-section">
+        {hasStdout && (
+<div className="stdout-section">
             <pre className="output-text">{output.stdout}</pre>
           </div>
         )}
         
-        {hasStderr && (\n          <div className="stderr-section">
-            <div className="stderr-header">\n              <span className="error-icon">⚠️</span>
+        {hasStderr && (
+<div className="stderr-section">
+            <div className="stderr-header">
+<span className="error-icon">⚠️</span>
               <span>Errors/Warnings</span>
-            </div>\n            <pre className="output-text error">{output.stderr}</pre>
+            </div>
+<pre className="output-text error">{output.stderr}</pre>
           </div>
         )}
         
-        {isStreaming && (\n          <div className="streaming-cursor">
+        {isStreaming && (
+<div className="streaming-cursor">
             <span className="blinking-cursor">|</span>
           </div>
         )}
@@ -154,9 +162,14 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
 
     return (
       <div className="variables-list">
-        {variables.map(([name, data]) => (\n          <div key={name} className="variable-item">
-            <div className="variable-header">\n              <span className="variable-name">{name}</span>
-              <span className="variable-type">{data.type}</span>\n              {data.shape && (\n                <span className="variable-shape">\n                  {Array.isArray(data.shape) ? `(${data.shape.join(', ')})` : data.shape}
+        {variables.map(([name, data]) => (
+<div key={name} className="variable-item">
+            <div className="variable-header">
+<span className="variable-name">{name}</span>
+              <span className="variable-type">{data.type}</span>
+{data.shape && (
+<span className="variable-shape">
+{Array.isArray(data.shape) ? `(${data.shape.join(', ')})` : data.shape}
                 </span>
               )}
               {data.size && (
@@ -167,13 +180,17 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
             </div>
            
            <div className="variable-content">
-              {data.preview ? (\n                <pre className="variable-preview">{data.preview}</pre>
-              ) : data.serializable ? (\n                <pre className="variable-value">{JSON.stringify(data.value, null, 2)}</pre>
-              ) : (\n                <span className="variable-repr">{String(data.value).slice(0, 200)}...</span>
+              {data.preview ? (
+<pre className="variable-preview">{data.preview}</pre>
+              ) : data.serializable ? (
+<pre className="variable-value">{JSON.stringify(data.value, null, 2)}</pre>
+              ) : (
+<span className="variable-repr">{String(data.value).slice(0, 200)}...</span>
               )}
             </div>
             
-            {data.truncated && (\n              <div className="truncated-indicator">
+            {data.truncated && (
+<div className="truncated-indicator">
                 <span>... (truncated)</span>
               </div>
             )}
@@ -194,17 +211,22 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
 
     return (
       <div className="plots-grid">
-        {output.plots.map((plot, index) => (\n          <div key={plot.id} className="plot-item">
-            <div className="plot-header">\n              <span className="plot-title">\n                {plot.metadata?.title || `Plot ${index + 1}`}
+        {output.plots.map((plot, index) => (
+<div key={plot.id} className="plot-item">
+            <div className="plot-header">
+<span className="plot-title">
+{plot.metadata?.title || `Plot ${index + 1}`}
               </span>
               <div className="plot-actions">
-                <button\n                  className="btn-icon"
+                <button
+                  className="btn-icon"
                   onClick={() => downloadPlot(plot)}
                   title="Download plot"
                 >
                   💾
                 </button>
-                <button\n                  className="btn-icon"
+                <button
+                  className="btn-icon"
                   onClick={() => copyPlotToClipboard(plot)}
                   title="Copy to clipboard"
                 >
@@ -221,7 +243,8 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
                   title={plot.metadata?.title}
                 />
               ) : (
-                <img\n                  src={`data:image/${plot.format};base64,${plot.data}`}
+                <img
+                  src={`data:image/${plot.format};base64,${plot.data}`}
                   alt={plot.metadata?.title}
                   className="plot-image"
                 />
@@ -251,32 +274,41 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
 
     return (
       <div className="metrics-grid">
-        {output.executionTime !== undefined && (\n          <div className="metric-item">
-            <span className="metric-label">Execution Time</span>\n            <span className="metric-value">{formatDuration(output.executionTime)}</span>
+        {output.executionTime !== undefined && (
+<div className="metric-item">
+            <span className="metric-label">Execution Time</span>
+<span className="metric-value">{formatDuration(output.executionTime)}</span>
           </div>
         )}
         
-        {output.timestamp && (\n          <div className="metric-item">
-            <span className="metric-label">Executed</span>\n            <span className="metric-value">
+        {output.timestamp && (
+<div className="metric-item">
+            <span className="metric-label">Executed</span>
+<span className="metric-value">
               {formatDistanceToNow(output.timestamp, { addSuffix: true })}
             </span>
           </div>
         )}
        
        <div className="metric-item">
-          <span className="metric-label">Output Lines</span>\n          <span className="metric-value">\n            {(output.stdout?.split('
-').length || 0) + (output.stderr?.split('\n').length || 0)}
+          <span className="metric-label">Output Lines</span>
+<span className="metric-value">
+{(output.stdout?.split('
+').length || 0) + (output.stderr?.split('
+').length || 0)}
           </span>
         </div>
        
        <div className="metric-item">
-          <span className="metric-label">Variables</span>\n          <span className="metric-value">
+          <span className="metric-label">Variables</span>
+<span className="metric-value">
             {Object.keys(output.variables || {}).length}
           </span>
         </div>
        
        <div className="metric-item">
-          <span className="metric-label">Plots</span>\n          <span className="metric-value">
+          <span className="metric-label">Plots</span>
+<span className="metric-value">
             {output.plots?.length || 0}
           </span>
         </div>
@@ -331,7 +363,8 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
     <div className={`output-panel ${className} ${isExpanded ? 'expanded' : ''}`}>
       <div className="output-header">
         <div className="output-tabs">
-          <button\n            className={`tab-button ${activeTab === 'output' ? 'active' : ''}`}
+          <button
+            className={`tab-button ${activeTab === 'output' ? 'active' : ''}`}
             onClick={() => setActiveTab('output')}
           >
             Output
@@ -341,7 +374,8 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
           </button>
           
           {showVariables && (
-            <button\n              className={`tab-button ${activeTab === 'variables' ? 'active' : ''}`}
+            <button
+              className={`tab-button ${activeTab === 'variables' ? 'active' : ''}`}
               onClick={() => setActiveTab('variables')}
             >
               Variables
@@ -352,7 +386,8 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
           )}
           
           {showPlots && (
-            <button\n              className={`tab-button ${activeTab === 'plots' ? 'active' : ''}`}
+            <button
+              className={`tab-button ${activeTab === 'plots' ? 'active' : ''}`}
               onClick={() => setActiveTab('plots')}
             >
               Plots
@@ -363,7 +398,8 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
           )}
           
           {showMetrics && (
-            <button\n              className={`tab-button ${activeTab === 'metrics' ? 'active' : ''}`}
+            <button
+              className={`tab-button ${activeTab === 'metrics' ? 'active' : ''}`}
               onClick={() => setActiveTab('metrics')}
             >
               Metrics
@@ -376,24 +412,28 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
             className="btn-icon"
             onClick={() => setIsExpanded(!isExpanded)}
             title={isExpanded ? 'Collapse' : 'Expand'}
-          >\n            {isExpanded ? '⏷' : '⏶'}
+          >
+{isExpanded ? '⏷' : '⏶'}
           </button>
           
           {activeTab === 'output' && (
             <>
-              <button\n                className="btn-icon"
+              <button
+                className="btn-icon"
                 onClick={clearOutput}
                 title="Clear output"
               >
                 🗑️
               </button>
-              <button\n                className="btn-icon"
+              <button
+                className="btn-icon"
                 onClick={() => copyToClipboard(output.stdout + output.stderr)}
                 title="Copy to clipboard"
               >
                 📋
               </button>
-              <button\n                className="btn-icon"
+              <button
+                className="btn-icon"
                 onClick={downloadOutput}
                 title="Download output"
               >

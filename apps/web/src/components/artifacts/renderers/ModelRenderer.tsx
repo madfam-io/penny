@@ -17,7 +17,8 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({
   interactive = true,
   onError,
   onLoadStart,
-  onLoadEnd,\n  className = ''
+  onLoadEnd,
+  className = ''
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [loading, setLoading] = useState(true);
@@ -80,7 +81,8 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({
     canvas.height = rect.height * window.devicePixelRatio;
     ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
-    // Clear canvas\n    ctx.fillStyle = isDarkMode ? '#1f2937' : '#f3f4f6';
+    // Clear canvas
+    ctx.fillStyle = isDarkMode ? '#1f2937' : '#f3f4f6';
     ctx.fillRect(0, 0, rect.width, rect.height);
 
     // Draw mock 3D object (cube)
@@ -127,7 +129,8 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({
       ctx.fillStyle = gradient;
       ctx.fillRect(-size/2, -size/2, size, size);
       
-      // Add some depth\n      ctx.fillStyle = isDarkMode ? '#312e81' : '#1e1b4b';
+      // Add some depth
+      ctx.fillStyle = isDarkMode ? '#312e81' : '#1e1b4b';
       const offset = size * 0.2;
       ctx.beginPath();
       ctx.moveTo(size/2, -size/2);
@@ -199,7 +202,8 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({
   const containerClasses = [
     'model-renderer w-full h-full flex flex-col',
     isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900',
-    className\n  ].filter(Boolean).join(' ');
+    className
+  ].filter(Boolean).join(' ');
 
   return (
     <div className={containerClasses}>
@@ -249,7 +253,8 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({
             onClick={() => setShowControls(!showControls)}
             className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
             title="Toggle controls"
-          >\n            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          >
+<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
             </svg>
           </button>
@@ -258,8 +263,10 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({
 
       {/* 3D Viewer */}
       <div className="flex-1 relative overflow-hidden">
-        {loading && (\n          <div className="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-gray-900/80 z-10">
-            <div className="flex items-center space-x-2">\n              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+        {loading && (
+<div className="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-gray-900/80 z-10">
+            <div className="flex items-center space-x-2">
+<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
               <span className="text-sm">Loading 3D model...</span>
             </div>
           </div>
@@ -272,18 +279,23 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({
             onMouseDown={handleMouseDown}
             onWheel={handleWheel}
           />
-        ) : (\n          <div className="flex items-center justify-center h-full">
-            <div className="text-center">\n              <div className="text-gray-400 mb-2">
-                <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+        ) : (
+<div className="flex items-center justify-center h-full">
+            <div className="text-center">
+<div className="text-gray-400 mb-2">
+                <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                 </svg>
-              </div>\n              <h3 className="text-lg font-medium mb-2">No 3D Model to Display</h3>
+              </div>
+<h3 className="text-lg font-medium mb-2">No 3D Model to Display</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">3D model content is not available</p>
             </div>
           </div>
         )}
 
         {/* Control instructions */}
-        {showControls && interactive && !loading && modelUrl && (\n          <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs p-3 rounded">
+        {showControls && interactive && !loading && modelUrl && (
+<div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs p-3 rounded">
             <div className="space-y-1">
               <div>• Click and drag to rotate</div>
               <div>• Scroll to zoom</div>
@@ -295,9 +307,11 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({
 
       {/* Model information */}
       <div className="p-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 text-sm">
-        <div className="flex items-center justify-between">\n          <div className="flex items-center space-x-4">
+        <div className="flex items-center justify-between">
+<div className="flex items-center space-x-4">
             <span>Model: {artifact.title}</span>
-            {artifact.metadata?.format && (\n              <span className="text-gray-600 dark:text-gray-400">
+            {artifact.metadata?.format && (
+<span className="text-gray-600 dark:text-gray-400">
                 Format: {artifact.metadata.format}
               </span>
             )}

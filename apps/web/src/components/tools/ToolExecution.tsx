@@ -65,10 +65,12 @@ export const ToolExecution: React.FC<ToolExecutionProps> = ({
 
   return (
     <div className="space-y-6">
-      <div className="border-b border-gray-200 pb-4">\n        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+      <div className="border-b border-gray-200 pb-4">
+<h3 className="text-lg font-semibold text-gray-900 mb-2">
           Execute {tool.displayName}
         </h3>
-        {tool.config?.cost && (\n          <p className="text-sm text-orange-600">
+        {tool.config?.cost && (
+<p className="text-sm text-orange-600">
             Cost: {tool.config.cost} credits
           </p>
         )}
@@ -76,14 +78,16 @@ export const ToolExecution: React.FC<ToolExecutionProps> = ({
 
       {!executing ? (
         <ToolForm tool={tool} onSubmit={handleExecute} />
-      ) : (\n        <div className="space-y-4">
+      ) : (
+<div className="space-y-4">
           <div className="flex items-center space-x-3">
             <LoadingSpinner />
             <span>Executing tool...</span>
           </div>
          
          <div className="bg-gray-50 rounded-lg p-4 max-h-40 overflow-y-auto">
-            {logs.map((log, index) => (\n              <div key={index} className="text-sm text-gray-700">
+            {logs.map((log, index) => (
+<div key={index} className="text-sm text-gray-700">
                 {log}
               </div>
             ))}
@@ -91,10 +95,13 @@ export const ToolExecution: React.FC<ToolExecutionProps> = ({
         </div>
       )}
 
-      {error && (\n        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <div className="flex items-center space-x-2">\n            <AlertCircle className="text-red-500" size={20} />
+      {error && (
+<div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          <div className="flex items-center space-x-2">
+<AlertCircle className="text-red-500" size={20} />
             <span className="text-red-800 font-medium">Execution Error</span>
-          </div>\n          <p className="text-red-700 mt-2">{error}</p>
+          </div>
+<p className="text-red-700 mt-2">{error}</p>
         </div>
       )}
 

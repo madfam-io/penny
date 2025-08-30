@@ -26,15 +26,19 @@ export const ToolCard: React.FC<ToolCardProps> = ({
     <div className={classes}>
       <div className={viewMode === 'grid' ? '' : 'flex-shrink-0'}>
         <div className="flex items-center space-x-3 mb-4">
-          <span className="text-2xl">{tool.icon}</span>\n          <div className="flex-1">
-            <div className="flex items-center space-x-2">\n              <h3 className="font-semibold text-gray-900">{tool.displayName}</h3>
+          <span className="text-2xl">{tool.icon}</span>
+<div className="flex-1">
+            <div className="flex items-center space-x-2">
+<h3 className="font-semibold text-gray-900">{tool.displayName}</h3>
               {tool.featured && <Star size={16} className="text-yellow-500 fill-current" />}
-            </div>\n            <p className="text-sm text-gray-600">{tool.category} • v{tool.version}</p>
+            </div>
+<p className="text-sm text-gray-600">{tool.category} • v{tool.version}</p>
           </div>
         </div>
       </div>
 
-      <div className={viewMode === 'grid' ? '' : 'flex-1'}>\n        <p className="text-gray-700 mb-4 line-clamp-3">{tool.description}</p>
+      <div className={viewMode === 'grid' ? '' : 'flex-1'}>
+<p className="text-gray-700 mb-4 line-clamp-3">{tool.description}</p>
 
         <div className="flex flex-wrap gap-2 mb-4">
           {tool.tags.slice(0, 3).map((tag: string) => (
@@ -49,7 +53,8 @@ export const ToolCard: React.FC<ToolCardProps> = ({
 
         <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
           <span>by {tool.author}</span>
-          {tool.metadata?.usageCount && (\n            <div className="flex items-center space-x-1">
+          {tool.metadata?.usageCount && (
+<div className="flex items-center space-x-1">
               <Users size={14} />
               <span>{tool.metadata.usageCount}</span>
             </div>

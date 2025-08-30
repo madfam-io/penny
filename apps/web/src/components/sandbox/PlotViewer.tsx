@@ -29,11 +29,13 @@ interface PlotData {
 }
 
 const PlotViewer: React.FC<PlotViewerProps> = ({
-  plots,\n  className = '',
+  plots,
+  className = '',
   onPlotSelect,
   onPlotDelete,
   onPlotExport,
-  showThumbnails = true,\n  maxHeight = '600px',
+  showThumbnails = true,
+  maxHeight = '600px',
   allowFullscreen = true,
   enableZoom = true
 }) => {
@@ -72,7 +74,8 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
             setSelectedPlotIndex(selectedPlotIndex + 1);
           }
           break;
-        case '+':\n        case '=':
+        case '+':
+        case '=':
           if (enableZoom) {
             setZoomLevel(prev => Math.min(prev * 1.2, 5));
           }
@@ -163,7 +166,8 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
   const renderPlotContent = (plot: PlotData, isMain: boolean = false) => {
     const imgStyle: React.CSSProperties = {
       maxWidth: '100%',
-      maxHeight: isMain ? maxHeight : '100px',\n      transform: isMain ? `scale(${zoomLevel}) translate(${panPosition.x / zoomLevel}px, ${panPosition.y / zoomLevel}px)` : undefined,
+      maxHeight: isMain ? maxHeight : '100px',
+      transform: isMain ? `scale(${zoomLevel}) translate(${panPosition.x / zoomLevel}px, ${panPosition.y / zoomLevel}px)` : undefined,
       cursor: enableZoom && isMain && zoomLevel > 1 ? 'grab' : 'default',
       transition: isDragging ? 'none' : 'transform 0.2s ease'
     };
@@ -177,7 +181,8 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
           style={{
             width: '100%',
             height: isMain ? maxHeight : '100px',
-            border: 'none',\n            borderRadius: '4px'
+            border: 'none',
+            borderRadius: '4px'
           }}
         />
       );
@@ -203,7 +208,8 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
       <div className={`plot-viewer empty ${className}`}>
         <div className="empty-state">
           <div className="empty-icon">📊</div>
-          <p>No plots to display</p>\n          <p className="empty-subtitle">Run code that generates matplotlib or plotly visualizations</p>
+          <p>No plots to display</p>
+<p className="empty-subtitle">Run code that generates matplotlib or plotly visualizations</p>
         </div>
        
        <style jsx>{`
@@ -238,34 +244,43 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
     <>
       <div className={`plot-viewer ${className}`}>
         <div className="plot-header">
-          <div className="plot-info">\n            <h3 className="plot-title">\n              {selectedPlot?.metadata.title || `Plot ${selectedPlotIndex + 1}`}
+          <div className="plot-info">
+<h3 className="plot-title">
+{selectedPlot?.metadata.title || `Plot ${selectedPlotIndex + 1}`}
             </h3>
             <div className="plot-metadata">
-              <span className="plot-format">{selectedPlot?.format.toUpperCase()}</span>\n              <span className="plot-dimensions">
+              <span className="plot-format">{selectedPlot?.format.toUpperCase()}</span>
+<span className="plot-dimensions">
                 {selectedPlot?.metadata.width}×{selectedPlot?.metadata.height}
               </span>
-              {selectedPlot?.metadata.dpi && (\n                <span className="plot-dpi">{selectedPlot.metadata.dpi} DPI</span>
+              {selectedPlot?.metadata.dpi && (
+<span className="plot-dpi">{selectedPlot.metadata.dpi} DPI</span>
               )}
             </div>
           </div>
          
          <div className="plot-controls">
-            {enableZoom && (\n              <div className="zoom-controls">
-                <button\n                  className="control-btn"
+            {enableZoom && (
+<div className="zoom-controls">
+                <button
+                  className="control-btn"
                   onClick={() => setZoomLevel(prev => Math.max(prev / 1.2, 0.2))}
                   disabled={zoomLevel <= 0.2}
                   title="Zoom out"
                 >
                   🔍-
-                </button>\n                <span className="zoom-level">{Math.round(zoomLevel * 100)}%</span>
-                <button\n                  className="control-btn"
+                </button>
+<span className="zoom-level">{Math.round(zoomLevel * 100)}%</span>
+                <button
+                  className="control-btn"
                   onClick={() => setZoomLevel(prev => Math.min(prev * 1.2, 5))}
                   disabled={zoomLevel >= 5}
                   title="Zoom in"
                 >
                   🔍+
                 </button>
-                <button\n                  className="control-btn"
+                <button
+                  className="control-btn"
                   onClick={() => {
                     setZoomLevel(1);
                     setPanPosition({ x: 0, y: 0 });
@@ -278,20 +293,23 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
             )}
            
            <div className="plot-actions">
-              <button\n                className="control-btn"
+              <button
+                className="control-btn"
                 onClick={() => handleDownload(selectedPlot)}
                 title="Download plot"
               >
                 💾
               </button>
-              <button\n                className="control-btn"
+              <button
+                className="control-btn"
                 onClick={() => handleCopyToClipboard(selectedPlot)}
                 title="Copy to clipboard"
               >
                 📋
               </button>
               {onPlotExport && (
-                <button\n                  className="control-btn"
+                <button
+                  className="control-btn"
                   onClick={() => onPlotExport(selectedPlot, selectedPlot.format)}
                   title="Export plot"
                 >
@@ -299,7 +317,8 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
               </button>
               )}
               {allowFullscreen && (
-                <button\n                  className="control-btn"
+                <button
+                  className="control-btn"
                   onClick={() => setIsFullscreen(true)}
                   title="Fullscreen (ESC to exit)"
                 >
@@ -307,7 +326,8 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
                 </button>
               )}
               {onPlotDelete && (
-                <button\n                  className="control-btn delete"
+                <button
+                  className="control-btn delete"
                   onClick={() => onPlotDelete(selectedPlotIndex)}
                   title="Delete plot"
                 >
@@ -324,10 +344,12 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
           </div>
         </div>
         
-        {showThumbnails && plots.length > 1 && (\n          <div className="plot-thumbnails">
+        {showThumbnails && plots.length > 1 && (
+<div className="plot-thumbnails">
             <div className="thumbnails-header">
               <span>Plots ({plots.length})</span>
-            </div>\n            <div className="thumbnails-list">
+            </div>
+<div className="thumbnails-list">
               {plots.map((plot, index) => (
                 <div
                   key={plot.id}
@@ -336,8 +358,10 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
                 >
                   <div className="thumbnail-image">
                     {renderPlotContent(plot, false)}
-                  </div>\n                  <div className="thumbnail-info">
-                    <span className="thumbnail-title">\n                      {plot.metadata.title || `Plot ${index + 1}`}
+                  </div>
+<div className="thumbnail-info">
+                    <span className="thumbnail-title">
+{plot.metadata.title || `Plot ${index + 1}`}
                     </span>
                     <span className="thumbnail-format">{plot.format}</span>
                   </div>
@@ -347,16 +371,20 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
           </div>
         )}
         
-        {plots.length > 1 && (\n          <div className="plot-navigation">
-            <button\n              className="nav-btn"
+        {plots.length > 1 && (
+<div className="plot-navigation">
+            <button
+              className="nav-btn"
               onClick={() => handlePlotSelect(selectedPlotIndex - 1)}
               disabled={selectedPlotIndex === 0}
             >
               ← Previous
-            </button>\n            <span className="plot-counter">
+            </button>
+<span className="plot-counter">
               {selectedPlotIndex + 1} of {plots.length}
             </span>
-            <button\n              className="nav-btn"
+            <button
+              className="nav-btn"
               onClick={() => handlePlotSelect(selectedPlotIndex + 1)}
               disabled={selectedPlotIndex === plots.length - 1}
             >
@@ -367,24 +395,32 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
       </div>
 
       {/* Fullscreen overlay */}
-      {isFullscreen && selectedPlot && (\n        <div className="fullscreen-overlay">
-          <div className="fullscreen-header">\n            <div className="fullscreen-title">\n              {selectedPlot.metadata.title || `Plot ${selectedPlotIndex + 1}`}
+      {isFullscreen && selectedPlot && (
+<div className="fullscreen-overlay">
+          <div className="fullscreen-header">
+<div className="fullscreen-title">
+{selectedPlot.metadata.title || `Plot ${selectedPlotIndex + 1}`}
             </div>
             <div className="fullscreen-controls">
-              {enableZoom && (\n                <div className="zoom-controls">
-                  <button\n                    className="control-btn"
+              {enableZoom && (
+<div className="zoom-controls">
+                  <button
+                    className="control-btn"
                     onClick={() => setZoomLevel(prev => Math.max(prev / 1.2, 0.2))}
                     disabled={zoomLevel <= 0.2}
                   >
                     🔍-
-                  </button>\n                  <span className="zoom-level">{Math.round(zoomLevel * 100)}%</span>
-                  <button\n                    className="control-btn"
+                  </button>
+<span className="zoom-level">{Math.round(zoomLevel * 100)}%</span>
+                  <button
+                    className="control-btn"
                     onClick={() => setZoomLevel(prev => Math.min(prev * 1.2, 5))}
                     disabled={zoomLevel >= 5}
                   >
                     🔍+
                   </button>
-                  <button\n                    className="control-btn"
+                  <button
+                    className="control-btn"
                     onClick={() => {
                       setZoomLevel(1);
                       setPanPosition({ x: 0, y: 0 });
@@ -394,7 +430,8 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
                   </button>
                 </div>
               )}
-              <button\n                className="control-btn close"
+              <button
+                className="control-btn close"
                 onClick={() => setIsFullscreen(false)}
               >
                 ✕ Close
@@ -406,16 +443,20 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
             {renderPlotContent(selectedPlot, true)}
           </div>
           
-          {plots.length > 1 && (\n            <div className="fullscreen-navigation">
-              <button\n                className="nav-btn"
+          {plots.length > 1 && (
+<div className="fullscreen-navigation">
+              <button
+                className="nav-btn"
                 onClick={() => handlePlotSelect(selectedPlotIndex - 1)}
                 disabled={selectedPlotIndex === 0}
               >
                 ← Previous
-              </button>\n              <span className="plot-counter">
+              </button>
+<span className="plot-counter">
                 {selectedPlotIndex + 1} of {plots.length}
               </span>
-              <button\n                className="nav-btn"
+              <button
+                className="nav-btn"
                 onClick={() => handlePlotSelect(selectedPlotIndex + 1)}
                 disabled={selectedPlotIndex === plots.length - 1}
               >

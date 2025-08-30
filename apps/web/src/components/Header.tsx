@@ -33,25 +33,30 @@ export default function Header() {
                 setTheme(themes[nextIndex]);
               }}
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-            >\n              {theme === 'light' && <Sun className="h-5 w-5 text-gray-600 dark:text-gray-400" />}
+            >
+              {theme === 'light' && <Sun className="h-5 w-5 text-gray-600 dark:text-gray-400" />}
               {theme === 'dark' && <Moon className="h-5 w-5 text-gray-600 dark:text-gray-400" />}
-              {theme === 'system' && (\n                <Monitor className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+              {theme === 'system' && (
+                <Monitor className="h-5 w-5 text-gray-600 dark:text-gray-400" />
               )}
             </button>
           </div>
 
           {/* Notifications */}
           <button className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors relative">
-            <Bell className="h-5 w-5 text-gray-600 dark:text-gray-400" />\n            <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
+            <Bell className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+            <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
           </button>
 
           {/* User menu */}
           <button className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
             <div className="h-8 w-8 rounded-full bg-brand-500 flex items-center justify-center">
-              {user ? (\n                <span className="text-sm font-medium text-white">
+              {user ? (
+                <span className="text-sm font-medium text-white">
                   {user.name.charAt(0).toUpperCase()}
                 </span>
-              ) : (\n                <User className="h-5 w-5 text-white" />
+              ) : (
+                <User className="h-5 w-5 text-white" />
               )}
             </div>
           </button>

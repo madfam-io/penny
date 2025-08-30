@@ -194,7 +194,8 @@ export class ArtifactTransformer {
         tableData.columns.map((col: any) => {
           const value = row[col.key] || '';
           // Escape CSV values
-          if (typeof value === 'string' && (value.includes(',') || value.includes('"') || value.includes('\\n'))) {
+          if (typeof value === 'string' && (value.includes(',') || value.includes('"') || value.includes('\
+'))) {
             return `"${value.replace(/"/g, '""')}"`;
           }
           return value;
@@ -236,7 +237,8 @@ export class ArtifactTransformer {
         return this.toJSON(data, options);
       default:
         return {
-          success: false,\n          error: `Transformation from ${fromType} to ${toType} is not supported`,
+          success: false,
+          error: `Transformation from ${fromType} to ${toType} is not supported`,
           sourceType: fromType,
           targetType: toType
         };
@@ -353,7 +355,8 @@ export class ArtifactTransformer {
         config: {
           title: 'Data Visualization',
           xAxis: categoryKey ? { label: categoryKey, type: 'category' as const } : undefined,
-          yAxis: { label: numericKeys[0], type: 'value' as const },\n          colors: ['#3b82f6', '#ef4444', '#10b981', '#f59e0b'],
+          yAxis: { label: numericKeys[0], type: 'value' as const },
+          colors: ['#3b82f6', '#ef4444', '#10b981', '#f59e0b'],
           legend: true,
           tooltip: true,
           responsive: true,

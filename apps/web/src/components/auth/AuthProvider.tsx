@@ -7,7 +7,8 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: (failureCount, error: any) => {
-        // Don't retry on auth errors\n        if (error?.message?.includes('401') || error?.message?.includes('Unauthorized')) {
+        // Don't retry on auth errors
+        if (error?.message?.includes('401') || error?.message?.includes('Unauthorized')) {
           return false;
         }
         return failureCount < 3;

@@ -3,13 +3,16 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ArtifactViewer } from '../../components/ArtifactViewer';
 
-// Mock child components\njest.mock('../../components/artifacts/DashboardViewer', () => ({
+// Mock child components
+jest.mock('../../components/artifacts/DashboardViewer', () => ({
   DashboardViewer: ({ data }: any) => <div data-testid="dashboard-viewer">{JSON.stringify(data)}</div>,
 }));
-\njest.mock('../../components/artifacts/ChartViewer', () => ({
+
+jest.mock('../../components/artifacts/ChartViewer', () => ({
   ChartViewer: ({ data }: any) => <div data-testid="chart-viewer">{JSON.stringify(data)}</div>,
 }));
-\njest.mock('../../components/artifacts/TableViewer', () => ({
+
+jest.mock('../../components/artifacts/TableViewer', () => ({
   TableViewer: ({ data }: any) => <div data-testid="table-viewer">{JSON.stringify(data)}</div>,
 }));
 

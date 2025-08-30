@@ -65,7 +65,8 @@ export function Modal({
       <div
        className="flex min-h-full items-center justify-center p-4 text-center sm:p-0"
         onClick={handleOverlayClick}
-      >\n        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+      >
+<div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         
         <div 
           className={cn(
@@ -74,15 +75,20 @@ export function Modal({
             className
           )}
         >
-          {(title || showCloseButton) && (\n            <div className="flex items-center justify-between mb-4">
-              {title && (\n                <h3 className="text-lg font-medium leading-6 text-gray-900">
+          {(title || showCloseButton) && (
+<div className="flex items-center justify-between mb-4">
+              {title && (
+<h3 className="text-lg font-medium leading-6 text-gray-900">
                   {title}
                 </h3>
               )}
               {showCloseButton && (
-                <button\n                  type="button"\n                  className="rounded-md bg-white text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                <button
+                  type="button"
+                  className="rounded-md bg-white text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   onClick={onClose}
-                >\n                  <span className="sr-only">Close</span>
+                >
+<span className="sr-only">Close</span>
                   <X className="h-6 w-6" />
                 </button>
               )}

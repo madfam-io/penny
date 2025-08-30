@@ -22,7 +22,8 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
   onLoadStart,
   onLoadEnd,
   onAnnotate,
-  isFullscreen = false,\n  className = ''
+  isFullscreen = false,
+  className = ''
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const chartInstanceRef = useRef<any>(null);
@@ -52,7 +53,8 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
       canvas.height = rect.height * window.devicePixelRatio;
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
-      // Clear canvas\n      ctx.fillStyle = isDarkMode ? '#1f2937' : '#ffffff';
+      // Clear canvas
+      ctx.fillStyle = isDarkMode ? '#1f2937' : '#ffffff';
       ctx.fillRect(0, 0, rect.width, rect.height);
 
       // Draw chart based on type
@@ -126,16 +128,20 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
 
   const containerClasses = [
     'chart-renderer relative w-full h-full',
-    className\n  ].filter(Boolean).join(' ');
+    className
+  ].filter(Boolean).join(' ');
 
   if (error) {
     return (
       <div className={containerClasses}>
         <div className="flex items-center justify-center h-full">
-          <div className="text-center">\n            <div className="text-red-500 mb-2">
-              <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <div className="text-center">
+<div className="text-red-500 mb-2">
+              <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-            </div>\n            <h3 className="text-lg font-medium mb-2">Chart Error</h3>
+            </div>
+<h3 className="text-lg font-medium mb-2">Chart Error</h3>
             <p className="text-sm text-gray-600">{error}</p>
           </div>
         </div>
@@ -145,8 +151,10 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
 
   return (
     <div className={containerClasses}>
-      {loading && (\n        <div className="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-gray-900/80">
-          <div className="flex items-center space-x-2">\n            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+      {loading && (
+<div className="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-gray-900/80">
+          <div className="flex items-center space-x-2">
+<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
             <span className="text-sm">Rendering chart...</span>
           </div>
         </div>
@@ -162,13 +170,15 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
       />
 
       {/* Tooltip */}
-      {interactive && hoveredPoint && (\n        <div className="absolute pointer-events-none bg-black/80 text-white text-xs px-2 py-1 rounded shadow-lg">
+      {interactive && hoveredPoint && (
+<div className="absolute pointer-events-none bg-black/80 text-white text-xs px-2 py-1 rounded shadow-lg">
           x: {Math.round(hoveredPoint.x)}, y: {Math.round(hoveredPoint.y)}
         </div>
       )}
 
       {/* Chart legend */}
-      {artifact.content.config.legend && (\n        <div className="absolute bottom-4 left-4 bg-white/90 dark:bg-gray-800/90 p-2 rounded shadow">
+      {artifact.content.config.legend && (
+<div className="absolute bottom-4 left-4 bg-white/90 dark:bg-gray-800/90 p-2 rounded shadow">
           <div className="text-xs font-medium mb-1">Legend</div>
           {/* Legend items would be generated based on chart data */}
         </div>
@@ -183,7 +193,8 @@ function drawLineChart(ctx: CanvasRenderingContext2D, data: any[], rect: DOMRect
   const width = rect.width - padding * 2;
   const height = rect.height - padding * 2;
 
-  // Draw axes\n  ctx.strokeStyle = isDark ? '#6b7280' : '#9ca3af';
+  // Draw axes
+  ctx.strokeStyle = isDark ? '#6b7280' : '#9ca3af';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(padding, padding);
@@ -212,7 +223,8 @@ function drawBarChart(ctx: CanvasRenderingContext2D, data: any[], rect: DOMRect,
   const barWidth = width / barCount * 0.6;
   const barSpacing = width / barCount * 0.4;
 
-  // Draw axes\n  ctx.strokeStyle = isDark ? '#6b7280' : '#9ca3af';
+  // Draw axes
+  ctx.strokeStyle = isDark ? '#6b7280' : '#9ca3af';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(padding, padding);
@@ -258,7 +270,8 @@ function drawScatterChart(ctx: CanvasRenderingContext2D, data: any[], rect: DOMR
   const width = rect.width - padding * 2;
   const height = rect.height - padding * 2;
 
-  // Draw axes\n  ctx.strokeStyle = isDark ? '#6b7280' : '#9ca3af';
+  // Draw axes
+  ctx.strokeStyle = isDark ? '#6b7280' : '#9ca3af';
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(padding, padding);

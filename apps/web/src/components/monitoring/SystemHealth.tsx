@@ -32,7 +32,9 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
 
   const fetchHealthData = async () => {
     try {
-      const [healthResponse, metricsResponse] = await Promise.all([\n        fetch('/api/health'),\n        fetch('/api/metrics/system')
+      const [healthResponse, metricsResponse] = await Promise.all([
+        fetch('/api/health'),
+        fetch('/api/metrics/system')
       ]);
 
       if (healthResponse.ok) {
@@ -64,9 +66,12 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
     switch (status) {
       case 'healthy':
         return <CheckCircle className="w-5 h-5 text-green-500" />;
-      case 'degraded':\n        return <AlertTriangle className="w-5 h-5 text-yellow-500" />;
-      case 'unhealthy':\n        return <XCircle className="w-5 h-5 text-red-500" />;
-      default:\n        return <Activity className="w-5 h-5 text-gray-500" />;
+      case 'degraded':
+        return <AlertTriangle className="w-5 h-5 text-yellow-500" />;
+      case 'unhealthy':
+        return <XCircle className="w-5 h-5 text-red-500" />;
+      default:
+        return <Activity className="w-5 h-5 text-gray-500" />;
     }
   };
 
@@ -112,9 +117,12 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
   if (loading) {
     return (
       <div className="p-6 bg-white rounded-lg shadow-sm border">
-        <div className="animate-pulse">\n          <div className="h-6 bg-gray-200 rounded mb-4"></div>
-          <div className="space-y-3">\n            <div className="h-4 bg-gray-200 rounded"></div>
-            <div className="h-4 bg-gray-200 rounded"></div>\n            <div className="h-4 bg-gray-200 rounded"></div>
+        <div className="animate-pulse">
+<div className="h-6 bg-gray-200 rounded mb-4"></div>
+          <div className="space-y-3">
+<div className="h-4 bg-gray-200 rounded"></div>
+            <div className="h-4 bg-gray-200 rounded"></div>
+<div className="h-4 bg-gray-200 rounded"></div>
           </div>
         </div>
       </div>
@@ -128,9 +136,11 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             {getStatusIcon(overallStatus)}
-            <div>\n              <h2 className="text-lg font-semibold capitalize">
+            <div>
+<h2 className="text-lg font-semibold capitalize">
                 System {overallStatus}
-              </h2>\n              <p className="text-sm opacity-75">
+              </h2>
+<p className="text-sm opacity-75">
                 Last updated: {lastUpdated.toLocaleTimeString()}
               </p>
             </div>
@@ -145,12 +155,16 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
       </div>
 
       {/* System Metrics */}
-      {systemMetrics && (\n        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {systemMetrics && (
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* CPU Usage */}
           <div className="p-4 bg-white rounded-lg shadow-sm border">
-            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">
-                <Cpu className="w-5 h-5 text-blue-500" />\n                <span className="font-medium">CPU Usage</span>
-              </div>\n              <span className={`text-sm px-2 py-1 rounded ${
+            <div className="flex items-center justify-between mb-3">
+<div className="flex items-center space-x-2">
+                <Cpu className="w-5 h-5 text-blue-500" />
+<span className="font-medium">CPU Usage</span>
+              </div>
+<span className={`text-sm px-2 py-1 rounded ${
                 getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'critical' ? 'bg-red-100 text-red-800' :
                 getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'warning' ? 'bg-yellow-100 text-yellow-800' :
                 'bg-green-100 text-green-800'
@@ -159,7 +173,8 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div\n                className={`h-2 rounded-full ${
+              <div
+                className={`h-2 rounded-full ${
                   getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'critical' ? 'bg-red-500' :
                   getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'warning' ? 'bg-yellow-500' :
                   'bg-green-500'
@@ -174,9 +189,12 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
 
           {/* Memory Usage */}
           <div className="p-4 bg-white rounded-lg shadow-sm border">
-            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">
-                <Activity className="w-5 h-5 text-green-500" />\n                <span className="font-medium">Memory</span>
-              </div>\n              <span className={`text-sm px-2 py-1 rounded ${
+            <div className="flex items-center justify-between mb-3">
+<div className="flex items-center space-x-2">
+                <Activity className="w-5 h-5 text-green-500" />
+<span className="font-medium">Memory</span>
+              </div>
+<span className={`text-sm px-2 py-1 rounded ${
                 getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'critical' ? 'bg-red-100 text-red-800' :
                 getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'warning' ? 'bg-yellow-100 text-yellow-800' :
                 'bg-green-100 text-green-800'
@@ -185,7 +203,8 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div\n                className={`h-2 rounded-full ${
+              <div
+                className={`h-2 rounded-full ${
                   getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'critical' ? 'bg-red-500' :
                   getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'warning' ? 'bg-yellow-500' :
                   'bg-green-500'
@@ -200,9 +219,12 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
 
           {/* Disk Usage */}
           <div className="p-4 bg-white rounded-lg shadow-sm border">
-            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">
-                <HardDrive className="w-5 h-5 text-purple-500" />\n                <span className="font-medium">Disk Usage</span>
-              </div>\n              <span className={`text-sm px-2 py-1 rounded ${
+            <div className="flex items-center justify-between mb-3">
+<div className="flex items-center space-x-2">
+                <HardDrive className="w-5 h-5 text-purple-500" />
+<span className="font-medium">Disk Usage</span>
+              </div>
+<span className={`text-sm px-2 py-1 rounded ${
                 getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'critical' ? 'bg-red-100 text-red-800' :
                 getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'warning' ? 'bg-yellow-100 text-yellow-800' :
                 'bg-green-100 text-green-800'
@@ -211,7 +233,8 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div\n                className={`h-2 rounded-full ${
+              <div
+                className={`h-2 rounded-full ${
                   getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'critical' ? 'bg-red-500' :
                   getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'warning' ? 'bg-yellow-500' :
                   'bg-green-500'
@@ -226,16 +249,22 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
 
           {/* Network I/O */}
           <div className="p-4 bg-white rounded-lg shadow-sm border">
-            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">
-                <Wifi className="w-5 h-5 text-orange-500" />\n                <span className="font-medium">Network I/O</span>
+            <div className="flex items-center justify-between mb-3">
+<div className="flex items-center space-x-2">
+                <Wifi className="w-5 h-5 text-orange-500" />
+<span className="font-medium">Network I/O</span>
               </div>
-            </div>\n            <div className="space-y-2">
+            </div>
+<div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span>Received:</span>\n                <span className="font-medium">
+                <span>Received:</span>
+<span className="font-medium">
                   {formatBytes(systemMetrics.network.bytesReceived)}
                 </span>
-              </div>\n              <div className="flex justify-between text-sm">
-                <span>Sent:</span>\n                <span className="font-medium">
+              </div>
+<div className="flex justify-between text-sm">
+                <span>Sent:</span>
+<span className="font-medium">
                   {formatBytes(systemMetrics.network.bytesSent)}
                 </span>
               </div>
@@ -246,22 +275,32 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
 
       {/* Health Checks */}
       <div className="bg-white rounded-lg shadow-sm border">
-        <div className="p-4 border-b">\n          <h3 className="text-lg font-semibold">Service Health Checks</h3>
-        </div>\n        <div className="divide-y">
-          {healthChecks.map((check) => (\n            <div key={check.name} className="p-4">
-              <div className="flex items-center justify-between">\n                <div className="flex items-center space-x-3">
+        <div className="p-4 border-b">
+<h3 className="text-lg font-semibold">Service Health Checks</h3>
+        </div>
+<div className="divide-y">
+          {healthChecks.map((check) => (
+<div key={check.name} className="p-4">
+              <div className="flex items-center justify-between">
+<div className="flex items-center space-x-3">
                   {getStatusIcon(check.status)}
-                  <div>\n                    <h4 className="font-medium">{check.name}</h4>
-                    {check.message && (\n                      <p className="text-sm text-gray-600">{check.message}</p>
+                  <div>
+<h4 className="font-medium">{check.name}</h4>
+                    {check.message && (
+<p className="text-sm text-gray-600">{check.message}</p>
                     )}
                   </div>
-                </div>\n                <div className="text-right">\n                  <div className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
+                </div>
+<div className="text-right">
+<div className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
                     getStatusColor(check.status)
                   }`}>
                     {check.status}
-                  </div>\n                  <p className="text-xs text-gray-500 mt-1">
+                  </div>
+<p className="text-xs text-gray-500 mt-1">
                     {check.responseTime}ms
-                  </p>\n                  <p className="text-xs text-gray-400">
+                  </p>
+<p className="text-xs text-gray-400">
                     {new Date(check.lastCheck).toLocaleTimeString()}
                   </p>
                 </div>

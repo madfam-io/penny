@@ -63,20 +63,24 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
             color: 'text-blue-600'
           },
           {
-            title: 'Active Users',\n            value: data.activeUsers?.toLocaleString() || '0',
+            title: 'Active Users',
+            value: data.activeUsers?.toLocaleString() || '0',
             change: data.usersChange || 0,
-            trend: data.usersChange > 0 ? 'up' : data.usersChange < 0 ? 'down' : 'stable',\n            icon: <Users className="w-6 h-6" />,
+            trend: data.usersChange > 0 ? 'up' : data.usersChange < 0 ? 'down' : 'stable',
+            icon: <Users className="w-6 h-6" />,
             color: 'text-green-600'
           },
           {
-            title: 'Avg Response Time',\n            value: `${data.avgResponseTime || 0}ms`,
+            title: 'Avg Response Time',
+            value: `${data.avgResponseTime || 0}ms`,
             change: data.responseTimeChange || 0,
             trend: data.responseTimeChange < 0 ? 'up' : data.responseTimeChange > 0 ? 'down' : 'stable', // Lower is better for response time
             icon: <Clock className="w-6 h-6" />,
             color: 'text-purple-600'
           },
           {
-            title: 'Error Rate',\n            value: `${(data.errorRate || 0).toFixed(2)}%`,
+            title: 'Error Rate',
+            value: `${(data.errorRate || 0).toFixed(2)}%`,
             change: data.errorRateChange || 0,
             trend: data.errorRateChange < 0 ? 'up' : data.errorRateChange > 0 ? 'down' : 'stable', // Lower is better for error rate
             icon: <Zap className="w-6 h-6" />,
@@ -134,9 +138,12 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
 
   const getTrendIcon = (trend: string) => {
     switch (trend) {
-      case 'up':\n        return <TrendingUp className="w-4 h-4 text-green-500" />;
-      case 'down':\n        return <TrendingDown className="w-4 h-4 text-red-500" />;
-      default:\n        return <div className="w-4 h-4" />;
+      case 'up':
+        return <TrendingUp className="w-4 h-4 text-green-500" />;
+      case 'down':
+        return <TrendingDown className="w-4 h-4 text-red-500" />;
+      default:
+        return <div className="w-4 h-4" />;
     }
   };
 
@@ -146,10 +153,13 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
     return (
       <div className="space-y-6 animate-pulse">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[...Array(4)].map((_, i) => (\n            <div key={i} className="bg-gray-200 h-32 rounded-lg"></div>
+          {[...Array(4)].map((_, i) => (
+<div key={i} className="bg-gray-200 h-32 rounded-lg"></div>
           ))}
-        </div>\n        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-gray-200 h-64 rounded-lg"></div>\n          <div className="bg-gray-200 h-64 rounded-lg"></div>
+        </div>
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="bg-gray-200 h-64 rounded-lg"></div>
+<div className="bg-gray-200 h-64 rounded-lg"></div>
         </div>
       </div>
     );
@@ -159,7 +169,9 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
     <div className="space-y-6">
       {/* Time Range Selector */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Real-time Metrics</h2>\n        <div className="flex space-x-2">\n          {['1h', '24h', '7d', '30d'].map((range) => (
+        <h2 className="text-2xl font-bold">Real-time Metrics</h2>
+<div className="flex space-x-2">
+{['1h', '24h', '7d', '30d'].map((range) => (
             <button
               key={range}
               onClick={() => setSelectedTimeRange(range as any)}
@@ -182,9 +194,11 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
             <div className="flex items-center justify-between mb-4">
               <div className={metric.color}>
                 {metric.icon}
-              </div>\n              <div className="flex items-center space-x-1">
+              </div>
+<div className="flex items-center space-x-1">
                 {getTrendIcon(metric.trend!)}
-                {metric.change && (\n                  <span className={`text-sm font-medium ${
+                {metric.change && (
+<span className={`text-sm font-medium ${
                     metric.trend === 'up' ? 'text-green-600' : 
                     metric.trend === 'down' ? 'text-red-600' : 'text-gray-600'
                   }`}>
@@ -193,7 +207,8 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
                 )}
               </div>
             </div>
-            <div>\n              <p className="text-2xl font-bold text-gray-900">{metric.value}</p>
+            <div>
+<p className="text-2xl font-bold text-gray-900">{metric.value}</p>
               <p className="text-sm text-gray-600">{metric.title}</p>
             </div>
           </div>
@@ -204,9 +219,12 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Requests Over Time */}
         <div className="bg-white p-6 rounded-lg shadow-sm border">
-          <h3 className="text-lg font-semibold mb-4">Requests Over Time</h3>\n          <div className="h-64">
+          <h3 className="text-lg font-semibold mb-4">Requests Over Time</h3>
+<div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={requestsData}>\n                <CartesianGrid strokeDasharray="3 3" />\n                <XAxis dataKey="name" />
+              <LineChart data={requestsData}>
+<CartesianGrid strokeDasharray="3 3" />
+<XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
                 <Line
@@ -223,10 +241,14 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
 
         {/* Response Time */}
         <div className="bg-white p-6 rounded-lg shadow-sm border">
-          <h3 className="text-lg font-semibold mb-4">Average Response Time</h3>\n          <div className="h-64">
+          <h3 className="text-lg font-semibold mb-4">Average Response Time</h3>
+<div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={responseTimeData}>\n                <CartesianGrid strokeDasharray="3 3" />\n                <XAxis dataKey="name" />
-                <YAxis />\n                <Tooltip formatter={(value) => [`${value}ms`, 'Response Time']} />
+              <LineChart data={responseTimeData}>
+<CartesianGrid strokeDasharray="3 3" />
+<XAxis dataKey="name" />
+                <YAxis />
+<Tooltip formatter={(value) => [`${value}ms`, 'Response Time']} />
                 <Line
                  type="monotone"
                  dataKey="value"
@@ -244,7 +266,8 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
           <h3 className="text-lg font-semibold mb-4">Top Endpoints</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={topEndpoints}>\n                <CartesianGrid strokeDasharray="3 3" />
+              <BarChart data={topEndpoints}>
+<CartesianGrid strokeDasharray="3 3" />
                 <XAxis
                  dataKey="name" 
                   angle={-45}
@@ -253,7 +276,8 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
                   interval={0}
                 />
                 <YAxis />
-                <Tooltip />\n                <Bar dataKey="value" fill="#10b981" />
+                <Tooltip />
+<Bar dataKey="value" fill="#10b981" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -261,32 +285,38 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
 
         {/* Error Distribution */}
         <div className="bg-white p-6 rounded-lg shadow-sm border">
-          <h3 className="text-lg font-semibold mb-4">Error Distribution</h3>\n          <div className="h-64">
+          <h3 className="text-lg font-semibold mb-4">Error Distribution</h3>
+<div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={errorDistribution}
-                  cx="50%"\n                  cy="50%"
+                  cx="50%"
+                  cy="50%"
                   innerRadius={60}
                   outerRadius={100}
                   paddingAngle={5}
                   dataKey="value"
                 >
-                  {errorDistribution.map((entry, index) => (\n                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  {errorDistribution.map((entry, index) => (
+<Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
                 <Tooltip />
               </PieChart>
             </ResponsiveContainer>
-          </div>\n          <div className="mt-4 space-y-2">
-            {errorDistribution.map((entry, index) => (\n              <div key={entry.name} className="flex items-center justify-between text-sm">
+          </div>
+<div className="mt-4 space-y-2">
+            {errorDistribution.map((entry, index) => (
+<div key={entry.name} className="flex items-center justify-between text-sm">
                 <div className="flex items-center space-x-2">
                   <div
                    className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: COLORS[index % COLORS.length] }}
                   ></div>
                   <span>{entry.name}</span>
-                </div>\n                <span className="font-medium">{entry.value}</span>
+                </div>
+<span className="font-medium">{entry.value}</span>
               </div>
             ))}
           </div>
@@ -295,7 +325,8 @@ export const MetricsDashboard: React.FC<MetricsDashboardProps> = ({
 
       {/* Real-time Updates Indicator */}
       <div className="flex items-center justify-center text-sm text-gray-500">
-        <div className="flex items-center space-x-2">\n          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+        <div className="flex items-center space-x-2">
+<div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
           <span>Live data • Updates every {refreshInterval / 1000}s</span>
         </div>
       </div>

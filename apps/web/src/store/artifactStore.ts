@@ -111,7 +111,9 @@ const api = {
             version: 1,
             size: 1024,
             tags: ['sales', 'dashboard'],
-            isPublic: false,\n            createdAt: new Date('2023-12-01'),\n            updatedAt: new Date('2023-12-01'),
+            isPublic: false,
+            createdAt: new Date('2023-12-01'),
+            updatedAt: new Date('2023-12-01'),
             createdBy: 'user1',
             tenantId: 'tenant1',
             exportFormats: ['png', 'svg', 'pdf', 'json']
@@ -143,7 +145,9 @@ const api = {
             version: 1,
             size: 2048,
             tags: ['users', 'data'],
-            isPublic: true,\n            createdAt: new Date('2023-12-02'),\n            updatedAt: new Date('2023-12-02'),
+            isPublic: true,
+            createdAt: new Date('2023-12-02'),
+            updatedAt: new Date('2023-12-02'),
             createdBy: 'user2',
             tenantId: 'tenant1',
             exportFormats: ['csv', 'excel', 'pdf']

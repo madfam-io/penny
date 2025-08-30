@@ -17,7 +17,8 @@ const HTMLRenderer: React.FC<HTMLRendererProps> = ({
   interactive = true,
   onError,
   onLoadStart,
-  onLoadEnd,\n  className = ''
+  onLoadEnd,
+  className = ''
 }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [loading, setLoading] = useState(true);
@@ -60,13 +61,15 @@ const HTMLRenderer: React.FC<HTMLRendererProps> = ({
 
   const containerClasses = [
     'html-renderer w-full h-full flex flex-col',
-    className\n  ].filter(Boolean).join(' ');
+    className
+  ].filter(Boolean).join(' ');
 
   return (
     <div className={containerClasses}>
       {/* Toolbar */}
       <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-        <div className="flex items-center space-x-2">\n          <div className="flex items-center space-x-1 bg-gray-200 dark:bg-gray-700 rounded p-1">
+        <div className="flex items-center space-x-2">
+<div className="flex items-center space-x-1 bg-gray-200 dark:bg-gray-700 rounded p-1">
             <button
               onClick={() => setViewMode('preview')}
               className={`px-3 py-1 text-sm rounded ${
@@ -97,9 +100,12 @@ const HTMLRenderer: React.FC<HTMLRendererProps> = ({
 
       {/* Content */}
       <div className="flex-1 overflow-hidden">
-        {viewMode === 'preview' ? (\n          <div className="relative w-full h-full">
-            {loading && (\n              <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10">
-                <div className="flex items-center space-x-2">\n                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+        {viewMode === 'preview' ? (
+<div className="relative w-full h-full">
+            {loading && (
+<div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10">
+                <div className="flex items-center space-x-2">
+<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
                   <span className="text-sm">Loading HTML...</span>
                 </div>
               </div>
@@ -111,7 +117,8 @@ const HTMLRenderer: React.FC<HTMLRendererProps> = ({
               title="HTML Preview"
             />
           </div>
-        ) : (\n          <pre className="p-4 text-sm font-mono whitespace-pre-wrap overflow-auto h-full bg-gray-50 dark:bg-gray-900">
+        ) : (
+<pre className="p-4 text-sm font-mono whitespace-pre-wrap overflow-auto h-full bg-gray-50 dark:bg-gray-900">
             {htmlContent}
           </pre>
         )}

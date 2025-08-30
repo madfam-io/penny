@@ -51,7 +51,8 @@ export const BillingDashboard: React.FC = () => {
     try {
       setLoading(true);
       
-      // Fetch subscription data\n      const subscriptionResponse = await fetch('/api/billing/subscription', {
+      // Fetch subscription data
+      const subscriptionResponse = await fetch('/api/billing/subscription', {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
       });
       
@@ -160,7 +161,8 @@ export const BillingDashboard: React.FC = () => {
   if (error) {
     return (
       <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-        <div className="flex items-center">\n          <AlertCircle className="h-5 w-5 text-red-600 mr-2" />
+        <div className="flex items-center">
+<AlertCircle className="h-5 w-5 text-red-600 mr-2" />
           <span className="text-red-800">{error}</span>
         </div>
       </div>
@@ -171,17 +173,22 @@ export const BillingDashboard: React.FC = () => {
     <div className="max-w-7xl mx-auto p-6 space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <div>\n          <h1 className="text-3xl font-bold text-gray-900">Billing & Usage</h1>
+        <div>
+<h1 className="text-3xl font-bold text-gray-900">Billing & Usage</h1>
           <p className="text-gray-600 mt-1">Manage your subscription, usage, and billing preferences</p>
-        </div>\n        <div className="flex space-x-3">
-          <Button\n            variant="outline"
+        </div>
+<div className="flex space-x-3">
+          <Button
+            variant="outline"
             onClick={() => setActiveTab('plan')}
             className="flex items-center"
-          >\n            <Settings className="h-4 w-4 mr-2" />
+          >
+<Settings className="h-4 w-4 mr-2" />
             Manage Plan
           </Button>
           {subscription?.plan_name !== 'Enterprise' && (
-            <Button onClick={() => setShowUpgradeDialog(true)}>\n              <TrendingUp className="h-4 w-4 mr-2" />
+            <Button onClick={() => setShowUpgradeDialog(true)}>
+<TrendingUp className="h-4 w-4 mr-2" />
               Upgrade Plan
             </Button>
           )}
@@ -189,9 +196,12 @@ export const BillingDashboard: React.FC = () => {
       </div>
 
       {/* Alerts */}
-      {isTrialing && subscription?.trial_end && (\n        <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <div className="flex items-start">\n            <AlertCircle className="h-5 w-5 text-blue-600 mr-2 mt-0.5" />
-            <div>\n              <h3 className="text-blue-800 font-medium">Trial Period Active</h3>
+      {isTrialing && subscription?.trial_end && (
+<div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="flex items-start">
+<AlertCircle className="h-5 w-5 text-blue-600 mr-2 mt-0.5" />
+            <div>
+<h3 className="text-blue-800 font-medium">Trial Period Active</h3>
               <p className="text-blue-700 text-sm mt-1">
                 Your trial ends on {formatDate(subscription.trial_end)}. Add a payment method to continue service.
               </p>
@@ -200,9 +210,12 @@ export const BillingDashboard: React.FC = () => {
         </div>
       )}
 
-      {isPastDue && (\n        <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-          <div className="flex items-start">\n            <AlertCircle className="h-5 w-5 text-yellow-600 mr-2 mt-0.5" />
-            <div>\n              <h3 className="text-yellow-800 font-medium">Payment Past Due</h3>
+      {isPastDue && (
+<div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <div className="flex items-start">
+<AlertCircle className="h-5 w-5 text-yellow-600 mr-2 mt-0.5" />
+            <div>
+<h3 className="text-yellow-800 font-medium">Payment Past Due</h3>
               <p className="text-yellow-700 text-sm mt-1">
                 Your payment is overdue. Please update your payment method to continue service.
               </p>
@@ -211,15 +224,19 @@ export const BillingDashboard: React.FC = () => {
         </div>
       )}
 
-      {willCancel && !isCanceled && (\n        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-          <div className="flex items-start justify-between">\n            <div className="flex items-start">
+      {willCancel && !isCanceled && (
+<div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+          <div className="flex items-start justify-between">
+<div className="flex items-start">
               <AlertCircle className="h-5 w-5 text-red-600 mr-2 mt-0.5" />
-              <div>\n                <h3 className="text-red-800 font-medium">Subscription Canceling</h3>
+              <div>
+<h3 className="text-red-800 font-medium">Subscription Canceling</h3>
                 <p className="text-red-700 text-sm mt-1">
                   Your subscription will end on {formatDate(subscription.current_period_end)}.
                 </p>
               </div>
-            </div>\n            <Button variant="outline" size="sm" onClick={handleReactivateSubscription}>
+            </div>
+<Button variant="outline" size="sm" onClick={handleReactivateSubscription}>
               Reactivate
             </Button>
           </div>
@@ -245,7 +262,8 @@ export const BillingDashboard: React.FC = () => {
                   ? 'bg-white text-gray-900 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
-            >\n              <Icon className="h-4 w-4 mr-2" />
+            >
+<Icon className="h-4 w-4 mr-2" />
               {tab.label}
             </button>
           );
@@ -253,45 +271,57 @@ export const BillingDashboard: React.FC = () => {
       </div>
 
       {/* Tab Content */}
-      {activeTab === 'overview' && (\n        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {activeTab === 'overview' && (
+<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Current Plan */}
           <Card className="lg:col-span-2">
-            <CardHeader>\n              <CardTitle className="flex items-center justify-between">
-                Current Subscription\n                <Badge className={getStatusColor(subscription?.status || '')}>\n                  {subscription?.status?.replace('_', ' ') || 'No subscription'}
+            <CardHeader>
+<CardTitle className="flex items-center justify-between">
+                Current Subscription
+<Badge className={getStatusColor(subscription?.status || '')}>
+{subscription?.status?.replace('_', ' ') || 'No subscription'}
                 </Badge>
               </CardTitle>
               <CardDescription>
                 Your current plan and billing information
               </CardDescription>
-            </CardHeader>\n            <CardContent className="space-y-4">
+            </CardHeader>
+<CardContent className="space-y-4">
               {subscription ? (
-                <>\n                  <div className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                    <div>\n                      <h3 className="font-semibold text-lg">{subscription.plan_name}</h3>
+                <>
+<div className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                    <div>
+<h3 className="font-semibold text-lg">{subscription.plan_name}</h3>
                       <p className="text-gray-600">
                         Billed {subscription.billing_interval}ly
                       </p>
-                    </div>\n                    <div className="text-right">
+                    </div>
+<div className="text-right">
                       <div className="text-2xl font-bold">
                         {formatCurrency(subscription.price, subscription.currency)}
-                      </div>\n                      <div className="text-sm text-gray-600">
+                      </div>
+<div className="text-sm text-gray-600">
                         /{subscription.billing_interval}
                       </div>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div>\n                      <label className="text-sm font-medium text-gray-700">Next billing date</label>
+                    <div>
+<label className="text-sm font-medium text-gray-700">Next billing date</label>
                       <p className="text-gray-900">{formatDate(subscription.current_period_end)}</p>
                     </div>
                     {subscription.trial_end && (
-                      <div>\n                        <label className="text-sm font-medium text-gray-700">Trial ends</label>
+                      <div>
+<label className="text-sm font-medium text-gray-700">Trial ends</label>
                         <p className="text-gray-900">{formatDate(subscription.trial_end)}</p>
                       </div>
                     )}
                   </div>
 
                   <div className="flex space-x-3 pt-4 border-t">
-                    {!isCanceled && !willCancel && (\n                      <Button variant="outline" onClick={handleCancelSubscription}>
+                    {!isCanceled && !willCancel && (
+<Button variant="outline" onClick={handleCancelSubscription}>
                         Cancel Subscription
                       </Button>
                     )}
@@ -300,7 +330,8 @@ export const BillingDashboard: React.FC = () => {
                     </Button>
                   </div>
                 </>
-              ) : (\n                <div className="text-center py-8">
+              ) : (
+<div className="text-center py-8">
                   <p className="text-gray-600 mb-4">No active subscription</p>
                   <Button onClick={() => setActiveTab('plan')}>
                     Choose a Plan
@@ -317,25 +348,32 @@ export const BillingDashboard: React.FC = () => {
                 <CardTitle>Usage Overview</CardTitle>
                 <CardDescription>Current month usage</CardDescription>
               </CardHeader>
-              <CardContent>\n                <div className="space-y-4">
-                  {Object.entries(usage.usage_by_type).slice(0, 3).map(([type, data]) => (\n                    <div key={type} className="space-y-2">
-                      <div className="flex justify-between text-sm">\n                        <span className="font-medium capitalize">{type.replace('_', ' ')}</span>
-                        <span className="text-gray-600">\n                          {data.current_usage.toLocaleString()} / {data.limit === -1 ? '∞' : data.limit.toLocaleString()}
+              <CardContent>
+<div className="space-y-4">
+                  {Object.entries(usage.usage_by_type).slice(0, 3).map(([type, data]) => (
+<div key={type} className="space-y-2">
+                      <div className="flex justify-between text-sm">
+<span className="font-medium capitalize">{type.replace('_', ' ')}</span>
+                        <span className="text-gray-600">
+{data.current_usage.toLocaleString()} / {data.limit === -1 ? '∞' : data.limit.toLocaleString()}
                         </span>
                       </div>
                       <Progress 
                         value={Math.min(data.percentage_used, 100)}
                        className="h-2"
                       />
-                      {data.limit_exceeded && (\n                        <p className="text-xs text-red-600">
+                      {data.limit_exceeded && (
+<p className="text-xs text-red-600">
                           Limit exceeded by {data.overage.toLocaleString()} units
                         </p>
                       )}
                     </div>
                   ))}
                   
-                  {usage.total_overage_cost > 0 && (\n                    <div className="pt-4 border-t">
-                      <div className="flex justify-between items-center">\n                        <span className="text-sm font-medium">Overage charges</span>
+                  {usage.total_overage_cost > 0 && (
+<div className="pt-4 border-t">
+                      <div className="flex justify-between items-center">
+<span className="text-sm font-medium">Overage charges</span>
                         <span className="text-red-600 font-semibold">
                           {formatCurrency(usage.total_overage_cost)}
                         </span>
@@ -343,7 +381,9 @@ export const BillingDashboard: React.FC = () => {
                     </div>
                   )}
 
-                  <Button\n                    variant="outline"\n                    size="sm"
+                  <Button
+                    variant="outline"
+                    size="sm"
                     onClick={() => setActiveTab('usage')}
                     className="w-full"
                   >
