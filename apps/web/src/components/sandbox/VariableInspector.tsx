@@ -45,11 +45,12 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
   onVariableExport,
   className = '',
   searchable = true,
-  groupByType = false,
+  groupByType: initialGroupByType = false,
   showMemoryUsage = true
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortKey, setSortKey] = useState<SortKey>('name');
+  const [groupByType, setGroupByType] = useState(initialGroupByType);
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [expandedVariables, setExpandedVariables] = useState<Set<string>>(new Set());
   const [selectedVariable, setSelectedVariable] = useState<string | null>(null);
@@ -447,7 +448,7 @@ const VariableInspector: React.FC<VariableInspectorProps> = ({
         )}
       </div>
 
-      <style jsx>{`
+      <style>{`
         .variable-inspector {
           border: 1px solid #d1d5db;
           border-radius: 8px;

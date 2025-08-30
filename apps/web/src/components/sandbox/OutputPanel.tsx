@@ -453,7 +453,7 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
         {activeTab === 'metrics' && renderMetrics()}
       </div>
 
-      <style jsx>{`
+      <style>{`
         .output-panel {
           border: 1px solid #d1d5db;
           border-radius: 8px;

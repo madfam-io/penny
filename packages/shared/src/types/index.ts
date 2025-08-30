@@ -6,6 +6,18 @@ export interface Artifact {
   content: any;
   createdAt: Date;
   updatedAt: Date;
+  // Extended properties
+  title?: string;
+  description?: string;
+  version?: number;
+  size?: number;
+  tags?: string[];
+  exportFormats?: string[];
+  metadata?: Record<string, any>;
+  createdBy?: string;
+  isPublic?: boolean;
+  url?: string;
+  mimeType?: string;
 }
 
 export interface CodeArtifact extends Artifact {
@@ -25,13 +37,15 @@ export interface ChartArtifact extends Artifact {
     chartType: string;
     config?: any;
   };
+  title?: string;
 }
 
 export interface TableArtifact extends Artifact {
   type: 'table';
   content: {
-    columns: string[];
+    columns: any[];
     rows: any[][];
+    data?: any[];
     config?: any;
   };
 }
@@ -41,7 +55,14 @@ export interface ImageArtifact extends Artifact {
   content: {
     url: string;
     alt?: string;
+    src?: string;
+    width?: number;
+    height?: number;
+    config?: any;
   };
+  title?: string;
+  size?: number;
+  mimeType?: string;
 }
 
 export interface VideoArtifact extends Artifact {
@@ -74,4 +95,12 @@ export interface MapArtifact extends Artifact {
 
 export interface ModelArtifact extends Artifact {
   type: 'model';
+}
+
+export interface ArtifactCollection {
+  id: string;
+  name: string;
+  artifacts: Artifact[];
+  createdAt: Date;
+  updatedAt: Date;
 }

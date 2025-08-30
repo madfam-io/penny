@@ -212,7 +212,7 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
 <p className="empty-subtitle">Run code that generates matplotlib or plotly visualizations</p>
         </div>
        
-       <style jsx>{`
+       <style>{`
           .plot-viewer.empty {
             border: 1px solid #e5e7eb;
             border-radius: 8px;
@@ -471,7 +471,7 @@ const PlotViewer: React.FC<PlotViewerProps> = ({
         </div>
       )}
 
-      <style jsx>{`
+      <style>{`
         .plot-viewer {
           border: 1px solid #d1d5db;
           border-radius: 8px;

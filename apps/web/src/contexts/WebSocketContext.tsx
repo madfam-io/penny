@@ -1,9 +1,23 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { useWebSocket, UseWebSocketReturn } from '../hooks/useWebSocket';
+import { useWebSocket } from '../hooks/useWebSocket';
 import { useNotifications, UseNotificationsReturn } from '../hooks/useNotifications';
 
-export interface WebSocketContextValue extends UseWebSocketReturn {
+export interface WebSocketContextValue {
   notifications: UseNotificationsReturn;
+  connect: () => void;
+  disconnect: () => void;
+  send: (data: any) => void;
+  subscribe: (event: string, callback: (data: any) => void) => () => void;
+  isConnected?: boolean;
+  connectionState?: string;
+  lastError?: Error | null;
+  reconnectAttempts?: number;
+  socket?: any;
+  emit?: (event: string, data: any) => void;
+  on?: (event: string, callback: (data: any) => void) => () => void;
+  off?: (event: string, callback: (data: any) => void) => void;
+  latency?: number;
+  lastHeartbeat?: Date;
 }
 
 const WebSocketContext = createContext<WebSocketContextValue | null>(null);
@@ -38,7 +52,7 @@ export function WebSocketProvider({
   const webSocket = useWebSocket({
     url,
     autoConnect,
-    reconnectAttempts,
+    reconnectionAttempts: reconnectAttempts,
     reconnectInterval,
     heartbeatInterval
   });

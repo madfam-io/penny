@@ -1,18 +1,18 @@
 import React, { useState, useCallback, useMemo, ErrorInfo } from 'react';
 import { Artifact } from '@penny/types';
 import { ArtifactHeader } from './ArtifactHeader';
-import { ChartRenderer } from './renderers/ChartRenderer';
-import { TableRenderer } from './renderers/TableRenderer';
-import { CodeRenderer } from './renderers/CodeRenderer';
-import { MarkdownRenderer } from './renderers/MarkdownRenderer';
-import { ImageRenderer } from './renderers/ImageRenderer';
-import { PDFRenderer } from './renderers/PDFRenderer';
-import { JSONRenderer } from './renderers/JSONRenderer';
-import { HTMLRenderer } from './renderers/HTMLRenderer';
-import { VideoRenderer } from './renderers/VideoRenderer';
-import { AudioRenderer } from './renderers/AudioRenderer';
-import { ModelRenderer } from './renderers/ModelRenderer';
-import { MapRenderer } from './renderers/MapRenderer';
+import ChartRenderer from './renderers/ChartRenderer';
+import TableRenderer from './renderers/TableRenderer';
+import CodeRenderer from './renderers/CodeRenderer';
+import MarkdownRenderer from './renderers/MarkdownRenderer';
+import ImageRenderer from './renderers/ImageRenderer';
+import PDFRenderer from './renderers/PDFRenderer';
+import JSONRenderer from './renderers/JSONRenderer';
+import HTMLRenderer from './renderers/HTMLRenderer';
+import VideoRenderer from './renderers/VideoRenderer';
+import AudioRenderer from './renderers/AudioRenderer';
+import ModelRenderer from './renderers/ModelRenderer';
+import MapRenderer from './renderers/MapRenderer';
 
 interface ArtifactViewerProps {
   artifact: Artifact;

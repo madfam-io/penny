@@ -276,7 +276,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         style={{ height, width }}
       />
 
-      <style jsx>{`
+      <style>{`
         .code-editor {
           border: 1px solid #d1d5db;
           border-radius: 8px;
