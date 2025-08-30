@@ -6,7 +6,7 @@ import { IntegrationSettings } from '@/components/settings/IntegrationSettings';
 import { MaintenanceMode } from '@/components/settings/MaintenanceMode';
 import { BackupSettings } from '@/components/settings/BackupSettings';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { LoadingSpinner } from '@penny/uiLoadingSpinner';
+import { LoadingSpinner } from '@penny/ui';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/ui';
 import { Settings, Shield, Mail, Plug, Wrench, Database, Save } from 'lucide-react';
 import { Button } from '@penny/ui';
