@@ -98,6 +98,7 @@ const api = {
         const mockArtifacts: Artifact[] = [
           {
             id: '1',
+            name: 'Sales Dashboard',
             title: 'Sales Dashboard',
             description: 'Q4 2023 sales performance metrics',
             type: 'chart',
@@ -107,7 +108,6 @@ const api = {
               config: { title: 'Monthly Sales', responsive: true }
             },
             conversationId: 'conv1',
-            messageId: 'msg1',
             version: 1,
             size: 1024,
             tags: ['sales', 'dashboard'],
@@ -120,6 +120,7 @@ const api = {
           },
           {
             id: '2',
+            name: 'User Data Table',
             title: 'User Data Table',
             description: 'Active user statistics',
             type: 'table',

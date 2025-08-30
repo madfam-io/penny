@@ -20,6 +20,7 @@ export interface Artifact {
   mimeType?: string;
   conversationId?: string;
   tenantId?: string;
+  messageId?: string;
 }
 
 export interface CodeArtifact extends Artifact {
