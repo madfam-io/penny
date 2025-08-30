@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "node scripts/fix-workspace-vercel.js && npm install",
+  "installCommand": "cd /vercel/path0 && node scripts/fix-workspace-vercel.js && npm install",
   "regions": ["iad1"],
   "rewrites": [
     {
