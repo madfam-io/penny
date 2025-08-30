@@ -4,7 +4,7 @@ import { AuditFilters } from '@/components/audit/AuditFilters';
 import { AuditStats } from '@/components/audit/AuditStats';
 import { AuditExport } from '@/components/audit/AuditExport';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { LoadingSpinner } from '@penny/uiLoadingSpinner';
+import { LoadingSpinner } from '@penny/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@penny/ui';
 import { Button } from '@penny/ui';
 import { Shield, Download, RefreshCw, Search, Filter, AlertTriangle } from 'lucide-react';

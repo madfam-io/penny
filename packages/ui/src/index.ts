@@ -154,3 +154,14 @@ export const SheetDescription = Sheet;
 export const SheetHeader = Sheet;
 export const SheetTitle = Sheet;
 export const SheetTrigger = Sheet;
+
+export const LoadingSpinner = ({ ...props }: any) => {
+  return React.createElement('div', { ...props, className: 'spinner' });
+};
+
+export const Alert = ({ children, ...props }: any) => {
+  return React.createElement('div', props, children);
+};
+
+export const AlertDescription = Alert;
+export const AlertTitle = Alert;

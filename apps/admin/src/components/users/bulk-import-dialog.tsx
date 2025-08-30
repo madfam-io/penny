@@ -100,10 +100,7 @@ export function BulkImportDialog({ open, onOpenChange }: BulkImportDialogProps) 
   };
 
   const downloadTemplate = () => {
-    const csv =
-      'email,name,role
-user1@example.com,John Doe,member
-user2@example.com,Jane Smith,admin';
+    const csv = 'email,name,role\nuser1@example.com,John Doe,member\nuser2@example.com,Jane Smith,admin';
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
