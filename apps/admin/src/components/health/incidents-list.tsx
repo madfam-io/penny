@@ -63,28 +63,35 @@ const statusIcons = {
 export function IncidentsList() {
   return (
     <div className="space-y-4">
-      {incidents.length === 0 ? (\n        <p className="text-center text-muted-foreground py-8">
+      {incidents.length === 0 ? (
+        <p className="text-center text-muted-foreground py-8">
           No incidents reported in the last 30 days
         </p>
       ) : (
         incidents.map((incident) => {
           const Icon = statusIcons[incident.status];
 
-          return (\n            <div key={incident.id} className="flex items-start gap-4 p-4 rounded-lg border">
+          return (
+            <div key={incident.id} className="flex items-start gap-4 p-4 rounded-lg border">
               <Icon
                 className={`h-5 w-5 mt-1 ${
                   incident.status === 'resolved' ? 'text-green-600' : 'text-yellow-600'
                 }`}
               />
-\n              <div className="flex-1 space-y-1">
+
+              <div className="flex-1 space-y-1">
                 <div className="flex items-start justify-between">
-                  <div>\n                    <h4 className="font-medium">{incident.title}</h4>
+                  <div>
+                    <h4 className="font-medium">{incident.title}</h4>
                     <p className="text-sm text-muted-foreground">{incident.description}</p>
-                  </div>\n                  <div className="flex gap-2">
-                    <Badge variant={severityColors[incident.severity]}>{incident.severity}</Badge>\n                    <Badge variant="outline">{incident.service}</Badge>
+                  </div>
+                  <div className="flex gap-2">
+                    <Badge variant={severityColors[incident.severity]}>{incident.severity}</Badge>
+                    <Badge variant="outline">{incident.service}</Badge>
                   </div>
                 </div>
-\n                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+
+                <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <span>
                     Started {formatDistanceToNow(incident.startedAt, { addSuffix: true })}
                   </span>

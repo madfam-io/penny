@@ -13,8 +13,10 @@ const data = [
 export function ModelUsage() {
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={data}>\n        <XAxis dataKey="model" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-        <YAxis\n          stroke="#888888"
+      <BarChart data={data}>
+        <XAxis dataKey="model" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
+        <YAxis
+          stroke="#888888"
           fontSize={12}
           tickLine={false}
           axisLine={false}
@@ -25,7 +27,8 @@ export function ModelUsage() {
             if (name === 'usage') return [`${(value / 1000).toFixed(1)}k requests`, 'Usage'];
             return [`$${value}`, 'Cost'];
           }}
-        />\n        <Bar dataKey="usage" fill="#8884d8" />
+        />
+        <Bar dataKey="usage" fill="#8884d8" />
       </BarChart>
     </ResponsiveContainer>
   );

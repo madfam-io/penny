@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '@penny/uicard';
+import { Badge } from '@penny/uibadge';
+import { Button } from '@penny/uibutton';
+import { ScrollArea } from '@penny/uiscroll-area';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/uitabs';
 import { 
   Clock, 
   User, 
@@ -102,7 +102,8 @@ function generateMockActivities(): ActivityItem[] {
       action: 'system.maintenance',
       description: 'Scheduled maintenance completed',
       timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
-      severity: 'info',\n      metadata: { duration: '45 minutes', affectedServices: ['API', 'WebSocket'] }
+      severity: 'info',
+      metadata: { duration: '45 minutes', affectedServices: ['API', 'WebSocket'] }
     }
   ];
 
@@ -160,27 +161,38 @@ export function RecentActivity({ className }: RecentActivityProps) {
     <Card className={className}>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">\n            <Clock className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2">
+            <Clock className="h-5 w-5" />
             Recent Activity
-          </CardTitle>\n          <Button variant="outline" size="sm">\n            <RefreshCw className="h-4 w-4 mr-2" />
+          </CardTitle>
+          <Button variant="outline" size="sm">
+            <RefreshCw className="h-4 w-4 mr-2" />
             Refresh
           </Button>
         </div>
       </CardHeader>
-      <CardContent>\n        <Tabs value={filter} onValueChange={setFilter} className="w-full">
-          <TabsList className="grid w-full grid-cols-4">\n            <TabsTrigger value="all">
+      <CardContent>
+        <Tabs value={filter} onValueChange={setFilter} className="w-full">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="all">
               All ({activityCounts.all})
-            </TabsTrigger>\n            <TabsTrigger value="user">
+            </TabsTrigger>
+            <TabsTrigger value="user">
               Users ({activityCounts.user})
-            </TabsTrigger>\n            <TabsTrigger value="security">
+            </TabsTrigger>
+            <TabsTrigger value="security">
               Security ({activityCounts.security})
-            </TabsTrigger>\n            <TabsTrigger value="system">
+            </TabsTrigger>
+            <TabsTrigger value="system">
               System ({activityCounts.system})
             </TabsTrigger>
           </TabsList>
-\n          <TabsContent value={filter} className="mt-4">
-            <ScrollArea className="h-96">\n              <div className="space-y-3">
-                {filteredActivities.length === 0 ? (\n                  <div className="text-center py-8 text-muted-foreground">
+
+          <TabsContent value={filter} className="mt-4">
+            <ScrollArea className="h-96">
+              <div className="space-y-3">
+                {filteredActivities.length === 0 ? (
+                  <div className="text-center py-8 text-muted-foreground">
                     <Clock className="h-8 w-8 mx-auto mb-2 opacity-50" />
                     <p>No recent activities found</p>
                   </div>
@@ -194,32 +206,40 @@ export function RecentActivity({ className }: RecentActivityProps) {
                         key={activity.id}
                         className="flex items-start gap-3 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
                       >
-                        <div className={`p-2 rounded-full ${getSeverityColor(activity.severity)}`}>\n                          <Icon className="h-4 w-4" />
+                        <div className={`p-2 rounded-full ${getSeverityColor(activity.severity)}`}>
+                          <Icon className="h-4 w-4" />
                         </div>
                        
                        <div className="flex-1 space-y-1">
-                          <div className="flex items-center justify-between">\n                            <div className="flex items-center gap-2">
-                              <p className="text-sm font-medium">{activity.description}</p>\n                              <Badge variant="outline" className="text-xs">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <p className="text-sm font-medium">{activity.description}</p>
+                              <Badge variant="outline" className="text-xs">
                                 {activity.type}
                               </Badge>
-                            </div>\n                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            </div>
+                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
                               <SeverityIcon className="h-3 w-3" />
                               {formatDistanceToNow(activity.timestamp, { addSuffix: true })}
                             </div>
                           </div>
                           
-                          {activity.user && (\n                            <p className="text-xs text-muted-foreground">
+                          {activity.user && (
+                            <p className="text-xs text-muted-foreground">
                               User: {activity.user.name} ({activity.user.email})
                             </p>
                           )}
                           
-                          {activity.tenant && (\n                            <p className="text-xs text-muted-foreground">
+                          {activity.tenant && (
+                            <p className="text-xs text-muted-foreground">
                               Tenant: {activity.tenant.name}
                             </p>
                           )}
                           
-                          {activity.metadata && Object.keys(activity.metadata).length > 0 && (\n                            <div className="text-xs text-muted-foreground">
-                              {Object.entries(activity.metadata).map(([key, value]) => (\n                                <span key={key} className="mr-3">
+                          {activity.metadata && Object.keys(activity.metadata).length > 0 && (
+                            <div className="text-xs text-muted-foreground">
+                              {Object.entries(activity.metadata).map(([key, value]) => (
+                                <span key={key} className="mr-3">
                                   {key}: {String(value)}
                                 </span>
                               ))}

@@ -14,9 +14,9 @@ import {
   Area,
   AreaChart
 } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '@penny/uicard';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/uitabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@penny/uiselect';
 import { BarChart3, TrendingUp, Activity } from 'lucide-react';
 import { useState } from 'react';
 
@@ -70,7 +70,10 @@ export function ActivityChart({
     if (data) return data;
     
     const days = {
-      '7d': 7,\n      '30d': 30,\n      '90d': 90,\n      '1y': 365
+      '7d': 7,
+      '30d': 30,
+      '90d': 90,
+      '1y': 365
     }[timeRange];
     
     return generateMockData(days);
@@ -92,11 +95,13 @@ export function ActivityChart({
       return (
         <div className="bg-white dark:bg-gray-800 p-3 border rounded-lg shadow-sm">
           <p className="text-sm font-medium mb-2">{formatDate(label)}</p>
-          {payload.map((entry: any, index: number) => (\n            <div key={index} className="flex items-center gap-2 text-sm">
+          {payload.map((entry: any, index: number) => (
+            <div key={index} className="flex items-center gap-2 text-sm">
               <div
                className="w-2 h-2 rounded-full" 
                 style={{ backgroundColor: entry.color }}
-              />\n              <span className="capitalize">{entry.dataKey}:</span>
+              />
+              <span className="capitalize">{entry.dataKey}:</span>
               <span className="font-medium">{entry.value.toLocaleString()}</span>
             </div>
           ))}
@@ -115,43 +120,53 @@ export function ActivityChart({
     switch (chartType) {
       case 'bar':
         return (
-          <BarChart {...commonProps}>\n            <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+          <BarChart {...commonProps}>
+            <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
             <XAxis
              dataKey="date" 
               tickFormatter={formatDate}
               className="text-xs"
-            />\n            <YAxis className="text-xs" />
-            <Tooltip content={<CustomTooltip />} />\n            <Bar dataKey="users" fill="#3b82f6" radius={[2, 2, 0, 0]} />\n            <Bar dataKey="conversations" fill="#10b981" radius={[2, 2, 0, 0]} />\n            <Bar dataKey="messages" fill="#f59e0b" radius={[2, 2, 0, 0]} />
+            />
+            <YAxis className="text-xs" />
+            <Tooltip content={<CustomTooltip />} />
+            <Bar dataKey="users" fill="#3b82f6" radius={[2, 2, 0, 0]} />
+            <Bar dataKey="conversations" fill="#10b981" radius={[2, 2, 0, 0]} />
+            <Bar dataKey="messages" fill="#f59e0b" radius={[2, 2, 0, 0]} />
           </BarChart>
         );
       
       case 'area':
         return (
-          <AreaChart {...commonProps}>\n            <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+          <AreaChart {...commonProps}>
+            <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
             <XAxis
              dataKey="date" 
               tickFormatter={formatDate}
               className="text-xs"
-            />\n            <YAxis className="text-xs" />
+            />
+            <YAxis className="text-xs" />
             <Tooltip content={<CustomTooltip />} />
             <Area
              type="monotone"
              dataKey="users"
-             stackId="1"\n              stroke="#3b82f6"
+             stackId="1"
+              stroke="#3b82f6"
              fill="#3b82f6" 
               fillOpacity={0.6}
             />
             <Area
              type="monotone"
              dataKey="conversations"
-             stackId="1"\n              stroke="#10b981"
+             stackId="1"
+              stroke="#10b981"
              fill="#10b981" 
               fillOpacity={0.6}
             />
             <Area
              type="monotone"
              dataKey="messages"
-             stackId="1"\n              stroke="#f59e0b"
+             stackId="1"
+              stroke="#f59e0b"
              fill="#f59e0b" 
               fillOpacity={0.6}
             />
@@ -160,12 +175,14 @@ export function ActivityChart({
       
       default:
         return (
-          <LineChart {...commonProps}>\n            <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+          <LineChart {...commonProps}>
+            <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
             <XAxis
              dataKey="date" 
               tickFormatter={formatDate}
               className="text-xs"
-            />\n            <YAxis className="text-xs" />
+            />
+            <YAxis className="text-xs" />
             <Tooltip content={<CustomTooltip />} />
             <Line
              type="monotone"
@@ -195,39 +212,57 @@ export function ActivityChart({
 
   return (
     <Card className={className}>
-      <CardHeader>\n        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">\n            <Activity className="h-5 w-5" />
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Activity className="h-5 w-5" />
             Platform Activity
-          </CardTitle>\n          <div className="flex items-center gap-2">
-            <Select value={chartType} onValueChange={(value: any) => setChartType(value)}>\n              <SelectTrigger className="w-32">
+          </CardTitle>
+          <div className="flex items-center gap-2">
+            <Select value={chartType} onValueChange={(value: any) => setChartType(value)}>
+              <SelectTrigger className="w-32">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>\n                <SelectItem value="line">Line Chart</SelectItem>\n                <SelectItem value="bar">Bar Chart</SelectItem>\n                <SelectItem value="area">Area Chart</SelectItem>
+              <SelectContent>
+                <SelectItem value="line">Line Chart</SelectItem>
+                <SelectItem value="bar">Bar Chart</SelectItem>
+                <SelectItem value="area">Area Chart</SelectItem>
               </SelectContent>
             </Select>
             
-            <Select value={timeRange} onValueChange={onTimeRangeChange}>\n              <SelectTrigger className="w-32">
+            <Select value={timeRange} onValueChange={onTimeRangeChange}>
+              <SelectTrigger className="w-32">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>\n                <SelectItem value="7d">Last 7 days</SelectItem>\n                <SelectItem value="30d">Last 30 days</SelectItem>\n                <SelectItem value="90d">Last 90 days</SelectItem>\n                <SelectItem value="1y">Last year</SelectItem>
+              <SelectContent>
+                <SelectItem value="7d">Last 7 days</SelectItem>
+                <SelectItem value="30d">Last 30 days</SelectItem>
+                <SelectItem value="90d">Last 90 days</SelectItem>
+                <SelectItem value="1y">Last year</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
       </CardHeader>
-      <CardContent>\n        <div className="h-80">
+      <CardContent>
+        <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">
             {renderChart()}
           </ResponsiveContainer>
         </div>
        
        <div className="flex items-center justify-center gap-6 mt-4">
-          <div className="flex items-center gap-2">\n            <div className="w-3 h-3 rounded-full bg-blue-500" />
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-blue-500" />
             <span className="text-sm text-muted-foreground">Active Users</span>
-          </div>\n          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-green-500" />\n            <span className="text-sm text-muted-foreground">Conversations</span>
-          </div>\n          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-yellow-500" />\n            <span className="text-sm text-muted-foreground">Messages</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-green-500" />
+            <span className="text-sm text-muted-foreground">Conversations</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-yellow-500" />
+            <span className="text-sm text-muted-foreground">Messages</span>
           </div>
         </div>
       </CardContent>

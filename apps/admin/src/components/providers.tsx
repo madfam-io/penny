@@ -22,7 +22,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider
-          attribute="class"\n          defaultTheme="system"
+          attribute="class"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >

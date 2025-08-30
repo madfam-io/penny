@@ -146,7 +146,8 @@ export const SubscriptionMetrics: React.FC = () => {
     {
       header: 'Plan',
       accessorKey: 'plan_name',
-      cell: ({ row }: any) => (\n        <div className="flex items-center space-x-2">
+      cell: ({ row }: any) => (
+        <div className="flex items-center space-x-2">
           {getPlanIcon(row.original.plan_name)}
           <span className="font-medium">{row.original.plan_name}</span>
         </div>
@@ -165,9 +166,11 @@ export const SubscriptionMetrics: React.FC = () => {
       header: 'Revenue',
       accessorKey: 'price',
       cell: ({ row }: any) => (
-        <div>\n          <div className="font-medium">
+        <div>
+          <div className="font-medium">
             {formatCurrency(row.original.price, row.original.currency)}
-          </div>\n          <div className="text-sm text-gray-600">
+          </div>
+          <div className="text-sm text-gray-600">
             /{row.original.billing_interval}
           </div>
         </div>
@@ -176,15 +179,18 @@ export const SubscriptionMetrics: React.FC = () => {
     {
       header: 'Period',
       accessorKey: 'current_period_end',
-      cell: ({ row }: any) => (\n        <div className="text-sm">
-          <div>{formatDate(row.original.current_period_start)}</div>\n          <div className="text-gray-600">to {formatDate(row.original.current_period_end)}</div>
+      cell: ({ row }: any) => (
+        <div className="text-sm">
+          <div>{formatDate(row.original.current_period_start)}</div>
+          <div className="text-gray-600">to {formatDate(row.original.current_period_end)}</div>
         </div>
       ),
     },
     {
       header: 'Created',
       accessorKey: 'created_at',
-      cell: ({ row }: any) => (\n        <div className="text-sm text-gray-600">
+      cell: ({ row }: any) => (
+        <div className="text-sm text-gray-600">
           {formatDate(row.original.created_at)}
         </div>
       ),
@@ -192,49 +198,64 @@ export const SubscriptionMetrics: React.FC = () => {
   ];
 
   if (loading) {
-    return (\n      <div className="flex items-center justify-center p-8">
+    return (
+      <div className="flex items-center justify-center p-8">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
-  return (\n    <div className="space-y-6">
+  return (
+    <div className="space-y-6">
       {/* Metrics Cards */}
-      {stats && (\n        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card>\n            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Subscriptions</CardTitle>\n              <Users className="h-4 w-4 text-muted-foreground" />
+      {stats && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Subscriptions</CardTitle>
+              <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
-            <CardContent>\n              <div className="text-2xl font-bold">{stats.total_subscriptions.toLocaleString()}</div>
+            <CardContent>
+              <div className="text-2xl font-bold">{stats.total_subscriptions.toLocaleString()}</div>
               <p className="text-xs text-muted-foreground mt-1">
                 {stats.active_subscriptions} active
               </p>
             </CardContent>
           </Card>
 
-          <Card>\n            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Growth Rate</CardTitle>\n              <TrendingUp className="h-4 w-4 text-green-600" />
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Growth Rate</CardTitle>
+              <TrendingUp className="h-4 w-4 text-green-600" />
             </CardHeader>
-            <CardContent>\n              <div className="text-2xl font-bold text-green-600">+{stats.growth_rate}%</div>
+            <CardContent>
+              <div className="text-2xl font-bold text-green-600">+{stats.growth_rate}%</div>
               <p className="text-xs text-muted-foreground mt-1">
                 Month over month
               </p>
             </CardContent>
           </Card>
 
-          <Card>\n            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Churn Rate</CardTitle>\n              <TrendingDown className="h-4 w-4 text-red-600" />
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Churn Rate</CardTitle>
+              <TrendingDown className="h-4 w-4 text-red-600" />
             </CardHeader>
-            <CardContent>\n              <div className="text-2xl font-bold text-red-600">{stats.churn_rate}%</div>
+            <CardContent>
+              <div className="text-2xl font-bold text-red-600">{stats.churn_rate}%</div>
               <p className="text-xs text-muted-foreground mt-1">
                 Monthly churn rate
               </p>
             </CardContent>
           </Card>
 
-          <Card>\n            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Trial Conversion</CardTitle>\n              <RefreshCw className="h-4 w-4 text-blue-600" />
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Trial Conversion</CardTitle>
+              <RefreshCw className="h-4 w-4 text-blue-600" />
             </CardHeader>
-            <CardContent>\n              <div className="text-2xl font-bold text-blue-600">{stats.conversion_rate}%</div>
+            <CardContent>
+              <div className="text-2xl font-bold text-blue-600">{stats.conversion_rate}%</div>
               <p className="text-xs text-muted-foreground mt-1">
                 Trial to paid conversion
               </p>
@@ -244,28 +265,34 @@ export const SubscriptionMetrics: React.FC = () => {
       )}
 
       {/* Plan Distribution */}
-      {stats && (\n        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {stats && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card>
             <CardHeader>
               <CardTitle>Plan Distribution</CardTitle>
               <CardDescription>Current subscription breakdown by plan</CardDescription>
             </CardHeader>
-            <CardContent>\n              <div className="space-y-4">
+            <CardContent>
+              <div className="space-y-4">
                 {Object.entries(stats.plan_distribution).map(([plan, count]) => {
                   const percentage = (count / stats.total_subscriptions) * 100;
-                  return (\n                    <div key={plan} className="flex items-center justify-between">
+                  return (
+                    <div key={plan} className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
                         {getPlanIcon(plan)}
                         <span className="font-medium capitalize">{plan}</span>
-                      </div>\n                      <div className="flex items-center space-x-3">
+                      </div>
+                      <div className="flex items-center space-x-3">
                         <div className="flex-1 bg-gray-200 rounded-full h-2 w-24">
                           <div
                            className="bg-blue-600 h-2 rounded-full"
                            style={{ width: `${percentage}%` }}
                           />
-                        </div>\n                        <div className="text-sm font-medium w-12 text-right">
+                        </div>
+                        <div className="text-sm font-medium w-12 text-right">
                           {count}
-                        </div>\n                        <div className="text-sm text-gray-600 w-12 text-right">
+                        </div>
+                        <div className="text-sm text-gray-600 w-12 text-right">
                           ({percentage.toFixed(1)}%)
                         </div>
                       </div>
@@ -281,29 +308,38 @@ export const SubscriptionMetrics: React.FC = () => {
               <CardTitle>Status Overview</CardTitle>
               <CardDescription>Subscription status breakdown</CardDescription>
             </CardHeader>
-            <CardContent>\n              <div className="space-y-4">
-                <div className="flex items-center justify-between">\n                  <div className="flex items-center space-x-2">
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
                     <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                     <span>Active</span>
-                  </div>\n                  <div className="font-medium">{stats?.active_subscriptions.toLocaleString()}</div>
+                  </div>
+                  <div className="font-medium">{stats?.active_subscriptions.toLocaleString()}</div>
                 </div>
                
                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">\n                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
                     <span>Trialing</span>
-                  </div>\n                  <div className="font-medium">{stats?.trialing_subscriptions.toLocaleString()}</div>
+                  </div>
+                  <div className="font-medium">{stats?.trialing_subscriptions.toLocaleString()}</div>
                 </div>
                
                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">\n                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                     <span>Past Due</span>
-                  </div>\n                  <div className="font-medium text-yellow-600">{stats?.past_due_subscriptions.toLocaleString()}</div>
+                  </div>
+                  <div className="font-medium text-yellow-600">{stats?.past_due_subscriptions.toLocaleString()}</div>
                 </div>
                
                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">\n                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                     <span>Canceled</span>
-                  </div>\n                  <div className="font-medium text-red-600">{stats?.canceled_subscriptions.toLocaleString()}</div>
+                  </div>
+                  <div className="font-medium text-red-600">{stats?.canceled_subscriptions.toLocaleString()}</div>
                 </div>
               </div>
             </CardContent>
@@ -312,12 +348,16 @@ export const SubscriptionMetrics: React.FC = () => {
       )}
 
       {/* Alerts */}
-      {stats && stats.past_due_subscriptions > 0 && (\n        <Card className="border-yellow-200 bg-yellow-50">
-          <CardContent className="pt-6">\n            <div className="flex items-center">
+      {stats && stats.past_due_subscriptions > 0 && (
+        <Card className="border-yellow-200 bg-yellow-50">
+          <CardContent className="pt-6">
+            <div className="flex items-center">
               <AlertCircle className="h-5 w-5 text-yellow-600 mr-3" />
-              <div>\n                <div className="font-medium text-yellow-900">
+              <div>
+                <div className="font-medium text-yellow-900">
                   {stats.past_due_subscriptions} subscriptions are past due
-                </div>\n                <div className="text-yellow-700 text-sm">
+                </div>
+                <div className="text-yellow-700 text-sm">
                   These customers need payment method updates or dunning management
                 </div>
               </div>
@@ -328,7 +368,8 @@ export const SubscriptionMetrics: React.FC = () => {
 
       {/* Subscriptions Table */}
       <Card>
-        <CardHeader>\n          <div className="flex justify-between items-center">
+        <CardHeader>
+          <div className="flex justify-between items-center">
             <div>
               <CardTitle>Subscriptions</CardTitle>
               <CardDescription>
@@ -341,10 +382,16 @@ export const SubscriptionMetrics: React.FC = () => {
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
                 className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >\n                <option value="all">All Status</option>\n                <option value="active">Active</option>\n                <option value="trialing">Trialing</option>\n                <option value="past_due">Past Due</option>\n                <option value="canceled">Canceled</option>
+              >
+                <option value="all">All Status</option>
+                <option value="active">Active</option>
+                <option value="trialing">Trialing</option>
+                <option value="past_due">Past Due</option>
+                <option value="canceled">Canceled</option>
               </select>
              
-             <Button variant="outline" onClick={fetchSubscriptionData}>\n                <RefreshCw className="h-4 w-4 mr-2" />
+             <Button variant="outline" onClick={fetchSubscriptionData}>
+                <RefreshCw className="h-4 w-4 mr-2" />
                 Refresh
               </Button>
             </div>

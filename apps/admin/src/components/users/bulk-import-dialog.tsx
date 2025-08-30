@@ -22,7 +22,8 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,\n} from '@penny/ui';
+  TableRow,
+} from '@penny/ui';
 import { Upload, Download, Loader2, CheckCircle, XCircle } from 'lucide-react';
 
 interface BulkImportDialogProps {
@@ -102,7 +103,8 @@ export function BulkImportDialog({ open, onOpenChange }: BulkImportDialogProps) 
   const downloadTemplate = () => {
     const csv =
       'email,name,role
-user1@example.com,John Doe,member\nuser2@example.com,Jane Smith,admin';
+user1@example.com,John Doe,member
+user2@example.com,Jane Smith,admin';
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -127,31 +129,48 @@ user1@example.com,John Doe,member\nuser2@example.com,Jane Smith,admin';
           <DialogDescription>Import multiple users from a CSV file</DialogDescription>
         </DialogHeader>
 
-        {!showResults ? (\n          <div className="space-y-4">
-            <div className="grid gap-2">\n              <Label htmlFor="tenant">Tenant</Label>
-              <Select value={tenant} onValueChange={setTenant}>\n                <SelectTrigger id="tenant">\n                  <SelectValue placeholder="Select tenant" />
+        {!showResults ? (
+          <div className="space-y-4">
+            <div className="grid gap-2">
+              <Label htmlFor="tenant">Tenant</Label>
+              <Select value={tenant} onValueChange={setTenant}>
+                <SelectTrigger id="tenant">
+                  <SelectValue placeholder="Select tenant" />
                 </SelectTrigger>
-                <SelectContent>\n                  <SelectItem value="acme">Acme Corporation</SelectItem>\n                  <SelectItem value="techstart">TechStart Inc</SelectItem>\n                  <SelectItem value="digital">Digital Agency</SelectItem>
+                <SelectContent>
+                  <SelectItem value="acme">Acme Corporation</SelectItem>
+                  <SelectItem value="techstart">TechStart Inc</SelectItem>
+                  <SelectItem value="digital">Digital Agency</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-\n            <div className="space-y-2">
-              <Label>CSV File</Label>\n              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" onClick={downloadTemplate}>\n                  <Download className="mr-2 h-4 w-4" />
+
+            <div className="space-y-2">
+              <Label>CSV File</Label>
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm" onClick={downloadTemplate}>
+                  <Download className="mr-2 h-4 w-4" />
                   Download Template
-                </Button>\n                <span className="text-sm text-muted-foreground">
+                </Button>
+                <span className="text-sm text-muted-foreground">
                   Use this template to format your data
                 </span>
               </div>
-\n              <div className="mt-4 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-6">
-                <input\n                  type="file"\n                  accept=".csv"
+
+              <div className="mt-4 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-6">
+                <input
+                  type="file"
+                  accept=".csv"
                   onChange={handleFileChange}
                   className="hidden"
                   id="csv-upload"
-                />\n                <label htmlFor="csv-upload" className="flex flex-col items-center cursor-pointer">
-                  <Upload className="h-12 w-12 text-gray-400 mb-2" />\n                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                />
+                <label htmlFor="csv-upload" className="flex flex-col items-center cursor-pointer">
+                  <Upload className="h-12 w-12 text-gray-400 mb-2" />
+                  <span className="text-sm text-gray-600 dark:text-gray-400">
                     {file ? file.name : 'Click to upload or drag and drop'}
-                  </span>\n                  <span className="text-xs text-gray-500 dark:text-gray-500">CSV files only</span>
+                  </span>
+                  <span className="text-xs text-gray-500 dark:text-gray-500">CSV files only</span>
                 </label>
               </div>
             </div>
@@ -165,7 +184,8 @@ user1@example.com,John Doe,member\nuser2@example.com,Jane Smith,admin';
               </Alert>
             )}
 
-            {importedUsers.length > 0 && (\n              <div className="max-h-[200px] overflow-y-auto border rounded-lg">
+            {importedUsers.length > 0 && (
+              <div className="max-h-[200px] overflow-y-auto border rounded-lg">
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -183,7 +203,8 @@ user1@example.com,John Doe,member\nuser2@example.com,Jane Smith,admin';
                       </TableRow>
                     ))}
                     {importedUsers.length > 5 && (
-                      <TableRow>\n                        <TableCell colSpan={3} className="text-center text-muted-foreground">
+                      <TableRow>
+                        <TableCell colSpan={3} className="text-center text-muted-foreground">
                           ... and {importedUsers.length - 5} more users
                         </TableCell>
                       </TableRow>
@@ -193,14 +214,16 @@ user1@example.com,John Doe,member\nuser2@example.com,Jane Smith,admin';
               </div>
             )}
           </div>
-        ) : (\n          <div className="space-y-4">
+        ) : (
+          <div className="space-y-4">
             <Alert>
               <AlertDescription>
                 Import completed. {importedUsers.filter((u) => u.status === 'success').length} of{' '}
                 {importedUsers.length} users imported successfully.
               </AlertDescription>
             </Alert>
-\n            <div className="max-h-[300px] overflow-y-auto border rounded-lg">
+
+            <div className="max-h-[300px] overflow-y-auto border rounded-lg">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -214,12 +237,15 @@ user1@example.com,John Doe,member\nuser2@example.com,Jane Smith,admin';
                   {importedUsers.map((user, index) => (
                     <TableRow key={index}>
                       <TableCell>
-                        {user.status === 'success' ? (\n                          <CheckCircle className="h-4 w-4 text-green-600" />
-                        ) : (\n                          <XCircle className="h-4 w-4 text-red-600" />
+                        {user.status === 'success' ? (
+                          <CheckCircle className="h-4 w-4 text-green-600" />
+                        ) : (
+                          <XCircle className="h-4 w-4 text-red-600" />
                         )}
                       </TableCell>
                       <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.name}</TableCell>\n                      <TableCell className="text-sm text-muted-foreground">
+                      <TableCell>{user.name}</TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
                         {user.message || 'Success'}
                       </TableCell>
                     </TableRow>
@@ -233,7 +259,9 @@ user1@example.com,John Doe,member\nuser2@example.com,Jane Smith,admin';
         <DialogFooter>
           {!showResults ? (
             <>
-              <Button\n                type="button"\n                variant="outline"
+              <Button
+                type="button"
+                variant="outline"
                 onClick={() => {
                   reset();
                   onOpenChange(false);
@@ -247,11 +275,13 @@ user1@example.com,John Doe,member\nuser2@example.com,Jane Smith,admin';
                 disabled={isLoading || !tenant || importedUsers.length === 0}
               >
                 {isLoading ? (
-                  <>\n                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Importing...
                   </>
                 ) : (
-                  <>\n                    <Upload className="mr-2 h-4 w-4" />
+                  <>
+                    <Upload className="mr-2 h-4 w-4" />
                     Import {importedUsers.length} Users
                   </>
                 )}

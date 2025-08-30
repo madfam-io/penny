@@ -1,21 +1,23 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@penny/uibutton';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,\n} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger,
+} from '@penny/uidropdown-menu';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,\n} from '@/components/ui/dialog';
-import { Badge } from '@/components/ui/badge';
+  DialogTitle,
+} from '@penny/uidialog';
+import { Badge } from '@penny/uibadge';
 import { 
   ChevronDown, 
   Trash2, 
@@ -106,7 +108,10 @@ export function BulkActions({
          
          <div className="flex items-center gap-2 text-sm text-muted-foreground">
             {selectedCount < totalCount && onSelectAll && (
-              <Button\n                variant="link"\n                size="sm"\n                className="h-auto p-0"
+              <Button
+                variant="link"
+                size="sm"
+                className="h-auto p-0"
                 onClick={onSelectAll}
               >
                 Select all {totalCount}
@@ -114,7 +119,10 @@ export function BulkActions({
             )}
             
             {onClearSelection && (
-              <Button\n                variant="link"\n                size="sm"\n                className="h-auto p-0"
+              <Button
+                variant="link"
+                size="sm"
+                className="h-auto p-0"
                 onClick={onClearSelection}
               >
                 Clear selection
@@ -122,7 +130,8 @@ export function BulkActions({
             )}
           </div>
         </div>
-\n        <div className="flex items-center gap-2">
+
+        <div className="flex items-center gap-2">
           {/* Quick Actions */}
           {actions.slice(0, 2).map((action) => {
             const Icon = action.icon;
@@ -135,8 +144,10 @@ export function BulkActions({
                 disabled={loading || isExecuting || action.disabled}
                 title={action.tooltip}
               >
-                {isExecuting ? (\n                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (\n                  <Icon className="mr-2 h-4 w-4" />
+                {isExecuting ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Icon className="mr-2 h-4 w-4" />
                 )}
                 {action.label}
               </Button>
@@ -146,10 +157,13 @@ export function BulkActions({
           {/* More Actions Dropdown */}
           {actions.length > 2 && (
             <DropdownMenu>
-              <DropdownMenuTrigger asChild>\n                <Button variant="outline" size="sm">
-                  More\n                  <ChevronDown className="ml-2 h-4 w-4" />
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm">
+                  More
+                  <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
-              </DropdownMenuTrigger>\n              <DropdownMenuContent align="end">
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
                 {actions.slice(2).map((action, index) => {
                   const Icon = action.icon;
                   return (
@@ -162,7 +176,8 @@ export function BulkActions({
                           action.variant === 'destructive' && 
                           'text-red-600 focus:text-red-600'
                         )}
-                      >\n                        <Icon className="mr-2 h-4 w-4" />
+                      >
+                        <Icon className="mr-2 h-4 w-4" />
                         {action.label}
                       </DropdownMenuItem>
                     </div>
@@ -177,9 +192,12 @@ export function BulkActions({
       {/* Confirmation Dialog */}
       <Dialog open={!!confirmAction} onOpenChange={() => setConfirmAction(null)}>
         <DialogContent>
-          <DialogHeader>\n            <DialogTitle className="flex items-center gap-2">
-              {confirmAction?.variant === 'destructive' ? (\n                <AlertTriangle className="h-5 w-5 text-red-600" />
-              ) : (\n                <CheckCircle className="h-5 w-5 text-blue-600" />
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              {confirmAction?.variant === 'destructive' ? (
+                <AlertTriangle className="h-5 w-5 text-red-600" />
+              ) : (
+                <CheckCircle className="h-5 w-5 text-blue-600" />
               )}
               {confirmAction?.confirmTitle || `Confirm ${confirmAction?.label}`}
             </DialogTitle>
@@ -189,7 +207,8 @@ export function BulkActions({
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button\n              variant="outline"
+            <Button
+              variant="outline"
               onClick={() => setConfirmAction(null)}
               disabled={isExecuting}
             >
@@ -201,12 +220,14 @@ export function BulkActions({
               disabled={isExecuting}
             >
               {isExecuting ? (
-                <>\n                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Processing...
                 </>
               ) : (
                 <>
-                  {confirmAction?.icon && (\n                    <confirmAction.icon className="mr-2 h-4 w-4" />
+                  {confirmAction?.icon && (
+                    <confirmAction.icon className="mr-2 h-4 w-4" />
                   )}
                   Confirm
                 </>

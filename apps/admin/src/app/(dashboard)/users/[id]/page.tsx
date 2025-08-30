@@ -5,11 +5,11 @@ import { UserActions } from '@/components/users/UserActions';
 import { UserActivityLog } from '@/components/users/UserActivityLog';
 import { UserSubscriptions } from '@/components/users/UserSubscriptions';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { LoadingSpinner } from '@penny/uiLoadingSpinner';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/uitabs';
+import { Card, CardContent, CardHeader, CardTitle } from '@penny/uicard';
+import { Badge } from '@penny/uibadge';
+import { Button } from '@penny/uibutton';
 import { ArrowLeft, Edit, Shield, Trash2, UserCheck } from 'lucide-react';
 import Link from 'next/link';
 
@@ -35,7 +35,9 @@ async function getUserById(id: string) {
     role: 'admin',
     status: 'active',
     tenantId: 'tenant-1',
-    tenantName: 'Acme Corp',\n    createdAt: new Date('2024-01-15'),\n    lastLoginAt: new Date('2024-08-28'),
+    tenantName: 'Acme Corp',
+    createdAt: new Date('2024-01-15'),
+    lastLoginAt: new Date('2024-08-28'),
     emailVerified: true,
     mfaEnabled: true,
     avatar: null,
@@ -83,12 +85,15 @@ export default async function UserDetailPage({ params }: UserDetailPageProps) {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <Breadcrumbs items={breadcrumbItems} />\n          <div className="flex items-center gap-4 mt-4">
-            <Button variant="ghost" size="sm" asChild>\n              <Link href="/users" className="flex items-center gap-2">
+          <Breadcrumbs items={breadcrumbItems} />
+          <div className="flex items-center gap-4 mt-4">
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/users" className="flex items-center gap-2">
                 <ArrowLeft className="h-4 w-4" />
                 Back to Users
               </Link>
-            </Button>\n            <div className="flex items-center gap-2">
+            </Button>
+            <div className="flex items-center gap-2">
               <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
                 {user.name}
               </h1>
@@ -100,28 +105,42 @@ export default async function UserDetailPage({ params }: UserDetailPageProps) {
               </Badge>
             </div>
           </div>
-        </div>\n        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">\n            <Edit className="h-4 w-4 mr-2" />
+        </div>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm">
+            <Edit className="h-4 w-4 mr-2" />
             Edit User
-          </Button>\n          <Button variant="outline" size="sm">\n            <Shield className="h-4 w-4 mr-2" />
+          </Button>
+          <Button variant="outline" size="sm">
+            <Shield className="h-4 w-4 mr-2" />
             Reset Password
-          </Button>\n          <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
+          </Button>
+          <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
             <Trash2 className="h-4 w-4 mr-2" />
             Delete User
           </Button>
         </div>
       </div>
-\n      <Tabs defaultValue="details" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">\n          <TabsTrigger value="details">Details</TabsTrigger>\n          <TabsTrigger value="activity">Activity Log</TabsTrigger>\n          <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>\n          <TabsTrigger value="permissions">Permissions</TabsTrigger>
+
+      <Tabs defaultValue="details" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="details">Details</TabsTrigger>
+          <TabsTrigger value="activity">Activity Log</TabsTrigger>
+          <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
+          <TabsTrigger value="permissions">Permissions</TabsTrigger>
         </TabsList>
-\n        <TabsContent value="details">\n          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <TabsContent value="details">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2">
               <Suspense fallback={<LoadingSpinner />}>
                 <UserDetail user={user} />
               </Suspense>
-            </div>\n            <div className="space-y-6">
+            </div>
+            <div className="space-y-6">
               <Card>
-                <CardHeader>\n                  <CardTitle className="text-lg">Quick Actions</CardTitle>
+                <CardHeader>
+                  <CardTitle className="text-lg">Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <UserActions userId={user.id} />
@@ -129,16 +148,21 @@ export default async function UserDetailPage({ params }: UserDetailPageProps) {
               </Card>
               
               <Card>
-                <CardHeader>\n                  <CardTitle className="text-lg">Security</CardTitle>
-                </CardHeader>\n                <CardContent className="space-y-3">
-                  <div className="flex items-center justify-between">\n                    <span className="text-sm">Email Verified</span>
+                <CardHeader>
+                  <CardTitle className="text-lg">Security</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Email Verified</span>
                     <div className="flex items-center gap-2">
                       {user.emailVerified ? (
-                        <>\n                          <UserCheck className="h-4 w-4 text-green-600" />
+                        <>
+                          <UserCheck className="h-4 w-4 text-green-600" />
                           <span className="text-green-600 text-sm">Verified</span>
                         </>
                       ) : (
-                        <>\n                          <Shield className="h-4 w-4 text-red-600" />
+                        <>
+                          <Shield className="h-4 w-4 text-red-600" />
                           <span className="text-red-600 text-sm">Not Verified</span>
                         </>
                       )}
@@ -146,13 +170,16 @@ export default async function UserDetailPage({ params }: UserDetailPageProps) {
                   </div>
                  
                  <div className="flex items-center justify-between">
-                    <span className="text-sm">MFA Enabled</span>\n                    <div className="flex items-center gap-2">
+                    <span className="text-sm">MFA Enabled</span>
+                    <div className="flex items-center gap-2">
                       {user.mfaEnabled ? (
-                        <>\n                          <Shield className="h-4 w-4 text-green-600" />
+                        <>
+                          <Shield className="h-4 w-4 text-green-600" />
                           <span className="text-green-600 text-sm">Enabled</span>
                         </>
                       ) : (
-                        <>\n                          <Shield className="h-4 w-4 text-yellow-600" />
+                        <>
+                          <Shield className="h-4 w-4 text-yellow-600" />
                           <span className="text-yellow-600 text-sm">Disabled</span>
                         </>
                       )}
@@ -163,38 +190,51 @@ export default async function UserDetailPage({ params }: UserDetailPageProps) {
             </div>
           </div>
         </TabsContent>
-\n        <TabsContent value="activity">
+
+        <TabsContent value="activity">
           <Suspense fallback={<LoadingSpinner />}>
             <UserActivityLog userId={user.id} />
           </Suspense>
         </TabsContent>
-\n        <TabsContent value="subscriptions">
+
+        <TabsContent value="subscriptions">
           <Suspense fallback={<LoadingSpinner />}>
             <UserSubscriptions userId={user.id} />
           </Suspense>
         </TabsContent>
-\n        <TabsContent value="permissions">
+
+        <TabsContent value="permissions">
           <Card>
             <CardHeader>
               <CardTitle>User Permissions</CardTitle>
             </CardHeader>
-            <CardContent>\n              <div className="space-y-4">
+            <CardContent>
+              <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <div>\n                    <h3 className="font-medium mb-2">Tenant Access</h3>
-                    <div className="space-y-2">\n                      <div className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded">
+                  <div>
+                    <h3 className="font-medium mb-2">Tenant Access</h3>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded">
                         <span className="text-sm">{user.tenantName}</span>
                         <Badge className={getRoleColor(user.role)}>{user.role}</Badge>
                       </div>
                     </div>
                   </div>
                   
-                  <div>\n                    <h3 className="font-medium mb-2">System Permissions</h3>
-                    <div className="space-y-2">\n                      <div className="flex items-center justify-between text-sm">
-                        <span>User Management</span>\n                        <span className="text-green-600">✓</span>
-                      </div>\n                      <div className="flex items-center justify-between text-sm">
-                        <span>Billing Access</span>\n                        <span className="text-green-600">✓</span>
-                      </div>\n                      <div className="flex items-center justify-between text-sm">
-                        <span>System Settings</span>\n                        <span className="text-red-600">✗</span>
+                  <div>
+                    <h3 className="font-medium mb-2">System Permissions</h3>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span>User Management</span>
+                        <span className="text-green-600">✓</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span>Billing Access</span>
+                        <span className="text-green-600">✓</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span>System Settings</span>
+                        <span className="text-red-600">✗</span>
                       </div>
                     </div>
                   </div>

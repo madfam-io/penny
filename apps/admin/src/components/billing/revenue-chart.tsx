@@ -14,15 +14,20 @@ const data = [
 export function RevenueChart() {
   return (
     <ResponsiveContainer width="100%" height={350}>
-      <BarChart data={data}>\n        <XAxis dataKey="month" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-        <YAxis\n          stroke="#888888"
+      <BarChart data={data}>
+        <XAxis dataKey="month" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
+        <YAxis
+          stroke="#888888"
           fontSize={12}
           tickLine={false}
           axisLine={false}
           tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
         />
         <Tooltip formatter={(value: number) => `$${value.toLocaleString()}`} />
-        <Legend />\n        <Bar dataKey="mrr" name="Total MRR" fill="#8884d8" radius={[4, 4, 0, 0]} />\n        <Bar dataKey="newMrr" name="New MRR" fill="#82ca9d" radius={[4, 4, 0, 0]} />\n        <Bar dataKey="churnedMrr" name="Churned MRR" fill="#ff7c7c" radius={[4, 4, 0, 0]} />
+        <Legend />
+        <Bar dataKey="mrr" name="Total MRR" fill="#8884d8" radius={[4, 4, 0, 0]} />
+        <Bar dataKey="newMrr" name="New MRR" fill="#82ca9d" radius={[4, 4, 0, 0]} />
+        <Bar dataKey="churnedMrr" name="Churned MRR" fill="#ff7c7c" radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   );

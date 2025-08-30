@@ -14,7 +14,8 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,\n} from '@penny/ui';
+  DropdownMenuTrigger,
+} from '@penny/ui';
 import { MoreHorizontal, CreditCard, FileText, Ban, RefreshCw } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -37,7 +38,8 @@ const subscriptions: Subscription[] = [
     plan: 'enterprise',
     status: 'active',
     amount: 2499,
-    interval: 'monthly',\n    currentPeriodEnd: new Date('2024-03-15'),
+    interval: 'monthly',
+    currentPeriodEnd: new Date('2024-03-15'),
     users: 250,
     maxUsers: 500,
   },
@@ -47,7 +49,8 @@ const subscriptions: Subscription[] = [
     plan: 'pro',
     status: 'active',
     amount: 999,
-    interval: 'monthly',\n    currentPeriodEnd: new Date('2024-03-10'),
+    interval: 'monthly',
+    currentPeriodEnd: new Date('2024-03-10'),
     users: 45,
     maxUsers: 100,
   },
@@ -57,7 +60,8 @@ const subscriptions: Subscription[] = [
     plan: 'starter',
     status: 'past_due',
     amount: 299,
-    interval: 'monthly',\n    currentPeriodEnd: new Date('2024-02-20'),
+    interval: 'monthly',
+    currentPeriodEnd: new Date('2024-02-20'),
     users: 12,
     maxUsers: 20,
   },
@@ -93,14 +97,16 @@ export function SubscriptionsTable() {
       </TableHeader>
       <TableBody>
         {subscriptions.map((subscription) => (
-          <TableRow key={subscription.id}>\n            <TableCell className="font-medium">{subscription.tenant}</TableCell>
+          <TableRow key={subscription.id}>
+            <TableCell className="font-medium">{subscription.tenant}</TableCell>
             <TableCell>
               <Badge variant={planColors[subscription.plan]}>
                 {subscription.plan.toUpperCase()}
               </Badge>
             </TableCell>
             <TableCell>
-              <Badge variant={statusColors[subscription.status]}>\n                {subscription.status.replace('_', ' ')}
+              <Badge variant={statusColors[subscription.status]}>
+                {subscription.status.replace('_', ' ')}
               </Badge>
             </TableCell>
             <TableCell>
@@ -109,24 +115,32 @@ export function SubscriptionsTable() {
             <TableCell>
               {subscription.users}/{subscription.maxUsers}
             </TableCell>
-            <TableCell>{format(subscription.currentPeriodEnd, 'MMM d, yyyy')}</TableCell>\n            <TableCell className="text-right">
+            <TableCell>{format(subscription.currentPeriodEnd, 'MMM d, yyyy')}</TableCell>
+            <TableCell className="text-right">
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>\n                  <Button variant="ghost" className="h-8 w-8 p-0">
-                    <span className="sr-only">Open menu</span>\n                    <MoreHorizontal className="h-4 w-4" />
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="h-8 w-8 p-0">
+                    <span className="sr-only">Open menu</span>
+                    <MoreHorizontal className="h-4 w-4" />
                   </Button>
-                </DropdownMenuTrigger>\n                <DropdownMenuContent align="end">
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>\n                    <FileText className="mr-2 h-4 w-4" />
+                  <DropdownMenuItem>
+                    <FileText className="mr-2 h-4 w-4" />
                     <span>View Details</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>\n                    <CreditCard className="mr-2 h-4 w-4" />
+                  <DropdownMenuItem>
+                    <CreditCard className="mr-2 h-4 w-4" />
                     <span>Update Payment</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>\n                    <RefreshCw className="mr-2 h-4 w-4" />
+                  <DropdownMenuItem>
+                    <RefreshCw className="mr-2 h-4 w-4" />
                     <span>Change Plan</span>
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />\n                  <DropdownMenuItem className="text-red-600">
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="text-red-600">
                     <Ban className="mr-2 h-4 w-4" />
                     <span>Cancel Subscription</span>
                   </DropdownMenuItem>

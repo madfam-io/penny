@@ -35,30 +35,42 @@ export const UserAnalytics: React.FC<UserAnalyticsProps> = ({ tenantId }) => {
     return <div className="animate-pulse">Loading user analytics...</div>;
   }
 
-  return (\n    <div className="space-y-6">
+  return (
+    <div className="space-y-6">
       {/* User Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4">\n          <div className="flex items-center space-x-3">
+        <Card className="p-4">
+          <div className="flex items-center space-x-3">
             <Users className="w-8 h-8 text-blue-600" />
-            <div>\n              <p className="text-2xl font-bold">12,345</p>
+            <div>
+              <p className="text-2xl font-bold">12,345</p>
               <p className="text-sm text-gray-600">Total Users</p>
             </div>
           </div>
-        </Card>\n        <Card className="p-4">
-          <div className="flex items-center space-x-3">\n            <UserCheck className="w-8 h-8 text-green-600" />
-            <div>\n              <p className="text-2xl font-bold">1,234</p>
+        </Card>
+        <Card className="p-4">
+          <div className="flex items-center space-x-3">
+            <UserCheck className="w-8 h-8 text-green-600" />
+            <div>
+              <p className="text-2xl font-bold">1,234</p>
               <p className="text-sm text-gray-600">Active Users</p>
             </div>
           </div>
-        </Card>\n        <Card className="p-4">
-          <div className="flex items-center space-x-3">\n            <UserX className="w-8 h-8 text-red-600" />
-            <div>\n              <p className="text-2xl font-bold">23</p>
+        </Card>
+        <Card className="p-4">
+          <div className="flex items-center space-x-3">
+            <UserX className="w-8 h-8 text-red-600" />
+            <div>
+              <p className="text-2xl font-bold">23</p>
               <p className="text-sm text-gray-600">Churned Users</p>
             </div>
           </div>
-        </Card>\n        <Card className="p-4">
-          <div className="flex items-center space-x-3">\n            <TrendingUp className="w-8 h-8 text-purple-600" />
-            <div>\n              <p className="text-2xl font-bold">15.2%</p>
+        </Card>
+        <Card className="p-4">
+          <div className="flex items-center space-x-3">
+            <TrendingUp className="w-8 h-8 text-purple-600" />
+            <div>
+              <p className="text-2xl font-bold">15.2%</p>
               <p className="text-sm text-gray-600">Growth Rate</p>
             </div>
           </div>
@@ -67,21 +79,31 @@ export const UserAnalytics: React.FC<UserAnalyticsProps> = ({ tenantId }) => {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="p-6">\n          <h3 className="text-lg font-semibold mb-4">User Growth Over Time</h3>
-          <div className="h-64">\n            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={[]}>\n                <CartesianGrid strokeDasharray="3 3" />\n                <XAxis dataKey="date" />
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold mb-4">User Growth Over Time</h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={[]}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
                 <YAxis />
-                <Tooltip />\n                <Line type="monotone" dataKey="users" stroke="#3b82f6" strokeWidth={2} />
+                <Tooltip />
+                <Line type="monotone" dataKey="users" stroke="#3b82f6" strokeWidth={2} />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </Card>
-\n        <Card className="p-6">
-          <h3 className="text-lg font-semibold mb-4">User Retention</h3>\n          <div className="h-64">
+
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold mb-4">User Retention</h3>
+          <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={[]}>\n                <CartesianGrid strokeDasharray="3 3" />\n                <XAxis dataKey="period" />
+              <BarChart data={[]}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="period" />
                 <YAxis />
-                <Tooltip />\n                <Bar dataKey="retention" fill="#10b981" />
+                <Tooltip />
+                <Bar dataKey="retention" fill="#10b981" />
               </BarChart>
             </ResponsiveContainer>
           </div>

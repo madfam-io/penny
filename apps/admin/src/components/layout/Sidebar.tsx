@@ -3,10 +3,10 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
+import { Button } from '@penny/uibutton';
+import { Badge } from '@penny/uibadge';
+import { ScrollArea } from '@penny/uiscroll-area';
+import { Separator } from '@penny/uiseparator';
 import { 
   LayoutDashboard,
   Users,
@@ -39,18 +39,22 @@ const navigationItems = [
     title: 'Overview',
     items: [
       {
-        title: 'Dashboard',\n        href: '/dashboard',
+        title: 'Dashboard',
+        href: '/dashboard',
         icon: LayoutDashboard,
         badge: null
       },
       {
-        title: 'Analytics',\n        href: '/analytics',
+        title: 'Analytics',
+        href: '/analytics',
         icon: BarChart3,
         badge: null
       },
       {
-        title: 'Activity',\n        href: '/activity',
-        icon: Activity,\n        badge: '12'
+        title: 'Activity',
+        href: '/activity',
+        icon: Activity,
+        badge: '12'
       }
     ]
   },
@@ -58,22 +62,26 @@ const navigationItems = [
     title: 'Management',
     items: [
       {
-        title: 'Users',\n        href: '/users',
+        title: 'Users',
+        href: '/users',
         icon: Users,
         badge: null
       },
       {
-        title: 'Tenants',\n        href: '/tenants',
+        title: 'Tenants',
+        href: '/tenants',
         icon: Building2,
         badge: null
       },
       {
-        title: 'Conversations',\n        href: '/conversations',
+        title: 'Conversations',
+        href: '/conversations',
         icon: MessageCircle,
         badge: null
       },
       {
-        title: 'Tools',\n        href: '/tools',
+        title: 'Tools',
+        href: '/tools',
         icon: Wrench,
         badge: null
       }
@@ -83,7 +91,8 @@ const navigationItems = [
     title: 'Financial',
     items: [
       {
-        title: 'Billing',\n        href: '/billing',
+        title: 'Billing',
+        href: '/billing',
         icon: CreditCard,
         badge: null
       }
@@ -93,16 +102,20 @@ const navigationItems = [
     title: 'System',
     items: [
       {
-        title: 'Audit Logs',\n        href: '/audit',
-        icon: Shield,\n        badge: '3'
+        title: 'Audit Logs',
+        href: '/audit',
+        icon: Shield,
+        badge: '3'
       },
       {
-        title: 'Webhooks',\n        href: '/webhooks',
+        title: 'Webhooks',
+        href: '/webhooks',
         icon: Webhook,
         badge: null
       },
       {
-        title: 'Settings',\n        href: '/settings',
+        title: 'Settings',
+        href: '/settings',
         icon: Settings,
         badge: null
       }
@@ -112,12 +125,15 @@ const navigationItems = [
 
 const bottomItems = [
   {
-    title: 'Help & Support',\n    href: '/help',
+    title: 'Help & Support',
+    href: '/help',
     icon: HelpCircle
   },
   {
-    title: 'Notifications',\n    href: '/notifications',
-    icon: Bell,\n    badge: '5'
+    title: 'Notifications',
+    href: '/notifications',
+    icon: Bell,
+    badge: '5'
   }
 ];
 
@@ -146,7 +162,8 @@ export function Sidebar({ collapsed, mobileOpen, onCollapse, onMobileToggle }: S
         {!collapsed && (
           <>
             <span className="flex-1">{item.title}</span>
-            {item.badge && (\n              <Badge variant="secondary" className="h-5 px-2 text-xs">
+            {item.badge && (
+              <Badge variant="secondary" className="h-5 px-2 text-xs">
                 {item.badge}
               </Badge>
             )}
@@ -156,14 +173,17 @@ export function Sidebar({ collapsed, mobileOpen, onCollapse, onMobileToggle }: S
     );
   };
 
-  const sidebarContent = (\n    <div className="flex flex-col h-full">
+  const sidebarContent = (
+    <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="p-6 border-b">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">\n            <LayoutDashboard className="h-5 w-5 text-primary-foreground" />
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <LayoutDashboard className="h-5 w-5 text-primary-foreground" />
           </div>
           {!collapsed && (
-            <div>\n              <h1 className="text-xl font-bold">PENNY Admin</h1>
+            <div>
+              <h1 className="text-xl font-bold">PENNY Admin</h1>
               <p className="text-xs text-muted-foreground">Management Console</p>
             </div>
           )}
@@ -175,7 +195,8 @@ export function Sidebar({ collapsed, mobileOpen, onCollapse, onMobileToggle }: S
         <div className="space-y-6">
           {navigationItems.map((section) => (
             <div key={section.title}>
-              {!collapsed && (\n                <h2 className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+              {!collapsed && (
+                <h2 className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                   {section.title}
                 </h2>
               )}
@@ -183,7 +204,8 @@ export function Sidebar({ collapsed, mobileOpen, onCollapse, onMobileToggle }: S
                 {section.items.map((item) => (
                   <NavItem key={item.href} item={item} />
                 ))}
-              </div>\n              {!collapsed && <Separator className="my-4" />}
+              </div>
+              {!collapsed && <Separator className="my-4" />}
             </div>
           ))}
         </div>
@@ -199,28 +221,35 @@ export function Sidebar({ collapsed, mobileOpen, onCollapse, onMobileToggle }: S
        
        {!collapsed && <Separator className="my-4" />}
         
-        <Button\n          variant="ghost"\n          size="sm"
+        <Button
+          variant="ghost"
+          size="sm"
           className={cn(
             'w-full justify-start text-muted-foreground',
             collapsed && 'justify-center px-2'
           )}
-        >\n          <LogOut className="h-4 w-4" />
+        >
+          <LogOut className="h-4 w-4" />
           {!collapsed && <span className="ml-2">Sign out</span>}
         </Button>
       </div>
 
       {/* Collapse Button */}
       <div className="hidden lg:block border-t p-4">
-        <Button\n          variant="ghost"\n          size="sm"
+        <Button
+          variant="ghost"
+          size="sm"
           onClick={() => onCollapse(!collapsed)}
           className={cn(
             'w-full justify-start',
             collapsed && 'justify-center px-2'
           )}
         >
-          {collapsed ? (\n            <ChevronRight className="h-4 w-4" />
+          {collapsed ? (
+            <ChevronRight className="h-4 w-4" />
           ) : (
-            <>\n              <ChevronLeft className="h-4 w-4" />
+            <>
+              <ChevronLeft className="h-4 w-4" />
               <span className="ml-2">Collapse</span>
             </>
           )}

@@ -2,10 +2,24 @@
 
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-const latencyData = [\n  { time: '00:00', value: 45 },\n  { time: '04:00', value: 52 },\n  { time: '08:00', value: 78 },\n  { time: '12:00', value: 124 },\n  { time: '16:00', value: 89 },\n  { time: '20:00', value: 67 },\n  { time: '24:00', value: 45 },
+const latencyData = [
+  { time: '00:00', value: 45 },
+  { time: '04:00', value: 52 },
+  { time: '08:00', value: 78 },
+  { time: '12:00', value: 124 },
+  { time: '16:00', value: 89 },
+  { time: '20:00', value: 67 },
+  { time: '24:00', value: 45 },
 ];
 
-const errorData = [\n  { time: '00:00', value: 0.1 },\n  { time: '04:00', value: 0.2 },\n  { time: '08:00', value: 0.5 },\n  { time: '12:00', value: 0.8 },\n  { time: '16:00', value: 0.3 },\n  { time: '20:00', value: 0.2 },\n  { time: '24:00', value: 0.1 },
+const errorData = [
+  { time: '00:00', value: 0.1 },
+  { time: '04:00', value: 0.2 },
+  { time: '08:00', value: 0.5 },
+  { time: '12:00', value: 0.8 },
+  { time: '16:00', value: 0.3 },
+  { time: '20:00', value: 0.2 },
+  { time: '24:00', value: 0.1 },
 ];
 
 interface MetricsChartProps {
@@ -20,14 +34,17 @@ export function MetricsChart({ metric }: MetricsChartProps) {
 
   return (
     <ResponsiveContainer width="100%" height={200}>
-      <LineChart data={data}>\n        <XAxis dataKey="time" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-        <YAxis\n          stroke="#888888"
+      <LineChart data={data}>
+        <XAxis dataKey="time" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
+        <YAxis
+          stroke="#888888"
           fontSize={12}
           tickLine={false}
           axisLine={false}
           tickFormatter={formatter}
         />
-        <Tooltip formatter={formatter} />\n        <Line type="monotone" dataKey="value" stroke={color} strokeWidth={2} dot={false} />
+        <Tooltip formatter={formatter} />
+        <Line type="monotone" dataKey="value" stroke={color} strokeWidth={2} dot={false} />
       </LineChart>
     </ResponsiveContainer>
   );

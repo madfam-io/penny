@@ -10,7 +10,8 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable,\n} from '@tanstack/react-table';
+  useReactTable,
+} from '@tanstack/react-table';
 import { useState, useMemo } from 'react';
 import {
   Table,
@@ -18,14 +19,16 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,\n} from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+  TableRow,
+} from '@penny/uitable';
+import { Button } from '@penny/uibutton';
+import { Input } from '@penny/uiinput';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuTrigger,\n} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger,
+} from '@penny/uidropdown-menu';
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -96,13 +99,18 @@ export function DataTable<TData, TValue>({
 
         return (
           <Button
-            variant="ghost"\n            size="sm"\n            className="-ml-3 h-8 data-[state=open]:bg-accent"
+            variant="ghost"
+            size="sm"
+            className="-ml-3 h-8 data-[state=open]:bg-accent"
             onClick={() => headerColumn.toggleSorting(headerColumn.getIsSorted() === 'asc')}
           >
             <span>{originalHeader}</span>
-            {headerColumn.getIsSorted() === 'desc' ? (\n              <ArrowDown className="ml-2 h-4 w-4" />
-            ) : headerColumn.getIsSorted() === 'asc' ? (\n              <ArrowUp className="ml-2 h-4 w-4" />
-            ) : (\n              <ArrowUpDown className="ml-2 h-4 w-4" />
+            {headerColumn.getIsSorted() === 'desc' ? (
+              <ArrowDown className="ml-2 h-4 w-4" />
+            ) : headerColumn.getIsSorted() === 'asc' ? (
+              <ArrowUp className="ml-2 h-4 w-4" />
+            ) : (
+              <ArrowUpDown className="ml-2 h-4 w-4" />
             )}
           </Button>
         );
@@ -152,7 +160,8 @@ export function DataTable<TData, TValue>({
       {/* Controls */}
       <div className="flex items-center justify-between">
         <div className="flex flex-1 items-center space-x-2">
-          {enableSearch && (\n            <div className="relative">
+          {enableSearch && (
+            <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder={searchPlaceholder}
@@ -177,11 +186,13 @@ export function DataTable<TData, TValue>({
         
         {enableColumnVisibility && (
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>\n              <Button variant="outline" size="sm" className="ml-auto">
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="ml-auto">
                 <Settings className="mr-2 h-4 w-4" />
                 View
               </Button>
-            </DropdownMenuTrigger>\n            <DropdownMenuContent align="end" className="w-[150px]">
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-[150px]">
               {table
                 .getAllColumns()
                 .filter((column) => column.getCanHide())
@@ -203,11 +214,15 @@ export function DataTable<TData, TValue>({
       </div>
 
       {/* Selection Info */}
-      {enableRowSelection && table.getFilteredSelectedRowModel().rows.length > 0 && (\n        <div className="flex items-center justify-between rounded-md border border-dashed bg-muted/50 px-3 py-2 text-sm">
-          <span>\n            {table.getFilteredSelectedRowModel().rows.length} of{' '}
+      {enableRowSelection && table.getFilteredSelectedRowModel().rows.length > 0 && (
+        <div className="flex items-center justify-between rounded-md border border-dashed bg-muted/50 px-3 py-2 text-sm">
+          <span>
+            {table.getFilteredSelectedRowModel().rows.length} of{' '}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </span>
-          <Button\n            variant="ghost"\n            size="sm"
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => setRowSelection({})}
           >
             Clear selection
@@ -236,8 +251,10 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {loading ? (
-              <TableRow>\n                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  <div className="flex items-center justify-center">\n                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900"></div>
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900"></div>
                     <span className="ml-2">Loading...</span>
                   </div>
                 </TableCell>
@@ -280,12 +297,14 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center justify-between space-x-2 py-4">
         <div className="text-sm text-muted-foreground">
           {pagination ? (
-            <>\n              Showing {pagination.pageIndex * pagination.pageSize + 1} to{' '}
+            <>
+              Showing {pagination.pageIndex * pagination.pageSize + 1} to{' '}
               {Math.min((pagination.pageIndex + 1) * pagination.pageSize, pagination.total)} of{' '}
               {pagination.total} entries
             </>
           ) : (
-            <>\n              {table.getFilteredSelectedRowModel().rows.length} of{' '}
+            <>
+              {table.getFilteredSelectedRowModel().rows.length} of{' '}
               {table.getFilteredRowModel().rows.length} row(s) selected.
             </>
           )}
@@ -294,50 +313,68 @@ export function DataTable<TData, TValue>({
        <div className="flex items-center space-x-2">
           {pagination ? (
             <>
-              <Button\n                variant="outline"\n                size="sm"
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => onPaginationChange?.({
                   pageIndex: 0,
                   pageSize: pagination.pageSize
                 })}
                 disabled={pagination.pageIndex === 0}
-              >\n                <ChevronsLeft className="h-4 w-4" />
+              >
+                <ChevronsLeft className="h-4 w-4" />
               </Button>
-              <Button\n                variant="outline"\n                size="sm"
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => onPaginationChange?.({
                   pageIndex: pagination.pageIndex - 1,
                   pageSize: pagination.pageSize
                 })}
                 disabled={pagination.pageIndex === 0}
-              >\n                <ChevronLeft className="h-4 w-4" />
+              >
+                <ChevronLeft className="h-4 w-4" />
               </Button>
-              <Button\n                variant="outline"\n                size="sm"
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => onPaginationChange?.({
                   pageIndex: pagination.pageIndex + 1,
                   pageSize: pagination.pageSize
                 })}
                 disabled={pagination.pageIndex >= pagination.pageCount - 1}
-              >\n                <ChevronRight className="h-4 w-4" />
+              >
+                <ChevronRight className="h-4 w-4" />
               </Button>
-              <Button\n                variant="outline"\n                size="sm"
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => onPaginationChange?.({
                   pageIndex: pagination.pageCount - 1,
                   pageSize: pagination.pageSize
                 })}
                 disabled={pagination.pageIndex >= pagination.pageCount - 1}
-              >\n                <ChevronsRight className="h-4 w-4" />
+              >
+                <ChevronsRight className="h-4 w-4" />
               </Button>
             </>
           ) : (
             <>
-              <Button\n                variant="outline"\n                size="sm"
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
-              >\n                <ChevronLeft className="h-4 w-4" />
+              >
+                <ChevronLeft className="h-4 w-4" />
               </Button>
-              <Button\n                variant="outline"\n                size="sm"
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
-              >\n                <ChevronRight className="h-4 w-4" />
+              >
+                <ChevronRight className="h-4 w-4" />
               </Button>
             </>
           )}

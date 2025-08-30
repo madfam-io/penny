@@ -131,25 +131,30 @@ export const BillingOverview: React.FC = () => {
   };
 
   if (loading) {
-    return (\n      <div className="flex items-center justify-center p-8">
+    return (
+      <div className="flex items-center justify-center p-8">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   if (error) {
-    return (\n      <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-        <div className="flex items-center">\n          <AlertCircle className="h-5 w-5 text-red-600 mr-2" />
+    return (
+      <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+        <div className="flex items-center">
+          <AlertCircle className="h-5 w-5 text-red-600 mr-2" />
           <span className="text-red-800">{error}</span>
         </div>
       </div>
     );
   }
 
-  return (\n    <div className="space-y-6">
+  return (
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
-        <div>\n          <h1 className="text-3xl font-bold text-gray-900">Billing Overview</h1>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Billing Overview</h1>
           <p className="text-gray-600 mt-1">Monitor revenue, subscriptions, and billing metrics</p>
         </div>
        
@@ -159,21 +164,32 @@ export const BillingOverview: React.FC = () => {
             value={dateRange}
             onChange={(e) => setDateRange(e.target.value)}
             className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >\n            <option value="7d">Last 7 days</option>\n            <option value="30d">Last 30 days</option>\n            <option value="90d">Last 90 days</option>\n            <option value="1y">Last year</option>
+          >
+            <option value="7d">Last 7 days</option>
+            <option value="30d">Last 30 days</option>
+            <option value="90d">Last 90 days</option>
+            <option value="1y">Last year</option>
           </select>
-\n          <Button variant="outline" onClick={() => exportData('revenue')}>\n            <Download className="h-4 w-4 mr-2" />
+
+          <Button variant="outline" onClick={() => exportData('revenue')}>
+            <Download className="h-4 w-4 mr-2" />
             Export
           </Button>
         </div>
       </div>
 
       {/* Key Metrics Cards */}
-      {stats && (\n        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card>\n            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>\n              <DollarSign className="h-4 w-4 text-muted-foreground" />
+      {stats && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+              <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
-            <CardContent>\n              <div className="text-2xl font-bold">{formatCurrency(stats.total_revenue)}</div>
-              {revenueMetrics && (\n                <div className={`text-xs flex items-center mt-1 ${getChangeColor(revenueMetrics.growth_percentage)}`}>
+            <CardContent>
+              <div className="text-2xl font-bold">{formatCurrency(stats.total_revenue)}</div>
+              {revenueMetrics && (
+                <div className={`text-xs flex items-center mt-1 ${getChangeColor(revenueMetrics.growth_percentage)}`}>
                   {getChangeIcon(revenueMetrics.growth_percentage)}
                   <span className="ml-1">{formatPercentage(revenueMetrics.growth_percentage)} from last month</span>
                 </div>
@@ -183,28 +199,37 @@ export const BillingOverview: React.FC = () => {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Monthly Recurring Revenue</CardTitle>\n              <BarChart3 className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium">Monthly Recurring Revenue</CardTitle>
+              <BarChart3 className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
-            <CardContent>\n              <div className="text-2xl font-bold">{formatCurrency(stats.monthly_recurring_revenue)}</div>
+            <CardContent>
+              <div className="text-2xl font-bold">{formatCurrency(stats.monthly_recurring_revenue)}</div>
               <p className="text-xs text-muted-foreground mt-1">
                 ARR: {formatCurrency(stats.annual_recurring_revenue)}
               </p>
             </CardContent>
           </Card>
 
-          <Card>\n            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Subscriptions</CardTitle>\n              <Users className="h-4 w-4 text-muted-foreground" />
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Active Subscriptions</CardTitle>
+              <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
-            <CardContent>\n              <div className="text-2xl font-bold">{stats.active_subscriptions.toLocaleString()}</div>\n              <div className={`text-xs flex items-center mt-1 ${getChangeColor(-stats.churned_this_month)}`}>
+            <CardContent>
+              <div className="text-2xl font-bold">{stats.active_subscriptions.toLocaleString()}</div>
+              <div className={`text-xs flex items-center mt-1 ${getChangeColor(-stats.churned_this_month)}`}>
                 <span>{stats.churned_this_month} churned this month</span>
               </div>
             </CardContent>
           </Card>
 
-          <Card>\n            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Average Revenue Per User</CardTitle>\n              <PieChart className="h-4 w-4 text-muted-foreground" />
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Average Revenue Per User</CardTitle>
+              <PieChart className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
-            <CardContent>\n              <div className="text-2xl font-bold">{formatCurrency(stats.average_revenue_per_user)}</div>
+            <CardContent>
+              <div className="text-2xl font-bold">{formatCurrency(stats.average_revenue_per_user)}</div>
               <p className="text-xs text-muted-foreground mt-1">
                 {stats.total_customers.toLocaleString()} total customers
               </p>
@@ -214,13 +239,18 @@ export const BillingOverview: React.FC = () => {
       )}
 
       {/* Alerts */}
-      {stats && (stats.failed_payments > 0 || stats.overdue_invoices > 0) && (\n        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {stats.failed_payments > 0 && (\n            <Card className="border-red-200 bg-red-50">
-              <CardContent className="pt-6">\n                <div className="flex items-center">
+      {stats && (stats.failed_payments > 0 || stats.overdue_invoices > 0) && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {stats.failed_payments > 0 && (
+            <Card className="border-red-200 bg-red-50">
+              <CardContent className="pt-6">
+                <div className="flex items-center">
                   <AlertCircle className="h-5 w-5 text-red-600 mr-3" />
-                  <div>\n                    <div className="font-medium text-red-900">
+                  <div>
+                    <div className="font-medium text-red-900">
                       {stats.failed_payments} Failed Payments
-                    </div>\n                    <div className="text-red-700 text-sm">
+                    </div>
+                    <div className="text-red-700 text-sm">
                       Require immediate attention to prevent churn
                     </div>
                   </div>
@@ -229,12 +259,16 @@ export const BillingOverview: React.FC = () => {
             </Card>
           )}
 
-          {stats.overdue_invoices > 0 && (\n            <Card className="border-yellow-200 bg-yellow-50">
-              <CardContent className="pt-6">\n                <div className="flex items-center">
+          {stats.overdue_invoices > 0 && (
+            <Card className="border-yellow-200 bg-yellow-50">
+              <CardContent className="pt-6">
+                <div className="flex items-center">
                   <CreditCard className="h-5 w-5 text-yellow-600 mr-3" />
-                  <div>\n                    <div className="font-medium text-yellow-900">
+                  <div>
+                    <div className="font-medium text-yellow-900">
                       {stats.overdue_invoices} Overdue Invoices
-                    </div>\n                    <div className="text-yellow-700 text-sm">
+                    </div>
+                    <div className="text-yellow-700 text-sm">
                       Follow up on payment collection
                     </div>
                   </div>
@@ -247,9 +281,14 @@ export const BillingOverview: React.FC = () => {
 
       {/* Main Content Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">\n          <TabsTrigger value="overview">Revenue</TabsTrigger>\n          <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>\n          <TabsTrigger value="customers">Customers</TabsTrigger>\n          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="overview">Revenue</TabsTrigger>
+          <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
+          <TabsTrigger value="customers">Customers</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
         </TabsList>
-\n        <TabsContent value="overview" className="space-y-6">
+
+        <TabsContent value="overview" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
@@ -266,27 +305,38 @@ export const BillingOverview: React.FC = () => {
                 <CardTitle>Revenue Distribution</CardTitle>
                 <CardDescription>Revenue by plan type</CardDescription>
               </CardHeader>
-              <CardContent>\n                <div className="space-y-4">
-                  <div className="flex items-center justify-between p-3 bg-blue-50 rounded">\n                    <div className="flex items-center">
-                      <div className="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>\n                      <span className="font-medium">Pro Plan</span>
-                    </div>\n                    <div className="text-right">
-                      <div className="font-semibold">{formatCurrency(45000)}</div>\n                      <div className="text-sm text-gray-600">65% of total</div>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-3 bg-blue-50 rounded">
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
+                      <span className="font-medium">Pro Plan</span>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-semibold">{formatCurrency(45000)}</div>
+                      <div className="text-sm text-gray-600">65% of total</div>
                     </div>
                   </div>
                  
                  <div className="flex items-center justify-between p-3 bg-purple-50 rounded">
-                    <div className="flex items-center">\n                      <div className="w-3 h-3 bg-purple-500 rounded-full mr-3"></div>
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 bg-purple-500 rounded-full mr-3"></div>
                       <span className="font-medium">Enterprise Plan</span>
-                    </div>\n                    <div className="text-right">
-                      <div className="font-semibold">{formatCurrency(28000)}</div>\n                      <div className="text-sm text-gray-600">30% of total</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-semibold">{formatCurrency(28000)}</div>
+                      <div className="text-sm text-gray-600">30% of total</div>
                     </div>
                   </div>
                  
                  <div className="flex items-center justify-between p-3 bg-green-50 rounded">
-                    <div className="flex items-center">\n                      <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
                       <span className="font-medium">Overage & Add-ons</span>
-                    </div>\n                    <div className="text-right">
-                      <div className="font-semibold">{formatCurrency(8000)}</div>\n                      <div className="text-sm text-gray-600">5% of total</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-semibold">{formatCurrency(8000)}</div>
+                      <div className="text-sm text-gray-600">5% of total</div>
                     </div>
                   </div>
                 </div>
@@ -294,25 +344,35 @@ export const BillingOverview: React.FC = () => {
             </Card>
           </div>
         </TabsContent>
-\n        <TabsContent value="subscriptions">
+
+        <TabsContent value="subscriptions">
           <SubscriptionMetrics />
         </TabsContent>
-\n        <TabsContent value="customers">
+
+        <TabsContent value="customers">
           <CustomerBilling />
         </TabsContent>
-\n        <TabsContent value="analytics" className="space-y-6">
+
+        <TabsContent value="analytics" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card>
-              <CardHeader>\n                <CardTitle className="text-lg">Churn Analysis</CardTitle>
+              <CardHeader>
+                <CardTitle className="text-lg">Churn Analysis</CardTitle>
               </CardHeader>
-              <CardContent>\n                <div className="space-y-4">
-                  <div className="text-center">\n                    <div className="text-3xl font-bold text-red-600">5.2%</div>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-red-600">5.2%</div>
                     <div className="text-sm text-gray-600">Monthly churn rate</div>
-                  </div>\n                  <div className="space-y-2 text-sm">
+                  </div>
+                  <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span>Voluntary churn:</span>\n                      <span className="font-medium">3.8%</span>
-                    </div>\n                    <div className="flex justify-between">
-                      <span>Involuntary churn:</span>\n                      <span className="font-medium">1.4%</span>
+                      <span>Voluntary churn:</span>
+                      <span className="font-medium">3.8%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Involuntary churn:</span>
+                      <span className="font-medium">1.4%</span>
                     </div>
                   </div>
                 </div>
@@ -320,24 +380,35 @@ export const BillingOverview: React.FC = () => {
             </Card>
 
             <Card>
-              <CardHeader>\n                <CardTitle className="text-lg">Conversion Rates</CardTitle>
+              <CardHeader>
+                <CardTitle className="text-lg">Conversion Rates</CardTitle>
               </CardHeader>
-              <CardContent>\n                <div className="space-y-4">
-                  <div className="space-y-2">\n                    <div className="flex justify-between text-sm">
-                      <span>Trial to paid:</span>\n                      <span className="font-medium">68%</span>
-                    </div>\n                    <div className="w-full bg-gray-200 rounded-full h-2">
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span>Trial to paid:</span>
+                      <span className="font-medium">68%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
                       <div className="bg-green-500 h-2 rounded-full" style={{width: '68%'}}></div>
                     </div>
-                  </div>\n                  <div className="space-y-2">
+                  </div>
+                  <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span>Free to pro:</span>\n                      <span className="font-medium">12%</span>
-                    </div>\n                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <span>Free to pro:</span>
+                      <span className="font-medium">12%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
                       <div className="bg-blue-500 h-2 rounded-full" style={{width: '12%'}}></div>
                     </div>
-                  </div>\n                  <div className="space-y-2">
+                  </div>
+                  <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span>Pro to enterprise:</span>\n                      <span className="font-medium">8%</span>
-                    </div>\n                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <span>Pro to enterprise:</span>
+                      <span className="font-medium">8%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
                       <div className="bg-purple-500 h-2 rounded-full" style={{width: '8%'}}></div>
                     </div>
                   </div>
@@ -346,16 +417,23 @@ export const BillingOverview: React.FC = () => {
             </Card>
 
             <Card>
-              <CardHeader>\n                <CardTitle className="text-lg">Customer Lifetime Value</CardTitle>
+              <CardHeader>
+                <CardTitle className="text-lg">Customer Lifetime Value</CardTitle>
               </CardHeader>
-              <CardContent>\n                <div className="space-y-4">
-                  <div className="text-center">\n                    <div className="text-3xl font-bold text-green-600">{formatCurrency(2400)}</div>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-green-600">{formatCurrency(2400)}</div>
                     <div className="text-sm text-gray-600">Average CLV</div>
-                  </div>\n                  <div className="space-y-2 text-sm">
+                  </div>
+                  <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span>Pro plan CLV:</span>\n                      <span className="font-medium">{formatCurrency(1800)}</span>
-                    </div>\n                    <div className="flex justify-between">
-                      <span>Enterprise CLV:</span>\n                      <span className="font-medium">{formatCurrency(4200)}</span>
+                      <span>Pro plan CLV:</span>
+                      <span className="font-medium">{formatCurrency(1800)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Enterprise CLV:</span>
+                      <span className="font-medium">{formatCurrency(4200)}</span>
                     </div>
                   </div>
                 </div>

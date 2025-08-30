@@ -176,7 +176,8 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({
               labelStyle={{ color: '#374151' }}
               contentStyle={{
                backgroundColor: '#fff',
-               border: '1px solid #e5e7eb',\n                borderRadius: '6px'
+               border: '1px solid #e5e7eb',
+                borderRadius: '6px'
               }}
             />
             <Legend />
@@ -201,10 +202,17 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({
       case 'area':
         return (
           <AreaChart {...commonProps}>
-            <defs>\n              <linearGradient id="colorPrimary" x1="0" y1="0" x2="0" y2="1">\n                <stop offset="5%" stopColor={colors.primary} stopOpacity={0.3}/>\n                <stop offset="95%" stopColor={colors.primary} stopOpacity={0}/>
-              </linearGradient>\n              <linearGradient id="colorSecondary" x1="0" y1="0" x2="0" y2="1">\n                <stop offset="5%" stopColor={colors.secondary} stopOpacity={0.3}/>\n                <stop offset="95%" stopColor={colors.secondary} stopOpacity={0}/>
+            <defs>
+              <linearGradient id="colorPrimary" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor={colors.primary} stopOpacity={0.3}/>
+                <stop offset="95%" stopColor={colors.primary} stopOpacity={0}/>
               </linearGradient>
-            </defs>\n            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <linearGradient id="colorSecondary" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor={colors.secondary} stopOpacity={0.3}/>
+                <stop offset="95%" stopColor={colors.secondary} stopOpacity={0}/>
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis
              dataKey="period"
              stroke="#888888" 
@@ -212,7 +220,8 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({
               tickLine={false} 
               axisLine={false} 
             />
-            <YAxis\n              stroke="#888888"
+            <YAxis
+              stroke="#888888"
               fontSize={12}
               tickLine={false}
               axisLine={false}
@@ -241,7 +250,8 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({
 
       default: // bar
         return (
-          <BarChart {...commonProps}>\n            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+          <BarChart {...commonProps}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis
              dataKey="period"
              stroke="#888888" 
@@ -249,7 +259,8 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({
               tickLine={false} 
               axisLine={false} 
             />
-            <YAxis\n              stroke="#888888"
+            <YAxis
+              stroke="#888888"
               fontSize={12}
               tickLine={false}
               axisLine={false}
@@ -283,7 +294,8 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({
   };
 
   if (loading) {
-    return (\n      <div className="flex items-center justify-center" style={{ height }}>
+    return (
+      <div className="flex items-center justify-center" style={{ height }}>
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
@@ -291,11 +303,14 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({
 
   const totalChange = getTotalChange();
 
-  return (\n    <div className="space-y-4">
+  return (
+    <div className="space-y-4">
       {/* Chart Controls */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
-        <div className="flex items-center space-x-4">\n          <div className="flex items-center space-x-2">
-            <span className="text-sm font-medium text-gray-700">Metric:</span>\n            <div className="flex space-x-1">
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
+            <span className="text-sm font-medium text-gray-700">Metric:</span>
+            <div className="flex space-x-1">
               <Button
                 variant={metric === 'revenue' ? 'default' : 'outline'}
                 size="sm"
@@ -317,29 +332,36 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({
             <Badge 
               variant={totalChange >= 0 ? 'default' : 'destructive'}
               className="flex items-center space-x-1"
-            >\n              <TrendingUp className={`h-3 w-3 ${totalChange < 0 ? 'rotate-180' : ''}`} />\n              <span>{totalChange >= 0 ? '+' : ''}{totalChange.toFixed(1)}%</span>
+            >
+              <TrendingUp className={`h-3 w-3 ${totalChange < 0 ? 'rotate-180' : ''}`} />
+              <span>{totalChange >= 0 ? '+' : ''}{totalChange.toFixed(1)}%</span>
             </Badge>
           )}
         </div>
-\n        <div className="flex items-center space-x-2">
-          <span className="text-sm font-medium text-gray-700">View:</span>\n          <div className="flex space-x-1">
+
+        <div className="flex items-center space-x-2">
+          <span className="text-sm font-medium text-gray-700">View:</span>
+          <div className="flex space-x-1">
             <Button
               variant={chartType === 'bar' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setChartType('bar')}
-            >\n              <BarChart3 className="h-4 w-4" />
+            >
+              <BarChart3 className="h-4 w-4" />
             </Button>
             <Button
               variant={chartType === 'line' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setChartType('line')}
-            >\n              <TrendingUp className="h-4 w-4" />
+            >
+              <TrendingUp className="h-4 w-4" />
             </Button>
             <Button
               variant={chartType === 'area' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setChartType('area')}
-            >\n              <Calendar className="h-4 w-4" />
+            >
+              <Calendar className="h-4 w-4" />
             </Button>
           </div>
         </div>
@@ -352,22 +374,27 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({
 
       {/* Summary Stats */}
       <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t">
-        <div className="text-center">\n          <div className="text-lg font-semibold text-gray-900">
+        <div className="text-center">
+          <div className="text-lg font-semibold text-gray-900">
             {formatCurrency(data.reduce((sum, d) => sum + (metric === 'mrr' ? d.mrr : d.total_revenue), 0))}
-          </div>\n          <div className="text-sm text-gray-600">Total {metric === 'mrr' ? 'MRR' : 'Revenue'}</div>
+          </div>
+          <div className="text-sm text-gray-600">Total {metric === 'mrr' ? 'MRR' : 'Revenue'}</div>
         </div>
        
        <div className="text-center">
           <div className="text-lg font-semibold text-gray-900">
             {data.length > 0 ? formatCurrency(
-              (data.reduce((sum, d) => sum + (metric === 'mrr' ? d.mrr : d.total_revenue), 0)) / data.length\n            ) : '$0'}
-          </div>\n          <div className="text-sm text-gray-600">Average</div>
+              (data.reduce((sum, d) => sum + (metric === 'mrr' ? d.mrr : d.total_revenue), 0)) / data.length
+            ) : '$0'}
+          </div>
+          <div className="text-sm text-gray-600">Average</div>
         </div>
        
        <div className="text-center">
           <div className="text-lg font-semibold text-gray-900">
             {data.length > 0 ? Math.max(...data.map(d => metric === 'mrr' ? d.mrr : d.total_revenue)).toLocaleString() : '0'}
-          </div>\n          <div className="text-sm text-gray-600">Peak {metric === 'mrr' ? 'MRR' : 'Revenue'}</div>
+          </div>
+          <div className="text-sm text-gray-600">Peak {metric === 'mrr' ? 'MRR' : 'Revenue'}</div>
         </div>
       </div>
     </div>

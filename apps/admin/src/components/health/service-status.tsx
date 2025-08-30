@@ -31,19 +31,27 @@ export function ServiceStatus({ service }: ServiceStatusProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{service.name}</CardTitle>\n        <Icon className="h-4 w-4 text-muted-foreground" />
+        <CardTitle className="text-sm font-medium">{service.name}</CardTitle>
+        <Icon className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
-      <CardContent>\n        <div className="space-y-3">
+      <CardContent>
+        <div className="space-y-3">
           <Badge variant={statusColors[service.status]}>{statusText[service.status]}</Badge>
-\n          <div className="space-y-1">
-            <div className="flex items-center justify-between text-sm">\n              <span className="text-muted-foreground">Latency</span>
+
+          <div className="space-y-1">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">Latency</span>
               <span className="font-medium">{service.latency}ms</span>
-            </div>\n            <Progress value={Math.min(100, (service.latency / 200) * 100)} className="h-2" />
+            </div>
+            <Progress value={Math.min(100, (service.latency / 200) * 100)} className="h-2" />
           </div>
-\n          <div className="space-y-1">
-            <div className="flex items-center justify-between text-sm">\n              <span className="text-muted-foreground">Uptime</span>
+
+          <div className="space-y-1">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">Uptime</span>
               <span className="font-medium">{service.uptime}%</span>
-            </div>\n            <Progress value={service.uptime} className="h-2" />
+            </div>
+            <Progress value={service.uptime} className="h-2" />
           </div>
         </div>
       </CardContent>

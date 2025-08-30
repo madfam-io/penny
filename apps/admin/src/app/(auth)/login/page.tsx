@@ -12,7 +12,8 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,\n} from '@penny/ui';
+  CardTitle,
+} from '@penny/ui';
 import { Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
@@ -48,33 +49,45 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-      <Card className="w-full max-w-md">\n        <CardHeader className="space-y-1">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Admin Login</CardTitle>
           <CardDescription>
             Enter your credentials to access the PENNY admin dashboard
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>\n          <CardContent className="space-y-4">
-            <div className="space-y-2">\n              <Label htmlFor="email">Email</Label>
-              <Input\n                id="email"\n                type="email"\n                placeholder="admin@example.com"
+        <form onSubmit={handleSubmit}>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="admin@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={isLoading}
               />
-            </div>\n            <div className="space-y-2">
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input\n                id="password"\n                type="password"
+              <Input
+                id="password"
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 disabled={isLoading}
               />
-            </div>\n            {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
+            </div>
+            {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
           </CardContent>
-          <CardFooter>\n            <Button type="submit" className="w-full" disabled={isLoading}>
+          <CardFooter>
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
-                <>\n                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Signing in...
                 </>
               ) : (

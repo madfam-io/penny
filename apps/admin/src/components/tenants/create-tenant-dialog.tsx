@@ -16,7 +16,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Switch,\n} from '@penny/ui';
+  Switch,
+} from '@penny/ui';
 import { Loader2 } from 'lucide-react';
 
 interface CreateTenantDialogProps {
@@ -27,8 +28,11 @@ interface CreateTenantDialogProps {
 export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',\n    slug: '',
-    plan: 'starter',\n    adminEmail: '',\n    adminName: '',
+    name: '',
+    slug: '',
+    plan: 'starter',
+    adminEmail: '',
+    adminName: '',
     enableSso: false,
     enableMfa: false,
   });
@@ -44,8 +48,11 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
     onOpenChange(false);
     // Reset form
     setFormData({
-      name: '',\n      slug: '',
-      plan: 'starter',\n      adminEmail: '',\n      adminName: '',
+      name: '',
+      slug: '',
+      plan: 'starter',
+      adminEmail: '',
+      adminName: '',
       enableSso: false,
       enableMfa: false,
     });
@@ -68,9 +75,12 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
               Set up a new tenant organization with initial configuration
             </DialogDescription>
           </DialogHeader>
-\n          <div className="grid gap-4 py-4">
-            <div className="grid gap-2">\n              <Label htmlFor="name">Organization Name</Label>
-              <Input\n                id="name"
+
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="name">Organization Name</Label>
+              <Input
+                id="name"
                 value={formData.name}
                 onChange={(e) => {
                   setFormData({
@@ -83,57 +93,77 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
                 required
               />
             </div>
-\n            <div className="grid gap-2">
+
+            <div className="grid gap-2">
               <Label htmlFor="slug">URL Slug</Label>
-              <Input\n                id="slug"
+              <Input
+                id="slug"
                 value={formData.slug}
                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                placeholder="acme-corp"\n                pattern="[a-z0-9-]+"
+                placeholder="acme-corp"
+                pattern="[a-z0-9-]+"
                 required
-              />\n              <p className="text-sm text-muted-foreground">
+              />
+              <p className="text-sm text-muted-foreground">
                 This will be used in URLs: {formData.slug || 'your-org'}.penny.ai
               </p>
             </div>
-\n            <div className="grid gap-2">
+
+            <div className="grid gap-2">
               <Label htmlFor="plan">Subscription Plan</Label>
               <Select
                 value={formData.plan}
                 onValueChange={(value) => setFormData({ ...formData, plan: value })}
-              >\n                <SelectTrigger id="plan">
+              >
+                <SelectTrigger id="plan">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>\n                  <SelectItem value="free">Free</SelectItem>\n                  <SelectItem value="starter">Starter</SelectItem>\n                  <SelectItem value="pro">Pro</SelectItem>\n                  <SelectItem value="enterprise">Enterprise</SelectItem>
+                <SelectContent>
+                  <SelectItem value="free">Free</SelectItem>
+                  <SelectItem value="starter">Starter</SelectItem>
+                  <SelectItem value="pro">Pro</SelectItem>
+                  <SelectItem value="enterprise">Enterprise</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-\n            <div className="grid gap-2">
+
+            <div className="grid gap-2">
               <Label htmlFor="adminEmail">Admin Email</Label>
-              <Input\n                id="adminEmail"\n                type="email"
+              <Input
+                id="adminEmail"
+                type="email"
                 value={formData.adminEmail}
                 onChange={(e) => setFormData({ ...formData, adminEmail: e.target.value })}
                 placeholder="admin@example.com"
                 required
               />
             </div>
-\n            <div className="grid gap-2">
+
+            <div className="grid gap-2">
               <Label htmlFor="adminName">Admin Name</Label>
-              <Input\n                id="adminName"
+              <Input
+                id="adminName"
                 value={formData.adminName}
                 onChange={(e) => setFormData({ ...formData, adminName: e.target.value })}
                 placeholder="John Doe"
                 required
               />
             </div>
-\n            <div className="space-y-4">
-              <div className="flex items-center justify-between">\n                <Label htmlFor="enableSso">Enable SSO</Label>
-                <Switch\n                  id="enableSso"
+
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="enableSso">Enable SSO</Label>
+                <Switch
+                  id="enableSso"
                   checked={formData.enableSso}
                   onCheckedChange={(checked) => setFormData({ ...formData, enableSso: checked })}
                 />
               </div>
-\n              <div className="flex items-center justify-between">
+
+              <div className="flex items-center justify-between">
                 <Label htmlFor="enableMfa">Require MFA</Label>
-                <Switch\n                  id="enableMfa"
+                <Switch
+                  id="enableMfa"
                   checked={formData.enableMfa}
                   onCheckedChange={(checked) => setFormData({ ...formData, enableMfa: checked })}
                 />
@@ -142,14 +172,18 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
           </div>
 
           <DialogFooter>
-            <Button\n              type="button"\n              variant="outline"
+            <Button
+              type="button"
+              variant="outline"
               onClick={() => onOpenChange(false)}
               disabled={isLoading}
             >
               Cancel
-            </Button>\n            <Button type="submit" disabled={isLoading}>
+            </Button>
+            <Button type="submit" disabled={isLoading}>
               {isLoading ? (
-                <>\n                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Creating...
                 </>
               ) : (

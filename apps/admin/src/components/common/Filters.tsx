@@ -1,22 +1,24 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Button } from '@penny/uibutton';
+import { Input } from '@penny/uiinput';
+import { Label } from '@penny/uilabel';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,\n} from '@/components/ui/select';
+  SelectValue,
+} from '@penny/uiselect';
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,\n} from '@/components/ui/popover';
-import { Calendar } from '@/components/ui/calendar';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Badge } from '@/components/ui/badge';
+  PopoverTrigger,
+} from '@penny/uipopover';
+import { Calendar } from '@penny/uicalendar';
+import { Checkbox } from '@penny/uicheckbox';
+import { Badge } from '@penny/uibadge';
 import { 
   Filter, 
   X, 
@@ -109,7 +111,8 @@ export function Filters({
         );
 
       case 'select':
-        return (\n          <Select value={value || ''} onValueChange={(val) => updateValue(key, val)}>
+        return (
+          <Select value={value || ''} onValueChange={(val) => updateValue(key, val)}>
             <SelectTrigger>
               <SelectValue placeholder={placeholder || 'Select...'} />
             </SelectTrigger>
@@ -124,8 +127,10 @@ export function Filters({
         );
 
       case 'multiselect':
-        return (\n          <div className="space-y-2">
-            {options?.map((option) => (\n              <div key={option.value} className="flex items-center space-x-2">
+        return (
+          <div className="space-y-2">
+            {options?.map((option) => (
+              <div key={option.value} className="flex items-center space-x-2">
                 <Checkbox
                   id={`${key}-${option.value}`}
                   checked={Array.isArray(value) && value.includes(option.value)}
@@ -154,12 +159,16 @@ export function Filters({
           <Popover>
             <PopoverTrigger asChild>
               <Button
-                variant="outline"\n                className="w-full justify-start text-left font-normal"
-              >\n                <CalendarIcon className="mr-2 h-4 w-4" />
+                variant="outline"
+                className="w-full justify-start text-left font-normal"
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
                 {value ? format(value, 'PPP') : placeholder || 'Pick a date'}
               </Button>
-            </PopoverTrigger>\n            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar\n                mode="single"
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
                 selected={value}
                 onSelect={(date) => updateValue(key, date)}
                 initialFocus
@@ -172,8 +181,11 @@ export function Filters({
         return (
           <Popover>
             <PopoverTrigger asChild>
-              <Button\n                variant="outline"\n                className="w-full justify-start text-left font-normal"
-              >\n                <CalendarIcon className="mr-2 h-4 w-4" />
+              <Button
+                variant="outline"
+                className="w-full justify-start text-left font-normal"
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
                 {value?.from ? (
                   value.to ? (
                     <>
@@ -187,9 +199,11 @@ export function Filters({
                   placeholder || 'Pick a date range'
                 )}
               </Button>
-            </PopoverTrigger>\n            <PopoverContent className="w-auto p-0" align="start">
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
               <Calendar
-                initialFocus\n                mode="range"
+                initialFocus
+                mode="range"
                 defaultMonth={value?.from}
                 selected={value}
                 onSelect={(range: DateRange | undefined) => updateValue(key, range)}
@@ -200,12 +214,14 @@ export function Filters({
         );
 
       case 'checkbox':
-        return (\n          <div className="flex items-center space-x-2">
+        return (
+          <div className="flex items-center space-x-2">
             <Checkbox
               id={key}
               checked={!!value}
               onCheckedChange={(checked) => updateValue(key, checked)}
-            />\n            <Label htmlFor={key} className="text-sm font-normal">
+            />
+            <Label htmlFor={key} className="text-sm font-normal">
               {placeholder || 'Enable'}
             </Label>
           </div>
@@ -217,28 +233,38 @@ export function Filters({
   };
 
   return (
-    <div className={className}>\n      <div className="flex items-center gap-2 flex-wrap">
+    <div className={className}>
+      <div className="flex items-center gap-2 flex-wrap">
         <Popover open={isOpen} onOpenChange={setIsOpen}>
-          <PopoverTrigger asChild>\n            <Button variant="outline" size="sm">\n              <Filter className="mr-2 h-4 w-4" />
+          <PopoverTrigger asChild>
+            <Button variant="outline" size="sm">
+              <Filter className="mr-2 h-4 w-4" />
               Filters
-              {activeFilters.length > 0 && (\n                <Badge variant="secondary" className="ml-2 text-xs">
+              {activeFilters.length > 0 && (
+                <Badge variant="secondary" className="ml-2 text-xs">
                   {activeFilters.length}
                 </Badge>
               )}
             </Button>
-          </PopoverTrigger>\n          <PopoverContent className="w-96" align="start">
-            <div className="space-y-4">\n              <div className="flex items-center justify-between">
+          </PopoverTrigger>
+          <PopoverContent className="w-96" align="start">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
                 <h4 className="font-medium">Filters</h4>
                 {activeFilters.length > 0 && (
-                  <Button\n                    variant="ghost"\n                    size="sm"
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={resetFilters}
-                  >\n                    <RotateCcw className="mr-2 h-4 w-4" />
+                  >
+                    <RotateCcw className="mr-2 h-4 w-4" />
                     Reset
                   </Button>
                 )}
               </div>
 
-              {config.map((filterConfig) => (\n                <div key={filterConfig.key} className="space-y-2">
+              {config.map((filterConfig) => (
+                <div key={filterConfig.key} className="space-y-2">
                   <Label className="text-sm font-medium">
                     {filterConfig.label}
                   </Label>
@@ -279,13 +305,18 @@ export function Filters({
             }
           }
 
-          return (\n            <Badge key={key} variant="secondary" className="gap-1">
+          return (
+            <Badge key={key} variant="secondary" className="gap-1">
               <span className="text-xs">
                 {filterConfig.label}: {displayValue}
               </span>
-              <Button\n                variant="ghost"\n                size="sm"\n                className="h-4 w-4 p-0 hover:bg-transparent"
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-4 w-4 p-0 hover:bg-transparent"
                 onClick={() => removeFilter(key)}
-              >\n                <X className="h-3 w-3" />
+              >
+                <X className="h-3 w-3" />
               </Button>
             </Badge>
           );

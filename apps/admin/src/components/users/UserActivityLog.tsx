@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '@penny/uicard';
+import { Badge } from '@penny/uibadge';
+import { Button } from '@penny/uibutton';
+import { ScrollArea } from '@penny/uiscroll-area';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@penny/uitabs';
 import { 
   Clock, 
   Shield, 
@@ -43,7 +43,8 @@ function generateActivityLog(userId: string): ActivityLogEntry[] {
       type: 'auth',
       action: 'login',
       description: 'User logged in successfully',
-      timestamp: new Date(Date.now() - 1000 * 60 * 30),\n      ip: '192.168.1.100',
+      timestamp: new Date(Date.now() - 1000 * 60 * 30),
+      ip: '192.168.1.100',
       userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
     },
     {
@@ -75,14 +76,16 @@ function generateActivityLog(userId: string): ActivityLogEntry[] {
       type: 'security',
       action: 'mfa.enabled',
       description: 'Enabled multi-factor authentication',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24),\n      ip: '192.168.1.100'
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24),
+      ip: '192.168.1.100'
     },
     {
       id: '6',
       type: 'auth',
       action: 'password.changed',
       description: 'Password changed successfully',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3),\n      ip: '192.168.1.100'
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3),
+      ip: '192.168.1.100'
     }
   ];
 
@@ -133,33 +136,47 @@ export function UserActivityLog({ userId }: UserActivityLogProps) {
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">\n            <Clock className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2">
+            <Clock className="h-5 w-5" />
             Activity Log
-          </CardTitle>\n          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm">\n              <Download className="h-4 w-4 mr-2" />
+          </CardTitle>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm">
+              <Download className="h-4 w-4 mr-2" />
               Export
-            </Button>\n            <Button variant="outline" size="sm">\n              <RefreshCw className="h-4 w-4 mr-2" />
+            </Button>
+            <Button variant="outline" size="sm">
+              <RefreshCw className="h-4 w-4 mr-2" />
               Refresh
             </Button>
           </div>
         </div>
       </CardHeader>
-      <CardContent>\n        <Tabs value={filter} onValueChange={setFilter} className="w-full">
-          <TabsList className="grid w-full grid-cols-5">\n            <TabsTrigger value="all">
+      <CardContent>
+        <Tabs value={filter} onValueChange={setFilter} className="w-full">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="all">
               All ({activityCounts.all})
-            </TabsTrigger>\n            <TabsTrigger value="auth">
+            </TabsTrigger>
+            <TabsTrigger value="auth">
               Auth ({activityCounts.auth})
-            </TabsTrigger>\n            <TabsTrigger value="conversation">
+            </TabsTrigger>
+            <TabsTrigger value="conversation">
               Chat ({activityCounts.conversation})
-            </TabsTrigger>\n            <TabsTrigger value="tool">
+            </TabsTrigger>
+            <TabsTrigger value="tool">
               Tools ({activityCounts.tool})
-            </TabsTrigger>\n            <TabsTrigger value="security">
+            </TabsTrigger>
+            <TabsTrigger value="security">
               Security ({activityCounts.security})
             </TabsTrigger>
           </TabsList>
-\n          <TabsContent value={filter} className="mt-6">
-            <ScrollArea className="h-96">\n              <div className="space-y-4">
-                {filteredActivities.length === 0 ? (\n                  <div className="text-center py-8 text-muted-foreground">
+
+          <TabsContent value={filter} className="mt-6">
+            <ScrollArea className="h-96">
+              <div className="space-y-4">
+                {filteredActivities.length === 0 ? (
+                  <div className="text-center py-8 text-muted-foreground">
                     <Clock className="h-8 w-8 mx-auto mb-2 opacity-50" />
                     <p>No activity found for this filter</p>
                   </div>
@@ -172,30 +189,38 @@ export function UserActivityLog({ userId }: UserActivityLogProps) {
                         key={activity.id}
                         className="flex items-start gap-4 p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
                       >
-                        <div className={`p-2 rounded-full ${getTypeColor(activity.type)}`}>\n                          <Icon className="h-4 w-4" />
+                        <div className={`p-2 rounded-full ${getTypeColor(activity.type)}`}>
+                          <Icon className="h-4 w-4" />
                         </div>
                        
                        <div className="flex-1 space-y-2">
                           <div className="flex items-start justify-between">
-                            <div>\n                              <p className="font-medium">{activity.description}</p>
-                              <div className="flex items-center gap-2 mt-1">\n                                <Badge variant="outline" className="text-xs">
+                            <div>
+                              <p className="font-medium">{activity.description}</p>
+                              <div className="flex items-center gap-2 mt-1">
+                                <Badge variant="outline" className="text-xs">
                                   {activity.type}
-                                </Badge>\n                                <span className="text-xs text-muted-foreground">
+                                </Badge>
+                                <span className="text-xs text-muted-foreground">
                                   {formatDistanceToNow(activity.timestamp, { addSuffix: true })}
                                 </span>
                               </div>
                             </div>
                           </div>
                           
-                          {activity.ip && (\n                            <p className="text-xs text-muted-foreground">
+                          {activity.ip && (
+                            <p className="text-xs text-muted-foreground">
                               IP: {activity.ip}
                             </p>
                           )}
                           
-                          {activity.metadata && Object.keys(activity.metadata).length > 0 && (\n                            <div className="text-xs text-muted-foreground">
-                              <details className="cursor-pointer">\n                                <summary className="hover:text-foreground">
+                          {activity.metadata && Object.keys(activity.metadata).length > 0 && (
+                            <div className="text-xs text-muted-foreground">
+                              <details className="cursor-pointer">
+                                <summary className="hover:text-foreground">
                                   Show details
-                                </summary>\n                                <div className="mt-2 p-2 bg-muted rounded text-xs font-mono">
+                                </summary>
+                                <div className="mt-2 p-2 bg-muted rounded text-xs font-mono">
                                   {JSON.stringify(activity.metadata, null, 2)}
                                 </div>
                               </details>

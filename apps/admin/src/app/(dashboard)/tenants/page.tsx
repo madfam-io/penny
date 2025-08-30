@@ -8,7 +8,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Input,\n} from '@penny/ui';
+  Input,
+} from '@penny/ui';
 import { Plus, Search } from 'lucide-react';
 import { TenantsTable } from '@/components/tenants/tenants-table';
 import { CreateTenantDialog } from '@/components/tenants/create-tenant-dialog';
@@ -20,10 +21,12 @@ export default function TenantsPage() {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <div>\n          <h1 className="text-3xl font-bold tracking-tight">Tenants</h1>
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Tenants</h1>
           <p className="text-muted-foreground">Manage tenant organizations and their settings</p>
         </div>
-        <Button onClick={() => setIsCreateOpen(true)}>\n          <Plus className="mr-2 h-4 w-4" />
+        <Button onClick={() => setIsCreateOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" />
           Create Tenant
         </Button>
       </div>
@@ -35,9 +38,11 @@ export default function TenantsPage() {
             View and manage all tenant organizations on the platform
           </CardDescription>
         </CardHeader>
-        <CardContent>\n          <div className="mb-4 relative">
+        <CardContent>
+          <div className="mb-4 relative">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input\n              placeholder="Search tenants..."
+            <Input
+              placeholder="Search tenants..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-8"

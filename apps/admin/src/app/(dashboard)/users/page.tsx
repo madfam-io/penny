@@ -12,7 +12,8 @@ import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger,\n} from '@penny/ui';
+  TabsTrigger,
+} from '@penny/ui';
 import { Plus, Search, Upload, Download } from 'lucide-react';
 import { UsersTable } from '@/components/users/users-table';
 import { InviteUserDialog } from '@/components/users/invite-user-dialog';
@@ -26,43 +27,65 @@ export default function UsersPage() {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <div>\n          <h1 className="text-3xl font-bold tracking-tight">Users</h1>
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Users</h1>
           <p className="text-muted-foreground">Manage users across all tenants and workspaces</p>
-        </div>\n        <div className="flex space-x-2">
-          <Button variant="outline" onClick={() => setIsBulkImportOpen(true)}>\n            <Upload className="mr-2 h-4 w-4" />
+        </div>
+        <div className="flex space-x-2">
+          <Button variant="outline" onClick={() => setIsBulkImportOpen(true)}>
+            <Upload className="mr-2 h-4 w-4" />
             Bulk Import
           </Button>
-          <Button onClick={() => setIsInviteOpen(true)}>\n            <Plus className="mr-2 h-4 w-4" />
+          <Button onClick={() => setIsInviteOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" />
             Invite User
           </Button>
         </div>
       </div>
-\n      <Tabs defaultValue="all" className="space-y-4">
-        <TabsList>\n          <TabsTrigger value="all">All Users</TabsTrigger>\n          <TabsTrigger value="active">Active</TabsTrigger>\n          <TabsTrigger value="pending">Pending</TabsTrigger>\n          <TabsTrigger value="suspended">Suspended</TabsTrigger>
+
+      <Tabs defaultValue="all" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="all">All Users</TabsTrigger>
+          <TabsTrigger value="active">Active</TabsTrigger>
+          <TabsTrigger value="pending">Pending</TabsTrigger>
+          <TabsTrigger value="suspended">Suspended</TabsTrigger>
         </TabsList>
 
         <Card>
-          <CardHeader>\n            <div className="flex items-center justify-between">
+          <CardHeader>
+            <div className="flex items-center justify-between">
               <div>
                 <CardTitle>User Directory</CardTitle>
                 <CardDescription>View and manage all users on the platform</CardDescription>
-              </div>\n              <Button variant="outline" size="sm">\n                <Download className="mr-2 h-4 w-4" />
+              </div>
+              <Button variant="outline" size="sm">
+                <Download className="mr-2 h-4 w-4" />
                 Export
               </Button>
             </div>
           </CardHeader>
-          <CardContent>\n            <div className="mb-4 relative">
+          <CardContent>
+            <div className="mb-4 relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input\n                placeholder="Search users by name, email, or tenant..."
+              <Input
+                placeholder="Search users by name, email, or tenant..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-8"
               />
             </div>
-\n            <TabsContent value="all">\n              <UsersTable searchQuery={searchQuery} status="all" />
-            </TabsContent>\n            <TabsContent value="active">\n              <UsersTable searchQuery={searchQuery} status="active" />
-            </TabsContent>\n            <TabsContent value="pending">\n              <UsersTable searchQuery={searchQuery} status="pending" />
-            </TabsContent>\n            <TabsContent value="suspended">\n              <UsersTable searchQuery={searchQuery} status="suspended" />
+
+            <TabsContent value="all">
+              <UsersTable searchQuery={searchQuery} status="all" />
+            </TabsContent>
+            <TabsContent value="active">
+              <UsersTable searchQuery={searchQuery} status="active" />
+            </TabsContent>
+            <TabsContent value="pending">
+              <UsersTable searchQuery={searchQuery} status="pending" />
+            </TabsContent>
+            <TabsContent value="suspended">
+              <UsersTable searchQuery={searchQuery} status="suspended" />
             </TabsContent>
           </CardContent>
         </Card>

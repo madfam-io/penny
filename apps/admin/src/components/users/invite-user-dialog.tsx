@@ -17,7 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
   Textarea,
-  Checkbox,\n} from '@penny/ui';
+  Checkbox,
+} from '@penny/ui';
 import { Loader2 } from 'lucide-react';
 
 interface InviteUserDialogProps {
@@ -28,9 +29,13 @@ interface InviteUserDialogProps {
 export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    email: '',\n    name: '',\n    tenant: '',\n    workspace: '',
+    email: '',
+    name: '',
+    tenant: '',
+    workspace: '',
     role: 'member',
-    sendWelcomeEmail: true,\n    customMessage: '',
+    sendWelcomeEmail: true,
+    customMessage: '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,9 +49,13 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
     onOpenChange(false);
     // Reset form
     setFormData({
-      email: '',\n      name: '',\n      tenant: '',\n      workspace: '',
+      email: '',
+      name: '',
+      tenant: '',
+      workspace: '',
       role: 'member',
-      sendWelcomeEmail: true,\n      customMessage: '',
+      sendWelcomeEmail: true,
+      customMessage: '',
     });
   };
 
@@ -58,69 +67,98 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
             <DialogTitle>Invite New User</DialogTitle>
             <DialogDescription>Send an invitation to join the platform</DialogDescription>
           </DialogHeader>
-\n          <div className="grid gap-4 py-4">
-            <div className="grid gap-2">\n              <Label htmlFor="email">Email Address</Label>
-              <Input\n                id="email"\n                type="email"
+
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email Address</Label>
+              <Input
+                id="email"
+                type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="user@example.com"
                 required
               />
             </div>
-\n            <div className="grid gap-2">
+
+            <div className="grid gap-2">
               <Label htmlFor="name">Full Name</Label>
-              <Input\n                id="name"
+              <Input
+                id="name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="John Doe"
               />
             </div>
-\n            <div className="grid gap-2">
+
+            <div className="grid gap-2">
               <Label htmlFor="tenant">Tenant</Label>
               <Select
                 value={formData.tenant}
                 onValueChange={(value) => setFormData({ ...formData, tenant: value })}
-              >\n                <SelectTrigger id="tenant">\n                  <SelectValue placeholder="Select tenant" />
+              >
+                <SelectTrigger id="tenant">
+                  <SelectValue placeholder="Select tenant" />
                 </SelectTrigger>
-                <SelectContent>\n                  <SelectItem value="acme">Acme Corporation</SelectItem>\n                  <SelectItem value="techstart">TechStart Inc</SelectItem>\n                  <SelectItem value="digital">Digital Agency</SelectItem>
+                <SelectContent>
+                  <SelectItem value="acme">Acme Corporation</SelectItem>
+                  <SelectItem value="techstart">TechStart Inc</SelectItem>
+                  <SelectItem value="digital">Digital Agency</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-\n            <div className="grid gap-2">
+
+            <div className="grid gap-2">
               <Label htmlFor="workspace">Workspace (Optional)</Label>
               <Select
                 value={formData.workspace}
                 onValueChange={(value) => setFormData({ ...formData, workspace: value })}
-              >\n                <SelectTrigger id="workspace">\n                  <SelectValue placeholder="Select workspace" />
+              >
+                <SelectTrigger id="workspace">
+                  <SelectValue placeholder="Select workspace" />
                 </SelectTrigger>
-                <SelectContent>\n                  <SelectItem value="marketing">Marketing Team</SelectItem>\n                  <SelectItem value="engineering">Engineering</SelectItem>\n                  <SelectItem value="sales">Sales</SelectItem>
+                <SelectContent>
+                  <SelectItem value="marketing">Marketing Team</SelectItem>
+                  <SelectItem value="engineering">Engineering</SelectItem>
+                  <SelectItem value="sales">Sales</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-\n            <div className="grid gap-2">
+
+            <div className="grid gap-2">
               <Label htmlFor="role">Role</Label>
               <Select
                 value={formData.role}
                 onValueChange={(value) => setFormData({ ...formData, role: value })}
-              >\n                <SelectTrigger id="role">
+              >
+                <SelectTrigger id="role">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>\n                  <SelectItem value="owner">Owner</SelectItem>\n                  <SelectItem value="admin">Admin</SelectItem>\n                  <SelectItem value="member">Member</SelectItem>\n                  <SelectItem value="viewer">Viewer</SelectItem>
+                <SelectContent>
+                  <SelectItem value="owner">Owner</SelectItem>
+                  <SelectItem value="admin">Admin</SelectItem>
+                  <SelectItem value="member">Member</SelectItem>
+                  <SelectItem value="viewer">Viewer</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-\n            <div className="flex items-center space-x-2">
-              <Checkbox\n                id="sendWelcomeEmail"
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="sendWelcomeEmail"
                 checked={formData.sendWelcomeEmail}
                 onCheckedChange={(checked) =>
                   setFormData({ ...formData, sendWelcomeEmail: checked as boolean })
                 }
-              />\n              <Label htmlFor="sendWelcomeEmail">Send welcome email with login instructions</Label>
+              />
+              <Label htmlFor="sendWelcomeEmail">Send welcome email with login instructions</Label>
             </div>
 
-            {formData.sendWelcomeEmail && (\n              <div className="grid gap-2">
+            {formData.sendWelcomeEmail && (
+              <div className="grid gap-2">
                 <Label htmlFor="customMessage">Custom Message (Optional)</Label>
-                <Textarea\n                  id="customMessage"
+                <Textarea
+                  id="customMessage"
                   value={formData.customMessage}
                   onChange={(e) => setFormData({ ...formData, customMessage: e.target.value })}
                   placeholder="Add a personal message to the invitation..."
@@ -131,14 +169,18 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
           </div>
 
           <DialogFooter>
-            <Button\n              type="button"\n              variant="outline"
+            <Button
+              type="button"
+              variant="outline"
               onClick={() => onOpenChange(false)}
               disabled={isLoading}
             >
               Cancel
-            </Button>\n            <Button type="submit" disabled={isLoading}>
+            </Button>
+            <Button type="submit" disabled={isLoading}>
               {isLoading ? (
-                <>\n                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Sending...
                 </>
               ) : (

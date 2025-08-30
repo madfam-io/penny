@@ -64,18 +64,24 @@ const activities = [
 export function RecentActivity() {
   return (
     <div className="space-y-8">
-      {activities.map((activity) => (\n        <div key={activity.id} className="flex items-center">
-          <Avatar className="h-9 w-9">\n            <AvatarImage src={activity.user.avatar || ''} alt={activity.user.name} />
+      {activities.map((activity) => (
+        <div key={activity.id} className="flex items-center">
+          <Avatar className="h-9 w-9">
+            <AvatarImage src={activity.user.avatar || ''} alt={activity.user.name} />
             <AvatarFallback>
-              {activity.user.name\n                .split(' ')
+              {activity.user.name
+                .split(' ')
                 .map((n) => n[0])
                 .join('')}
             </AvatarFallback>
-          </Avatar>\n          <div className="ml-4 space-y-1">
-            <p className="text-sm font-medium leading-none">{activity.user.name}</p>\n            <p className="text-sm text-muted-foreground">
+          </Avatar>
+          <div className="ml-4 space-y-1">
+            <p className="text-sm font-medium leading-none">{activity.user.name}</p>
+            <p className="text-sm text-muted-foreground">
               {activity.action} <span className="font-medium">{activity.target}</span>
             </p>
-          </div>\n          <div className="ml-auto font-medium text-sm text-muted-foreground">
+          </div>
+          <div className="ml-auto font-medium text-sm text-muted-foreground">
             {formatDistanceToNow(activity.timestamp, { addSuffix: true })}
           </div>
         </div>

@@ -14,12 +14,15 @@ const tenants = [
 export function TopTenants() {
   return (
     <div className="space-y-4">
-      {tenants.map((tenant) => (\n        <div key={tenant.name} className="space-y-2">
-          <div className="flex items-center justify-between">\n            <span className="text-sm font-medium">{tenant.name}</span>
+      {tenants.map((tenant) => (
+        <div key={tenant.name} className="space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium">{tenant.name}</span>
             <span className="text-sm text-muted-foreground">
               {(tenant.usage / 1000).toFixed(0)}k requests
             </span>
-          </div>\n          <Progress value={tenant.percentage} className="h-2" />
+          </div>
+          <Progress value={tenant.percentage} className="h-2" />
         </div>
       ))}
     </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@penny/uicard';
 import { cn } from '@/utils/cn';
 import { LucideIcon, TrendingUp, TrendingDown } from 'lucide-react';
 
@@ -43,11 +43,13 @@ export function StatsCard({
           <div className={cn(
             'flex h-12 w-12 items-center justify-center rounded-lg',
             colorVariants[color]
-          )}>\n            <Icon className="h-6 w-6" />
+          )}>
+            <Icon className="h-6 w-6" />
           </div>
          
          <div className="ml-4 flex-1">
-            <p className="text-sm font-medium text-muted-foreground">{title}</p>\n            <div className="flex items-baseline gap-2">
+            <p className="text-sm font-medium text-muted-foreground">{title}</p>
+            <div className="flex items-baseline gap-2">
               <p className="text-2xl font-bold text-gray-900 dark:text-white">
                 {typeof value === 'number' ? value.toLocaleString() : value}
               </p>
@@ -58,16 +60,20 @@ export function StatsCard({
                     ? 'text-green-600 dark:text-green-400' 
                     : 'text-red-600 dark:text-red-400'
                 )}>
-                  {trend.isPositive ? (\n                    <TrendingUp className="h-3 w-3" />
-                  ) : (\n                    <TrendingDown className="h-3 w-3" />
+                  {trend.isPositive ? (
+                    <TrendingUp className="h-3 w-3" />
+                  ) : (
+                    <TrendingDown className="h-3 w-3" />
                   )}
                   {trend.value}%
                 </div>
               )}
             </div>
-            {subtitle && (\n              <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
+            {subtitle && (
+              <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
             )}
-            {trend && (\n              <p className="text-xs text-muted-foreground mt-1">{trend.label}</p>
+            {trend && (
+              <p className="text-xs text-muted-foreground mt-1">{trend.label}</p>
             )}
           </div>
         </div>

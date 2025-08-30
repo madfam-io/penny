@@ -1,17 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@penny/uibutton';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,\n} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+  DialogTitle,
+} from '@penny/uidialog';
+import { Input } from '@penny/uiinput';
+import { Label } from '@penny/uilabel';
+import { Textarea } from '@penny/uitextarea';
 import { 
   UserCheck, 
   UserX, 
@@ -36,7 +37,8 @@ export function UserActions({ userId, className }: UserActionsProps) {
   const [banDialog, setBanDialog] = useState(false);
   
   const [emailForm, setEmailForm] = useState({
-    subject: '',\n    message: ''
+    subject: '',
+    message: ''
   });
   
   const [banForm, setBanForm] = useState({
@@ -124,7 +126,8 @@ export function UserActions({ userId, className }: UserActionsProps) {
          size="sm"
          className="w-full justify-start"
           onClick={handleActivateUser}
-        >\n          <UserCheck className="mr-2 h-4 w-4" />
+        >
+          <UserCheck className="mr-2 h-4 w-4" />
           Activate User
         </Button>
         
@@ -133,7 +136,8 @@ export function UserActions({ userId, className }: UserActionsProps) {
          size="sm"
          className="w-full justify-start"
           onClick={handleDeactivateUser}
-        >\n          <UserX className="mr-2 h-4 w-4" />
+        >
+          <UserX className="mr-2 h-4 w-4" />
           Deactivate User
         </Button>
         
@@ -142,7 +146,8 @@ export function UserActions({ userId, className }: UserActionsProps) {
          size="sm"
          className="w-full justify-start"
           onClick={() => setEmailDialog(true)}
-        >\n          <Mail className="mr-2 h-4 w-4" />
+        >
+          <Mail className="mr-2 h-4 w-4" />
           Send Email
         </Button>
         
@@ -151,7 +156,8 @@ export function UserActions({ userId, className }: UserActionsProps) {
          size="sm"
          className="w-full justify-start"
           onClick={() => setResetPasswordDialog(true)}
-        >\n          <Key className="mr-2 h-4 w-4" />
+        >
+          <Key className="mr-2 h-4 w-4" />
           Reset Password
         </Button>
         
@@ -159,7 +165,8 @@ export function UserActions({ userId, className }: UserActionsProps) {
          variant="outline"
          size="sm"
          className="w-full justify-start"
-        >\n          <Shield className="mr-2 h-4 w-4" />
+        >
+          <Shield className="mr-2 h-4 w-4" />
           Reset MFA
         </Button>
         
@@ -168,7 +175,8 @@ export function UserActions({ userId, className }: UserActionsProps) {
          size="sm"
          className="w-full justify-start text-yellow-600 hover:text-yellow-700"
           onClick={() => setBanDialog(true)}
-        >\n          <Ban className="mr-2 h-4 w-4" />
+        >
+          <Ban className="mr-2 h-4 w-4" />
           Ban User
         </Button>
         
@@ -177,14 +185,17 @@ export function UserActions({ userId, className }: UserActionsProps) {
          size="sm"
          className="w-full justify-start text-red-600 hover:text-red-700"
           onClick={() => setDeleteDialog(true)}
-        >\n          <Trash2 className="mr-2 h-4 w-4" />
+        >
+          <Trash2 className="mr-2 h-4 w-4" />
           Delete User
         </Button>
       </div>
 
       {/* Send Email Dialog */}
-      <Dialog open={emailDialog} onOpenChange={setEmailDialog}>\n        <DialogContent className="sm:max-w-md">
-          <DialogHeader>\n            <DialogTitle className="flex items-center gap-2">
+      <Dialog open={emailDialog} onOpenChange={setEmailDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
               <Mail className="h-5 w-5" />
               Send Email to User
             </DialogTitle>
@@ -194,15 +205,21 @@ export function UserActions({ userId, className }: UserActionsProps) {
           </DialogHeader>
          
          <div className="space-y-4">
-            <div>\n              <Label htmlFor="email-subject">Subject</Label>
-              <Input\n                id="email-subject"\n                placeholder="Enter email subject..."
+            <div>
+              <Label htmlFor="email-subject">Subject</Label>
+              <Input
+                id="email-subject"
+                placeholder="Enter email subject..."
                 value={emailForm.subject}
                 onChange={(e) => setEmailForm(prev => ({ ...prev, subject: e.target.value }))}
               />
             </div>
             
-            <div>\n              <Label htmlFor="email-message">Message</Label>
-              <Textarea\n                id="email-message"\n                placeholder="Enter your message..."
+            <div>
+              <Label htmlFor="email-message">Message</Label>
+              <Textarea
+                id="email-message"
+                placeholder="Enter your message..."
                 rows={4}
                 value={emailForm.message}
                 onChange={(e) => setEmailForm(prev => ({ ...prev, message: e.target.value }))}
@@ -210,10 +227,12 @@ export function UserActions({ userId, className }: UserActionsProps) {
             </div>
           </div>
           
-          <DialogFooter>\n            <Button variant="outline" onClick={() => setEmailDialog(false)}>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEmailDialog(false)}>
               Cancel
             </Button>
-            <Button onClick={handleSendEmail} disabled={!emailForm.subject || !emailForm.message}>\n              <Send className="mr-2 h-4 w-4" />
+            <Button onClick={handleSendEmail} disabled={!emailForm.subject || !emailForm.message}>
+              <Send className="mr-2 h-4 w-4" />
               Send Email
             </Button>
           </DialogFooter>
@@ -223,7 +242,8 @@ export function UserActions({ userId, className }: UserActionsProps) {
       {/* Reset Password Dialog */}
       <Dialog open={resetPasswordDialog} onOpenChange={setResetPasswordDialog}>
         <DialogContent>
-          <DialogHeader>\n            <DialogTitle className="flex items-center gap-2">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
               <Key className="h-5 w-5" />
               Reset User Password
             </DialogTitle>
@@ -233,10 +253,12 @@ export function UserActions({ userId, className }: UserActionsProps) {
             </DialogDescription>
           </DialogHeader>
           
-          <DialogFooter>\n            <Button variant="outline" onClick={() => setResetPasswordDialog(false)}>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setResetPasswordDialog(false)}>
               Cancel
             </Button>
-            <Button onClick={handleResetPassword}>\n              <Key className="mr-2 h-4 w-4" />
+            <Button onClick={handleResetPassword}>
+              <Key className="mr-2 h-4 w-4" />
               Reset Password
             </Button>
           </DialogFooter>
@@ -246,7 +268,8 @@ export function UserActions({ userId, className }: UserActionsProps) {
       {/* Ban User Dialog */}
       <Dialog open={banDialog} onOpenChange={setBanDialog}>
         <DialogContent>
-          <DialogHeader>\n            <DialogTitle className="flex items-center gap-2">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
               <Ban className="h-5 w-5 text-yellow-600" />
               Ban User
             </DialogTitle>
@@ -256,8 +279,11 @@ export function UserActions({ userId, className }: UserActionsProps) {
           </DialogHeader>
          
          <div className="space-y-4">
-            <div>\n              <Label htmlFor="ban-reason">Reason for Ban</Label>
-              <Textarea\n                id="ban-reason"\n                placeholder="Enter reason for banning this user..."
+            <div>
+              <Label htmlFor="ban-reason">Reason for Ban</Label>
+              <Textarea
+                id="ban-reason"
+                placeholder="Enter reason for banning this user..."
                 rows={3}
                 value={banForm.reason}
                 onChange={(e) => setBanForm(prev => ({ ...prev, reason: e.target.value }))}
@@ -265,14 +291,16 @@ export function UserActions({ userId, className }: UserActionsProps) {
             </div>
           </div>
           
-          <DialogFooter>\n            <Button variant="outline" onClick={() => setBanDialog(false)}>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setBanDialog(false)}>
               Cancel
             </Button>
             <Button
              variant="destructive" 
               onClick={handleBanUser}
               disabled={!banForm.reason.trim()}
-            >\n              <Ban className="mr-2 h-4 w-4" />
+            >
+              <Ban className="mr-2 h-4 w-4" />
               Ban User
             </Button>
           </DialogFooter>
@@ -282,7 +310,8 @@ export function UserActions({ userId, className }: UserActionsProps) {
       {/* Delete User Dialog */}
       <Dialog open={deleteDialog} onOpenChange={setDeleteDialog}>
         <DialogContent>
-          <DialogHeader>\n            <DialogTitle className="flex items-center gap-2">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
               <AlertTriangle className="h-5 w-5 text-red-600" />
               Delete User
             </DialogTitle>
@@ -298,9 +327,12 @@ export function UserActions({ userId, className }: UserActionsProps) {
             </p>
           </div>
           
-          <DialogFooter>\n            <Button variant="outline" onClick={() => setDeleteDialog(false)}>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeleteDialog(false)}>
               Cancel
-            </Button>\n            <Button variant="destructive" onClick={handleDeleteUser}>\n              <Trash2 className="mr-2 h-4 w-4" />
+            </Button>
+            <Button variant="destructive" onClick={handleDeleteUser}>
+              <Trash2 className="mr-2 h-4 w-4" />
               Delete User
             </Button>
           </DialogFooter>

@@ -2,9 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['@penny/ui', '@penny/api-client'],
-  experimental: {
-    serverActions: true,
-  },
   async rewrites() {
     return [
       {

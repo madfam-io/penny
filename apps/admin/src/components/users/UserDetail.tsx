@@ -1,10 +1,10 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent, CardHeader, CardTitle } from '@penny/uicard';
+import { Badge } from '@penny/uibadge';
+import { Button } from '@penny/uibutton';
+import { Separator } from '@penny/uiseparator';
+import { Avatar, AvatarFallback, AvatarImage } from '@penny/uiavatar';
 import { 
   User, 
   Mail, 
@@ -67,20 +67,27 @@ export function UserDetail({ user }: UserDetailProps) {
     <div className="space-y-6">
       {/* Profile Card */}
       <Card>
-        <CardHeader>\n          <div className="flex items-start justify-between">
-            <CardTitle>User Profile</CardTitle>\n            <Button variant="outline" size="sm">\n              <Edit className="h-4 w-4 mr-2" />
+        <CardHeader>
+          <div className="flex items-start justify-between">
+            <CardTitle>User Profile</CardTitle>
+            <Button variant="outline" size="sm">
+              <Edit className="h-4 w-4 mr-2" />
               Edit Profile
             </Button>
           </div>
-        </CardHeader>\n        <CardContent className="space-y-6">
-          <div className="flex items-start gap-4">\n            <Avatar className="h-20 w-20">
-              <AvatarImage src={user.avatar || undefined} alt={user.name} />\n              <AvatarFallback className="text-lg font-semibold">
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-start gap-4">
+            <Avatar className="h-20 w-20">
+              <AvatarImage src={user.avatar || undefined} alt={user.name} />
+              <AvatarFallback className="text-lg font-semibold">
                 {getInitials(user.name)}
               </AvatarFallback>
             </Avatar>
            
            <div className="space-y-2 flex-1">
-              <div className="flex items-center gap-3">\n                <h2 className="text-2xl font-semibold">{user.name}</h2>
+              <div className="flex items-center gap-3">
+                <h2 className="text-2xl font-semibold">{user.name}</h2>
                 <Badge className={getStatusColor(user.status)}>
                   {user.status}
                 </Badge>
@@ -92,7 +99,8 @@ export function UserDetail({ user }: UserDetailProps) {
              <div className="flex items-center gap-2 text-muted-foreground">
                 <Mail className="h-4 w-4" />
                 <span>{user.email}</span>
-                {user.emailVerified && (\n                  <Badge variant="outline" className="ml-2">
+                {user.emailVerified && (
+                  <Badge variant="outline" className="ml-2">
                     <UserCheck className="h-3 w-3 mr-1" />
                     Verified
                   </Badge>
@@ -107,46 +115,58 @@ export function UserDetail({ user }: UserDetailProps) {
           </div>
 
           <Separator />
-\n          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-4">\n              <h3 className="font-medium text-lg">Account Information</h3>
+
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <h3 className="font-medium text-lg">Account Information</h3>
              
              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-sm">\n                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                <div className="flex items-center gap-2 text-sm">
+                  <Calendar className="h-4 w-4 text-muted-foreground" />
                   <span className="text-muted-foreground">Created:</span>
                   <span>{format(user.createdAt, 'MMM d, yyyy')}</span>
                 </div>
                
                <div className="flex items-center gap-2 text-sm">
-                  <Clock className="h-4 w-4 text-muted-foreground" />\n                  <span className="text-muted-foreground">Last Login:</span>
+                  <Clock className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">Last Login:</span>
                   <span>{format(user.lastLoginAt, 'MMM d, yyyy 'at' h:mm a')}</span>
                 </div>
                
                <div className="flex items-center gap-2 text-sm">
-                  <User className="h-4 w-4 text-muted-foreground" />\n                  <span className="text-muted-foreground">User ID:</span>
+                  <User className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">User ID:</span>
                   <span className="font-mono text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
                     {user.id}
                   </span>
                 </div>
               </div>
             </div>
-\n            <div className="space-y-4">
+
+            <div className="space-y-4">
               <h3 className="font-medium text-lg">Additional Details</h3>
              
              <div className="space-y-3">
-                {user.metadata?.jobTitle && (\n                  <div className="flex items-center gap-2 text-sm">
-                    <User className="h-4 w-4 text-muted-foreground" />\n                    <span className="text-muted-foreground">Job Title:</span>
+                {user.metadata?.jobTitle && (
+                  <div className="flex items-center gap-2 text-sm">
+                    <User className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-muted-foreground">Job Title:</span>
                     <span>{user.metadata.jobTitle}</span>
                   </div>
                 )}
                 
-                {user.metadata?.department && (\n                  <div className="flex items-center gap-2 text-sm">
-                    <Building className="h-4 w-4 text-muted-foreground" />\n                    <span className="text-muted-foreground">Department:</span>
+                {user.metadata?.department && (
+                  <div className="flex items-center gap-2 text-sm">
+                    <Building className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-muted-foreground">Department:</span>
                     <span>{user.metadata.department}</span>
                   </div>
                 )}
                 
-                {user.metadata?.location && (\n                  <div className="flex items-center gap-2 text-sm">
-                    <MapPin className="h-4 w-4 text-muted-foreground" />\n                    <span className="text-muted-foreground">Location:</span>
+                {user.metadata?.location && (
+                  <div className="flex items-center gap-2 text-sm">
+                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-muted-foreground">Location:</span>
                     <span>{user.metadata.location}</span>
                   </div>
                 )}
@@ -161,13 +181,19 @@ export function UserDetail({ user }: UserDetailProps) {
         <CardHeader>
           <CardTitle>Usage Statistics</CardTitle>
         </CardHeader>
-        <CardContent>\n          <div className="grid grid-cols-3 gap-6">
-            <div className="text-center">\n              <div className="text-2xl font-bold text-blue-600">127</div>
+        <CardContent>
+          <div className="grid grid-cols-3 gap-6">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-blue-600">127</div>
               <div className="text-sm text-muted-foreground">Conversations</div>
-            </div>\n            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">1,543</div>\n              <div className="text-sm text-muted-foreground">Messages Sent</div>
-            </div>\n            <div className="text-center">
-              <div className="text-2xl font-bold text-purple-600">89</div>\n              <div className="text-sm text-muted-foreground">Tools Used</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-green-600">1,543</div>
+              <div className="text-sm text-muted-foreground">Messages Sent</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-purple-600">89</div>
+              <div className="text-sm text-muted-foreground">Tools Used</div>
             </div>
           </div>
         </CardContent>
