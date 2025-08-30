@@ -210,7 +210,7 @@ const api = {
   }
 };
 
-export const useArtifactStore = create<ArtifactState>()()
+export const useArtifactStore = create<ArtifactState>()(
   devtools(
     subscribeWithSelector((set, get) => ({
       // Initial state
