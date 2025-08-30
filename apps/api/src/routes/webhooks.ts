@@ -1,5 +1,7 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';\nimport { WebhookService } from '../services/WebhookService';\nimport { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
+import { z } from 'zod';
+import { WebhookService } from '../services/WebhookService';
+import { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
 
 // Request/Response Schemas
 const CreateWebhookSchema = z.object({
@@ -538,7 +540,8 @@ export async function webhookRoutes(fastify: FastifyInstance) {
       params: z.object({
         id: z.string(),
       }),
-      querystring: z.object({\n        period: z.enum(['24h', '7d', '30d', '90d']).default('30d'),
+      querystring: z.object({
+        period: z.enum(['24h', '7d', '30d', '90d']).default('30d'),
       }),
       response: {
         200: z.object({
@@ -574,7 +577,8 @@ export async function webhookRoutes(fastify: FastifyInstance) {
   }, async (request: FastifyRequest, reply: FastifyReply) => {
     const { tenantId } = request.user;
     const { id } = z.object({ id: z.string() }).parse(request.params);
-    const { period } = z.object({\n      period: z.enum(['24h', '7d', '30d', '90d']).default('30d'),
+    const { period } = z.object({
+      period: z.enum(['24h', '7d', '30d', '90d']).default('30d'),
     }).parse(request.query);
     
     try {
@@ -600,7 +604,8 @@ export async function webhookRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Validate webhook signature (for external webhook providers)\n  fastify.post('/webhooks/validate', {
+  // Validate webhook signature (for external webhook providers)
+  fastify.post('/webhooks/validate', {
     schema: {
       body: z.object({
         payload: z.string(),

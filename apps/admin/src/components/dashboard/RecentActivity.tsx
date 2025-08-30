@@ -1,6 +1,11 @@
 'use client';
 
-import { useState } from 'react';\nimport { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { Badge } from '@/components/ui/badge';\nimport { Button } from '@/components/ui/button';\nimport { ScrollArea } from '@/components/ui/scroll-area';\nimport { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Clock, 
   User, 
@@ -41,7 +46,8 @@ interface RecentActivityProps {
 // Mock data generator
 function generateMockActivities(): ActivityItem[] {
   const activities: ActivityItem[] = [
-    {\n      id: '1',
+    {
+      id: '1',
       type: 'user',
       action: 'user.created',
       description: 'New user registered',
@@ -50,7 +56,8 @@ function generateMockActivities(): ActivityItem[] {
       tenant: { name: 'Acme Corp', id: 'acme' },
       severity: 'success'
     },
-    {\n      id: '2',
+    {
+      id: '2',
       type: 'security',
       action: 'auth.failed_login',
       description: 'Multiple failed login attempts detected',
@@ -58,7 +65,8 @@ function generateMockActivities(): ActivityItem[] {
       user: { name: 'Unknown', email: 'attacker@malicious.com' },
       severity: 'error'
     },
-    {\n      id: '3',
+    {
+      id: '3',
       type: 'conversation',
       action: 'conversation.created',
       description: 'New conversation started',
@@ -67,7 +75,8 @@ function generateMockActivities(): ActivityItem[] {
       tenant: { name: 'TechStart Inc', id: 'techstart' },
       severity: 'info'
     },
-    {\n      id: '4',
+    {
+      id: '4',
       type: 'tool',
       action: 'tool.invocation',
       description: 'API tool invoked successfully',
@@ -77,7 +86,8 @@ function generateMockActivities(): ActivityItem[] {
       severity: 'success',
       metadata: { toolName: 'get_weather', duration: 1200 }
     },
-    {\n      id: '5',
+    {
+      id: '5',
       type: 'billing',
       action: 'payment.processed',
       description: 'Monthly subscription payment processed',
@@ -86,7 +96,8 @@ function generateMockActivities(): ActivityItem[] {
       severity: 'success',
       metadata: { amount: 99.99, currency: 'USD' }
     },
-    {\n      id: '6',
+    {
+      id: '6',
       type: 'system',
       action: 'system.maintenance',
       description: 'Scheduled maintenance completed',
@@ -148,14 +159,16 @@ export function RecentActivity({ className }: RecentActivityProps) {
   return (
     <Card className={className}>
       <CardHeader>
-        <div className="flex items-center justify-between">\n          <CardTitle className="flex items-center gap-2">\n            <Clock className="h-5 w-5" />
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">\n            <Clock className="h-5 w-5" />
             Recent Activity
           </CardTitle>\n          <Button variant="outline" size="sm">\n            <RefreshCw className="h-4 w-4 mr-2" />
             Refresh
           </Button>
         </div>
       </CardHeader>
-      <CardContent>\n        <Tabs value={filter} onValueChange={setFilter} className="w-full">\n          <TabsList className="grid w-full grid-cols-4">\n            <TabsTrigger value="all">
+      <CardContent>\n        <Tabs value={filter} onValueChange={setFilter} className="w-full">
+          <TabsList className="grid w-full grid-cols-4">\n            <TabsTrigger value="all">
               All ({activityCounts.all})
             </TabsTrigger>\n            <TabsTrigger value="user">
               Users ({activityCounts.user})
@@ -165,8 +178,10 @@ export function RecentActivity({ className }: RecentActivityProps) {
               System ({activityCounts.system})
             </TabsTrigger>
           </TabsList>
-\n          <TabsContent value={filter} className="mt-4">\n            <ScrollArea className="h-96">\n              <div className="space-y-3">
-                {filteredActivities.length === 0 ? (\n                  <div className="text-center py-8 text-muted-foreground">\n                    <Clock className="h-8 w-8 mx-auto mb-2 opacity-50" />
+\n          <TabsContent value={filter} className="mt-4">
+            <ScrollArea className="h-96">\n              <div className="space-y-3">
+                {filteredActivities.length === 0 ? (\n                  <div className="text-center py-8 text-muted-foreground">
+                    <Clock className="h-8 w-8 mx-auto mb-2 opacity-50" />
                     <p>No recent activities found</p>
                   </div>
                 ) : (
@@ -176,14 +191,19 @@ export function RecentActivity({ className }: RecentActivityProps) {
                     
                     return (
                       <div
-                        key={activity.id}\n                        className="flex items-start gap-3 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
+                        key={activity.id}
+                        className="flex items-start gap-3 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
                       >
                         <div className={`p-2 rounded-full ${getSeverityColor(activity.severity)}`}>\n                          <Icon className="h-4 w-4" />
                         </div>
-                        \n                        <div className="flex-1 space-y-1">\n                          <div className="flex items-center justify-between">\n                            <div className="flex items-center gap-2">\n                              <p className="text-sm font-medium">{activity.description}</p>\n                              <Badge variant="outline" className="text-xs">
+                       
+                       <div className="flex-1 space-y-1">
+                          <div className="flex items-center justify-between">\n                            <div className="flex items-center gap-2">
+                              <p className="text-sm font-medium">{activity.description}</p>\n                              <Badge variant="outline" className="text-xs">
                                 {activity.type}
                               </Badge>
-                            </div>\n                            <div className="flex items-center gap-1 text-xs text-muted-foreground">\n                              <SeverityIcon className="h-3 w-3" />
+                            </div>\n                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                              <SeverityIcon className="h-3 w-3" />
                               {formatDistanceToNow(activity.timestamp, { addSuffix: true })}
                             </div>
                           </div>

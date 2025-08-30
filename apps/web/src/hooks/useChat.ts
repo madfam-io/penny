@@ -1,4 +1,5 @@
-import { useState, useCallback, useEffect, useRef } from 'react';\nimport { useWebSocket } from './useWebSocket';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { useWebSocket } from './useWebSocket';
 
 export interface Message {
   id: string;
@@ -334,7 +335,8 @@ export function useChat(options: UseChatOptions = {}): UseChatReturn {
     // Streaming events
     const handleStreamStart = (data: any) => {
       updateState({
-        streamingMessage: {\n          id: data.userMessageId || '',\n          content: '',
+        streamingMessage: {
+          id: data.userMessageId || '',\n          content: '',
           isComplete: false,
           toolCalls: []
         }

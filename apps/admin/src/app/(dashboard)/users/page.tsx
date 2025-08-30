@@ -13,16 +13,23 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,\n} from '@penny/ui';
-import { Plus, Search, Upload, Download } from 'lucide-react';\nimport { UsersTable } from '@/components/users/users-table';\nimport { InviteUserDialog } from '@/components/users/invite-user-dialog';\nimport { BulkImportDialog } from '@/components/users/bulk-import-dialog';
+import { Plus, Search, Upload, Download } from 'lucide-react';
+import { UsersTable } from '@/components/users/users-table';
+import { InviteUserDialog } from '@/components/users/invite-user-dialog';
+import { BulkImportDialog } from '@/components/users/bulk-import-dialog';
 
-export default function UsersPage() {\n  const [searchQuery, setSearchQuery] = useState('');
+export default function UsersPage() {
+  const [searchQuery, setSearchQuery] = useState('');
   const [isInviteOpen, setIsInviteOpen] = useState(false);
   const [isBulkImportOpen, setIsBulkImportOpen] = useState(false);
 
   return (
-    <div className="space-y-8">\n      <div className="flex items-center justify-between">
-        <div>\n          <h1 className="text-3xl font-bold tracking-tight">Users</h1>\n          <p className="text-muted-foreground">Manage users across all tenants and workspaces</p>
-        </div>\n        <div className="flex space-x-2">\n          <Button variant="outline" onClick={() => setIsBulkImportOpen(true)}>\n            <Upload className="mr-2 h-4 w-4" />
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <div>\n          <h1 className="text-3xl font-bold tracking-tight">Users</h1>
+          <p className="text-muted-foreground">Manage users across all tenants and workspaces</p>
+        </div>\n        <div className="flex space-x-2">
+          <Button variant="outline" onClick={() => setIsBulkImportOpen(true)}>\n            <Upload className="mr-2 h-4 w-4" />
             Bulk Import
           </Button>
           <Button onClick={() => setIsInviteOpen(true)}>\n            <Plus className="mr-2 h-4 w-4" />
@@ -44,10 +51,12 @@ export default function UsersPage() {\n  const [searchQuery, setSearchQuery] = u
               </Button>
             </div>
           </CardHeader>
-          <CardContent>\n            <div className="mb-4 relative">\n              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <CardContent>\n            <div className="mb-4 relative">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input\n                placeholder="Search users by name, email, or tenant..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}\n                className="pl-8"
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-8"
               />
             </div>
 \n            <TabsContent value="all">\n              <UsersTable searchQuery={searchQuery} status="all" />

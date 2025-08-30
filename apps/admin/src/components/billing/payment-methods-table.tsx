@@ -23,7 +23,8 @@ interface PaymentMethod {
 }
 
 const paymentMethods: PaymentMethod[] = [
-  {\n    id: '1',
+  {
+    id: '1',
     tenant: 'Acme Corporation',
     type: 'card',
     brand: 'Visa',\n    last4: '4242',
@@ -31,7 +32,8 @@ const paymentMethods: PaymentMethod[] = [
     expiryYear: 2025,
     isDefault: true,
   },
-  {\n    id: '2',
+  {
+    id: '2',
     tenant: 'TechStart Inc',
     type: 'card',
     brand: 'Mastercard',\n    last4: '5555',
@@ -39,12 +41,14 @@ const paymentMethods: PaymentMethod[] = [
     expiryYear: 2024,
     isDefault: true,
   },
-  {\n    id: '3',
+  {
+    id: '3',
     tenant: 'Digital Agency',
     type: 'bank_account',\n    last4: '6789',
     isDefault: true,
   },
-  {\n    id: '4',
+  {
+    id: '4',
     tenant: 'Acme Corporation',
     type: 'card',
     brand: 'Amex',\n    last4: '3782',
@@ -54,7 +58,8 @@ const paymentMethods: PaymentMethod[] = [
   },
 ];
 
-const brandIcons: Record<string, string> = {\n  Visa: '💳',\n  Mastercard: '💳',\n  Amex: '💳',\n  Discover: '💳',
+const brandIcons: Record<string, string> = {
+  Visa: '💳',\n  Mastercard: '💳',\n  Amex: '💳',\n  Discover: '💳',
 };
 
 export function PaymentMethodsTable() {
@@ -75,7 +80,9 @@ export function PaymentMethodsTable() {
           <TableRow key={method.id}>\n            <TableCell className="font-medium">{method.tenant}</TableCell>
             <TableCell>\n              <div className="flex items-center gap-2">
                 {method.type === 'card' ? (\n                  <CreditCard className="h-4 w-4" />
-                ) : (\n                  <Building className="h-4 w-4" />\n                )}\n                <span className="capitalize">{method.type.replace('_', ' ')}</span>
+                ) : (\n                  <Building className="h-4 w-4" />
+                )}
+                <span className="capitalize">{method.type.replace('_', ' ')}</span>
               </div>
             </TableCell>
             <TableCell>
@@ -93,7 +100,8 @@ export function PaymentMethodsTable() {
                 </span>
               ) : (\n                '-'
               )}
-            </TableCell>\n            <TableCell>{method.isDefault && <Badge variant="default">Default</Badge>}</TableCell>\n            <TableCell className="text-right">\n              <Button variant="ghost" size="icon" disabled={method.isDefault}>\n                <Trash className="h-4 w-4" />
+            </TableCell>\n            <TableCell>{method.isDefault && <Badge variant="default">Default</Badge>}</TableCell>\n            <TableCell className="text-right">
+              <Button variant="ghost" size="icon" disabled={method.isDefault}>\n                <Trash className="h-4 w-4" />
               </Button>
             </TableCell>
           </TableRow>

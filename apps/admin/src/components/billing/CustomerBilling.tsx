@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';\nimport { Button } from '../ui/button';\nimport { Badge } from '../ui/badge';\nimport { DataTable } from '../common/DataTable';
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
+import { Badge } from '../ui/badge';
+import { DataTable } from '../common/DataTable';
 import { 
   DollarSign,
   CreditCard,
@@ -26,7 +30,8 @@ interface CustomerBillingData {
 
 export const CustomerBilling: React.FC = () => {
   const [customers, setCustomers] = useState<CustomerBillingData[]>([]);
-  const [loading, setLoading] = useState(true);\n  const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
   const [planFilter, setPlanFilter] = useState('all');
 
   useEffect(() => {
@@ -39,7 +44,8 @@ export const CustomerBilling: React.FC = () => {
       
       // Mock data for now
       const mockData: CustomerBillingData[] = [
-        {\n          id: '1',
+        {
+          id: '1',
           tenant_name: 'Acme Corp',
           email: 'admin@acme.com',
           total_spent: 2850,
@@ -48,7 +54,8 @@ export const CustomerBilling: React.FC = () => {
           payment_method: 'Visa ****4242',
           failed_payments: 0,\n          created_at: '2023-06-15'
         },
-        {\n          id: '2',
+        {
+          id: '2',
           tenant_name: 'TechStart Inc',
           email: 'billing@techstart.io',
           total_spent: 1450,
@@ -57,7 +64,8 @@ export const CustomerBilling: React.FC = () => {
           payment_method: 'MasterCard ****1234',
           failed_payments: 0,\n          created_at: '2023-08-22'
         },
-        {\n          id: '3',
+        {
+          id: '3',
           tenant_name: 'DataFlow LLC',
           email: 'ops@dataflow.com',
           total_spent: 890,
@@ -107,7 +115,8 @@ export const CustomerBilling: React.FC = () => {
       accessorKey: 'tenant_name',
       cell: ({ row }: any) => (
         <div>
-          <div className="font-medium text-gray-900">{row.original.tenant_name}</div>\n          <div className="text-sm text-gray-600">{row.original.email}</div>
+          <div className="font-medium text-gray-900">{row.original.tenant_name}</div>
+          <div className="text-sm text-gray-600">{row.original.email}</div>
         </div>
       ),
     },
@@ -157,20 +166,24 @@ export const CustomerBilling: React.FC = () => {
   });
 
   if (loading) {
-    return (\n      <div className="flex items-center justify-center p-8">\n        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+    return (\n      <div className="flex items-center justify-center p-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   return (\n    <div className="space-y-6">
-      {/* Summary Cards */}\n      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>\n          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">\n            <CardTitle className="text-sm font-medium">Total Customers</CardTitle>\n            <Users className="h-4 w-4 text-muted-foreground" />
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>\n          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Customers</CardTitle>\n            <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>\n            <div className="text-2xl font-bold">{customers.length.toLocaleString()}</div>
           </CardContent>
         </Card>
 
-        <Card>\n          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">\n            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>\n            <DollarSign className="h-4 w-4 text-muted-foreground" />
+        <Card>\n          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>\n            <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>\n            <div className="text-2xl font-bold">
               {formatCurrency(customers.reduce((sum, c) => sum + c.total_spent, 0))}
@@ -178,7 +191,8 @@ export const CustomerBilling: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card>\n          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">\n            <CardTitle className="text-sm font-medium">Failed Payments</CardTitle>\n            <AlertTriangle className="h-4 w-4 text-red-500" />
+        <Card>\n          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Failed Payments</CardTitle>\n            <AlertTriangle className="h-4 w-4 text-red-500" />
           </CardHeader>
           <CardContent>\n            <div className="text-2xl font-bold text-red-600">
               {customers.filter(c => c.failed_payments > 0).length}
@@ -186,7 +200,8 @@ export const CustomerBilling: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card>\n          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">\n            <CardTitle className="text-sm font-medium">Average Spend</CardTitle>\n            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+        <Card>\n          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Average Spend</CardTitle>\n            <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>\n            <div className="text-2xl font-bold">
               {formatCurrency(customers.reduce((sum, c) => sum + c.total_spent, 0) / customers.length)}
@@ -204,16 +219,20 @@ export const CustomerBilling: React.FC = () => {
                 Manage customer billing information and payment history
               </CardDescription>
             </div>
-            \n            <div className="flex space-x-3">\n              <div className="relative">\n                <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+           
+           <div className="flex space-x-3">
+              <div className="relative">\n                <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <input\n                  type="text"\n                  placeholder="Search customers..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}\n                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               <select
                 value={planFilter}
-                onChange={(e) => setPlanFilter(e.target.value)}\n                className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={(e) => setPlanFilter(e.target.value)}
+                className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               >\n                <option value="all">All Plans</option>\n                <option value="free">Free</option>\n                <option value="pro">Pro</option>\n                <option value="enterprise">Enterprise</option>
               </select>
             </div>
@@ -222,7 +241,8 @@ export const CustomerBilling: React.FC = () => {
         <CardContent>
           <DataTable 
             columns={columns} 
-            data={filteredCustomers}\n            searchPlaceholder="Search customers..."
+            data={filteredCustomers}
+            searchPlaceholder="Search customers..."
           />
         </CardContent>
       </Card>

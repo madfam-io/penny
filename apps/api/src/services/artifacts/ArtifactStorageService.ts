@@ -1,4 +1,5 @@
-import { Artifact, ArtifactCollection } from '@penny/types';\nimport { ArtifactQueryOptions } from './ArtifactService';
+import { Artifact, ArtifactCollection } from '@penny/types';
+import { ArtifactQueryOptions } from './ArtifactService';
 
 export interface ShareToken {
   artifactId: string;
@@ -372,10 +373,12 @@ export class ArtifactStorageService {
     switch (this.config.provider) {
       case 's3':
       case 'r2':
-        // Upload to cloud storage\n        return `${this.config.endpoint}/${this.config.bucket}/${key}`;
+        // Upload to cloud storage
+        return `${this.config.endpoint}/${this.config.bucket}/${key}`;
       case 'local':
       default:
-        // Store locally\n        return `/storage/${key}`;
+        // Store locally
+        return `/storage/${key}`;
     }
   }
 
@@ -387,7 +390,8 @@ export class ArtifactStorageService {
 
   private async deleteContent(artifact: Artifact): Promise<void> {
     if (artifact.url) {
-      // Delete from external storage\n      console.log(`Deleting external content: ${artifact.url}`);
+      // Delete from external storage
+      console.log(`Deleting external content: ${artifact.url}`);
     }
   }
 

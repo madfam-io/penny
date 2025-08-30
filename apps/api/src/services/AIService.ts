@@ -1,4 +1,5 @@
-import { OpenAI } from 'openai';\nimport { Anthropic } from '@anthropic-ai/sdk';
+import { OpenAI } from 'openai';
+import { Anthropic } from '@anthropic-ai/sdk';
 
 interface Message {
   role: 'user' | 'assistant' | 'system' | 'tool';
@@ -93,7 +94,8 @@ export class AIService {
         maxTokens,
         tools,
       });
-    } else {\n      throw new Error(`Unsupported provider: ${modelConfig.provider}`);
+    } else {
+      throw new Error(`Unsupported provider: ${modelConfig.provider}`);
     }
   }
 
@@ -107,7 +109,8 @@ export class AIService {
     } = options;
 
     const modelConfig = this.modelConfig.get(model);
-    if (!modelConfig) {\n      throw new Error(`Unsupported model: ${model}`);
+    if (!modelConfig) {
+      throw new Error(`Unsupported model: ${model}`);
     }
 
     if (modelConfig.provider === 'openai') {
@@ -126,7 +129,8 @@ export class AIService {
         maxTokens,
         tools,
       });
-    } else {\n      throw new Error(`Unsupported provider: ${modelConfig.provider}`);
+    } else {
+      throw new Error(`Unsupported provider: ${modelConfig.provider}`);
     }
   }
 
@@ -150,7 +154,8 @@ export class AIService {
       throw new Error('No completion choice returned');
     }
 
-    return {\n      content: choice.message.content || '',
+    return {
+      content: choice.message.content || '',
       toolCalls: choice.message.tool_calls,
       tokenUsage: {
         promptTokens: completion.usage?.prompt_tokens || 0,
@@ -232,7 +237,8 @@ export class AIService {
     const textContent = response.content.find(c => c.type === 'text');
     const toolUseContent = response.content.filter(c => c.type === 'tool_use');
 
-    return {\n      content: textContent?.text || '',
+    return {
+      content: textContent?.text || '',
       toolCalls: toolUseContent.length > 0 ? toolUseContent : undefined,
       tokenUsage: {
         promptTokens: response.usage.input_tokens,
@@ -312,7 +318,8 @@ export class AIService {
   async generateSummary(text: string, maxLength: number = 100): Promise<string> {
     const messages: Message[] = [
       {
-        role: 'system',\n        content: `Generate a concise summary of the following conversation in ${maxLength} words or less. Focus on the main topics and outcomes.`,
+        role: 'system',
+        content: `Generate a concise summary of the following conversation in ${maxLength} words or less. Focus on the main topics and outcomes.`,
       },
       {
         role: 'user',
@@ -355,7 +362,8 @@ export class AIService {
   async classifyContent(content: string, categories: string[]): Promise<string> {
     const messages: Message[] = [
       {
-        role: 'system',\n        content: `Classify the following content into one of these categories: ${categories.join(', ')}. Respond with only the category name.`,
+        role: 'system',
+        content: `Classify the following content into one of these categories: ${categories.join(', ')}. Respond with only the category name.`,
       },
       {
         role: 'user',
@@ -385,7 +393,8 @@ export class AIService {
   async extractKeywords(text: string, maxKeywords: number = 10): Promise<string[]> {
     const messages: Message[] = [
       {
-        role: 'system',\n        content: `Extract up to ${maxKeywords} relevant keywords from the text. Return them as a comma-separated list.`,
+        role: 'system',
+        content: `Extract up to ${maxKeywords} relevant keywords from the text. Return them as a comma-separated list.`,
       },
       {
         role: 'user',
@@ -400,7 +409,8 @@ export class AIService {
       maxTokens: 100,
     });
 
-    return result.content\n      .split(',')
+    return result.content
+      .split(',')
       .map(keyword => keyword.trim())
       .filter(keyword => keyword.length > 0)
       .slice(0, maxKeywords);

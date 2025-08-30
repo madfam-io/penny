@@ -1,4 +1,5 @@
-import { useState, useCallback, useEffect, useRef } from 'react';\nimport { useWebSocket } from './useWebSocket';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { useWebSocket } from './useWebSocket';
 
 export interface TypingUser {
   userId: string;
@@ -79,9 +80,13 @@ export function useTyping(options: UseTypingOptions = {}): UseTypingReturn {
   // Get formatted typing message
   const getTypingMessage = useCallback(() => {
     const count = typingUsers.length;
-    \n    if (count === 0) return '';
-    if (count === 1) return `${typingUsers[0].userName} is typing...`;\n    if (count === 2) return `${typingUsers[0].userName} and ${typingUsers[1].userName} are typing...`;\n    if (count === 3) return `${typingUsers[0].userName}, ${typingUsers[1].userName}, and ${typingUsers[2].userName} are typing...`;
-    \n    return `${typingUsers[0].userName}, ${typingUsers[1].userName}, and ${count - 2} others are typing...`;
+   
+   if (count === 0) return '';
+    if (count === 1) return `${typingUsers[0].userName} is typing...`;
+    if (count === 2) return `${typingUsers[0].userName} and ${typingUsers[1].userName} are typing...`;
+    if (count === 3) return `${typingUsers[0].userName}, ${typingUsers[1].userName}, and ${typingUsers[2].userName} are typing...`;
+   
+   return `${typingUsers[0].userName}, ${typingUsers[1].userName}, and ${count - 2} others are typing...`;
   }, [typingUsers]);
 
   // Setup event listeners

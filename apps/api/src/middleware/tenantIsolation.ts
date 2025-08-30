@@ -1,4 +1,5 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';\nimport { PrismaClient } from '@prisma/client';
+import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import { PrismaClient } from '@prisma/client';
 
 interface User {
   id: string;
@@ -187,7 +188,8 @@ export async function tenantIsolationPlugin(fastify: FastifyInstance) {
             message: 'Resource not found or access denied',
           });
         }
-      } catch (error) {\n        request.log.error(error, `Resource access check failed for ${resourceType}`);
+      } catch (error) {
+        request.log.error(error, `Resource access check failed for ${resourceType}`);
         return reply.code(500).send({
           error: 'Internal Server Error',
           message: 'Failed to verify resource access',
@@ -356,7 +358,8 @@ export async function tenantIsolationPlugin(fastify: FastifyInstance) {
 
       // Check rollout percentage
       if (featureFlag.rolloutPercentage < 100) {
-        // Use tenant ID for consistent rollout\n        const hash = tenantId.split('').reduce((a, b) => {
+        // Use tenant ID for consistent rollout
+        const hash = tenantId.split('').reduce((a, b) => {
           a = ((a << 5) - a) + b.charCodeAt(0);
           return a & a;
         }, 0);
@@ -365,7 +368,8 @@ export async function tenantIsolationPlugin(fastify: FastifyInstance) {
       }
 
       return true;
-    } catch (error) {\n      fastify.log.error(error, `Failed to check feature flag: ${flagKey}`);
+    } catch (error) {
+      fastify.log.error(error, `Failed to check feature flag: ${flagKey}`);
       return false;
     }
   });

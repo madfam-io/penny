@@ -34,7 +34,9 @@ const metricsPlugin: FastifyPluginAsync = async (fastify) => {
     includePath: true,
     normalizePath: (path) => {
       // Normalize paths to avoid high cardinality
-      return path\n        .replace(/\/\d+/g, '/:id')\n        .replace(/\/[a-f0-9-]{36}/g, '/:uuid')\n        .replace(/\?.*$/, '');
+      return path\n        .replace(/\/\d+/g, '/:id')
+        .replace(/\/[a-f0-9-]{36}/g, '/:uuid')
+        .replace(/\?.*$/, '');
     },
   });
 

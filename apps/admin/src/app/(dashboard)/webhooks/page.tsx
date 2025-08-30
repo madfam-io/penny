@@ -1,5 +1,15 @@
-import { Suspense } from 'react';\nimport { WebhooksTable } from '@/components/webhooks/WebhooksTable';\nimport { WebhookFilters } from '@/components/webhooks/WebhookFilters';\nimport { WebhookStats } from '@/components/webhooks/WebhookStats';\nimport { CreateWebhookDialog } from '@/components/webhooks/CreateWebhookDialog';\nimport { WebhookTester } from '@/components/webhooks/WebhookTester';\nimport { Breadcrumbs } from '@/components/layout/Breadcrumbs';\nimport { LoadingSpinner } from '@/components/ui/LoadingSpinner';\nimport { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { Button } from '@/components/ui/button';
-import { Webhook, Plus, Download, RefreshCw, Settings, Filter, TestTube } from 'lucide-react';\nimport { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Suspense } from 'react';
+import { WebhooksTable } from '@/components/webhooks/WebhooksTable';
+import { WebhookFilters } from '@/components/webhooks/WebhookFilters';
+import { WebhookStats } from '@/components/webhooks/WebhookStats';
+import { CreateWebhookDialog } from '@/components/webhooks/CreateWebhookDialog';
+import { WebhookTester } from '@/components/webhooks/WebhookTester';
+import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Webhook, Plus, Download, RefreshCw, Settings, Filter, TestTube } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function WebhooksPage() {
   const breadcrumbItems = [
@@ -8,7 +18,8 @@ export default function WebhooksPage() {
   ];
 
   return (
-    <div className="space-y-6">\n      <div className="flex items-center justify-between">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <div>
           <Breadcrumbs items={breadcrumbItems} />\n          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mt-2">
             Webhook Management
@@ -30,12 +41,14 @@ export default function WebhooksPage() {
       <Suspense fallback={<LoadingSpinner />}>
         <WebhookStats />
       </Suspense>
-\n      <Tabs defaultValue="webhooks" className="space-y-6">\n        <TabsList className="grid w-full grid-cols-3">\n          <TabsTrigger value="webhooks">Webhooks</TabsTrigger>\n          <TabsTrigger value="logs">Delivery Logs</TabsTrigger>\n          <TabsTrigger value="tester">Webhook Tester</TabsTrigger>
+\n      <Tabs defaultValue="webhooks" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-3">\n          <TabsTrigger value="webhooks">Webhooks</TabsTrigger>\n          <TabsTrigger value="logs">Delivery Logs</TabsTrigger>\n          <TabsTrigger value="tester">Webhook Tester</TabsTrigger>
         </TabsList>
 \n        <TabsContent value="webhooks" className="space-y-6">
           {/* Filters */}
           <Card>
-            <CardHeader>\n              <CardTitle className="flex items-center gap-2">\n                <Filter className="h-4 w-4" />
+            <CardHeader>\n              <CardTitle className="flex items-center gap-2">
+                <Filter className="h-4 w-4" />
                 Webhook Filters
               </CardTitle>
             </CardHeader>
@@ -47,7 +60,8 @@ export default function WebhooksPage() {
 
           {/* Webhooks Table */}
           <Card>
-            <CardHeader>\n              <CardTitle className="flex items-center gap-2">\n                <Webhook className="h-4 w-4" />
+            <CardHeader>\n              <CardTitle className="flex items-center gap-2">
+                <Webhook className="h-4 w-4" />
                 Configured Webhooks
               </CardTitle>
             </CardHeader>
@@ -63,7 +77,8 @@ export default function WebhooksPage() {
             <CardHeader>
               <CardTitle>Webhook Delivery Logs</CardTitle>
             </CardHeader>
-            <CardContent>\n              <div className="text-center py-8 text-muted-foreground">\n                <Webhook className="h-12 w-12 mx-auto mb-4 opacity-50" />\n                <h3 className="text-lg font-medium mb-2">Delivery Logs</h3>
+            <CardContent>\n              <div className="text-center py-8 text-muted-foreground">
+                <Webhook className="h-12 w-12 mx-auto mb-4 opacity-50" />\n                <h3 className="text-lg font-medium mb-2">Delivery Logs</h3>
                 <p>View webhook delivery attempts, responses, and retry history</p>
               </div>
             </CardContent>
@@ -71,7 +86,8 @@ export default function WebhooksPage() {
         </TabsContent>
 \n        <TabsContent value="tester" className="space-y-6">
           <Card>
-            <CardHeader>\n              <CardTitle className="flex items-center gap-2">\n                <TestTube className="h-4 w-4" />
+            <CardHeader>\n              <CardTitle className="flex items-center gap-2">
+                <TestTube className="h-4 w-4" />
                 Webhook Tester
               </CardTitle>
             </CardHeader>

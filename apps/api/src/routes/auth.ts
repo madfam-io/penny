@@ -1,5 +1,9 @@
 import type { FastifyPluginAsync } from 'fastify';
-import { z } from 'zod';\nimport { ValidationError, AuthenticationError, type Role } from '@penny/shared';\nimport { PasswordService, JWTService, SessionService, type SessionData } from '@penny/security';\nimport { prisma } from '@penny/database';\nimport { generateId } from '@penny/shared';
+import { z } from 'zod';
+import { ValidationError, AuthenticationError, type Role } from '@penny/shared';
+import { PasswordService, JWTService, SessionService, type SessionData } from '@penny/security';
+import { prisma } from '@penny/database';
+import { generateId } from '@penny/shared';
 import crypto from 'node:crypto';
 
 // Validation schemas
@@ -261,7 +265,8 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Login with email and password
-  fastify.post(\n    '/login',
+  fastify.post(
+    '/login',
     {
       config: {
         rateLimit: rateLimiter,

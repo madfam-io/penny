@@ -1,5 +1,7 @@
 import type { FastifyPluginAsync, FastifyRequest } from 'fastify';
-import fp from 'fastify-plugin';\nimport jwt from '@fastify/jwt';\nimport { AuthenticationError, AuthorizationError, type Role } from '@penny/shared';
+import fp from 'fastify-plugin';
+import jwt from '@fastify/jwt';
+import { AuthenticationError, AuthorizationError, type Role } from '@penny/shared';
 
 interface JWTPayload {
   sub: string; // userId
@@ -19,7 +21,8 @@ const authentication: FastifyPluginAsync = async (fastify) => {
   // Register JWT plugin
   await fastify.register(jwt, {
     secret: process.env.JWT_SECRET || 'change-this-in-production',
-    sign: {\n      expiresIn: process.env.JWT_EXPIRES_IN || '7d',
+    sign: {
+      expiresIn: process.env.JWT_EXPIRES_IN || '7d',
     },
   });
 

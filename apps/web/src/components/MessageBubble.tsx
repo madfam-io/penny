@@ -1,5 +1,6 @@
 import { Bot, User, FileText, BarChart3, Image } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';\nimport { cn } from '@/utils/cn';
+import ReactMarkdown from 'react-markdown';
+import { cn } from '@/utils/cn';
 
 interface Message {
   id: string;
@@ -70,15 +71,18 @@ export default function MessageBubble({ message, onArtifactClick }: MessageBubbl
               return (
                 <button
                   key={artifact.id}
-                  onClick={() => onArtifactClick?.(artifact.id)}\n                  className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                >\n                  <Icon className="h-4 w-4 text-gray-500" />\n                  <span className="text-sm text-gray-700 dark:text-gray-300">{artifact.name}</span>
+                  onClick={() => onArtifactClick?.(artifact.id)}
+                  className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                >\n                  <Icon className="h-4 w-4 text-gray-500" />
+                  <span className="text-sm text-gray-700 dark:text-gray-300">{artifact.name}</span>
                 </button>
               );
             })}
           </div>
         )}
 
-        {/* Timestamp */}\n        <span className="text-xs text-gray-500 dark:text-gray-400">
+        {/* Timestamp */}
+        <span className="text-xs text-gray-500 dark:text-gray-400">
           {message.timestamp.toLocaleTimeString()}
         </span>
       </div>

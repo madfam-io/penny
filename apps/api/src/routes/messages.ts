@@ -1,5 +1,7 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';\nimport { MessageService } from '../services/MessageService';\nimport { PaginationSchema, ErrorResponseSchema } from '../schemas/common';
+import { z } from 'zod';
+import { MessageService } from '../services/MessageService';
+import { PaginationSchema, ErrorResponseSchema } from '../schemas/common';
 
 // Request/Response Schemas
 const CreateMessageSchema = z.object({
@@ -282,7 +284,8 @@ export async function messageRoutes(fastify: FastifyInstance) {
       if (reply.sent) {
         reply.raw.write(`event: error
 data: {"error": "Stream interrupted"}
-\n`);
+
+`);
         reply.raw.end();
       } else {
         return reply.code(500).send({
@@ -293,7 +296,8 @@ data: {"error": "Stream interrupted"}
     }
   });
 
-  // Update message (edit)\n  fastify.put('/messages/:id', {
+  // Update message (edit)
+  fastify.put('/messages/:id', {
     schema: {
       params: z.object({
         id: z.string(),
@@ -345,7 +349,8 @@ data: {"error": "Stream interrupted"}
     }
   });
 
-  // Delete message (soft delete)\n  fastify.delete('/messages/:id', {
+  // Delete message (soft delete)
+  fastify.delete('/messages/:id', {
     schema: {
       params: z.object({
         id: z.string(),

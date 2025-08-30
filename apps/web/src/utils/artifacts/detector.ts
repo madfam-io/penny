@@ -178,7 +178,8 @@ export class ArtifactDetector {
     return { type: 'text', confidence: 0.3 };
   }
 
-  private static detectFromExtension(filename: string): DetectionResult {\n    const ext = filename.split('.').pop()?.toLowerCase();
+  private static detectFromExtension(filename: string): DetectionResult {
+    const ext = filename.split('.').pop()?.toLowerCase();
     
     if (!ext) {
       return { type: 'text', confidence: 0.2 };
@@ -263,7 +264,8 @@ export class ArtifactDetector {
   private static detectFromString(content: string): DetectionResult {
     const trimmed = content.trim();
 
-    // Check for JSON\n    if ((trimmed.startsWith('{') && trimmed.endsWith('}')) || \n        (trimmed.startsWith('[') && trimmed.endsWith(']'))) {
+    // Check for JSON\n    if ((trimmed.startsWith('{') && trimmed.endsWith('}')) ||
+       (trimmed.startsWith('[') && trimmed.endsWith(']'))) {
       try {
         JSON.parse(content);
         return { type: 'json', confidence: 0.9 };
@@ -272,11 +274,13 @@ export class ArtifactDetector {
       }
     }
 
-    // Check for HTML\n    if (trimmed.includes('<html') || trimmed.includes('<!DOCTYPE') || \n        (trimmed.includes('<') && trimmed.includes('>'))) {
+    // Check for HTML\n    if (trimmed.includes('<html') || trimmed.includes('<!DOCTYPE') ||
+       (trimmed.includes('<') && trimmed.includes('>'))) {
       return { type: 'html', confidence: 0.8 };
     }
 
-    // Check for Markdown\n    if (trimmed.includes('# ') || trimmed.includes('## ') || \n        trimmed.includes('```') || trimmed.includes('[') && trimmed.includes('](')) {
+    // Check for Markdown\n    if (trimmed.includes('# ') || trimmed.includes('## ') ||
+       trimmed.includes('```') || trimmed.includes('[') && trimmed.includes('](')) {
       return { type: 'markdown', confidence: 0.7 };
     }
 

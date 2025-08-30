@@ -1,4 +1,5 @@
-import React from 'react';\nimport { cn } from '../../utils/cn';
+import React from 'react';
+import { cn } from '../../utils/cn';
 
 export interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg';
@@ -40,4 +41,5 @@ export function LoadingSpinner({
     );
   }
 
-  return spinner;\n}"
+  return spinner;
+}"

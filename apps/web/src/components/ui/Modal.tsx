@@ -1,6 +1,7 @@
 import React, { ReactNode, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { X } from 'lucide-react';\nimport { cn } from '../../utils/cn';
+import { X } from 'lucide-react';
+import { cn } from '../../utils/cn';
 
 export interface ModalProps {
   isOpen: boolean;
@@ -61,7 +62,8 @@ export function Modal({
 
   const modal = (
     <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div \n        className="flex min-h-full items-center justify-center p-4 text-center sm:p-0"
+      <div
+       className="flex min-h-full items-center justify-center p-4 text-center sm:p-0"
         onClick={handleOverlayClick}
       >\n        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         
@@ -80,7 +82,8 @@ export function Modal({
               {showCloseButton && (
                 <button\n                  type="button"\n                  className="rounded-md bg-white text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   onClick={onClose}
-                >\n                  <span className="sr-only">Close</span>\n                  <X className="h-6 w-6" />
+                >\n                  <span className="sr-only">Close</span>
+                  <X className="h-6 w-6" />
                 </button>
               )}
             </div>
@@ -92,4 +95,5 @@ export function Modal({
     </div>
   );
 
-  return createPortal(modal, document.body);\n}"
+  return createPortal(modal, document.body);
+}"

@@ -21,7 +21,9 @@ export function ModelUsage() {
           tickFormatter={(value) => `${value / 1000}k`}
         />
         <Tooltip
-          formatter={(value: number, name: string) => {\n            if (name === 'usage') return [`${(value / 1000).toFixed(1)}k requests`, 'Usage'];\n            return [`$${value}`, 'Cost'];
+          formatter={(value: number, name: string) => {
+            if (name === 'usage') return [`${(value / 1000).toFixed(1)}k requests`, 'Usage'];
+            return [`$${value}`, 'Cost'];
           }}
         />\n        <Bar dataKey="usage" fill="#8884d8" />
       </BarChart>

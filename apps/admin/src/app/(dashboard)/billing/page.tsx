@@ -12,7 +12,11 @@ import {
   TabsTrigger,
   Badge,
   Button,\n} from '@penny/ui';
-import { DollarSign, TrendingUp, CreditCard, FileText, Download } from 'lucide-react';\nimport { RevenueChart } from '@/components/billing/revenue-chart';\nimport { SubscriptionsTable } from '@/components/billing/subscriptions-table';\nimport { InvoicesTable } from '@/components/billing/invoices-table';\nimport { PaymentMethodsTable } from '@/components/billing/payment-methods-table';
+import { DollarSign, TrendingUp, CreditCard, FileText, Download } from 'lucide-react';
+import { RevenueChart } from '@/components/billing/revenue-chart';
+import { SubscriptionsTable } from '@/components/billing/subscriptions-table';
+import { InvoicesTable } from '@/components/billing/invoices-table';
+import { PaymentMethodsTable } from '@/components/billing/payment-methods-table';
 
 const stats = [
   {
@@ -35,8 +39,10 @@ const stats = [
 
 export default function BillingPage() {
   return (
-    <div className="space-y-8">\n      <div className="flex items-center justify-between">
-        <div>\n          <h1 className="text-3xl font-bold tracking-tight">Billing</h1>\n          <p className="text-muted-foreground">
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <div>\n          <h1 className="text-3xl font-bold tracking-tight">Billing</h1>
+          <p className="text-muted-foreground">
             Manage subscriptions, invoices, and payment methods
           </p>
         </div>
@@ -46,9 +52,11 @@ export default function BillingPage() {
       </div>
 \n      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
-          <Card key={stat.title}>\n            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">\n              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>\n              <stat.icon className="h-4 w-4 text-muted-foreground" />
+          <Card key={stat.title}>\n            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>\n              <stat.icon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
-            <CardContent>\n              <div className="text-2xl font-bold">{stat.value}</div>\n              <p className="text-xs text-muted-foreground">{stat.change}</p>
+            <CardContent>\n              <div className="text-2xl font-bold">{stat.value}</div>
+              <p className="text-xs text-muted-foreground">{stat.change}</p>
             </CardContent>
           </Card>
         ))}

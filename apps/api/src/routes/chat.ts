@@ -1,6 +1,8 @@
 import type { FastifyPluginAsync } from 'fastify';
-import { z } from 'zod';\nimport { Role, createMessageSchema, type ConversationId } from '@penny/shared';
-import type { WebSocket } from 'ws';\nimport { validateRequest, paginationSchema, idParamSchema } from '../middleware/validation.js';
+import { z } from 'zod';
+import { Role, createMessageSchema, type ConversationId } from '@penny/shared';
+import type { WebSocket } from 'ws';
+import { validateRequest, paginationSchema, idParamSchema } from '../middleware/validation.js';
 
 const routes: FastifyPluginAsync = async (fastify) => {
   // List conversations
@@ -218,7 +220,8 @@ const routes: FastifyPluginAsync = async (fastify) => {
             socket.send(
               JSON.stringify({
                 type: 'token',
-                data: {\n                  token: word + ' ',
+                data: {
+                  token: word + ' ',
                 },
               }),
             );

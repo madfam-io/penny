@@ -1,4 +1,6 @@
-import { FastifyPluginAsync } from 'fastify';\nimport { Type } from '@sinclair/typebox';\nimport { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
+import { FastifyPluginAsync } from 'fastify';
+import { Type } from '@sinclair/typebox';
+import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 
 const ValidateRequestSchema = Type.Object({
   code: Type.String({ minLength: 1, maxLength: 50000 }),
@@ -258,22 +260,29 @@ async function validatePythonSyntax(code: string): Promise<Array<{
     const python = spawn('python', ['-c', `
 import ast
 import sys
-\ncode = '''${code.replace(/'''/g, '\"""')}'''
 
-try:\n    ast.parse(code)\n    print('{"valid": true}')
+code = '''${code.replace(/'''/g, '"""')}'''
+
+try:\n    ast.parse(code)
+    print('{"valid": true}')
 except SyntaxError as e:
     import json
-    print(json.dumps({\n        "valid": false,\n        "error": {\n            "message": str(e),\n            "line": e.lineno,\n            "column": e.offset,\n            "type": "SyntaxError"
+    print(json.dumps({
+        "valid": false,\n        "error": {
+            "message": str(e),\n            "line": e.lineno,\n            "column": e.offset,\n            "type": "SyntaxError"
         }
     }))
 except Exception as e:
     import json
-    print(json.dumps({\n        "valid": false,\n        "error": {\n            "message": str(e),\n            "type": type(e).__name__
+    print(json.dumps({
+        "valid": false,\n        "error": {
+            "message": str(e),\n            "type": type(e).__name__
         }
     }))
 `]);
 
-    return new Promise((resolve) => {\n      let output = '';
+    return new Promise((resolve) => {
+      let output = '';
       python.stdout.on('data', (data: Buffer) => {
         output += data.toString();
       });
@@ -327,7 +336,8 @@ async function checkCodeStyle(code: string): Promise<Array<{
   column?: number;
   rule?: string;
 }>> {
-  const issues: any[] = [];\n  const lines = code.split('
+  const issues: any[] = [];
+  const lines = code.split('
 ');
 
   for (let i = 0; i < lines.length; i++) {
@@ -406,7 +416,8 @@ function generateSuggestions(code: string, analysisResult: any, securityCheck: a
 }
 
 function extractBlockedImports(code: string): string[] {
-  const blockedImports: string[] = [];\n  const lines = code.split('
+  const blockedImports: string[] = [];
+  const lines = code.split('
 ');
   
   for (const line of lines) {
@@ -426,7 +437,8 @@ function findDangerousPatterns(code: string): string[] {
   if (code.includes('eval(') || code.includes('exec(')) {
     patterns.push('Dynamic code execution');
   }
-  \n  if (code.includes('__import__')) {
+ 
+ if (code.includes('__import__')) {
     patterns.push('Dynamic imports');
   }
   

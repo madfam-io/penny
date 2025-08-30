@@ -1,5 +1,16 @@
 import { Suspense } from 'react';
-import { notFound } from 'next/navigation';\nimport { TenantDetail } from '@/components/tenants/TenantDetail';\nimport { TenantUsers } from '@/components/tenants/TenantUsers';\nimport { TenantBilling } from '@/components/tenants/TenantBilling';\nimport { TenantSettings } from '@/components/tenants/TenantSettings';\nimport { TenantUsage } from '@/components/tenants/TenantUsage';\nimport { Breadcrumbs } from '@/components/layout/Breadcrumbs';\nimport { LoadingSpinner } from '@/components/ui/LoadingSpinner';\nimport { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';\nimport { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { Badge } from '@/components/ui/badge';\nimport { Button } from '@/components/ui/button';
+import { notFound } from 'next/navigation';
+import { TenantDetail } from '@/components/tenants/TenantDetail';
+import { TenantUsers } from '@/components/tenants/TenantUsers';
+import { TenantBilling } from '@/components/tenants/TenantBilling';
+import { TenantSettings } from '@/components/tenants/TenantSettings';
+import { TenantUsage } from '@/components/tenants/TenantUsage';
+import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { ArrowLeft, Edit, Settings, Trash2, Users, CreditCard, BarChart3 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -13,7 +24,8 @@ interface TenantDetailPageProps {
 async function getTenantById(id: string) {
   // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 100));
-  \n  if (id === '999') {
+ 
+ if (id === '999') {
     return null;
   }
   
@@ -42,7 +54,8 @@ async function getTenantById(id: string) {
       apiLimit: 50000,
       messagesThisMonth: 1250
     },
-    billing: {\n      nextBillingDate: new Date('2024-09-15'),
+    billing: {
+      nextBillingDate: new Date('2024-09-15'),
       monthlyRevenue: 2500,
       totalRevenue: 15000
     }
@@ -83,12 +96,16 @@ export default async function TenantDetailPage({ params }: TenantDetailPageProps
   };
 
   return (
-    <div className="space-y-6">\n      <div className="flex items-center justify-between">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <div>
-          <Breadcrumbs items={breadcrumbItems} />\n          <div className="flex items-center gap-4 mt-4">\n            <Button variant="ghost" size="sm" asChild>\n              <Link href="/tenants" className="flex items-center gap-2">\n                <ArrowLeft className="h-4 w-4" />
+          <Breadcrumbs items={breadcrumbItems} />\n          <div className="flex items-center gap-4 mt-4">
+            <Button variant="ghost" size="sm" asChild>\n              <Link href="/tenants" className="flex items-center gap-2">
+                <ArrowLeft className="h-4 w-4" />
                 Back to Tenants
               </Link>
-            </Button>\n            <div className="flex items-center gap-2">\n              <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
+            </Button>\n            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
                 {tenant.name}
               </h1>
               <Badge className={getStatusColor(tenant.status)}>
@@ -99,18 +116,24 @@ export default async function TenantDetailPage({ params }: TenantDetailPageProps
               </Badge>
             </div>
           </div>
-        </div>\n        <div className="flex items-center gap-2">\n          <Button variant="outline" size="sm">\n            <Edit className="h-4 w-4 mr-2" />
+        </div>\n        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm">\n            <Edit className="h-4 w-4 mr-2" />
             Edit Tenant
           </Button>\n          <Button variant="outline" size="sm">\n            <Settings className="h-4 w-4 mr-2" />
             Settings
-          </Button>\n          <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">\n            <Trash2 className="h-4 w-4 mr-2" />
+          </Button>\n          <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
+            <Trash2 className="h-4 w-4 mr-2" />
             Delete Tenant
           </Button>
         </div>
       </div>
 
-      {/* Overview Cards */}\n      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>\n          <CardContent className="pt-6">\n            <div className="flex items-center">\n              <Users className="h-4 w-4 text-muted-foreground" />\n              <div className="ml-2">\n                <p className="text-sm font-medium leading-none">Users</p>\n                <p className="text-2xl font-bold">{tenant.userCount}</p>\n                <p className="text-xs text-muted-foreground">
+      {/* Overview Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card>\n          <CardContent className="pt-6">
+            <div className="flex items-center">\n              <Users className="h-4 w-4 text-muted-foreground" />
+              <div className="ml-2">\n                <p className="text-sm font-medium leading-none">Users</p>
+                <p className="text-2xl font-bold">{tenant.userCount}</p>\n                <p className="text-xs text-muted-foreground">
                   of {tenant.maxUsers} limit
                 </p>
               </div>
@@ -118,7 +141,10 @@ export default async function TenantDetailPage({ params }: TenantDetailPageProps
           </CardContent>
         </Card>
 
-        <Card>\n          <CardContent className="pt-6">\n            <div className="flex items-center">\n              <BarChart3 className="h-4 w-4 text-muted-foreground" />\n              <div className="ml-2">\n                <p className="text-sm font-medium leading-none">Storage</p>\n                <p className="text-2xl font-bold">{tenant.usage.storageUsed}GB</p>\n                <p className="text-xs text-muted-foreground">
+        <Card>\n          <CardContent className="pt-6">
+            <div className="flex items-center">\n              <BarChart3 className="h-4 w-4 text-muted-foreground" />
+              <div className="ml-2">\n                <p className="text-sm font-medium leading-none">Storage</p>
+                <p className="text-2xl font-bold">{tenant.usage.storageUsed}GB</p>\n                <p className="text-xs text-muted-foreground">
                   of {tenant.usage.storageLimit}GB
                 </p>
               </div>
@@ -126,7 +152,10 @@ export default async function TenantDetailPage({ params }: TenantDetailPageProps
           </CardContent>
         </Card>
 
-        <Card>\n          <CardContent className="pt-6">\n            <div className="flex items-center">\n              <CreditCard className="h-4 w-4 text-muted-foreground" />\n              <div className="ml-2">\n                <p className="text-sm font-medium leading-none">Monthly Revenue</p>\n                <p className="text-2xl font-bold">${tenant.billing.monthlyRevenue}</p>\n                <p className="text-xs text-muted-foreground">
+        <Card>\n          <CardContent className="pt-6">
+            <div className="flex items-center">\n              <CreditCard className="h-4 w-4 text-muted-foreground" />
+              <div className="ml-2">\n                <p className="text-sm font-medium leading-none">Monthly Revenue</p>
+                <p className="text-2xl font-bold">${tenant.billing.monthlyRevenue}</p>\n                <p className="text-xs text-muted-foreground">
                   ${tenant.billing.totalRevenue} total
                 </p>
               </div>
@@ -134,7 +163,10 @@ export default async function TenantDetailPage({ params }: TenantDetailPageProps
           </CardContent>
         </Card>
 
-        <Card>\n          <CardContent className="pt-6">\n            <div className="flex items-center">\n              <BarChart3 className="h-4 w-4 text-muted-foreground" />\n              <div className="ml-2">\n                <p className="text-sm font-medium leading-none">API Calls</p>\n                <p className="text-2xl font-bold">{tenant.usage.apiCalls.toLocaleString()}</p>\n                <p className="text-xs text-muted-foreground">
+        <Card>\n          <CardContent className="pt-6">
+            <div className="flex items-center">\n              <BarChart3 className="h-4 w-4 text-muted-foreground" />
+              <div className="ml-2">\n                <p className="text-sm font-medium leading-none">API Calls</p>
+                <p className="text-2xl font-bold">{tenant.usage.apiCalls.toLocaleString()}</p>\n                <p className="text-xs text-muted-foreground">
                   of {tenant.usage.apiLimit.toLocaleString()} limit
                 </p>
               </div>
@@ -142,7 +174,8 @@ export default async function TenantDetailPage({ params }: TenantDetailPageProps
           </CardContent>
         </Card>
       </div>
-\n      <Tabs defaultValue="details" className="space-y-6">\n        <TabsList className="grid w-full grid-cols-5">\n          <TabsTrigger value="details">Details</TabsTrigger>\n          <TabsTrigger value="users">Users</TabsTrigger>\n          <TabsTrigger value="usage">Usage & Analytics</TabsTrigger>\n          <TabsTrigger value="billing">Billing</TabsTrigger>\n          <TabsTrigger value="settings">Settings</TabsTrigger>
+\n      <Tabs defaultValue="details" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-5">\n          <TabsTrigger value="details">Details</TabsTrigger>\n          <TabsTrigger value="users">Users</TabsTrigger>\n          <TabsTrigger value="usage">Usage & Analytics</TabsTrigger>\n          <TabsTrigger value="billing">Billing</TabsTrigger>\n          <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
 \n        <TabsContent value="details">
           <Suspense fallback={<LoadingSpinner />}>

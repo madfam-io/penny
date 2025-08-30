@@ -1,5 +1,7 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';\nimport { AdminService } from '../services/AdminService';\nimport { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
+import { z } from 'zod';
+import { AdminService } from '../services/AdminService';
+import { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
 
 // Request/Response Schemas
 const SystemStatsSchema = z.object({
@@ -638,7 +640,8 @@ export async function adminRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Export data (GDPR compliance)\n  fastify.post('/admin/export/:tenantId', {
+  // Export data (GDPR compliance)
+  fastify.post('/admin/export/:tenantId', {
     schema: {
       params: z.object({
         tenantId: z.string(),
@@ -746,7 +749,8 @@ export async function adminRoutes(fastify: FastifyInstance) {
 
   // System metrics for monitoring\n  fastify.get('/admin/metrics', {
     schema: {
-      querystring: z.object({\n        period: z.enum(['1h', '6h', '1d', '7d', '30d']).default('1h'),
+      querystring: z.object({
+        period: z.enum(['1h', '6h', '1d', '7d', '30d']).default('1h'),
         metrics: z.array(z.string()).optional(),
       }),
       response: {
@@ -769,7 +773,8 @@ export async function adminRoutes(fastify: FastifyInstance) {
     },
     preHandler: [fastify.authenticate, fastify.requireAdmin],
   }, async (request: FastifyRequest, reply: FastifyReply) => {
-    const { period, metrics } = z.object({\n      period: z.enum(['1h', '6h', '1d', '7d', '30d']).default('1h'),
+    const { period, metrics } = z.object({
+      period: z.enum(['1h', '6h', '1d', '7d', '30d']).default('1h'),
       metrics: z.array(z.string()).optional(),
     }).parse(request.query);
     

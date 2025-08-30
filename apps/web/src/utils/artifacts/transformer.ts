@@ -190,13 +190,17 @@ export class ArtifactTransformer {
       }
 \n      const headers = tableData.columns.map((col: any) => col.title || col.key).join(',');
       const rows = tableData.data.map((row: any) => 
-        tableData.columns.map((col: any) => {\n          const value = row[col.key] || '';
+        tableData.columns.map((col: any) => {
+          const value = row[col.key] || '';
           // Escape CSV values
-          if (typeof value === 'string' && (value.includes(',') || value.includes('"') || value.includes('\\n'))) {\n            return `"${value.replace(/"/g, '""')}"`;
+          if (typeof value === 'string' && (value.includes(',') || value.includes('"') || value.includes('\\n'))) {
+            return `"${value.replace(/"/g, '""')}"`;
           }
-          return value;\n        }).join(',')
+          return value;
+        }).join(',')
       );
-\n      const csv = [headers, ...rows].join('\
+
+      const csv = [headers, ...rows].join('\
 ');
       return { success: true, data: csv };
     } catch (error) {
@@ -271,7 +275,8 @@ export class ArtifactTransformer {
         config: {
           title: 'Converted Chart',
           xAxis: categoryColumn ? { label: categoryColumn.title, type: 'category' as const } : undefined,
-          yAxis: { label: numericColumns[0].title, type: 'value' as const },\n          colors: ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6'],
+          yAxis: { label: numericColumns[0].title, type: 'value' as const },
+          colors: ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6'],
           legend: true,
           tooltip: true,
           responsive: true,
@@ -428,11 +433,13 @@ export class ArtifactTransformer {
     }
   }
 
-  private static parseCSV(csvString: string): any[] {\n    const lines = csvString.trim().split('\
+  private static parseCSV(csvString: string): any[] {
+    const lines = csvString.trim().split('\
 ');
     if (lines.length < 2) return [];
 \n    const headers = lines[0].split(',').map(h => h.trim());
-    return lines.slice(1).map(line => {\n      const values = line.split(',').map(v => v.trim());
+    return lines.slice(1).map(line => {
+      const values = line.split(',').map(v => v.trim());
       const obj: any = {};
       headers.forEach((header, index) => {
         const value = values[index];
@@ -446,7 +453,8 @@ export class ArtifactTransformer {
     const flattened: Record<string, any> = {};
     
     for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {\n        const newKey = prefix ? `${prefix}.${key}` : key;
+      if (obj.hasOwnProperty(key)) {
+        const newKey = prefix ? `${prefix}.${key}` : key;
         
         if (obj[key] === null || obj[key] === undefined) {
           flattened[newKey] = obj[key];

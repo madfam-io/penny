@@ -1,4 +1,6 @@
-import { FastifyInstance } from 'fastify';\nimport { build } from '../app';\nimport { PrismaClient } from '@prisma/client';
+import { FastifyInstance } from 'fastify';
+import { build } from '../app';
+import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -321,7 +323,8 @@ describe('Authentication API Integration Tests', () => {
         where: { userId: testUser.id },
       });
       expect(sessions).toHaveLength(1);
-      expect(sessions[0].userAgent).toBe('Test User Agent');\n      expect(sessions[0].ipAddress).toBe('192.168.1.1');
+      expect(sessions[0].userAgent).toBe('Test User Agent');
+      expect(sessions[0].ipAddress).toBe('192.168.1.1');
     });
 
     it('should create audit log for successful login', async () => {
@@ -530,7 +533,8 @@ describe('Authentication API Integration Tests', () => {
 
     it('should create audit log for logout', async () => {
       const response = await app.inject({
-        method: 'POST',\n        url: '/auth/logout',
+        method: 'POST',
+        url: '/auth/logout',
         headers: {
           'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
@@ -550,7 +554,8 @@ describe('Authentication API Integration Tests', () => {
 
     it('should require authentication', async () => {
       const response = await app.inject({
-        method: 'POST',\n        url: '/auth/logout',
+        method: 'POST',
+        url: '/auth/logout',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -588,7 +593,8 @@ describe('Authentication API Integration Tests', () => {
     it('should return current user info', async () => {
       const response = await app.inject({
         method: 'GET',\n        url: '/auth/me',
-        headers: {\n          Authorization: `Bearer ${validToken}`,
+        headers: {
+          Authorization: `Bearer ${validToken}`,
         },
       });
 

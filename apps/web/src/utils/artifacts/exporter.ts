@@ -1,4 +1,5 @@
-import { Artifact } from '@penny/types';\nimport { ArtifactTransformer } from './transformer';
+import { Artifact } from '@penny/types';
+import { ArtifactTransformer } from './transformer';
 
 export interface ExportOptions {
   format: ExportFormat;
@@ -129,7 +130,8 @@ export class ArtifactExporter {
     }
   }
 
-  private static getExporter(artifactType: Artifact['type'], format: ExportFormat) {\n    const key = `${artifactType}_${format}`;
+  private static getExporter(artifactType: Artifact['type'], format: ExportFormat) {
+    const key = `${artifactType}_${format}`;
     
     // Chart exporters
     if (artifactType === 'chart') {
@@ -189,10 +191,15 @@ export class ArtifactExporter {
     mockCanvas.width = 800;
     mockCanvas.height = 600;
     
-    // Mock chart rendering\n    const ctx = mockCanvas.getContext('2d');
-    if (ctx) {\n      ctx.fillStyle = '#f8f9fa';
-      ctx.fillRect(0, 0, 800, 600);\n      ctx.fillStyle = '#333';\n      ctx.font = '24px Arial';
-      ctx.fillText(artifact.title, 50, 50);\n      ctx.fillStyle = '#007bff';
+    // Mock chart rendering
+    const ctx = mockCanvas.getContext('2d');
+    if (ctx) {
+      ctx.fillStyle = '#f8f9fa';
+      ctx.fillRect(0, 0, 800, 600);
+      ctx.fillStyle = '#333';
+      ctx.font = '24px Arial';
+      ctx.fillText(artifact.title, 50, 50);
+      ctx.fillStyle = '#007bff';
       ctx.fillRect(100, 100, 200, 300);
     }
     
@@ -224,7 +231,8 @@ export class ArtifactExporter {
   }
 
   private static async exportChartAsPDF(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
-    // Mock PDF generation - would use jsPDF or similar\n    const mockPDFContent = `%PDF-1.4\
+    // Mock PDF generation - would use jsPDF or similar
+    const mockPDFContent = `%PDF-1.4\
 1 0 obj\
 <<\
 /Type /Catalog\
@@ -262,11 +270,13 @@ endobj\
 
   private static async exportChartAsHTML(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
     const chartData = artifact.content;
-    \n    const html = `
+   
+   const html = `
       <!DOCTYPE html>
       <html>
       <head>
-        <title>${artifact.title}</title>\n        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <title>${artifact.title}</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       </head>
       <body>
         <h1>${artifact.title}</h1>\n        <canvas id="chart" width="800" height="400"></canvas>
@@ -332,8 +342,14 @@ endobj\
   }
 
   private static async exportTableAsHTML(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
-    const tableData = artifact.content;\n    \n    const headers = tableData.columns.map((col: any) => `<th>${col.title}</th>`).join('');\n    const rows = tableData.data.map((row: any) => \n      `<tr>${tableData.columns.map((col: any) => `<td>${row[col.key] || ''}</td>`).join('')}</tr>`\n    ).join('');
-    \n    const html = `
+    const tableData = artifact.content;
+   
+   const headers = tableData.columns.map((col: any) => `<th>${col.title}</th>`).join('');
+    const rows = tableData.data.map((row: any) =>
+     `<tr>${tableData.columns.map((col: any) => `<td>${row[col.key] || ''}</td>`).join('')}</tr>`
+    ).join('');
+   
+   const html = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -363,10 +379,15 @@ endobj\
 
   private static async exportTableAsText(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
     const tableData = artifact.content;
-    \n    const headers = tableData.columns.map((col: any) => col.title).join('\	');
-    const rows = tableData.data.map((row: any) => \n      tableData.columns.map((col: any) => row[col.key] || '').join('\	')\n    ).join('\
+   
+   const headers = tableData.columns.map((col: any) => col.title).join('\	');
+    const rows = tableData.data.map((row: any) =>
+     tableData.columns.map((col: any) => row[col.key] || '').join('\	')
+    ).join('\
 ');
-    \n    const text = `${artifact.title}\\n${'='.repeat(artifact.title.length)}\
+   
+   const text = `${artifact.title}\
+${'='.repeat(artifact.title.length)}\
 \
 ${headers}\
 ${rows}`;
@@ -397,7 +418,9 @@ ${rows}`;
     const content = typeof artifact.content === 'string' 
       ? artifact.content 
       : JSON.stringify(artifact.content, null, 2);
-    \n    const text = `${artifact.title}\\n${'='.repeat(artifact.title.length)}\
+   
+   const text = `${artifact.title}\
+${'='.repeat(artifact.title.length)}\
 \
 ${content}`;
     
@@ -411,7 +434,8 @@ ${content}`;
   private static async exportAsHTML(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
     const content = typeof artifact.content === 'string'
       ? artifact.content\n      : `<pre>${JSON.stringify(artifact.content, null, 2)}</pre>`;
-    \n    const html = `
+   
+   const html = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -437,7 +461,8 @@ ${content}`;
   }
 
   private static async exportAsPDF(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
-    // Mock PDF generation for generic content\n    const mockPDFContent = `%PDF-1.4\
+    // Mock PDF generation for generic content
+    const mockPDFContent = `%PDF-1.4\
 % ${artifact.title}\
 `;
     
@@ -449,7 +474,8 @@ ${content}`;
   }
 
   private static async exportCodeAsText(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
-    const codeData = artifact.content;\n    const code = codeData.code || '';
+    const codeData = artifact.content;
+    const code = codeData.code || '';
     
     return {
       success: true,
@@ -461,7 +487,8 @@ ${content}`;
   private static async exportCodeAsPDF(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
     // Mock code PDF generation
     return {
-      success: true,\n      data: new Blob(['%PDF-1.4\
+      success: true,
+      data: new Blob(['%PDF-1.4\
 % Code Export'], { type: 'application/pdf' }),
       mimeType: 'application/pdf'
     };
@@ -469,7 +496,8 @@ ${content}`;
 
   private static async exportCodeAsHTML(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
     const codeData = artifact.content;
-    \n    const html = `
+   
+   const html = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -493,14 +521,17 @@ ${content}`;
     const mockImageData = new ArrayBuffer(1024);
     
     return {
-      success: true,\n      data: new Blob([mockImageData], { type: `image/${options.format}` }),\n      mimeType: `image/${options.format}`
+      success: true,
+      data: new Blob([mockImageData], { type: `image/${options.format}` }),
+      mimeType: `image/${options.format}`
     };
   }
 
   private static async exportImageAsPDF(artifact: Artifact, options: ExportOptions): Promise<ExportResult> {
     // Mock image to PDF conversion
     return {
-      success: true,\n      data: new Blob(['%PDF-1.4\
+      success: true,
+      data: new Blob(['%PDF-1.4\
 % Image Export'], { type: 'application/pdf' }),
       mimeType: 'application/pdf'
     };
@@ -520,9 +551,12 @@ ${content}`;
 
   private static generateFilename(artifact: Artifact, format: ExportFormat): string {
     const baseName = artifact.title
-      .toLowerCase()\n      .replace(/[^a-z0-9]+/g, '-')\n      .replace(/^-+|-+$/g, '');
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
     
-    const timestamp = new Date().toISOString().slice(0, 10);\n    return `${baseName}-${timestamp}.${format}`;
+    const timestamp = new Date().toISOString().slice(0, 10);
+    return `${baseName}-${timestamp}.${format}`;
   }
 
   private static async getTemplate(templateType: string): Promise<any> {
@@ -560,4 +594,5 @@ ${content}`;
     document.body.removeChild(a);
     
     URL.revokeObjectURL(url);
-  }\n}"
+  }
+}"

@@ -1,13 +1,17 @@
 'use client';
 
-import { useState } from 'react';\nimport { Button } from '@/components/ui/button';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,\n} from '@/components/ui/dialog';\nimport { Input } from '@/components/ui/input';\nimport { Label } from '@/components/ui/label';\nimport { Textarea } from '@/components/ui/textarea';
+  DialogTitle,\n} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { 
   UserCheck, 
   UserX, 
@@ -31,10 +35,12 @@ export function UserActions({ userId, className }: UserActionsProps) {
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [banDialog, setBanDialog] = useState(false);
   
-  const [emailForm, setEmailForm] = useState({\n    subject: '',\n    message: ''
+  const [emailForm, setEmailForm] = useState({
+    subject: '',\n    message: ''
   });
   
-  const [banForm, setBanForm] = useState({\n    reason: '',
+  const [banForm, setBanForm] = useState({
+    reason: '',
     duration: 'permanent'
   });
 
@@ -64,7 +70,8 @@ export function UserActions({ userId, className }: UserActionsProps) {
     try {
       // API call to send email
       console.log('Sending email to user:', userId, emailForm);
-      setEmailDialog(false);\n      setEmailForm({ subject: '', message: '' });
+      setEmailDialog(false);
+      setEmailForm({ subject: '', message: '' });
       // Show success toast
     } catch (error) {
       console.error('Failed to send email:', error);
@@ -88,7 +95,8 @@ export function UserActions({ userId, className }: UserActionsProps) {
     try {
       // API call to ban user
       console.log('Banning user:', userId, banForm);
-      setBanDialog(false);\n      setBanForm({ reason: '', duration: 'permanent' });
+      setBanDialog(false);
+      setBanForm({ reason: '', duration: 'permanent' });
       // Show success toast
     } catch (error) {
       console.error('Failed to ban user:', error);
@@ -112,42 +120,62 @@ export function UserActions({ userId, className }: UserActionsProps) {
     <>
       <div className={`space-y-2 ${className}`}>
         <Button 
-          variant="outline" \n          size="sm" \n          className="w-full justify-start"
+          variant="outline"
+         size="sm"
+         className="w-full justify-start"
           onClick={handleActivateUser}
         >\n          <UserCheck className="mr-2 h-4 w-4" />
           Activate User
         </Button>
         
-        <Button \n          variant="outline" \n          size="sm" \n          className="w-full justify-start"
+        <Button
+         variant="outline"
+         size="sm"
+         className="w-full justify-start"
           onClick={handleDeactivateUser}
         >\n          <UserX className="mr-2 h-4 w-4" />
           Deactivate User
         </Button>
         
-        <Button \n          variant="outline" \n          size="sm" \n          className="w-full justify-start"
+        <Button
+         variant="outline"
+         size="sm"
+         className="w-full justify-start"
           onClick={() => setEmailDialog(true)}
         >\n          <Mail className="mr-2 h-4 w-4" />
           Send Email
         </Button>
         
-        <Button \n          variant="outline" \n          size="sm" \n          className="w-full justify-start"
+        <Button
+         variant="outline"
+         size="sm"
+         className="w-full justify-start"
           onClick={() => setResetPasswordDialog(true)}
         >\n          <Key className="mr-2 h-4 w-4" />
           Reset Password
         </Button>
         
-        <Button \n          variant="outline" \n          size="sm" \n          className="w-full justify-start"
+        <Button
+         variant="outline"
+         size="sm"
+         className="w-full justify-start"
         >\n          <Shield className="mr-2 h-4 w-4" />
           Reset MFA
         </Button>
         
-        <Button \n          variant="outline" \n          size="sm" \n          className="w-full justify-start text-yellow-600 hover:text-yellow-700"
+        <Button
+         variant="outline"
+         size="sm"
+         className="w-full justify-start text-yellow-600 hover:text-yellow-700"
           onClick={() => setBanDialog(true)}
         >\n          <Ban className="mr-2 h-4 w-4" />
           Ban User
         </Button>
         
-        <Button \n          variant="outline" \n          size="sm" \n          className="w-full justify-start text-red-600 hover:text-red-700"
+        <Button
+         variant="outline"
+         size="sm"
+         className="w-full justify-start text-red-600 hover:text-red-700"
           onClick={() => setDeleteDialog(true)}
         >\n          <Trash2 className="mr-2 h-4 w-4" />
           Delete User
@@ -156,14 +184,16 @@ export function UserActions({ userId, className }: UserActionsProps) {
 
       {/* Send Email Dialog */}
       <Dialog open={emailDialog} onOpenChange={setEmailDialog}>\n        <DialogContent className="sm:max-w-md">
-          <DialogHeader>\n            <DialogTitle className="flex items-center gap-2">\n              <Mail className="h-5 w-5" />
+          <DialogHeader>\n            <DialogTitle className="flex items-center gap-2">
+              <Mail className="h-5 w-5" />
               Send Email to User
             </DialogTitle>
             <DialogDescription>
               Send a direct email to this user. They will receive it at their registered email address.
             </DialogDescription>
           </DialogHeader>
-          \n          <div className="space-y-4">
+         
+         <div className="space-y-4">
             <div>\n              <Label htmlFor="email-subject">Subject</Label>
               <Input\n                id="email-subject"\n                placeholder="Enter email subject..."
                 value={emailForm.subject}
@@ -193,7 +223,8 @@ export function UserActions({ userId, className }: UserActionsProps) {
       {/* Reset Password Dialog */}
       <Dialog open={resetPasswordDialog} onOpenChange={setResetPasswordDialog}>
         <DialogContent>
-          <DialogHeader>\n            <DialogTitle className="flex items-center gap-2">\n              <Key className="h-5 w-5" />
+          <DialogHeader>\n            <DialogTitle className="flex items-center gap-2">
+              <Key className="h-5 w-5" />
               Reset User Password
             </DialogTitle>
             <DialogDescription>
@@ -215,14 +246,16 @@ export function UserActions({ userId, className }: UserActionsProps) {
       {/* Ban User Dialog */}
       <Dialog open={banDialog} onOpenChange={setBanDialog}>
         <DialogContent>
-          <DialogHeader>\n            <DialogTitle className="flex items-center gap-2">\n              <Ban className="h-5 w-5 text-yellow-600" />
+          <DialogHeader>\n            <DialogTitle className="flex items-center gap-2">
+              <Ban className="h-5 w-5 text-yellow-600" />
               Ban User
             </DialogTitle>
             <DialogDescription>
               Banned users will be unable to access the platform. This action can be reversed later.
             </DialogDescription>
           </DialogHeader>
-          \n          <div className="space-y-4">
+         
+         <div className="space-y-4">
             <div>\n              <Label htmlFor="ban-reason">Reason for Ban</Label>
               <Textarea\n                id="ban-reason"\n                placeholder="Enter reason for banning this user..."
                 rows={3}
@@ -235,7 +268,8 @@ export function UserActions({ userId, className }: UserActionsProps) {
           <DialogFooter>\n            <Button variant="outline" onClick={() => setBanDialog(false)}>
               Cancel
             </Button>
-            <Button \n              variant="destructive" 
+            <Button
+             variant="destructive" 
               onClick={handleBanUser}
               disabled={!banForm.reason.trim()}
             >\n              <Ban className="mr-2 h-4 w-4" />
@@ -248,7 +282,8 @@ export function UserActions({ userId, className }: UserActionsProps) {
       {/* Delete User Dialog */}
       <Dialog open={deleteDialog} onOpenChange={setDeleteDialog}>
         <DialogContent>
-          <DialogHeader>\n            <DialogTitle className="flex items-center gap-2">\n              <AlertTriangle className="h-5 w-5 text-red-600" />
+          <DialogHeader>\n            <DialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-red-600" />
               Delete User
             </DialogTitle>
             <DialogDescription>
@@ -256,7 +291,9 @@ export function UserActions({ userId, className }: UserActionsProps) {
               files, and settings will be permanently deleted.
             </DialogDescription>
           </DialogHeader>
-          \n          <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">\n            <p className="text-sm text-red-800 dark:text-red-200">
+         
+         <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
+            <p className="text-sm text-red-800 dark:text-red-200">
               <strong>Warning:</strong> This will permanently delete all user data and cannot be recovered.
             </p>
           </div>

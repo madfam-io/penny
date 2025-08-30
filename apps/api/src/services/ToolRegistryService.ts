@@ -1,4 +1,7 @@
-import { ToolRegistry, ToolExecutor, ToolValidator, BUILTIN_TOOLS } from '@penny/tools';\nimport { prisma } from '@penny/database';\nimport { RBACService } from '@penny/security';\nimport type { TenantId, UserId, Role } from '@penny/shared';
+import { ToolRegistry, ToolExecutor, ToolValidator, BUILTIN_TOOLS } from '@penny/tools';
+import { prisma } from '@penny/database';
+import { RBACService } from '@penny/security';
+import type { TenantId, UserId, Role } from '@penny/shared';
 import Redis from 'ioredis';
 
 export interface ToolSearchOptions {
@@ -120,12 +123,14 @@ export class ToolRegistryService {
   async getTool(name: string, tenantId: TenantId, userId: UserId, userRoles: Role[]) {
     try {
       const tool = this.registry.get(name);
-      if (!tool) {\n        throw new Error(`Tool ${name} not found`);
+      if (!tool) {
+        throw new Error(`Tool ${name} not found`);
       }
 
       // Check permissions
       const canExecute = await this.registry.canExecute(name, tenantId, userId, userRoles);
-      if (!canExecute) {\n        throw new Error(`Insufficient permissions to access tool ${name}`);
+      if (!canExecute) {
+        throw new Error(`Insufficient permissions to access tool ${name}`);
       }
 
       // Get analytics and configuration
@@ -145,7 +150,8 @@ export class ToolRegistryService {
           })
         }
       };
-    } catch (error) {\n      throw new Error(`Failed to get tool: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } catch (error) {
+      throw new Error(`Failed to get tool: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
@@ -196,7 +202,8 @@ export class ToolRegistryService {
       await this.registry.updateToolConfig(toolName, tenantId, config);
       
       return { success: true };
-    } catch (error) {\n      throw new Error(`Failed to update tool config: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } catch (error) {
+      throw new Error(`Failed to update tool config: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
@@ -224,10 +231,13 @@ export class ToolRegistryService {
       // For built-in tools, just enable them in tenant settings
       const tool = this.registry.get(toolName);
       if (tool) {
-        await this.enableToolForTenant(toolName, tenantId);\n        return { success: true, message: `Tool ${toolName} enabled for tenant` };
+        await this.enableToolForTenant(toolName, tenantId);
+        return { success: true, message: `Tool ${toolName} enabled for tenant` };
       }
-\n      throw new Error(`Tool ${toolName} not found`);
-    } catch (error) {\n      throw new Error(`Failed to install tool: ${error instanceof Error ? error.message : 'Unknown error'}`);
+
+      throw new Error(`Tool ${toolName} not found`);
+    } catch (error) {
+      throw new Error(`Failed to install tool: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
@@ -248,7 +258,8 @@ export class ToolRegistryService {
     try {
       for (const tool of BUILTIN_TOOLS) {
         await this.registry.register(tool, { validate: true });
-      }\n      console.log(`Registered ${BUILTIN_TOOLS.length} built-in tools`);
+      }
+      console.log(`Registered ${BUILTIN_TOOLS.length} built-in tools`);
     } catch (error) {
       console.error('Failed to initialize built-in tools:', error);
     }

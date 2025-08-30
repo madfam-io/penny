@@ -2,7 +2,8 @@
 // Keeping for backwards compatibility during migration
 // TODO: Remove after migration to new auth system is complete
 
-import { createContext, useContext, ReactNode } from 'react';\nimport { AuthProvider as NewAuthProvider, useAuthContext } from '../components/auth/AuthProvider';
+import { createContext, useContext, ReactNode } from 'react';
+import { AuthProvider as NewAuthProvider, useAuthContext } from '../components/auth/AuthProvider';
 
 /**
  * @deprecated Use the new AuthProvider from components/auth/AuthProvider instead

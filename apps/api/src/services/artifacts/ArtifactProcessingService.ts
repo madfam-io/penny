@@ -220,7 +220,8 @@ class TableProcessor implements ArtifactProcessor {
 
       // Validate columns
       const validatedColumns = tableData.columns.map((col: any) => ({
-        ...col,\n        key: col.key || col.title?.toLowerCase().replace(/\s+/g, '_'),
+        ...col,
+        key: col.key || col.title?.toLowerCase().replace(/\s+/g, '_'),
         sortable: col.sortable !== false,
         filterable: col.filterable !== false
       }));
@@ -335,11 +336,15 @@ class TableCSVExporter implements ArtifactExporter {
     
     // Generate CSV\n    const headers = columns.map((col: any) => col.title).join(',');
     const rows = data.map((row: any) => 
-      columns.map((col: any) => {\n        const value = row[col.key] || '';
-        return typeof value === 'string' && value.includes(',') \n          ? `"${value.replace(/"/g, '""')}"` 
-          : value;\n      }).join(',')
+      columns.map((col: any) => {
+        const value = row[col.key] || '';
+        return typeof value === 'string' && value.includes(',')
+         ? `"${value.replace(/"/g, '""')}"` 
+          : value;
+      }).join(',')
     );
-    \n    const csv = [headers, ...rows].join('\
+   
+   const csv = [headers, ...rows].join('\
 ');
     return Buffer.from(csv, 'utf-8');
   }
@@ -368,7 +373,8 @@ class TableJSONExporter implements ArtifactExporter {
 
 class CodeTextExporter implements ArtifactExporter {
   async export(artifact: Artifact, options: ExportOptions): Promise<Buffer> {
-    const codeData = artifact.content;\n    return Buffer.from(codeData.code || '', 'utf-8');
+    const codeData = artifact.content;
+    return Buffer.from(codeData.code || '', 'utf-8');
   }
 }
 
@@ -497,4 +503,5 @@ class DefaultValidator implements ArtifactValidator {
       isValid: errors.length === 0,
       errors
     };
-  }\n}"
+  }
+}"

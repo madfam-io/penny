@@ -2,7 +2,11 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';\nimport { Button } from '@/components/ui/button';\nimport { Badge } from '@/components/ui/badge';\nimport { ScrollArea } from '@/components/ui/scroll-area';\nimport { Separator } from '@/components/ui/separator';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 import { 
   LayoutDashboard,
   Users,
@@ -20,7 +24,8 @@ import {
   Bell,
   HelpCircle,
   LogOut
-} from 'lucide-react';\nimport { cn } from '@/utils/cn';
+} from 'lucide-react';
+import { cn } from '@/utils/cn';
 
 interface SidebarProps {
   collapsed: boolean;
@@ -120,7 +125,8 @@ export function Sidebar({ collapsed, mobileOpen, onCollapse, onMobileToggle }: S
   const pathname = usePathname();
 
   const NavItem = ({ item, isNested = false }: { item: any; isNested?: boolean }) => {
-    const Icon = item.icon;\n    const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+    const Icon = item.icon;
+    const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
     
     return (
       <Link
@@ -151,22 +157,29 @@ export function Sidebar({ collapsed, mobileOpen, onCollapse, onMobileToggle }: S
   };
 
   const sidebarContent = (\n    <div className="flex flex-col h-full">
-      {/* Logo */}\n      <div className="p-6 border-b">\n        <Link href="/dashboard" className="flex items-center gap-2">\n          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">\n            <LayoutDashboard className="h-5 w-5 text-primary-foreground" />
+      {/* Logo */}
+      <div className="p-6 border-b">
+        <Link href="/dashboard" className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">\n            <LayoutDashboard className="h-5 w-5 text-primary-foreground" />
           </div>
           {!collapsed && (
-            <div>\n              <h1 className="text-xl font-bold">PENNY Admin</h1>\n              <p className="text-xs text-muted-foreground">Management Console</p>
+            <div>\n              <h1 className="text-xl font-bold">PENNY Admin</h1>
+              <p className="text-xs text-muted-foreground">Management Console</p>
             </div>
           )}
         </Link>
       </div>
 
-      {/* Navigation */}\n      <ScrollArea className="flex-1 px-4 py-6">\n        <div className="space-y-6">
+      {/* Navigation */}
+      <ScrollArea className="flex-1 px-4 py-6">
+        <div className="space-y-6">
           {navigationItems.map((section) => (
             <div key={section.title}>
               {!collapsed && (\n                <h2 className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                   {section.title}
                 </h2>
-              )}\n              <div className="space-y-1">
+              )}
+              <div className="space-y-1">
                 {section.items.map((item) => (
                   <NavItem key={item.href} item={item} />
                 ))}
@@ -176,23 +189,28 @@ export function Sidebar({ collapsed, mobileOpen, onCollapse, onMobileToggle }: S
         </div>
       </ScrollArea>
 
-      {/* Bottom Items */}\n      <div className="border-t p-4">\n        <div className="space-y-1">
+      {/* Bottom Items */}
+      <div className="border-t p-4">
+        <div className="space-y-1">
           {bottomItems.map((item) => (
             <NavItem key={item.href} item={item} />
           ))}
         </div>
-        \n        {!collapsed && <Separator className="my-4" />}
+       
+       {!collapsed && <Separator className="my-4" />}
         
         <Button\n          variant="ghost"\n          size="sm"
           className={cn(
             'w-full justify-start text-muted-foreground',
             collapsed && 'justify-center px-2'
           )}
-        >\n          <LogOut className="h-4 w-4" />\n          {!collapsed && <span className="ml-2">Sign out</span>}
+        >\n          <LogOut className="h-4 w-4" />
+          {!collapsed && <span className="ml-2">Sign out</span>}
         </Button>
       </div>
 
-      {/* Collapse Button */}\n      <div className="hidden lg:block border-t p-4">
+      {/* Collapse Button */}
+      <div className="hidden lg:block border-t p-4">
         <Button\n          variant="ghost"\n          size="sm"
           onClick={() => onCollapse(!collapsed)}
           className={cn(
@@ -202,7 +220,8 @@ export function Sidebar({ collapsed, mobileOpen, onCollapse, onMobileToggle }: S
         >
           {collapsed ? (\n            <ChevronRight className="h-4 w-4" />
           ) : (
-            <>\n              <ChevronLeft className="h-4 w-4" />\n              <span className="ml-2">Collapse</span>
+            <>\n              <ChevronLeft className="h-4 w-4" />
+              <span className="ml-2">Collapse</span>
             </>
           )}
         </Button>

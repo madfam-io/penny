@@ -1,5 +1,8 @@
 import type { FastifyPluginAsync } from 'fastify';
-import { z } from 'zod';\nimport { Role, toolInvocationSchema } from '@penny/shared';\nimport { ToolRegistryService } from '../services/ToolRegistryService.js';\nimport { ToolExecutionService } from '../services/ToolExecutionService.js';
+import { z } from 'zod';
+import { Role, toolInvocationSchema } from '@penny/shared';
+import { ToolRegistryService } from '../services/ToolRegistryService.js';
+import { ToolExecutionService } from '../services/ToolExecutionService.js';
 
 const toolSearchSchema = z.object({
   query: z.string().optional(),

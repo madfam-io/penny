@@ -1,5 +1,7 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';\nimport { UsageService } from '../services/UsageService';\nimport { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
+import { z } from 'zod';
+import { UsageService } from '../services/UsageService';
+import { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
 
 // Request/Response Schemas
 const UsageQuerySchema = z.object({
@@ -123,7 +125,8 @@ export async function usageRoutes(fastify: FastifyInstance) {
 
   // Get usage metrics/analytics\n  fastify.get('/usage/metrics', {
     schema: {
-      querystring: z.object({\n        period: z.enum(['1h', '6h', '1d', '7d', '30d', '90d']).default('30d'),
+      querystring: z.object({
+        period: z.enum(['1h', '6h', '1d', '7d', '30d', '90d']).default('30d'),
         granularity: z.enum(['hour', 'day', 'week', 'month']).default('day'),
         resourceTypes: z.array(z.string()).optional(),
         includeBreakdown: z.boolean().default(true),
@@ -142,7 +145,8 @@ export async function usageRoutes(fastify: FastifyInstance) {
     preHandler: [fastify.authenticate, fastify.tenantIsolation, fastify.requireTenantAdmin],
   }, async (request: FastifyRequest, reply: FastifyReply) => {
     const { tenantId } = request.user;
-    const query = z.object({\n      period: z.enum(['1h', '6h', '1d', '7d', '30d', '90d']).default('30d'),
+    const query = z.object({
+      period: z.enum(['1h', '6h', '1d', '7d', '30d', '90d']).default('30d'),
       granularity: z.enum(['hour', 'day', 'week', 'month']).default('day'),
       resourceTypes: z.array(z.string()).optional(),
       includeBreakdown: z.boolean().default(true),
@@ -215,7 +219,8 @@ export async function usageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Record usage (internal API)\n  fastify.post('/usage/record', {
+  // Record usage (internal API)
+  fastify.post('/usage/record', {
     schema: {
       body: RecordUsageSchema,
       response: {
@@ -258,7 +263,8 @@ export async function usageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Bulk record usage (internal API)\n  fastify.post('/usage/record/bulk', {
+  // Bulk record usage (internal API)
+  fastify.post('/usage/record/bulk', {
     schema: {
       body: BulkUsageSchema,
       response: {
@@ -301,9 +307,11 @@ export async function usageRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Get user usage (for current user)\n  fastify.get('/usage/me', {
+  // Get user usage (for current user)
+  fastify.get('/usage/me', {
     schema: {
-      querystring: z.object({\n        period: z.enum(['1d', '7d', '30d', '90d']).default('30d'),
+      querystring: z.object({
+        period: z.enum(['1d', '7d', '30d', '90d']).default('30d'),
         resourceTypes: z.array(z.string()).optional(),
       }),
       response: {
@@ -326,7 +334,8 @@ export async function usageRoutes(fastify: FastifyInstance) {
     preHandler: [fastify.authenticate],
   }, async (request: FastifyRequest, reply: FastifyReply) => {
     const { tenantId, userId } = request.user;
-    const { period, resourceTypes } = z.object({\n      period: z.enum(['1d', '7d', '30d', '90d']).default('30d'),
+    const { period, resourceTypes } = z.object({
+      period: z.enum(['1d', '7d', '30d', '90d']).default('30d'),
       resourceTypes: z.array(z.string()).optional(),
     }).parse(request.query);
     

@@ -1,6 +1,10 @@
 'use client';
-\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@penny/ui';
-import { Activity, CreditCard, Users, Building2 } from 'lucide-react';\nimport { Overview } from '@/components/dashboard/overview';\nimport { RecentActivity } from '@/components/dashboard/recent-activity';\nimport { SystemHealth } from '@/components/dashboard/system-health';
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@penny/ui';
+import { Activity, CreditCard, Users, Building2 } from 'lucide-react';
+import { Overview } from '@/components/dashboard/overview';
+import { RecentActivity } from '@/components/dashboard/recent-activity';
+import { SystemHealth } from '@/components/dashboard/system-health';
 
 const stats = [
   {
@@ -24,18 +28,22 @@ const stats = [
 export default function DashboardPage() {
   return (
     <div className="space-y-8">
-      <div>\n        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>\n        <p className="text-muted-foreground">Overview of your PENNY platform performance</p>
+      <div>\n        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <p className="text-muted-foreground">Overview of your PENNY platform performance</p>
       </div>
 \n      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
-          <Card key={stat.title}>\n            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">\n              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>\n              <stat.icon className="h-4 w-4 text-muted-foreground" />
+          <Card key={stat.title}>\n            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>\n              <stat.icon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
-            <CardContent>\n              <div className="text-2xl font-bold">{stat.value}</div>\n              <p className="text-xs text-muted-foreground">{stat.description}</p>
+            <CardContent>\n              <div className="text-2xl font-bold">{stat.value}</div>
+              <p className="text-xs text-muted-foreground">{stat.description}</p>
             </CardContent>
           </Card>
         ))}
       </div>
-\n      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">\n        <Card className="col-span-4">
+\n      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+        <Card className="col-span-4">
           <CardHeader>
             <CardTitle>Overview</CardTitle>
             <CardDescription>Platform usage over the last 30 days</CardDescription>

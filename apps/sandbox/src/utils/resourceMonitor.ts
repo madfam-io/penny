@@ -97,7 +97,8 @@ export class ResourceMonitor extends EventEmitter {
   async getContainerMetrics(containerName: string): Promise<ContainerMetrics | null> {
     try {
       return await this.getDockerStats(containerName);
-    } catch (error) {\n      console.error(`Failed to get container metrics for ${containerName}:`, error);
+    } catch (error) {
+      console.error(`Failed to get container metrics for ${containerName}:`, error);
       return null;
     }
   }
@@ -143,7 +144,8 @@ export class ResourceMonitor extends EventEmitter {
     percentage: number;
   }> {
     return new Promise((resolve, reject) => {
-      const process = spawn('free', ['-b']);\n      let output = '';
+      const process = spawn('free', ['-b']);
+      let output = '';
 
       process.stdout?.on('data', (data) => {
         output += data.toString();
@@ -151,7 +153,8 @@ export class ResourceMonitor extends EventEmitter {
 
       process.on('close', (code) => {
         if (code === 0) {
-          try {\n            const lines = output.trim().split('
+          try {
+            const lines = output.trim().split('
 ');
             const memLine = lines[1].split(/\s+/);
             
@@ -164,7 +167,8 @@ export class ResourceMonitor extends EventEmitter {
           } catch (error) {
             reject(error);
           }
-        } else {\n          reject(new Error(`free command failed with exit code ${code}`));
+        } else {
+          reject(new Error(`free command failed with exit code ${code}`));
         }
       });
 
@@ -192,7 +196,8 @@ export class ResourceMonitor extends EventEmitter {
 
   private async getCpuUsage(): Promise<number> {
     return new Promise((resolve, reject) => {
-      const process = spawn('cat', ['/proc/stat']);\n      let output = '';
+      const process = spawn('cat', ['/proc/stat']);
+      let output = '';
 
       process.stdout?.on('data', (data) => {
         output += data.toString();
@@ -200,7 +205,8 @@ export class ResourceMonitor extends EventEmitter {
 
       process.on('close', (code) => {
         if (code === 0) {
-          try {\n            const lines = output.trim().split('
+          try {
+            const lines = output.trim().split('
 ');
             const cpuLine = lines[0].split(/\s+/).slice(1).map(Number);
             
@@ -221,7 +227,8 @@ export class ResourceMonitor extends EventEmitter {
           } catch (error) {
             reject(error);
           }
-        } else {\n          reject(new Error(`CPU stats command failed with exit code ${code}`));
+        } else {
+          reject(new Error(`CPU stats command failed with exit code ${code}`));
         }
       });
 
@@ -236,7 +243,8 @@ export class ResourceMonitor extends EventEmitter {
     percentage: number;
   }> {
     return new Promise((resolve, reject) => {
-      const process = spawn('df', ['-B1', '/']);\n      let output = '';
+      const process = spawn('df', ['-B1', '/']);
+      let output = '';
 
       process.stdout?.on('data', (data) => {
         output += data.toString();
@@ -244,7 +252,8 @@ export class ResourceMonitor extends EventEmitter {
 
       process.on('close', (code) => {
         if (code === 0) {
-          try {\n            const lines = output.trim().split('
+          try {
+            const lines = output.trim().split('
 ');
             const diskLine = lines[1].split(/\s+/);
             
@@ -257,7 +266,8 @@ export class ResourceMonitor extends EventEmitter {
           } catch (error) {
             reject(error);
           }
-        } else {\n          reject(new Error(`df command failed with exit code ${code}`));
+        } else {
+          reject(new Error(`df command failed with exit code ${code}`));
         }
       });
 
@@ -271,7 +281,8 @@ export class ResourceMonitor extends EventEmitter {
     stopped: number;
   }> {
     return new Promise((resolve, reject) => {
-      const process = spawn('docker', ['ps', '-a', '--format', '{{.Status}}']);\n      let output = '';
+      const process = spawn('docker', ['ps', '-a', '--format', '{{.Status}}']);
+      let output = '';
 
       process.stdout?.on('data', (data) => {
         output += data.toString();
@@ -279,7 +290,8 @@ export class ResourceMonitor extends EventEmitter {
 
       process.on('close', (code) => {
         if (code === 0) {
-          try {\n            const lines = output.trim().split('
+          try {
+            const lines = output.trim().split('
 ').filter(line => line.trim() !== '');
             const total = lines.length;
             const running = lines.filter(line => line.startsWith('Up')).length;
@@ -300,7 +312,9 @@ export class ResourceMonitor extends EventEmitter {
 
   private async getDockerStats(containerName: string): Promise<ContainerMetrics | null> {
     return new Promise((resolve, reject) => {
-      const process = spawn('docker', ['stats', containerName, '--no-stream', '--format', \n        '{{.Container}}	{{.MemUsage}}	{{.CPUPerc}}	{{.NetIO}}	{{.BlockIO}}	{{.PIDs}}']);\n      let output = '';
+      const process = spawn('docker', ['stats', containerName, '--no-stream', '--format',
+       '{{.Container}}	{{.MemUsage}}	{{.CPUPerc}}	{{.NetIO}}	{{.BlockIO}}	{{.PIDs}}']);
+      let output = '';
 
       process.stdout?.on('data', (data) => {
         output += data.toString();
@@ -308,16 +322,22 @@ export class ResourceMonitor extends EventEmitter {
 
       process.on('close', (code) => {
         if (code === 0 && output.trim()) {
-          try {\n            const parts = output.trim().split('	');
+          try {
+            const parts = output.trim().split('	');
             
-            // Parse memory usage (e.g., "50MiB / 512MiB")\n            const memoryParts = parts[1].split(' / ');
+            // Parse memory usage (e.g., "50MiB / 512MiB")
+            const memoryParts = parts[1].split(' / ');
             const memoryUsage = this.parseMemorySize(memoryParts[0]);
             const memoryLimit = this.parseMemorySize(memoryParts[1]);
-\n            // Parse CPU percentage (e.g., "15.23%")\n            const cpuUsage = parseFloat(parts[2].replace('%', ''));
-\n            // Parse network I/O (e.g., "1.2kB / 2.3kB")\n            const netParts = parts[3].split(' / ');
+
+            // Parse CPU percentage (e.g., "15.23%")
+            const cpuUsage = parseFloat(parts[2].replace('%', ''));
+\n            // Parse network I/O (e.g., "1.2kB / 2.3kB")
+            const netParts = parts[3].split(' / ');
             const networkRx = this.parseNetworkSize(netParts[0]);
             const networkTx = this.parseNetworkSize(netParts[1]);
-\n            // Parse block I/O (e.g., "100MB / 200MB")\n            const blockParts = parts[4].split(' / ');
+\n            // Parse block I/O (e.g., "100MB / 200MB")
+            const blockParts = parts[4].split(' / ');
             const blockRead = this.parseNetworkSize(blockParts[0]);
             const blockWrite = this.parseNetworkSize(blockParts[1]);
 
@@ -398,7 +418,8 @@ export class ResourceMonitor extends EventEmitter {
     } else if (health.memory.percentage > this.alertThresholds.memory.warning) {
       this.emitAlert({
         type: 'memory',
-        severity: 'warning',\n        message: `High memory usage: ${health.memory.percentage.toFixed(1)}%`,
+        severity: 'warning',
+        message: `High memory usage: ${health.memory.percentage.toFixed(1)}%`,
         value: health.memory.percentage,
         threshold: this.alertThresholds.memory.warning,
         timestamp: now
@@ -409,7 +430,8 @@ export class ResourceMonitor extends EventEmitter {
     if (health.cpu.usage > this.alertThresholds.cpu.critical) {
       this.emitAlert({
         type: 'cpu',
-        severity: 'critical',\n        message: `Critical CPU usage: ${health.cpu.usage.toFixed(1)}%`,
+        severity: 'critical',
+        message: `Critical CPU usage: ${health.cpu.usage.toFixed(1)}%`,
         value: health.cpu.usage,
         threshold: this.alertThresholds.cpu.critical,
         timestamp: now
@@ -417,7 +439,8 @@ export class ResourceMonitor extends EventEmitter {
     } else if (health.cpu.usage > this.alertThresholds.cpu.warning) {
       this.emitAlert({
         type: 'cpu',
-        severity: 'warning',\n        message: `High CPU usage: ${health.cpu.usage.toFixed(1)}%`,
+        severity: 'warning',
+        message: `High CPU usage: ${health.cpu.usage.toFixed(1)}%`,
         value: health.cpu.usage,
         threshold: this.alertThresholds.cpu.warning,
         timestamp: now
@@ -428,7 +451,8 @@ export class ResourceMonitor extends EventEmitter {
     if (health.disk.percentage > this.alertThresholds.disk.critical) {
       this.emitAlert({
         type: 'disk',
-        severity: 'critical',\n        message: `Critical disk usage: ${health.disk.percentage.toFixed(1)}%`,
+        severity: 'critical',
+        message: `Critical disk usage: ${health.disk.percentage.toFixed(1)}%`,
         value: health.disk.percentage,
         threshold: this.alertThresholds.disk.critical,
         timestamp: now
@@ -436,7 +460,8 @@ export class ResourceMonitor extends EventEmitter {
     } else if (health.disk.percentage > this.alertThresholds.disk.warning) {
       this.emitAlert({
         type: 'disk',
-        severity: 'warning',\n        message: `High disk usage: ${health.disk.percentage.toFixed(1)}%`,
+        severity: 'warning',
+        message: `High disk usage: ${health.disk.percentage.toFixed(1)}%`,
         value: health.disk.percentage,
         threshold: this.alertThresholds.disk.warning,
         timestamp: now
@@ -444,7 +469,8 @@ export class ResourceMonitor extends EventEmitter {
     }
   }
 
-  private emitAlert(alert: ResourceAlert): void {\n    const alertKey = `${alert.type}-${alert.severity}`;
+  private emitAlert(alert: ResourceAlert): void {
+    const alertKey = `${alert.type}-${alert.severity}`;
     const lastAlert = this.alertHistory.get(alertKey);
     
     // Throttle alerts - only emit if last alert was more than 5 minutes ago

@@ -1,5 +1,8 @@
 import type { FastifyPluginAsync } from 'fastify';
-import { z } from 'zod';\nimport { authenticate } from '../../middleware/auth.js';\nimport { ToolRegistry, ToolExecutor, registerBuiltinTools } from '@penny/core';\nimport { generateId } from '@penny/shared';
+import { z } from 'zod';
+import { authenticate } from '../../middleware/auth.js';
+import { ToolRegistry, ToolExecutor, registerBuiltinTools } from '@penny/core';
+import { generateId } from '@penny/shared';
 import Redis from 'ioredis';
 
 // Initialize tool infrastructure

@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';\nimport { ChartArtifact } from '@penny/types';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { ChartArtifact } from '@penny/types';
 
 interface ChartRendererProps {
   artifact: ChartArtifact;
@@ -41,7 +42,8 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
 
       // In a real implementation, you would use Chart.js or D3.js
       // This is a simplified mock implementation
-      const canvas = canvasRef.current;\n      const ctx = canvas.getContext('2d');
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d');
       if (!ctx) throw new Error('Failed to get canvas context');
 
       // Set canvas dimensions
@@ -54,7 +56,8 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
       ctx.fillRect(0, 0, rect.width, rect.height);
 
       // Draw chart based on type
-      const { chartType, data, config } = artifact.content;\n      const colors = config.colors || ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6'];
+      const { chartType, data, config } = artifact.content;
+      const colors = config.colors || ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6'];
 
       switch (chartType) {
         case 'line':
@@ -128,9 +131,12 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
   if (error) {
     return (
       <div className={containerClasses}>
-        <div className="flex items-center justify-center h-full">\n          <div className="text-center">\n            <div className="text-red-500 mb-2">\n              <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <div className="flex items-center justify-center h-full">
+          <div className="text-center">\n            <div className="text-red-500 mb-2">
+              <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-            </div>\n            <h3 className="text-lg font-medium mb-2">Chart Error</h3>\n            <p className="text-sm text-gray-600">{error}</p>
+            </div>\n            <h3 className="text-lg font-medium mb-2">Chart Error</h3>
+            <p className="text-sm text-gray-600">{error}</p>
           </div>
         </div>
       </div>
@@ -139,15 +145,19 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
 
   return (
     <div className={containerClasses}>
-      {loading && (\n        <div className="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-gray-900/80">\n          <div className="flex items-center space-x-2">\n            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>\n            <span className="text-sm">Rendering chart...</span>
+      {loading && (\n        <div className="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-gray-900/80">
+          <div className="flex items-center space-x-2">\n            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+            <span className="text-sm">Rendering chart...</span>
           </div>
         </div>
       )}
 
       <canvas
-        ref={canvasRef}\n        className="w-full h-full cursor-crosshair"
+        ref={canvasRef}
+        className="w-full h-full cursor-crosshair"
         onClick={handleCanvasClick}
-        onMouseMove={handleCanvasMouseMove}\n        role="img"
+        onMouseMove={handleCanvasMouseMove}
+        role="img"
         aria-label={artifact.title}
       />
 
@@ -158,7 +168,8 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
       )}
 
       {/* Chart legend */}
-      {artifact.content.config.legend && (\n        <div className="absolute bottom-4 left-4 bg-white/90 dark:bg-gray-800/90 p-2 rounded shadow">\n          <div className="text-xs font-medium mb-1">Legend</div>
+      {artifact.content.config.legend && (\n        <div className="absolute bottom-4 left-4 bg-white/90 dark:bg-gray-800/90 p-2 rounded shadow">
+          <div className="text-xs font-medium mb-1">Legend</div>
           {/* Legend items would be generated based on chart data */}
         </div>
       )}
@@ -266,7 +277,9 @@ function drawScatterChart(ctx: CanvasRenderingContext2D, data: any[], rect: DOMR
   }
 }
 
-function drawPlaceholder(ctx: CanvasRenderingContext2D, rect: DOMRect, isDark: boolean, text: string) {\n  ctx.fillStyle = isDark ? '#6b7280' : '#9ca3af';\n  ctx.font = '16px sans-serif';
+function drawPlaceholder(ctx: CanvasRenderingContext2D, rect: DOMRect, isDark: boolean, text: string) {
+  ctx.fillStyle = isDark ? '#6b7280' : '#9ca3af';
+  ctx.font = '16px sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(text, rect.width / 2, rect.height / 2);

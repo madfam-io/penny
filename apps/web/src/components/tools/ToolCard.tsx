@@ -24,7 +24,11 @@ export const ToolCard: React.FC<ToolCardProps> = ({
 
   return (
     <div className={classes}>
-      <div className={viewMode === 'grid' ? '' : 'flex-shrink-0'}>\n        <div className="flex items-center space-x-3 mb-4">\n          <span className="text-2xl">{tool.icon}</span>\n          <div className="flex-1">\n            <div className="flex items-center space-x-2">\n              <h3 className="font-semibold text-gray-900">{tool.displayName}</h3>\n              {tool.featured && <Star size={16} className="text-yellow-500 fill-current" />}
+      <div className={viewMode === 'grid' ? '' : 'flex-shrink-0'}>
+        <div className="flex items-center space-x-3 mb-4">
+          <span className="text-2xl">{tool.icon}</span>\n          <div className="flex-1">
+            <div className="flex items-center space-x-2">\n              <h3 className="font-semibold text-gray-900">{tool.displayName}</h3>
+              {tool.featured && <Star size={16} className="text-yellow-500 fill-current" />}
             </div>\n            <p className="text-sm text-gray-600">{tool.category} • v{tool.version}</p>
           </div>
         </div>
@@ -34,7 +38,8 @@ export const ToolCard: React.FC<ToolCardProps> = ({
 \n        <div className="flex flex-wrap gap-2 mb-4">
           {tool.tags.slice(0, 3).map((tag: string) => (
             <span
-              key={tag}\n              className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+              key={tag}
+              className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
             >
               {tag}
             </span>
@@ -51,7 +56,8 @@ export const ToolCard: React.FC<ToolCardProps> = ({
 \n        <div className="flex space-x-2">
           <button
             onClick={onExecute}
-            disabled={!canExecute}\n            className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium ${
+            disabled={!canExecute}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium ${
               canExecute
                 ? 'bg-blue-600 text-white hover:bg-blue-700'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -62,7 +68,8 @@ export const ToolCard: React.FC<ToolCardProps> = ({
           </button>
           
           <button
-            onClick={onInstall}\n            className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+            onClick={onInstall}
+            className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
             <Download size={16} />
             <span>Install</span>

@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';\nimport { TableArtifact } from '@penny/types';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import { TableArtifact } from '@penny/types';
 
 interface TableRendererProps {
   artifact: TableArtifact;
@@ -31,7 +32,8 @@ const TableRenderer: React.FC<TableRendererProps> = ({
   isFullscreen = false,\n  className = ''
 }) => {
   const [sortConfig, setSortConfig] = useState<SortConfig | null>(null);
-  const [filterConfig, setFilterConfig] = useState<FilterConfig>({});\n  const [globalFilter, setGlobalFilter] = useState('');
+  const [filterConfig, setFilterConfig] = useState<FilterConfig>({});
+  const [globalFilter, setGlobalFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(artifact.content.config.pagination.pageSize);
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
@@ -148,7 +150,8 @@ const TableRenderer: React.FC<TableRendererProps> = ({
     console.log(`Exporting ${processedData.length} rows as ${format}`);
   }, [config.export.enabled, processedData]);
 
-  const formatCellValue = useCallback((value: any, column: typeof columns[0]) => {\n    if (value == null) return '';
+  const formatCellValue = useCallback((value: any, column: typeof columns[0]) => {
+    if (value == null) return '';
     
     if (column.format) {
       switch (column.type) {
@@ -167,7 +170,8 @@ const TableRenderer: React.FC<TableRendererProps> = ({
   const containerClasses = [
     'table-renderer w-full h-full flex flex-col',
     theme === 'dark' ? 'dark' : '',
-    className\n  ].filter(Boolean).join(' ');
+    className
+  ].filter(Boolean).join(' ');
 
   const tableClasses = [
     'min-w-full divide-y divide-gray-200',
@@ -176,7 +180,9 @@ const TableRenderer: React.FC<TableRendererProps> = ({
   if (loading) {
     return (
       <div className={containerClasses}>
-        <div className="flex-1 flex items-center justify-center">\n          <div className="flex items-center space-x-2">\n            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>\n            <span className="text-sm">Loading table...</span>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="flex items-center space-x-2">\n            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+            <span className="text-sm">Loading table...</span>
           </div>
         </div>
       </div>
@@ -185,13 +191,17 @@ const TableRenderer: React.FC<TableRendererProps> = ({
 
   return (
     <div className={containerClasses}>
-      {/* Table controls */}\n      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+      {/* Table controls */}
+      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
         {/* Global search */}
-        {config.filtering.searchable && (\n          <div className="flex-1 max-w-md">\n            <div className="relative">
+        {config.filtering.searchable && (\n          <div className="flex-1 max-w-md">
+            <div className="relative">
               <input\n                type="text"\n                placeholder="Search table..."
                 value={globalFilter}
-                onChange={(e) => setGlobalFilter(e.target.value)}\n                className="w-full pl-8 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
-              />\n              <svg className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                onChange={(e) => setGlobalFilter(e.target.value)}
+                className="w-full pl-8 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+              />\n              <svg className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
           </div>
@@ -202,7 +212,8 @@ const TableRenderer: React.FC<TableRendererProps> = ({
             {config.export.formats.map(format => (
               <button
                 key={format}
-                onClick={() => handleExport(format as any)}\n                className="px-3 py-1 text-xs border border-gray-300 rounded hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-800"
+                onClick={() => handleExport(format as any)}
+                className="px-3 py-1 text-xs border border-gray-300 rounded hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-800"
               >
                 {format.toUpperCase()}
               </button>
@@ -211,7 +222,8 @@ const TableRenderer: React.FC<TableRendererProps> = ({
         )}
       </div>
 
-      {/* Table container */}\n      <div ref={tableRef} className="flex-1 overflow-auto">
+      {/* Table container */}
+      <div ref={tableRef} className="flex-1 overflow-auto">
         <table className={tableClasses}>\n          <thead className="bg-gray-50 dark:bg-gray-800">
             <tr>
               {/* Selection column */}
@@ -219,7 +231,8 @@ const TableRenderer: React.FC<TableRendererProps> = ({
                   {config.selection.multiple && (
                     <input\n                      type="checkbox"
                       checked={selectedRows.size === paginatedData.length && paginatedData.length > 0}
-                      onChange={(e) => handleSelectAll(e.target.checked)}\n                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      onChange={(e) => handleSelectAll(e.target.checked)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                     />
                   )}
                 </th>
@@ -228,11 +241,14 @@ const TableRenderer: React.FC<TableRendererProps> = ({
               {/* Data columns */}
               {columns.map((column) => (
                 <th
-                  key={column.key}\n                  className={`px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider ${
+                  key={column.key}
+                  className={`px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider ${
                     config.sorting.enabled && column.sortable ? 'cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700' : ''
-                  }`}\n                  style={{ width: column.width ? `${column.width}px` : 'auto' }}
+                  }`}
+                  style={{ width: column.width ? `${column.width}px` : 'auto' }}
                   onClick={() => column.sortable && handleSort(column.key)}
-                >\n                  <div className="flex items-center space-x-1">
+                >
+                  <div className="flex items-center space-x-1">
                     <span>{column.title}</span>
                     {column.sortable && sortConfig?.key === column.key && (\n                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         {sortConfig.direction === 'asc' ? (\n                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
@@ -245,7 +261,8 @@ const TableRenderer: React.FC<TableRendererProps> = ({
                   {/* Column filter */}
                   {config.filtering.enabled && column.filterable && (\n                    <div className="mt-1" onClick={(e) => e.stopPropagation()}>
                       <input\n                        type="text"\n                        placeholder="Filter..."\n                        value={filterConfig[column.key] || ''}
-                        onChange={(e) => handleFilter(column.key, e.target.value)}\n                        className="w-full text-xs px-2 py-1 border border-gray-300 dark:border-gray-600 rounded focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                        onChange={(e) => handleFilter(column.key, e.target.value)}
+                        className="w-full text-xs px-2 py-1 border border-gray-300 dark:border-gray-600 rounded focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                       />
                     </div>
                   )}
@@ -253,19 +270,23 @@ const TableRenderer: React.FC<TableRendererProps> = ({
               ))}
             </tr>
           </thead>
-          \n          <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+         
+         <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
             {paginatedData.map((row, rowIndex) => (
               <tr
-                key={rowIndex}\n                className={`${
+                key={rowIndex}
+                className={`${
                   selectedRows.has(rowIndex) ? 'bg-blue-50 dark:bg-blue-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-800'
                 } ${config.selection.enabled ? 'cursor-pointer' : ''}`}
                 onClick={() => config.selection.enabled && handleRowSelect(rowIndex, !selectedRows.has(rowIndex))}
               >
                 {/* Selection column */}
-                {config.selection.enabled && (\n                  <td className="px-6 py-4 whitespace-nowrap">
+                {config.selection.enabled && (
+                  <td className="px-6 py-4 whitespace-nowrap">
                     <input\n                      type="checkbox"
                       checked={selectedRows.has(rowIndex)}
-                      onChange={(e) => handleRowSelect(rowIndex, e.target.checked)}\n                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      onChange={(e) => handleRowSelect(rowIndex, e.target.checked)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                     />
                   </td>
                 )}
@@ -273,7 +294,8 @@ const TableRenderer: React.FC<TableRendererProps> = ({
                 {/* Data columns */}
                 {columns.map((column) => (
                   <td
-                    key={column.key}\n                    className={`px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 ${
+                    key={column.key}
+                    className={`px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 ${
                       column.align === 'center' ? 'text-center' :
                       column.align === 'right' ? 'text-right' : 'text-left'
                     }`}
@@ -287,8 +309,11 @@ const TableRenderer: React.FC<TableRendererProps> = ({
         </table>
 
         {/* Empty state */}
-        {paginatedData.length === 0 && (\n          <div className="text-center py-12">\n            <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>\n            <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No data</h3>\n            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        {paginatedData.length === 0 && (
+          <div className="text-center py-12">
+            <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>\n            <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No data</h3>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
               {globalFilter || Object.keys(filterConfig).some(key => filterConfig[key])
                 ? 'No results match your search criteria.'
                 : 'No data to display.'}
@@ -298,7 +323,8 @@ const TableRenderer: React.FC<TableRendererProps> = ({
       </div>
 
       {/* Pagination */}
-      {config.pagination.enabled && totalPages > 1 && (\n        <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200 dark:border-gray-700">\n          <div className="flex items-center space-x-2">\n            <span className="text-sm text-gray-700 dark:text-gray-300">
+      {config.pagination.enabled && totalPages > 1 && (\n        <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex items-center space-x-2">\n            <span className="text-sm text-gray-700 dark:text-gray-300">
               Showing {((currentPage - 1) * pageSize) + 1} to {Math.min(currentPage * pageSize, processedData.length)} of {processedData.length} results
             </span>
             
@@ -308,7 +334,8 @@ const TableRenderer: React.FC<TableRendererProps> = ({
                 onChange={(e) => {
                   setPageSize(Number(e.target.value));
                   setCurrentPage(1);
-                }}\n                className="ml-4 text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 dark:bg-gray-800 dark:text-white"
+                }}
+                className="ml-4 text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 dark:bg-gray-800 dark:text-white"
               >
                 {[10, 25, 50, 100].map(size => (
                   <option key={size} value={size}>{size} per page</option>
@@ -319,7 +346,8 @@ const TableRenderer: React.FC<TableRendererProps> = ({
 \n          <div className="flex items-center space-x-1">
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-              disabled={currentPage <= 1}\n              className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-gray-800"
+              disabled={currentPage <= 1}
+              className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-gray-800"
             >
               Previous
             </button>
@@ -330,7 +358,8 @@ const TableRenderer: React.FC<TableRendererProps> = ({
               return (
                 <button
                   key={page}
-                  onClick={() => setCurrentPage(page)}\n                  className={`px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded ${
+                  onClick={() => setCurrentPage(page)}
+                  className={`px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded ${
                     page === currentPage 
                       ? 'bg-blue-600 text-white border-blue-600' 
                       : 'hover:bg-gray-50 dark:hover:bg-gray-800'
@@ -343,7 +372,8 @@ const TableRenderer: React.FC<TableRendererProps> = ({
             
             <button
               onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-              disabled={currentPage >= totalPages}\n              className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-gray-800"
+              disabled={currentPage >= totalPages}
+              className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-gray-800"
             >
               Next
             </button>

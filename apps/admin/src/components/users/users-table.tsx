@@ -38,7 +38,8 @@ interface User {
 
 // Mock data
 const users: User[] = [
-  {\n    id: '1',
+  {
+    id: '1',
     name: 'John Doe',
     email: 'john.doe@acme.com',
     tenant: 'Acme Corp',
@@ -47,7 +48,8 @@ const users: User[] = [
     lastActive: new Date(Date.now() - 1000 * 60 * 5),\n    createdAt: new Date('2024-01-15'),
     mfaEnabled: true,
   },
-  {\n    id: '2',
+  {
+    id: '2',
     name: 'Jane Smith',
     email: 'jane.smith@acme.com',
     tenant: 'Acme Corp',
@@ -56,7 +58,8 @@ const users: User[] = [
     lastActive: new Date(Date.now() - 1000 * 60 * 60),\n    createdAt: new Date('2024-01-20'),
     mfaEnabled: true,
   },
-  {\n    id: '3',
+  {
+    id: '3',
     name: 'Bob Johnson',
     email: 'bob@techstart.com',
     tenant: 'TechStart Inc',
@@ -116,11 +119,13 @@ export function UsersTable({ searchQuery, status }: UsersTableProps) {
   return (
     <div>
       {selectedUsers.length > 0 && (
-        <div className="mb-4 flex items-center gap-2 p-4 bg-muted rounded-lg">\n          <span className="text-sm font-medium">{selectedUsers.length} user(s) selected</span>\n          <Button size="sm" variant="outline">\n            <Mail className="mr-2 h-4 w-4" />
+        <div className="mb-4 flex items-center gap-2 p-4 bg-muted rounded-lg">
+          <span className="text-sm font-medium">{selectedUsers.length} user(s) selected</span>\n          <Button size="sm" variant="outline">\n            <Mail className="mr-2 h-4 w-4" />
             Send Email
           </Button>\n          <Button size="sm" variant="outline">\n            <Ban className="mr-2 h-4 w-4" />
             Suspend
-          </Button>\n          <Button size="sm" variant="outline" className="text-red-600">\n            <Trash className="mr-2 h-4 w-4" />
+          </Button>\n          <Button size="sm" variant="outline" className="text-red-600">
+            <Trash className="mr-2 h-4 w-4" />
             Delete
           </Button>
         </div>
@@ -156,10 +161,12 @@ export function UsersTable({ searchQuery, status }: UsersTableProps) {
                     <AvatarImage src={user.avatar} alt={user.name} />
                     <AvatarFallback>
                       {user.name\n                        .split(' ')
-                        .map((n) => n[0])\n                        .join('')}
+                        .map((n) => n[0])
+                        .join('')}
                     </AvatarFallback>
                   </Avatar>
-                  <div>\n                    <div className="font-medium">{user.name}</div>\n                    <div className="text-sm text-muted-foreground">{user.email}</div>
+                  <div>\n                    <div className="font-medium">{user.name}</div>
+                    <div className="text-sm text-muted-foreground">{user.email}</div>
                   </div>
                 </div>
               </TableCell>
@@ -172,13 +179,15 @@ export function UsersTable({ searchQuery, status }: UsersTableProps) {
               </TableCell>
               <TableCell>{format(user.lastActive, 'MMM d, h:mm a')}</TableCell>
               <TableCell>
-                {user.mfaEnabled && (\n                  <Badge variant="outline" className="text-green-600">\n                    <Shield className="mr-1 h-3 w-3" />
+                {user.mfaEnabled && (\n                  <Badge variant="outline" className="text-green-600">
+                    <Shield className="mr-1 h-3 w-3" />
                     MFA
                   </Badge>
                 )}
               </TableCell>\n              <TableCell className="text-right">
                 <DropdownMenu>
-                  <DropdownMenuTrigger asChild>\n                    <Button variant="ghost" className="h-8 w-8 p-0">\n                      <span className="sr-only">Open menu</span>\n                      <MoreHorizontal className="h-4 w-4" />
+                  <DropdownMenuTrigger asChild>\n                    <Button variant="ghost" className="h-8 w-8 p-0">
+                      <span className="sr-only">Open menu</span>\n                      <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>\n                  <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
@@ -204,7 +213,9 @@ export function UsersTable({ searchQuery, status }: UsersTableProps) {
                       <DropdownMenuItem>\n                        <UserCheck className="mr-2 h-4 w-4" />
                         <span>Activate User</span>
                       </DropdownMenuItem>
-                    )}\n                    <DropdownMenuItem className="text-red-600">\n                      <Trash className="mr-2 h-4 w-4" />
+                    )}
+                    <DropdownMenuItem className="text-red-600">
+                      <Trash className="mr-2 h-4 w-4" />
                       <span>Delete User</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>

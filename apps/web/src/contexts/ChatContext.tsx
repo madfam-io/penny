@@ -1,4 +1,8 @@
-import React, { createContext, useContext, useReducer, useEffect, ReactNode, useCallback } from 'react';\nimport { useWebSocketContext } from './WebSocketContext';\nimport { useChat, UseChatReturn } from '../hooks/useChat';\nimport { usePresence, UsePresenceReturn } from '../hooks/usePresence';\nimport { useTyping, UseTypingReturn } from '../hooks/useTyping';
+import React, { createContext, useContext, useReducer, useEffect, ReactNode, useCallback } from 'react';
+import { useWebSocketContext } from './WebSocketContext';
+import { useChat, UseChatReturn } from '../hooks/useChat';
+import { usePresence, UsePresenceReturn } from '../hooks/usePresence';
+import { useTyping, UseTypingReturn } from '../hooks/useTyping';
 
 export interface Message {
   id: string;
@@ -398,7 +402,8 @@ export function ChatProvider({
       chat.markAsRead(messageId);
       dispatch({ 
         type: 'MARK_AS_READ', 
-        conversationId: targetConversationId, \n        messageId: messageId || ''
+        conversationId: targetConversationId,
+       messageId: messageId || ''
       });
     }
   }, [state.currentConversationId, chat.markAsRead]);

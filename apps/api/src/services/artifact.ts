@@ -1,4 +1,6 @@
-import { prisma } from '@penny/database';\nimport { generateId } from '@penny/shared';\nimport { StorageService } from '@penny/core/storage';
+import { prisma } from '@penny/database';
+import { generateId } from '@penny/shared';
+import { StorageService } from '@penny/core/storage';
 import Redis from 'ioredis';
 
 export interface CreateArtifactParams {
@@ -90,7 +92,8 @@ export class ArtifactService {
 
     // Emit event for real-time updates
     if (conversationId) {
-      await this.redis.publish(\n        `conversation:${conversationId}`,
+      await this.redis.publish(
+        `conversation:${conversationId}`,
         JSON.stringify({
           type: 'artifact.created',
           data: artifact,
@@ -158,7 +161,8 @@ export class ArtifactService {
       if (existing.storageUrl) {
         await this.storage.delete(existing.storageUrl);
       }
-\n      const fileName = `${tenantId}/${artifactId}/${params.name || existing.name}`;
+
+      const fileName = `${tenantId}/${artifactId}/${params.name || existing.name}`;
       storageUrl = await this.storage.upload(fileName, params.content, {
         contentType: existing.mimeType,
       });
@@ -187,7 +191,8 @@ export class ArtifactService {
 
     // Emit update event
     if (existing.conversationId) {
-      await this.redis.publish(\n        `conversation:${existing.conversationId}`,
+      await this.redis.publish(
+        `conversation:${existing.conversationId}`,
         JSON.stringify({
           type: 'artifact.updated',
           data: artifact,
@@ -227,7 +232,8 @@ export class ArtifactService {
 
     // Emit delete event
     if (artifact.conversationId) {
-      await this.redis.publish(\n        `conversation:${artifact.conversationId}`,
+      await this.redis.publish(
+        `conversation:${artifact.conversationId}`,
         JSON.stringify({
           type: 'artifact.deleted',
           data: { id: artifactId },
@@ -303,7 +309,8 @@ export class ArtifactService {
     });
 
     // Notify shared user
-    await this.redis.publish(\n      `user:${shareWithUserId}`,
+    await this.redis.publish(
+      `user:${shareWithUserId}`,
       JSON.stringify({
         type: 'artifact.shared',
         data: { artifactId, sharedBy: ownerId },
@@ -362,16 +369,19 @@ export class ArtifactService {
   }
 
   // Cache management
-  private async cacheArtifact(artifact: any) {\n    const key = `artifact:${artifact.id}`;
+  private async cacheArtifact(artifact: any) {
+    const key = `artifact:${artifact.id}`;
     await this.redis.setex(key, 3600, JSON.stringify(artifact));
   }
 
-  private async getCachedArtifact(artifactId: string) {\n    const key = `artifact:${artifactId}`;
+  private async getCachedArtifact(artifactId: string) {
+    const key = `artifact:${artifactId}`;
     const cached = await this.redis.get(key);
     return cached ? JSON.parse(cached) : null;
   }
 
-  private async invalidateArtifactCache(artifactId: string) {\n    const key = `artifact:${artifactId}`;
+  private async invalidateArtifactCache(artifactId: string) {
+    const key = `artifact:${artifactId}`;
     await this.redis.del(key);
   }
 

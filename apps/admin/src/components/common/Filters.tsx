@@ -1,6 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';\nimport { Button } from '@/components/ui/button';\nimport { Input } from '@/components/ui/input';\nimport { Label } from '@/components/ui/label';
+import { useState, useCallback } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -10,7 +13,10 @@ import {
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,\n} from '@/components/ui/popover';\nimport { Calendar } from '@/components/ui/calendar';\nimport { Checkbox } from '@/components/ui/checkbox';\nimport { Badge } from '@/components/ui/badge';
+  PopoverTrigger,\n} from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Badge } from '@/components/ui/badge';
 import { 
   Filter, 
   X, 
@@ -80,7 +86,8 @@ export function Filters({
     if (typeof value === 'string') return value.trim() !== '';
     if (typeof value === 'object' && value !== null) {
       if (value.from || value.to) return true;
-    }\n    return value !== null && value !== undefined && value !== '';
+    }
+    return value !== null && value !== undefined && value !== '';
   });
 
   const renderFilterInput = (filterConfig: FilterConfig) => {
@@ -90,10 +97,13 @@ export function Filters({
     switch (type) {
       case 'text':
         return (
-          <div className="relative">\n            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <div className="relative">
+            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder={placeholder}\n              value={value || ''}
-              onChange={(e) => updateValue(key, e.target.value)}\n              className="pl-8"
+              placeholder={placeholder}
+              value={value || ''}
+              onChange={(e) => updateValue(key, e.target.value)}
+              className="pl-8"
             />
           </div>
         );
@@ -128,7 +138,9 @@ export function Filters({
                     }
                   }}
                 />
-                <Label\n                  htmlFor={`${key}-${option.value}`}\n                  className="text-sm font-normal"
+                <Label
+                  htmlFor={`${key}-${option.value}`}
+                  className="text-sm font-normal"
                 >
                   {option.label}
                 </Label>
@@ -141,7 +153,8 @@ export function Filters({
         return (
           <Popover>
             <PopoverTrigger asChild>
-              <Button\n                variant="outline"\n                className="w-full justify-start text-left font-normal"
+              <Button
+                variant="outline"\n                className="w-full justify-start text-left font-normal"
               >\n                <CalendarIcon className="mr-2 h-4 w-4" />
                 {value ? format(value, 'PPP') : placeholder || 'Pick a date'}
               </Button>
@@ -213,7 +226,9 @@ export function Filters({
                 </Badge>
               )}
             </Button>
-          </PopoverTrigger>\n          <PopoverContent className="w-96" align="start">\n            <div className="space-y-4">\n              <div className="flex items-center justify-between">\n                <h4 className="font-medium">Filters</h4>
+          </PopoverTrigger>\n          <PopoverContent className="w-96" align="start">
+            <div className="space-y-4">\n              <div className="flex items-center justify-between">
+                <h4 className="font-medium">Filters</h4>
                 {activeFilters.length > 0 && (
                   <Button\n                    variant="ghost"\n                    size="sm"
                     onClick={resetFilters}
@@ -223,7 +238,8 @@ export function Filters({
                 )}
               </div>
 
-              {config.map((filterConfig) => (\n                <div key={filterConfig.key} className="space-y-2">\n                  <Label className="text-sm font-medium">
+              {config.map((filterConfig) => (\n                <div key={filterConfig.key} className="space-y-2">
+                  <Label className="text-sm font-medium">
                     {filterConfig.label}
                   </Label>
                   {renderFilterInput(filterConfig)}
@@ -241,11 +257,15 @@ export function Filters({
           const value = values[key];
           let displayValue: string;
 
-          if (Array.isArray(value)) {\n            displayValue = `${value.length} selected`;
+          if (Array.isArray(value)) {
+            displayValue = `${value.length} selected`;
           } else if (typeof value === 'object' && value !== null && (value.from || value.to)) {
-            if (value.from && value.to) {\n              displayValue = `${format(value.from, 'MMM d')} - ${format(value.to, 'MMM d')}`;
-            } else if (value.from) {\n              displayValue = `From ${format(value.from, 'MMM d')}`;
-            } else {\n              displayValue = `To ${format(value.to, 'MMM d')}`;
+            if (value.from && value.to) {
+              displayValue = `${format(value.from, 'MMM d')} - ${format(value.to, 'MMM d')}`;
+            } else if (value.from) {
+              displayValue = `From ${format(value.from, 'MMM d')}`;
+            } else {
+              displayValue = `To ${format(value.to, 'MMM d')}`;
             }
           } else if (typeof value === 'boolean') {
             displayValue = value ? 'Yes' : 'No';
@@ -259,7 +279,8 @@ export function Filters({
             }
           }
 
-          return (\n            <Badge key={key} variant="secondary" className="gap-1">\n              <span className="text-xs">
+          return (\n            <Badge key={key} variant="secondary" className="gap-1">
+              <span className="text-xs">
                 {filterConfig.label}: {displayValue}
               </span>
               <Button\n                variant="ghost"\n                size="sm"\n                className="h-4 w-4 p-0 hover:bg-transparent"

@@ -1,4 +1,11 @@
-import { Suspense } from 'react';\nimport { ConversationsTable } from '@/components/conversations/ConversationsTable';\nimport { ConversationFilters } from '@/components/conversations/ConversationFilters';\nimport { ConversationStats } from '@/components/conversations/ConversationStats';\nimport { Breadcrumbs } from '@/components/layout/Breadcrumbs';\nimport { LoadingSpinner } from '@/components/ui/LoadingSpinner';\nimport { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { Button } from '@/components/ui/button';
+import { Suspense } from 'react';
+import { ConversationsTable } from '@/components/conversations/ConversationsTable';
+import { ConversationFilters } from '@/components/conversations/ConversationFilters';
+import { ConversationStats } from '@/components/conversations/ConversationStats';
+import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { MessageCircle, Download, RefreshCw, Search, Filter } from 'lucide-react';
 
 export default function ConversationsPage() {
@@ -8,14 +15,16 @@ export default function ConversationsPage() {
   ];
 
   return (
-    <div className="space-y-6">\n      <div className="flex items-center justify-between">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <div>
           <Breadcrumbs items={breadcrumbItems} />\n          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mt-2">
             Conversation Monitoring
           </h1>\n          <p className="text-muted-foreground">
             Monitor and manage all conversations across your platform
           </p>
-        </div>\n        <div className="flex items-center gap-2">\n          <Button variant="outline" size="sm">\n            <Download className="h-4 w-4 mr-2" />
+        </div>\n        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm">\n            <Download className="h-4 w-4 mr-2" />
             Export Data
           </Button>\n          <Button variant="outline" size="sm">\n            <RefreshCw className="h-4 w-4 mr-2" />
             Refresh
@@ -30,7 +39,8 @@ export default function ConversationsPage() {
 
       {/* Filters and Search */}
       <Card>
-        <CardHeader>\n          <CardTitle className="flex items-center gap-2">\n            <Filter className="h-4 w-4" />
+        <CardHeader>\n          <CardTitle className="flex items-center gap-2">
+            <Filter className="h-4 w-4" />
             Filters & Search
           </CardTitle>
         </CardHeader>
@@ -42,7 +52,8 @@ export default function ConversationsPage() {
 
       {/* Conversations Table */}
       <Card>
-        <CardHeader>\n          <CardTitle className="flex items-center gap-2">\n            <MessageCircle className="h-4 w-4" />
+        <CardHeader>\n          <CardTitle className="flex items-center gap-2">
+            <MessageCircle className="h-4 w-4" />
             All Conversations
           </CardTitle>
         </CardHeader>

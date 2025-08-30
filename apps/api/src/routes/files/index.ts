@@ -1,10 +1,17 @@
 import type { FastifyPluginAsync } from 'fastify';
-import { z } from 'zod';\nimport { authenticate } from '../../middleware/auth.js';\nimport { StorageService } from '@penny/core';\nimport { generateId } from '@penny/shared';\nimport { prisma } from '@penny/database';\nimport multipart from '@fastify/multipart';\nimport { validateFileUpload } from '../../middleware/validation.js';
+import { z } from 'zod';
+import { authenticate } from '../../middleware/auth.js';
+import { StorageService } from '@penny/core';
+import { generateId } from '@penny/shared';
+import { prisma } from '@penny/database';
+import multipart from '@fastify/multipart';
+import { validateFileUpload } from '../../middleware/validation.js';
 
 // Initialize storage service
 const storage = new StorageService({
   provider: (process.env.STORAGE_PROVIDER as any) || 'local',
-  local: {\n    basePath: process.env.STORAGE_LOCAL_PATH || './uploads',
+  local: {
+    basePath: process.env.STORAGE_LOCAL_PATH || './uploads',
     baseUrl: process.env.API_URL || 'http://localhost:3000/api/v1',
   },
   s3:
@@ -163,7 +170,8 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Get file details
-  fastify.get(\n    '/:id',
+  fastify.get(
+    '/:id',
     {
       preHandler: authenticate,
       schema: {
@@ -239,7 +247,8 @@ const fileRoutes: FastifyPluginAsync = async (fastify) => {
         const buffer = await storage.download(file.storageKey, request.user.tenantId);
 
         return reply
-          .type(file.mimeType)\n          .header('Content-Disposition', `attachment; filename="${file.filename}"`)
+          .type(file.mimeType)
+          .header('Content-Disposition', `attachment; filename="${file.filename}"`)
           .send(buffer);
       } catch (error: any) {
         return reply.code(500).send({

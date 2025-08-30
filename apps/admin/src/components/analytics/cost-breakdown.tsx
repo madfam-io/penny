@@ -15,14 +15,18 @@ export function CostBreakdown() {
     <ResponsiveContainer width="100%" height={300}>
       <PieChart>
         <Pie
-          data={data}\n          cx="50%"\n          cy="50%"
+          data={data}
+          cx="50%"\n          cy="50%"
           labelLine={false}
           label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-          outerRadius={80}\n          fill="#8884d8"\n          dataKey="value"
+          outerRadius={80}
+          fill="#8884d8"
+          dataKey="value"
         >
           {data.map((entry, index) => (\n            <Cell key={`cell-${index}`} fill={entry.color} />
           ))}
-        </Pie>\n        <Tooltip formatter={(value: number) => `$${value.toLocaleString()}`} />
+        </Pie>
+        <Tooltip formatter={(value: number) => `$${value.toLocaleString()}`} />
         <Legend />
       </PieChart>
     </ResponsiveContainer>

@@ -1,5 +1,7 @@
 import React, { ReactNode, useEffect } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';\nimport { useRequireAuth } from '../../hooks/useAuth';\nimport { LoadingSpinner } from '../ui/LoadingSpinner';
+import { Navigate, useLocation } from 'react-router-dom';
+import { useRequireAuth } from '../../hooks/useAuth';
+import { LoadingSpinner } from '../ui/LoadingSpinner';
 
 export interface ProtectedRouteProps {
   children: ReactNode;
@@ -14,7 +16,8 @@ export interface ProtectedRouteProps {
  * Optionally checks for required roles
  */
 export function ProtectedRoute({ 
-  children, \n  redirectTo = '/auth/login',
+  children,
+ redirectTo = '/auth/login',
   requiredRoles = [],
   fallback
 }: ProtectedRouteProps) {
@@ -45,13 +48,16 @@ export function ProtectedRoute({
     
     if (!hasRequiredRole) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">\n          <div className="text-center">\n            <div className="text-6xl mb-4">🚫</div>\n            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="text-center">\n            <div className="text-6xl mb-4">🚫</div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">
               Access Denied
             </h1>\n            <p className="text-gray-600 mb-6">
               You don't have permission to access this page.
             </p>
             <button
-              onClick={() => window.history.back()}\n              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+              onClick={() => window.history.back()}
+              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
             >
               Go Back
             </button>
@@ -85,7 +91,8 @@ export function withAuth<P extends object>(
  * Useful for login/register pages
  */
 export function GuestOnlyRoute({ 
-  children, \n  redirectTo = '/dashboard' 
+  children,
+ redirectTo = '/dashboard' 
 }: { 
   children: ReactNode;
   redirectTo?: string;

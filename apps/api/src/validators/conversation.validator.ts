@@ -19,13 +19,15 @@ export const ConversationListQuerySchema = z.object({
   offset: z.coerce.number().int().min(0).default(0),
   sortBy: z.enum(['createdAt', 'updatedAt', 'title']).default('updatedAt'),
   sortOrder: z.enum(['asc', 'desc']).default('desc'),
-  include: z.string()\n    .transform(val => val.split(',').map(s => s.trim()))
+  include: z.string()
+    .transform(val => val.split(',').map(s => s.trim()))
     .pipe(z.array(z.enum(['messages', 'artifacts', 'stats'])))
     .optional(),
 });
 
 export const ConversationDetailQuerySchema = z.object({
-  include: z.string()\n    .transform(val => val.split(',').map(s => s.trim()))
+  include: z.string()
+    .transform(val => val.split(',').map(s => s.trim()))
     .pipe(z.array(z.enum(['messages', 'artifacts', 'memories', 'stats'])))
     .optional(),
   messagesLimit: z.coerce.number().int().positive().max(1000).default(50),

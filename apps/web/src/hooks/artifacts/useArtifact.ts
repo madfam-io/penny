@@ -1,4 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';\nimport { Artifact } from '@penny/types';\nimport { useArtifactStore } from '../../store/artifactStore';\nimport { ArtifactExporter, ExportOptions, ExportResult } from '../../utils/artifacts/exporter';\nimport { ArtifactTransformer, TransformOptions } from '../../utils/artifacts/transformer';
+import { useState, useEffect, useCallback } from 'react';
+import { Artifact } from '@penny/types';
+import { useArtifactStore } from '../../store/artifactStore';
+import { ArtifactExporter, ExportOptions, ExportResult } from '../../utils/artifacts/exporter';
+import { ArtifactTransformer, TransformOptions } from '../../utils/artifacts/transformer';
 
 export interface UseArtifactOptions {
   enableAutoSave?: boolean;
@@ -285,7 +289,8 @@ export function useArtifact(artifactId: string, options: UseArtifactOptions = {}
           id: Math.random().toString(36).substring(2),
           artifactId: artifact.id,
           version: i + 1,
-          title: artifact.title,\n          description: `Version ${i + 1}`,
+          title: artifact.title,
+          description: `Version ${i + 1}`,
           createdAt: new Date(Date.now() - i * 86400000), // Days ago
           createdBy: currentUser?.id || 'anonymous',
           status: 'published' as const

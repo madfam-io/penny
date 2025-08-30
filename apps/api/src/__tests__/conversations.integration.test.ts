@@ -1,4 +1,6 @@
-import { FastifyInstance } from 'fastify';\nimport { build } from '../app';\nimport { PrismaClient } from '@prisma/client';
+import { FastifyInstance } from 'fastify';
+import { build } from '../app';
+import { PrismaClient } from '@prisma/client';
 
 describe('Conversations API Integration Tests', () => {
   let app: FastifyInstance;
@@ -117,14 +119,16 @@ describe('Conversations API Integration Tests', () => {
           data: {
             id: `test-conv-${i}`,
             tenantId: 'test-tenant-id',
-            userId: 'test-user-id',\n            title: `Conversation ${i}`,
+            userId: 'test-user-id',
+            title: `Conversation ${i}`,
             metadata: {},
           },
         });
       }
 
       const response = await app.inject({
-        method: 'GET',\n        url: '/conversations?limit=10&offset=0',
+        method: 'GET',
+        url: '/conversations?limit=10&offset=0',
         headers: {
           Authorization: 'Bearer valid-jwt-token',
           'X-Tenant-ID': 'test-tenant-id',
@@ -299,7 +303,8 @@ describe('Conversations API Integration Tests', () => {
 
     it('should return 404 for non-existent conversation', async () => {
       const response = await app.inject({
-        method: 'GET',\n        url: '/conversations/non-existent-id',
+        method: 'GET',
+        url: '/conversations/non-existent-id',
         headers: {
           Authorization: 'Bearer valid-jwt-token',
           'X-Tenant-ID': 'test-tenant-id',
@@ -345,7 +350,8 @@ describe('Conversations API Integration Tests', () => {
 
     it('should update conversation', async () => {
       const response = await app.inject({
-        method: 'PUT',\n        url: `/conversations/${conversationId}`,
+        method: 'PUT',
+        url: `/conversations/${conversationId}`,
         headers: {
           Authorization: 'Bearer valid-jwt-token',
           'X-Tenant-ID': 'test-tenant-id',
@@ -366,7 +372,8 @@ describe('Conversations API Integration Tests', () => {
 
     it('should archive conversation', async () => {
       const response = await app.inject({
-        method: 'PUT',\n        url: `/conversations/${conversationId}`,
+        method: 'PUT',
+        url: `/conversations/${conversationId}`,
         headers: {
           Authorization: 'Bearer valid-jwt-token',
           'X-Tenant-ID': 'test-tenant-id',
@@ -402,7 +409,8 @@ describe('Conversations API Integration Tests', () => {
 
     it('should soft delete conversation', async () => {
       const response = await app.inject({
-        method: 'DELETE',\n        url: `/conversations/${conversationId}`,
+        method: 'DELETE',
+        url: `/conversations/${conversationId}`,
         headers: {
           Authorization: 'Bearer valid-jwt-token',
           'X-Tenant-ID': 'test-tenant-id',

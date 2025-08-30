@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';\nimport { Button } from '@/components/ui/button';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +14,8 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,\n} from '@/components/ui/dialog';\nimport { Badge } from '@/components/ui/badge';
+  DialogTitle,\n} from '@/components/ui/dialog';
+import { Badge } from '@/components/ui/badge';
 import { 
   ChevronDown, 
   Trash2, 
@@ -27,7 +29,8 @@ import {
   CheckCircle,
   AlertTriangle,
   Loader2
-} from 'lucide-react';\nimport { cn } from '@/utils/cn';
+} from 'lucide-react';
+import { cn } from '@/utils/cn';
 
 export interface BulkAction {
   id: string;
@@ -96,10 +99,12 @@ export function BulkActions({
         'flex items-center justify-between p-3 bg-muted/50 border rounded-lg',
         className
       )}>
-        <div className="flex items-center gap-3">\n          <Badge variant="secondary" className="text-sm">
+        <div className="flex items-center gap-3">
+          <Badge variant="secondary" className="text-sm">
             {selectedCount} selected
           </Badge>
-          \n          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+         
+         <div className="flex items-center gap-2 text-sm text-muted-foreground">
             {selectedCount < totalCount && onSelectAll && (
               <Button\n                variant="link"\n                size="sm"\n                className="h-auto p-0"
                 onClick={onSelectAll}
@@ -124,7 +129,8 @@ export function BulkActions({
             return (
               <Button
                 key={action.id}
-                variant={action.variant || 'outline'}\n                size="sm"
+                variant={action.variant || 'outline'}
+                size="sm"
                 onClick={() => handleAction(action)}
                 disabled={loading || isExecuting || action.disabled}
                 title={action.tooltip}
@@ -177,7 +183,9 @@ export function BulkActions({
               )}
               {confirmAction?.confirmTitle || `Confirm ${confirmAction?.label}`}
             </DialogTitle>
-            <DialogDescription>\n              {confirmAction?.confirmDescription || \n               `Are you sure you want to ${confirmAction?.label.toLowerCase()} ${selectedCount} item${selectedCount === 1 ? '' : 's'}?`}
+            <DialogDescription>
+              {confirmAction?.confirmDescription ||
+              `Are you sure you want to ${confirmAction?.label.toLowerCase()} ${selectedCount} item${selectedCount === 1 ? '' : 's'}?`}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

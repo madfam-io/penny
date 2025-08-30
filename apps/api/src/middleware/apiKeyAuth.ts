@@ -1,4 +1,5 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';\nimport { PrismaClient } from '@prisma/client';
+import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import { PrismaClient } from '@prisma/client';
 import { createHash } from 'crypto';
 
 interface ApiKeyContext {
@@ -112,12 +113,14 @@ export async function apiKeyAuthPlugin(fastify: FastifyInstance) {
         });
       }
 
-      const hasAllScopes = requiredScopes.every(scope => \n        request.apiKey!.scopes.includes(scope) || request.apiKey!.scopes.includes('*')
+      const hasAllScopes = requiredScopes.every(scope =>
+       request.apiKey!.scopes.includes(scope) || request.apiKey!.scopes.includes('*')
       );
 
       if (!hasAllScopes) {
         return reply.code(403).send({
-          error: 'Forbidden',\n          message: `Scopes required: ${requiredScopes.join(', ')}`,
+          error: 'Forbidden',
+          message: `Scopes required: ${requiredScopes.join(', ')}`,
         });
       }
     };
@@ -133,18 +136,21 @@ export async function apiKeyAuthPlugin(fastify: FastifyInstance) {
         });
       }
 
-      const hasAnyScope = requiredScopes.some(scope => \n        request.apiKey!.scopes.includes(scope) || request.apiKey!.scopes.includes('*')
+      const hasAnyScope = requiredScopes.some(scope =>
+       request.apiKey!.scopes.includes(scope) || request.apiKey!.scopes.includes('*')
       );
 
       if (!hasAnyScope) {
         return reply.code(403).send({
-          error: 'Forbidden',\n          message: `One of these scopes required: ${requiredScopes.join(', ')}`,
+          error: 'Forbidden',
+          message: `One of these scopes required: ${requiredScopes.join(', ')}`,
         });
       }
     };
   });
 
-  // API key management endpoints\n  fastify.post('/api-keys', {
+  // API key management endpoints
+  fastify.post('/api-keys', {
     schema: {
       body: {
         type: 'object',
@@ -356,7 +362,8 @@ export async function apiKeyAuthPlugin(fastify: FastifyInstance) {
 
   function generateApiKey(): string {
     // Generate a secure random key
-    const randomBytes = require('crypto').randomBytes(32);\n    return `pk_${randomBytes.toString('base64url')}`;
+    const randomBytes = require('crypto').randomBytes(32);
+    return `pk_${randomBytes.toString('base64url')}`;
   }
 
   function hashApiKey(key: string): string {

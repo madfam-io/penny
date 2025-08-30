@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';\nimport { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Eye, EyeOff, Mail, Lock, User, Building, UserPlus, CheckCircle, XCircle } from 'lucide-react';\nimport { useAuth } from '../../hooks/useAuth';\nimport { Button } from '@penny/ui';
+import { Eye, EyeOff, Mail, Lock, User, Building, UserPlus, CheckCircle, XCircle } from 'lucide-react';
+import { useAuth } from '../../hooks/useAuth';
+import { Button } from '@penny/ui';
 
 const registerSchema = z.object({
   name: z.string().min(1, 'Name is required').max(255, 'Name is too long'),
@@ -90,7 +93,8 @@ export const RegisterPage: React.FC = () => {
         email: data.email,
         password: data.password,
         tenantName: data.tenantName,
-      });\n      navigate('/auth/verify-email', { 
+      });
+      navigate('/auth/verify-email', { 
         state: { email: data.email },
         replace: true 
       });
@@ -103,14 +107,17 @@ export const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4 sm:px-6 lg:px-8 py-12">\n      <div className="max-w-md w-full space-y-8">\n        <div className="text-center">\n          <div className="mx-auto h-12 w-12 bg-indigo-600 rounded-lg flex items-center justify-center">\n            <UserPlus className="h-6 w-6 text-white" />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-md w-full space-y-8">\n        <div className="text-center">
+          <div className="mx-auto h-12 w-12 bg-indigo-600 rounded-lg flex items-center justify-center">\n            <UserPlus className="h-6 w-6 text-white" />
           </div>\n          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
             Create your account
           </h2>\n          <p className="mt-2 text-sm text-gray-600">
             Start your journey with PENNY today
           </p>
         </div>
-\n        <div className="bg-white py-8 px-6 shadow-xl rounded-lg sm:px-8">\n          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+\n        <div className="bg-white py-8 px-6 shadow-xl rounded-lg sm:px-8">
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             {errors.root && (\n              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
                 {errors.root.message}
               </div>
@@ -118,10 +125,13 @@ export const RegisterPage: React.FC = () => {
 
             <div>\n              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Full name
-              </label>\n              <div className="mt-1 relative">\n                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">\n                  <User className="h-5 w-5 text-gray-400" />
+              </label>\n              <div className="mt-1 relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">\n                  <User className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  {...register('name')}\n                  type="text"\n                  autoComplete="name"\n                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"\n                  placeholder="Enter your full name"
+                  {...register('name')}
+                  type="text"\n                  autoComplete="name"\n                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Enter your full name"
                 />
               </div>
               {errors.name && (\n                <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
@@ -130,10 +140,13 @@ export const RegisterPage: React.FC = () => {
 
             <div>\n              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email address
-              </label>\n              <div className="mt-1 relative">\n                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">\n                  <Mail className="h-5 w-5 text-gray-400" />
+              </label>\n              <div className="mt-1 relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">\n                  <Mail className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  {...register('email')}\n                  type="email"\n                  autoComplete="email"\n                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"\n                  placeholder="Enter your email"
+                  {...register('email')}
+                  type="email"\n                  autoComplete="email"\n                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Enter your email"
                 />
               </div>
               {errors.email && (\n                <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
@@ -142,10 +155,13 @@ export const RegisterPage: React.FC = () => {
 
             <div>\n              <label htmlFor="tenantName" className="block text-sm font-medium text-gray-700">
                 Organization name
-              </label>\n              <div className="mt-1 relative">\n                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">\n                  <Building className="h-5 w-5 text-gray-400" />
+              </label>\n              <div className="mt-1 relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">\n                  <Building className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  {...register('tenantName')}\n                  type="text"\n                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"\n                  placeholder="Enter your organization name"
+                  {...register('tenantName')}
+                  type="text"\n                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Enter your organization name"
                 />
               </div>
               {errors.tenantName && (\n                <p className="mt-1 text-sm text-red-600">{errors.tenantName.message}</p>
@@ -154,11 +170,14 @@ export const RegisterPage: React.FC = () => {
 
             <div>\n              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
-              </label>\n              <div className="mt-1 relative">\n                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">\n                  <Lock className="h-5 w-5 text-gray-400" />
+              </label>\n              <div className="mt-1 relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">\n                  <Lock className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
                   {...register('password')}
-                  type={showPassword ? 'text' : 'password'}\n                  autoComplete="new-password"\n                  className="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"\n                  placeholder="Create a strong password"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="new-password"\n                  className="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Create a strong password"
                 />\n                <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
                   <button\n                    type="button"\n                    className="text-gray-400 hover:text-gray-600 focus:outline-none"
                     onClick={() => setShowPassword(!showPassword)}
@@ -170,7 +189,8 @@ export const RegisterPage: React.FC = () => {
                 </div>
               </div>
               
-              {password && (\n                <div className="mt-2">\n                  <div className="flex items-center justify-between text-xs">\n                    <span className="text-gray-600">Password strength:</span>
+              {password && (\n                <div className="mt-2">
+                  <div className="flex items-center justify-between text-xs">\n                    <span className="text-gray-600">Password strength:</span>
                     <span className={`font-medium ${
                       passwordStrength.score < 40 ? 'text-red-600' :
                       passwordStrength.score < 60 ? 'text-yellow-600' :
@@ -179,9 +199,11 @@ export const RegisterPage: React.FC = () => {
                     }`}>
                       {getStrengthLabel(passwordStrength.score)}
                     </span>
-                  </div>\n                  <div className="mt-1 bg-gray-200 rounded-full h-2">
+                  </div>
+                  <div className="mt-1 bg-gray-200 rounded-full h-2">
                     <div
-                      className={`h-2 rounded-full transition-all duration-300 ${getStrengthColor(passwordStrength.score)}`}\n                      style={{ width: `${passwordStrength.score}%` }}
+                      className={`h-2 rounded-full transition-all duration-300 ${getStrengthColor(passwordStrength.score)}`}
+                      style={{ width: `${passwordStrength.score}%` }}
                     />
                   </div>
                   
@@ -209,11 +231,14 @@ export const RegisterPage: React.FC = () => {
 
             <div>\n              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
                 Confirm password
-              </label>\n              <div className="mt-1 relative">\n                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">\n                  <Lock className="h-5 w-5 text-gray-400" />
+              </label>\n              <div className="mt-1 relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">\n                  <Lock className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
                   {...register('confirmPassword')}
-                  type={showConfirmPassword ? 'text' : 'password'}\n                  autoComplete="new-password"\n                  className="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"\n                  placeholder="Confirm your password"
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  autoComplete="new-password"\n                  className="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Confirm your password"
                 />\n                <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
                   <button\n                    type="button"\n                    className="text-gray-400 hover:text-gray-600 focus:outline-none"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -227,12 +252,19 @@ export const RegisterPage: React.FC = () => {
               {errors.confirmPassword && (\n                <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>
               )}
             </div>
-\n            <div className="flex items-start">\n              <div className="flex items-center h-5">
+\n            <div className="flex items-start">
+              <div className="flex items-center h-5">
                 <input
-                  {...register('acceptTerms')}\n                  type="checkbox"\n                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  {...register('acceptTerms')}
+                  type="checkbox"\n                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                 />
-              </div>\n              <div className="ml-3 text-sm">\n                <label htmlFor="acceptTerms" className="text-gray-700">\n                  I agree to the{' '}\n                  <Link to="/terms" className="font-medium text-indigo-600 hover:text-indigo-500">
-                    Terms of Service\n                  </Link>{' '}\n                  and{' '}\n                  <Link to="/privacy" className="font-medium text-indigo-600 hover:text-indigo-500">
+              </div>\n              <div className="ml-3 text-sm">
+                <label htmlFor="acceptTerms" className="text-gray-700">
+                  I agree to the{' '}
+                  <Link to="/terms" className="font-medium text-indigo-600 hover:text-indigo-500">
+                    Terms of Service\n                  </Link>{' '}
+                  and{' '}
+                  <Link to="/privacy" className="font-medium text-indigo-600 hover:text-indigo-500">
                     Privacy Policy
                   </Link>
                 </label>
@@ -243,13 +275,15 @@ export const RegisterPage: React.FC = () => {
 
             <div>
               <Button\n                type="submit"
-                disabled={isLoading}\n                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isLoading}
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? 'Creating account...' : 'Create account'}
               </Button>
             </div>
           </form>
-\n          <div className="mt-6 text-center">\n            <p className="text-sm text-gray-600">\n              Already have an account?{' '}
+\n          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">\n              Already have an account?{' '}
               <Link\n                to="/auth/login"\n                className="font-medium text-indigo-600 hover:text-indigo-500"
               >
                 Sign in

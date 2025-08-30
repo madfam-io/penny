@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';\nimport { Button } from '../ui/button';\nimport { Badge } from '../ui/badge';\nimport { Progress } from '../ui/progress';
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
+import { Badge } from '../ui/badge';
+import { Progress } from '../ui/progress';
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -48,7 +52,8 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
 
   const fetchUsageData = async () => {
     try {
-      const response = await fetch(`/api/billing/usage/summary?period=${selectedPeriod}`, {\n        headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
+      const response = await fetch(`/api/billing/usage/summary?period=${selectedPeriod}`, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
       });
 
       if (!response.ok) throw new Error('Failed to fetch usage data');
@@ -66,7 +71,9 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
   };
 
   const fetchTrends = async () => {
-    try {\n      const response = await fetch('/api/billing/usage/trends', {\n        headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
+    try {
+      const response = await fetch('/api/billing/usage/trends', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
       });
 
       if (!response.ok) throw new Error('Failed to fetch trends');
@@ -82,16 +89,25 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
 
   const getUsageIcon = (usageType: string) => {
     switch (usageType) {
-      case 'messages': return <MessageSquare className="h-5 w-5" />;\n      case 'tokens': return <Cpu className="h-5 w-5" />;\n      case 'storage': return <Database className="h-5 w-5" />;\n      case 'users': return <Users className="h-5 w-5" />;\n      case 'api_calls': return <Zap className="h-5 w-5" />;\n      default: return <Info className="h-5 w-5" />;
+      case 'messages': return <MessageSquare className="h-5 w-5" />;
+      case 'tokens': return <Cpu className="h-5 w-5" />;
+      case 'storage': return <Database className="h-5 w-5" />;
+      case 'users': return <Users className="h-5 w-5" />;
+      case 'api_calls': return <Zap className="h-5 w-5" />;
+      default: return <Info className="h-5 w-5" />;
     }
   };
 
   const getTrendIcon = (direction: string) => {
-    switch (direction) {\n      case 'up': return <TrendingUp className="h-4 w-4 text-green-600" />;\n      case 'down': return <TrendingDown className="h-4 w-4 text-red-600" />;\n      default: return <Minus className="h-4 w-4 text-gray-600" />;
+    switch (direction) {
+      case 'up': return <TrendingUp className="h-4 w-4 text-green-600" />;
+      case 'down': return <TrendingDown className="h-4 w-4 text-red-600" />;
+      default: return <Minus className="h-4 w-4 text-gray-600" />;
     }
   };
 
-  const formatUsageType = (type: string) => {\n    return type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+  const formatUsageType = (type: string) => {
+    return type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
   const formatNumber = (num: number) => {
@@ -105,8 +121,10 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
   };
 
   const formatBytes = (bytes: number) => {
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];\n    if (bytes === 0) return '0 Bytes';
-    const i = Math.floor(Math.log(bytes) / Math.log(1024));\n    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes === 0) return '0 Bytes';
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
   };
 
   const getStatusColor = (usage: UsageData) => {
@@ -124,19 +142,24 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
   };
 
   if (loading) {
-    return (\n      <div className="flex items-center justify-center p-8">\n        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   if (error) {
-    return (\n      <div className="p-4 bg-red-50 border border-red-200 rounded-lg">\n        <span className="text-red-800">{error}</span>
+    return (\n      <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+        <span className="text-red-800">{error}</span>
       </div>
     );
   }
 
   return (\n    <div className="space-y-6">
-      {/* Period Selector */}\n      <div className="flex items-center justify-between">\n        <h2 className="text-2xl font-bold text-gray-900">Usage Metrics</h2>\n        <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+      {/* Period Selector */}
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-gray-900">Usage Metrics</h2>\n        <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
           {[
             { id: 'hour', label: 'Last Hour' },
             { id: 'day', label: 'Today' },
@@ -144,7 +167,8 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
           ].map((period) => (
             <button
               key={period.id}
-              onClick={() => setSelectedPeriod(period.id as 'hour' | 'day' | 'month')}\n              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              onClick={() => setSelectedPeriod(period.id as 'hour' | 'day' | 'month')}
+              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                 selectedPeriod === period.id
                   ? 'bg-white text-gray-900 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
@@ -156,19 +180,26 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
         </div>
       </div>
 
-      {/* Usage Cards Grid */}\n      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Usage Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {usageData.map((usage) => {
           const trend = trends.find(t => t.usage_type === usage.usage_type);
           
-          return (\n            <Card key={usage.usage_type} className={`border ${getStatusColor(usage)}`}>\n              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">\n                <div className="flex items-center space-x-2">
-                  {getUsageIcon(usage.usage_type)}\n                  <CardTitle className="text-base font-medium">
+          return (
+            <Card key={usage.usage_type} className={`border ${getStatusColor(usage)}`}>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+                <div className="flex items-center space-x-2">
+                  {getUsageIcon(usage.usage_type)}
+                  <CardTitle className="text-base font-medium">
                     {formatUsageType(usage.usage_type)}
                   </CardTitle>
                 </div>
                 {trend && getTrendIcon(trend.trend_direction)}
               </CardHeader>
-              \n              <CardContent className="space-y-4">
-                {/* Usage Numbers */}\n                <div className="flex justify-between items-end">
+             
+             <CardContent className="space-y-4">
+                {/* Usage Numbers */}
+                <div className="flex justify-between items-end">
                   <div>\n                    <div className="text-2xl font-bold">
                       {usage.usage_type === 'storage' 
                         ? formatBytes(usage.current_usage)
@@ -181,7 +212,8 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
                           : formatNumber(usage.limit)
                       }
                     </div>
-                  </div>\n                  <div className="text-right">\n                    <div className="text-sm font-semibold">
+                  </div>\n                  <div className="text-right">
+                    <div className="text-sm font-semibold">
                       {Math.min(usage.percentage_used, 100).toFixed(1)}%
                     </div>
                     {usage.limit_exceeded && (\n                      <Badge variant="destructive" className="text-xs">
@@ -191,11 +223,14 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
                   </div>
                 </div>
 
-                {/* Progress Bar */}\n                <div className="space-y-2">
+                {/* Progress Bar */}
+                <div className="space-y-2">
                   <Progress 
-                    value={Math.min(usage.percentage_used, 100)} \n                    className="h-3"
+                    value={Math.min(usage.percentage_used, 100)}
+                   className="h-3"
                   />
-                  {usage.overage > 0 && (\n                    <div className="flex items-center space-x-1 text-sm text-red-600">\n                      <AlertTriangle className="h-4 w-4" />
+                  {usage.overage > 0 && (\n                    <div className="flex items-center space-x-1 text-sm text-red-600">
+                      <AlertTriangle className="h-4 w-4" />
                       <span>
                         {formatNumber(usage.overage)} units over limit
                       </span>
@@ -204,7 +239,8 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
                 </div>
 
                 {/* Trend Information */}
-                {trend && (\n                  <div className="pt-2 border-t text-sm text-gray-600">\n                    <div className="flex justify-between">
+                {trend && (\n                  <div className="pt-2 border-t text-sm text-gray-600">
+                    <div className="flex justify-between">
                       <span>Daily average:</span>\n                      <span className="font-medium">
                         {formatNumber(trend.average_daily_usage)}
                       </span>
@@ -231,27 +267,34 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
             </CardDescription>
           </CardHeader>
           <CardContent>\n            <div className="space-y-6">
-              {trends.slice(0, 3).map((trend) => (\n                <div key={trend.usage_type} className="space-y-3">\n                  <div className="flex items-center justify-between">\n                    <div className="flex items-center space-x-2">
-                      {getUsageIcon(trend.usage_type)}\n                      <h4 className="font-medium">{formatUsageType(trend.usage_type)}</h4>
+              {trends.slice(0, 3).map((trend) => (\n                <div key={trend.usage_type} className="space-y-3">
+                  <div className="flex items-center justify-between">\n                    <div className="flex items-center space-x-2">
+                      {getUsageIcon(trend.usage_type)}
+                      <h4 className="font-medium">{formatUsageType(trend.usage_type)}</h4>
                       {getTrendIcon(trend.trend_direction)}
                     </div>\n                    <div className="text-sm text-gray-600">
                       Total: {formatNumber(trend.total_usage)}
                     </div>
                   </div>
                   
-                  {/* Simple bar chart representation */}\n                  <div className="flex items-end space-x-1 h-20">
+                  {/* Simple bar chart representation */}
+                  <div className="flex items-end space-x-1 h-20">
                     {trend.daily_usage.slice(-14).map((day, index) => {
                       const maxUsage = Math.max(...trend.daily_usage.map(d => d.usage));
                       const height = maxUsage > 0 ? (day.usage / maxUsage) * 100 : 0;
                       
                       return (
                         <div
-                          key={index}\n                          className="flex-1 bg-blue-200 rounded-t hover:bg-blue-300 transition-colors cursor-pointer"\n                          style={{ height: `${Math.max(height, 2)}%` }}\n                          title={`${new Date(day.date).toLocaleDateString()}: ${formatNumber(day.usage)}`}
+                          key={index}
+                          className="flex-1 bg-blue-200 rounded-t hover:bg-blue-300 transition-colors cursor-pointer"\n                          style={{ height: `${Math.max(height, 2)}%` }}
+                          title={`${new Date(day.date).toLocaleDateString()}: ${formatNumber(day.usage)}`}
                         />
                       );
                     })}
                   </div>
-                  \n                  <div className="flex justify-between text-xs text-gray-500">\n                    <span>{trend.daily_usage.length > 14 ? '14 days ago' : 'Start'}</span>
+                 
+                 <div className="flex justify-between text-xs text-gray-500">
+                    <span>{trend.daily_usage.length > 14 ? '14 days ago' : 'Start'}</span>
                     <span>Today</span>
                   </div>
                 </div>
@@ -263,18 +306,22 @@ export const UsageMetrics: React.FC<UsageMetricsProps> = ({ period = 'month' }) 
 
       {/* Usage Alerts */}
       {usageData.some(u => u.limit_exceeded || u.percentage_used >= 90) && (\n        <Card className="border-yellow-200 bg-yellow-50">
-          <CardHeader>\n            <CardTitle className="flex items-center text-yellow-800">\n              <AlertTriangle className="h-5 w-5 mr-2" />
+          <CardHeader>\n            <CardTitle className="flex items-center text-yellow-800">
+              <AlertTriangle className="h-5 w-5 mr-2" />
               Usage Alerts
             </CardTitle>
           </CardHeader>\n          <CardContent className="space-y-3">
             {usageData
               .filter(u => u.limit_exceeded || u.percentage_used >= 90)
-              .map(usage => (\n                <div key={usage.usage_type} className="flex items-center justify-between p-3 bg-white rounded-lg">\n                  <div className="flex items-center space-x-3">
+              .map(usage => (\n                <div key={usage.usage_type} className="flex items-center justify-between p-3 bg-white rounded-lg">
+                  <div className="flex items-center space-x-3">
                     {getUsageIcon(usage.usage_type)}
                     <div>\n                      <div className="font-medium text-gray-900">
                         {formatUsageType(usage.usage_type)}
                       </div>\n                      <div className="text-sm text-gray-600">
-                        {usage.limit_exceeded \n                          ? `Over limit by ${formatNumber(usage.overage)} units`\n                          : `${usage.percentage_used.toFixed(1)}% of limit used`
+                        {usage.limit_exceeded
+                         ? `Over limit by ${formatNumber(usage.overage)} units`
+                          : `${usage.percentage_used.toFixed(1)}% of limit used`
                         }
                       </div>
                     </div>

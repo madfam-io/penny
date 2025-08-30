@@ -27,7 +27,8 @@ export function UsageChart() {
         />
         <Tooltip />
         <Area\n          type="monotone"\n          dataKey="requests"\n          stroke="#8884d8"
-          fillOpacity={1}\n          fill="url(#colorRequests)"
+          fillOpacity={1}
+          fill="url(#colorRequests)"
         />
       </AreaChart>
     </ResponsiveContainer>

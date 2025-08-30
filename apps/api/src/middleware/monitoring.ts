@@ -1,4 +1,5 @@
-import { Request, Response, NextFunction } from 'fastify';\nimport { pennyMonitoring } from '@penny/monitoring';
+import { Request, Response, NextFunction } from 'fastify';
+import { pennyMonitoring } from '@penny/monitoring';
 import { performance } from 'perf_hooks';
 
 // Extend the Request type to include monitoring properties
@@ -44,7 +45,8 @@ export const createHttpMonitoringMiddleware = (config: MonitoringConfig = {}) =>
   const alerting = pennyMonitoring.getAlerting();
 
   return async (request: any, reply: any, next: NextFunction) => {
-    const startTime = performance.now();\n    const path = request.url.split('?')[0];
+    const startTime = performance.now();
+    const path = request.url.split('?')[0];
     
     // Skip monitoring for excluded paths
     if (excludePaths.includes(path)) {

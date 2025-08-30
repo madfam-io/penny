@@ -1,4 +1,6 @@
-import { FastifyInstance } from 'fastify';\nimport { build } from '../app';\nimport { PrismaClient } from '@prisma/client';
+import { FastifyInstance } from 'fastify';
+import { build } from '../app';
+import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 
 describe('Artifacts API Integration Tests', () => {
@@ -114,7 +116,8 @@ describe('Artifacts API Integration Tests', () => {
       };
 
       const response = await app.inject({
-        method: 'POST',\n        url: '/artifacts',
+        method: 'POST',
+        url: '/artifacts',
         headers: {
           'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
@@ -135,7 +138,8 @@ describe('Artifacts API Integration Tests', () => {
         title: 'Data Analysis Script',
         description: 'Python script for sales data analysis',
         data: {
-          language: 'python',\n          code: `
+          language: 'python',
+          code: `
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -165,7 +169,8 @@ plt.show()
       };
 
       const response = await app.inject({
-        method: 'POST',\n        url: '/artifacts',
+        method: 'POST',
+        url: '/artifacts',
         headers: {
           'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
@@ -188,7 +193,8 @@ plt.show()
       };
 
       const response = await app.inject({
-        method: 'POST',\n        url: '/artifacts',
+        method: 'POST',
+        url: '/artifacts',
         headers: {
           'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
         },
@@ -202,7 +208,8 @@ plt.show()
 
     it('should require authentication', async () => {
       const response = await app.inject({
-        method: 'POST',\n        url: '/artifacts',
+        method: 'POST',
+        url: '/artifacts',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -274,8 +281,10 @@ plt.show()
 
     it('should retrieve artifact successfully', async () => {
       const response = await app.inject({
-        method: 'GET',\n        url: `/artifacts/${testArtifact.id}`,
-        headers: {\n          Authorization: `Bearer ${validToken}`,
+        method: 'GET',
+        url: `/artifacts/${testArtifact.id}`,
+        headers: {
+          Authorization: `Bearer ${validToken}`,
         },
       });
 
@@ -309,12 +318,14 @@ plt.show()
 
       const otherToken = jwt.sign(
         { userId: otherUser.id, tenantId: otherUser.tenantId },
-        process.env.JWT_SECRET!,\n        { expiresIn: '1h' }
+        process.env.JWT_SECRET!,
+        { expiresIn: '1h' }
       );
 
       const response = await app.inject({
         method: 'GET',\n        url: `/artifacts/${testArtifact.id}`,
-        headers: {\n          Authorization: `Bearer ${otherToken}`,
+        headers: {
+          Authorization: `Bearer ${otherToken}`,
         },
       });
 
@@ -323,8 +334,10 @@ plt.show()
 
     it('should handle non-existent artifact', async () => {
       const response = await app.inject({
-        method: 'GET',\n        url: '/artifacts/non-existent-id',
-        headers: {\n          Authorization: `Bearer ${validToken}`,
+        method: 'GET',
+        url: '/artifacts/non-existent-id',
+        headers: {
+          Authorization: `Bearer ${validToken}`,
         },
       });
 
@@ -333,7 +346,8 @@ plt.show()
 
     it('should require authentication', async () => {
       const response = await app.inject({
-        method: 'GET',\n        url: `/artifacts/${testArtifact.id}`,
+        method: 'GET',
+        url: `/artifacts/${testArtifact.id}`,
       });
 
       expect(response.statusCode).toBe(401);
@@ -351,7 +365,8 @@ plt.show()
           title: 'Chart 1',
           data: { test: 'chart1' },
           version: 1,
-          status: 'active',\n          createdAt: new Date('2024-01-01'),
+          status: 'active',
+          createdAt: new Date('2024-01-01'),
         },
         {
           tenantId: testUser.tenantId,
@@ -379,7 +394,8 @@ plt.show()
     it('should list artifacts with default pagination', async () => {
       const response = await app.inject({
         method: 'GET',\n        url: '/artifacts',
-        headers: {\n          Authorization: `Bearer ${validToken}`,
+        headers: {
+          Authorization: `Bearer ${validToken}`,
         },
       });
 
@@ -402,8 +418,10 @@ plt.show()
 
     it('should filter by artifact type', async () => {
       const response = await app.inject({
-        method: 'GET',\n        url: '/artifacts?type=chart',
-        headers: {\n          Authorization: `Bearer ${validToken}`,
+        method: 'GET',
+        url: '/artifacts?type=chart',
+        headers: {
+          Authorization: `Bearer ${validToken}`,
         },
       });
 
@@ -416,8 +434,10 @@ plt.show()
 
     it('should filter by status', async () => {
       const response = await app.inject({
-        method: 'GET',\n        url: '/artifacts?status=active',
-        headers: {\n          Authorization: `Bearer ${validToken}`,
+        method: 'GET',
+        url: '/artifacts?status=active',
+        headers: {
+          Authorization: `Bearer ${validToken}`,
         },
       });
 
@@ -432,8 +452,10 @@ plt.show()
 
     it('should handle pagination', async () => {
       const response = await app.inject({
-        method: 'GET',\n        url: '/artifacts?page=1&limit=2',
-        headers: {\n          Authorization: `Bearer ${validToken}`,
+        method: 'GET',
+        url: '/artifacts?page=1&limit=2',
+        headers: {
+          Authorization: `Bearer ${validToken}`,
         },
       });
 
@@ -451,8 +473,10 @@ plt.show()
 
     it('should search artifacts by title', async () => {
       const response = await app.inject({
-        method: 'GET',\n        url: '/artifacts?search=Chart',
-        headers: {\n          Authorization: `Bearer ${validToken}`,
+        method: 'GET',
+        url: '/artifacts?search=Chart',
+        headers: {
+          Authorization: `Bearer ${validToken}`,
         },
       });
 
@@ -478,8 +502,10 @@ plt.show()
       });
 
       const response = await app.inject({
-        method: 'GET',\n        url: '/artifacts',
-        headers: {\n          Authorization: `Bearer ${validToken}`,
+        method: 'GET',
+        url: '/artifacts',
+        headers: {
+          Authorization: `Bearer ${validToken}`,
         },
       });
 
@@ -530,9 +556,11 @@ plt.show()
       };
 
       const response = await app.inject({
-        method: 'PUT',\n        url: `/artifacts/${testArtifact.id}`,
+        method: 'PUT',
+        url: `/artifacts/${testArtifact.id}`,
         headers: {
-          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${validToken}`,
         },
         payload: updateData,
       });
@@ -554,9 +582,11 @@ plt.show()
     it('should maintain artifact history with versioning', async () => {
       // Update artifact
       await app.inject({
-        method: 'PUT',\n        url: `/artifacts/${testArtifact.id}`,
+        method: 'PUT',
+        url: `/artifacts/${testArtifact.id}`,
         headers: {
-          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${validToken}`,
         },
         payload: {
           title: 'Updated Title',
@@ -588,13 +618,15 @@ plt.show()
 
       const otherToken = jwt.sign(
         { userId: otherUser.id, tenantId: otherUser.tenantId },
-        process.env.JWT_SECRET!,\n        { expiresIn: '1h' }
+        process.env.JWT_SECRET!,
+        { expiresIn: '1h' }
       );
 
       const response = await app.inject({
         method: 'PUT',\n        url: `/artifacts/${testArtifact.id}`,
         headers: {
-          'Content-Type': 'application/json',\n          Authorization: `Bearer ${otherToken}`,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${otherToken}`,
         },
         payload: {
           title: 'Unauthorized Update',
@@ -606,9 +638,11 @@ plt.show()
 
     it('should create audit log for artifact update', async () => {
       await app.inject({
-        method: 'PUT',\n        url: `/artifacts/${testArtifact.id}`,
+        method: 'PUT',
+        url: `/artifacts/${testArtifact.id}`,
         headers: {
-          'Content-Type': 'application/json',\n          Authorization: `Bearer ${validToken}`,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${validToken}`,
         },
         payload: {
           title: 'Audit Update Title',
@@ -651,8 +685,10 @@ plt.show()
 
     it('should soft delete artifact (archive)', async () => {
       const response = await app.inject({
-        method: 'DELETE',\n        url: `/artifacts/${testArtifact.id}`,
-        headers: {\n          Authorization: `Bearer ${validToken}`,
+        method: 'DELETE',
+        url: `/artifacts/${testArtifact.id}`,
+        headers: {
+          Authorization: `Bearer ${validToken}`,
         },
       });
 
@@ -669,8 +705,10 @@ plt.show()
 
     it('should create audit log for artifact deletion', async () => {
       await app.inject({
-        method: 'DELETE',\n        url: `/artifacts/${testArtifact.id}`,
-        headers: {\n          Authorization: `Bearer ${validToken}`,
+        method: 'DELETE',
+        url: `/artifacts/${testArtifact.id}`,
+        headers: {
+          Authorization: `Bearer ${validToken}`,
         },
       });
 
@@ -704,12 +742,14 @@ plt.show()
 
       const otherToken = jwt.sign(
         { userId: otherUser.id, tenantId: otherUser.tenantId },
-        process.env.JWT_SECRET!,\n        { expiresIn: '1h' }
+        process.env.JWT_SECRET!,
+        { expiresIn: '1h' }
       );
 
       const response = await app.inject({
         method: 'DELETE',\n        url: `/artifacts/${testArtifact.id}`,
-        headers: {\n          Authorization: `Bearer ${otherToken}`,
+        headers: {
+          Authorization: `Bearer ${otherToken}`,
         },
       });
 
@@ -740,8 +780,10 @@ plt.show()
 
     it('should export artifact as JSON', async () => {
       const response = await app.inject({
-        method: 'GET',\n        url: `/artifacts/${testArtifact.id}/export?format=json`,
-        headers: {\n          Authorization: `Bearer ${validToken}`,
+        method: 'GET',
+        url: `/artifacts/${testArtifact.id}/export?format=json`,
+        headers: {
+          Authorization: `Bearer ${validToken}`,
         },
       });
 
@@ -781,8 +823,10 @@ plt.show()
       });
 
       const response = await app.inject({
-        method: 'GET',\n        url: `/artifacts/${tableArtifact.id}/export?format=csv`,
-        headers: {\n          Authorization: `Bearer ${validToken}`,
+        method: 'GET',
+        url: `/artifacts/${tableArtifact.id}/export?format=csv`,
+        headers: {
+          Authorization: `Bearer ${validToken}`,
         },
       });
 

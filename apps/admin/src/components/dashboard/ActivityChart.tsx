@@ -13,7 +13,10 @@ import {
   Bar,
   Area,
   AreaChart
-} from 'recharts';\nimport { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';\nimport { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+} from 'recharts';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { BarChart3, TrendingUp, Activity } from 'lucide-react';
 import { useState } from 'react';
 
@@ -27,7 +30,9 @@ interface ActivityData {
 }
 
 interface ActivityChartProps {
-  data?: ActivityData[];\n  timeRange?: '7d' | '30d' | '90d' | '1y';\n  onTimeRangeChange?: (range: '7d' | '30d' | '90d' | '1y') => void;
+  data?: ActivityData[];
+  timeRange?: '7d' | '30d' | '90d' | '1y';
+  onTimeRangeChange?: (range: '7d' | '30d' | '90d' | '1y') => void;
   className?: string;
 }
 
@@ -54,7 +59,8 @@ function generateMockData(days: number): ActivityData[] {
 }
 
 export function ActivityChart({ 
-  data, \n  timeRange = '30d', 
+  data,
+ timeRange = '30d', 
   onTimeRangeChange,
   className 
 }: ActivityChartProps) {
@@ -63,15 +69,18 @@ export function ActivityChart({
   const chartData = useMemo(() => {
     if (data) return data;
     
-    const days = {\n      '7d': 7,\n      '30d': 30,\n      '90d': 90,\n      '1y': 365
+    const days = {
+      '7d': 7,\n      '30d': 30,\n      '90d': 90,\n      '1y': 365
     }[timeRange];
     
     return generateMockData(days);
   }, [data, timeRange]);
 
   const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);\n    if (timeRange === '7d') {
-      return date.toLocaleDateString('en-US', { weekday: 'short' });\n    } else if (timeRange === '30d') {
+    const date = new Date(dateStr);
+    if (timeRange === '7d') {
+      return date.toLocaleDateString('en-US', { weekday: 'short' });
+    } else if (timeRange === '30d') {
       return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     } else {
       return date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
@@ -81,11 +90,14 @@ export function ActivityChart({
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white dark:bg-gray-800 p-3 border rounded-lg shadow-sm">\n          <p className="text-sm font-medium mb-2">{formatDate(label)}</p>
+        <div className="bg-white dark:bg-gray-800 p-3 border rounded-lg shadow-sm">
+          <p className="text-sm font-medium mb-2">{formatDate(label)}</p>
           {payload.map((entry: any, index: number) => (\n            <div key={index} className="flex items-center gap-2 text-sm">
-              <div \n                className="w-2 h-2 rounded-full" 
+              <div
+               className="w-2 h-2 rounded-full" 
                 style={{ backgroundColor: entry.color }}
-              />\n              <span className="capitalize">{entry.dataKey}:</span>\n              <span className="font-medium">{entry.value.toLocaleString()}</span>
+              />\n              <span className="capitalize">{entry.dataKey}:</span>
+              <span className="font-medium">{entry.value.toLocaleString()}</span>
             </div>
           ))}
         </div>
@@ -104,8 +116,10 @@ export function ActivityChart({
       case 'bar':
         return (
           <BarChart {...commonProps}>\n            <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-            <XAxis \n              dataKey="date" 
-              tickFormatter={formatDate}\n              className="text-xs"
+            <XAxis
+             dataKey="date" 
+              tickFormatter={formatDate}
+              className="text-xs"
             />\n            <YAxis className="text-xs" />
             <Tooltip content={<CustomTooltip />} />\n            <Bar dataKey="users" fill="#3b82f6" radius={[2, 2, 0, 0]} />\n            <Bar dataKey="conversations" fill="#10b981" radius={[2, 2, 0, 0]} />\n            <Bar dataKey="messages" fill="#f59e0b" radius={[2, 2, 0, 0]} />
           </BarChart>
@@ -114,17 +128,31 @@ export function ActivityChart({
       case 'area':
         return (
           <AreaChart {...commonProps}>\n            <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-            <XAxis \n              dataKey="date" 
-              tickFormatter={formatDate}\n              className="text-xs"
+            <XAxis
+             dataKey="date" 
+              tickFormatter={formatDate}
+              className="text-xs"
             />\n            <YAxis className="text-xs" />
             <Tooltip content={<CustomTooltip />} />
-            <Area \n              type="monotone" \n              dataKey="users" \n              stackId="1"\n              stroke="#3b82f6" \n              fill="#3b82f6" 
+            <Area
+             type="monotone"
+             dataKey="users"
+             stackId="1"\n              stroke="#3b82f6"
+             fill="#3b82f6" 
               fillOpacity={0.6}
             />
-            <Area \n              type="monotone" \n              dataKey="conversations" \n              stackId="1"\n              stroke="#10b981" \n              fill="#10b981" 
+            <Area
+             type="monotone"
+             dataKey="conversations"
+             stackId="1"\n              stroke="#10b981"
+             fill="#10b981" 
               fillOpacity={0.6}
             />
-            <Area \n              type="monotone" \n              dataKey="messages" \n              stackId="1"\n              stroke="#f59e0b" \n              fill="#f59e0b" 
+            <Area
+             type="monotone"
+             dataKey="messages"
+             stackId="1"\n              stroke="#f59e0b"
+             fill="#f59e0b" 
               fillOpacity={0.6}
             />
           </AreaChart>
@@ -133,18 +161,32 @@ export function ActivityChart({
       default:
         return (
           <LineChart {...commonProps}>\n            <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-            <XAxis \n              dataKey="date" 
-              tickFormatter={formatDate}\n              className="text-xs"
+            <XAxis
+             dataKey="date" 
+              tickFormatter={formatDate}
+              className="text-xs"
             />\n            <YAxis className="text-xs" />
             <Tooltip content={<CustomTooltip />} />
-            <Line \n              type="monotone" \n              dataKey="users" \n              stroke="#3b82f6" 
-              strokeWidth={2}\n              dot={{ fill: '#3b82f6', strokeWidth: 2, r: 3 }}
+            <Line
+             type="monotone"
+             dataKey="users"
+             stroke="#3b82f6" 
+              strokeWidth={2}
+              dot={{ fill: '#3b82f6', strokeWidth: 2, r: 3 }}
             />
-            <Line \n              type="monotone" \n              dataKey="conversations" \n              stroke="#10b981" 
-              strokeWidth={2}\n              dot={{ fill: '#10b981', strokeWidth: 2, r: 3 }}
+            <Line
+             type="monotone"
+             dataKey="conversations"
+             stroke="#10b981" 
+              strokeWidth={2}
+              dot={{ fill: '#10b981', strokeWidth: 2, r: 3 }}
             />
-            <Line \n              type="monotone" \n              dataKey="messages" \n              stroke="#f59e0b" 
-              strokeWidth={2}\n              dot={{ fill: '#f59e0b', strokeWidth: 2, r: 3 }}
+            <Line
+             type="monotone"
+             dataKey="messages"
+             stroke="#f59e0b" 
+              strokeWidth={2}
+              dot={{ fill: '#f59e0b', strokeWidth: 2, r: 3 }}
             />
           </LineChart>
         );
@@ -153,7 +195,8 @@ export function ActivityChart({
 
   return (
     <Card className={className}>
-      <CardHeader>\n        <div className="flex items-center justify-between">\n          <CardTitle className="flex items-center gap-2">\n            <Activity className="h-5 w-5" />
+      <CardHeader>\n        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">\n            <Activity className="h-5 w-5" />
             Platform Activity
           </CardTitle>\n          <div className="flex items-center gap-2">
             <Select value={chartType} onValueChange={(value: any) => setChartType(value)}>\n              <SelectTrigger className="w-32">
@@ -172,13 +215,19 @@ export function ActivityChart({
           </div>
         </div>
       </CardHeader>
-      <CardContent>\n        <div className="h-80">\n          <ResponsiveContainer width="100%" height="100%">
+      <CardContent>\n        <div className="h-80">
+          <ResponsiveContainer width="100%" height="100%">
             {renderChart()}
           </ResponsiveContainer>
         </div>
-        \n        <div className="flex items-center justify-center gap-6 mt-4">\n          <div className="flex items-center gap-2">\n            <div className="w-3 h-3 rounded-full bg-blue-500" />\n            <span className="text-sm text-muted-foreground">Active Users</span>
-          </div>\n          <div className="flex items-center gap-2">\n            <div className="w-3 h-3 rounded-full bg-green-500" />\n            <span className="text-sm text-muted-foreground">Conversations</span>
-          </div>\n          <div className="flex items-center gap-2">\n            <div className="w-3 h-3 rounded-full bg-yellow-500" />\n            <span className="text-sm text-muted-foreground">Messages</span>
+       
+       <div className="flex items-center justify-center gap-6 mt-4">
+          <div className="flex items-center gap-2">\n            <div className="w-3 h-3 rounded-full bg-blue-500" />
+            <span className="text-sm text-muted-foreground">Active Users</span>
+          </div>\n          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-green-500" />\n            <span className="text-sm text-muted-foreground">Conversations</span>
+          </div>\n          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-yellow-500" />\n            <span className="text-sm text-muted-foreground">Messages</span>
           </div>
         </div>
       </CardContent>

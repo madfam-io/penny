@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useRef } from 'react';\nimport { Artifact } from '@penny/types';
+import React, { useState, useCallback, useRef } from 'react';
+import { Artifact } from '@penny/types';
 
 interface ArtifactHeaderProps {
   artifact: Artifact;
@@ -61,14 +62,16 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ isOpen, onClose, children, 
   return (
     <div
       ref={menuRef}
-      className="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50"\n      role="menu"
+      className="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50"
+      role="menu"
     >
       {children}
     </div>
   );
 };
 
-const formatFileSize = (bytes?: number): string => {\n  if (!bytes) return '';
+const formatFileSize = (bytes?: number): string => {
+  if (!bytes) return '';
   const sizes = ['B', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
   return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${sizes[i]}`;
@@ -128,8 +131,12 @@ export const ArtifactHeader: React.FC<ArtifactHeaderProps> = ({
   const iconClasses = 'w-4 h-4';
 
   return (\n    <div className="artifact-header flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
-      {/* Left section - Title and metadata */}\n      <div className="flex-1 min-w-0">\n        <div className="flex items-center space-x-3">
-          {/* Artifact type icon */}\n          <div className="flex-shrink-0 p-2 bg-gray-100 dark:bg-gray-800 rounded">\n            <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      {/* Left section - Title and metadata */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center space-x-3">
+          {/* Artifact type icon */}
+          <div className="flex-shrink-0 p-2 bg-gray-100 dark:bg-gray-800 rounded">
+            <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {artifact.type === 'chart' && (\n                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               )}
               {artifact.type === 'table' && (\n                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0V4a1 1 0 011-1h16a1 1 0 011 1v16a1 1 0 01-1 1H4a1 1 0 01-1-1z" />
@@ -143,7 +150,9 @@ export const ArtifactHeader: React.FC<ArtifactHeaderProps> = ({
             </svg>
           </div>
 
-          {/* Title and description */}\n          <div className="min-w-0 flex-1">\n            <h2 className="text-lg font-semibold text-gray-900 dark:text-white truncate">
+          {/* Title and description */}
+          <div className="min-w-0 flex-1">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white truncate">
               {artifact.title}
             </h2>
             {artifact.description && (\n              <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
@@ -171,17 +180,20 @@ export const ArtifactHeader: React.FC<ArtifactHeaderProps> = ({
           </div>
 
           {/* Loading indicator */}
-          {loading && (\n            <div className="flex-shrink-0">\n              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+          {loading && (\n            <div className="flex-shrink-0">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
             </div>
           )}
         </div>
       </div>
 
-      {/* Right section - Actions */}\n      <div className="flex items-center space-x-2">
+      {/* Right section - Actions */}
+      <div className="flex items-center space-x-2">
         {/* Metadata toggle */}
         <button
           onClick={handleMetadataToggle}
-          className={buttonClasses}\n          title="Toggle metadata"\n          aria-label="Toggle metadata"
+          className={buttonClasses}
+          title="Toggle metadata"\n          aria-label="Toggle metadata"
         >\n          <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24">\n            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </button>
@@ -190,7 +202,8 @@ export const ArtifactHeader: React.FC<ArtifactHeaderProps> = ({
         {onRefresh && (
           <button
             onClick={onRefresh}
-            className={buttonClasses}\n            title="Refresh"\n            aria-label="Refresh artifact"
+            className={buttonClasses}
+            title="Refresh"\n            aria-label="Refresh artifact"
           >\n            <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24">\n              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0V9a8 8 0 1115.356 2m-15.356 0H4v5" />
             </svg>
           </button>
@@ -200,7 +213,8 @@ export const ArtifactHeader: React.FC<ArtifactHeaderProps> = ({
         {onDownload && (
           <button
             onClick={onDownload}
-            className={buttonClasses}\n            title="Download"\n            aria-label="Download artifact"
+            className={buttonClasses}
+            title="Download"\n            aria-label="Download artifact"
           >\n            <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24">\n              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </button>
@@ -211,8 +225,10 @@ export const ArtifactHeader: React.FC<ArtifactHeaderProps> = ({
             <button
               ref={exportButtonRef}
               onClick={toggleExportMenu}
-              className={buttonClasses}\n              title="Export"\n              aria-label="Export artifact"
-              aria-expanded={showExportMenu}\n              aria-haspopup="menu"
+              className={buttonClasses}
+              title="Export"\n              aria-label="Export artifact"
+              aria-expanded={showExportMenu}
+              aria-haspopup="menu"
             >\n              <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </button>
@@ -225,7 +241,9 @@ export const ArtifactHeader: React.FC<ArtifactHeaderProps> = ({
                 {exportFormats.map(format => (
                   <button
                     key={format}
-                    onClick={() => handleExport(format)}\n                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700"\n                    role="menuitem"
+                    onClick={() => handleExport(format)}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700"
+                    role="menuitem"
                   >
                     Export as {format.toUpperCase()}
                   </button>
@@ -239,7 +257,8 @@ export const ArtifactHeader: React.FC<ArtifactHeaderProps> = ({
         {onShare && (
           <button
             onClick={onShare}
-            className={buttonClasses}\n            title="Share"\n            aria-label="Share artifact"
+            className={buttonClasses}
+            title="Share"\n            aria-label="Share artifact"
           >\n            <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24">\n              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
             </svg>
           </button>
@@ -266,8 +285,10 @@ export const ArtifactHeader: React.FC<ArtifactHeaderProps> = ({
             <button
               ref={moreButtonRef}
               onClick={toggleMoreMenu}
-              className={buttonClasses}\n              title="More actions"\n              aria-label="More actions"
-              aria-expanded={showMoreMenu}\n              aria-haspopup="menu"
+              className={buttonClasses}
+              title="More actions"\n              aria-label="More actions"
+              aria-expanded={showMoreMenu}
+              aria-haspopup="menu"
             >\n              <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
               </svg>
             </button>
@@ -282,7 +303,9 @@ export const ArtifactHeader: React.FC<ArtifactHeaderProps> = ({
                     onClick={() => {
                       onEdit();
                       setShowMoreMenu(false);
-                    }}\n                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700"\n                    role="menuitem"
+                    }}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700"
+                    role="menuitem"
                   >
                     Edit
                   </button>
@@ -292,7 +315,9 @@ export const ArtifactHeader: React.FC<ArtifactHeaderProps> = ({
                     onClick={() => {
                       onPrint();
                       setShowMoreMenu(false);
-                    }}\n                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700"\n                    role="menuitem"
+                    }}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700"
+                    role="menuitem"
                   >
                     Print
                   </button>
@@ -303,7 +328,9 @@ export const ArtifactHeader: React.FC<ArtifactHeaderProps> = ({
                       onClick={() => {
                         onDelete();
                         setShowMoreMenu(false);
-                      }}\n                      className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 focus:outline-none focus:bg-red-50 dark:focus:bg-red-900/20"\n                      role="menuitem"
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 focus:outline-none focus:bg-red-50 dark:focus:bg-red-900/20"
+                      role="menuitem"
                     >
                       Delete
                     </button>

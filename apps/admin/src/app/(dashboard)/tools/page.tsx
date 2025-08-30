@@ -1,4 +1,12 @@
-import { Suspense } from 'react';\nimport { ToolsRegistry } from '@/components/tools/ToolsRegistry';\nimport { ToolFilters } from '@/components/tools/ToolFilters';\nimport { ToolStats } from '@/components/tools/ToolStats';\nimport { CreateToolDialog } from '@/components/tools/CreateToolDialog';\nimport { Breadcrumbs } from '@/components/layout/Breadcrumbs';\nimport { LoadingSpinner } from '@/components/ui/LoadingSpinner';\nimport { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { Button } from '@/components/ui/button';
+import { Suspense } from 'react';
+import { ToolsRegistry } from '@/components/tools/ToolsRegistry';
+import { ToolFilters } from '@/components/tools/ToolFilters';
+import { ToolStats } from '@/components/tools/ToolStats';
+import { CreateToolDialog } from '@/components/tools/CreateToolDialog';
+import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Wrench, Plus, Download, RefreshCw, Settings, Filter } from 'lucide-react';
 
 export default function ToolsPage() {
@@ -8,7 +16,8 @@ export default function ToolsPage() {
   ];
 
   return (
-    <div className="space-y-6">\n      <div className="flex items-center justify-between">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <div>
           <Breadcrumbs items={breadcrumbItems} />\n          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mt-2">
             Tools Registry
@@ -33,7 +42,8 @@ export default function ToolsPage() {
 
       {/* Filters */}
       <Card>
-        <CardHeader>\n          <CardTitle className="flex items-center gap-2">\n            <Filter className="h-4 w-4" />
+        <CardHeader>\n          <CardTitle className="flex items-center gap-2">
+            <Filter className="h-4 w-4" />
             Tool Filters
           </CardTitle>
         </CardHeader>
@@ -45,7 +55,8 @@ export default function ToolsPage() {
 
       {/* Tools Registry Table */}
       <Card>
-        <CardHeader>\n          <CardTitle className="flex items-center gap-2">\n            <Wrench className="h-4 w-4" />
+        <CardHeader>\n          <CardTitle className="flex items-center gap-2">
+            <Wrench className="h-4 w-4" />
             Registered Tools
           </CardTitle>
         </CardHeader>

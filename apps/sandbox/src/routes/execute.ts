@@ -1,4 +1,6 @@
-import { FastifyPluginAsync } from 'fastify';\nimport { Type } from '@sinclair/typebox';\nimport { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
+import { FastifyPluginAsync } from 'fastify';
+import { Type } from '@sinclair/typebox';
+import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 
 const ExecuteRequestSchema = Type.Object({
   code: Type.String({ minLength: 1, maxLength: 50000 }),
@@ -114,7 +116,8 @@ const executeRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Execute code with streaming output\n  server.post('/stream', {
+  // Execute code with streaming output
+  server.post('/stream', {
     schema: {
       body: ExecuteRequestSchema
     }
@@ -144,7 +147,8 @@ const executeRoute: FastifyPluginAsync = async (fastify) => {
           data: chunk.data,
           timestamp: new Date().toISOString()
         };
-        \n        reply.raw.write(`data: ${JSON.stringify(event)}
+       
+       reply.raw.write(`data: ${JSON.stringify(event)}
 
 `);
       });
@@ -155,7 +159,8 @@ const executeRoute: FastifyPluginAsync = async (fastify) => {
         data: result,
         timestamp: new Date().toISOString()
       };
-      \n      reply.raw.write(`data: ${JSON.stringify(completionEvent)}
+     
+     reply.raw.write(`data: ${JSON.stringify(completionEvent)}
 
 `);
       reply.raw.end();
@@ -171,14 +176,16 @@ const executeRoute: FastifyPluginAsync = async (fastify) => {
         },
         timestamp: new Date().toISOString()
       };
-      \n      reply.raw.write(`data: ${JSON.stringify(errorEvent)}
+     
+     reply.raw.write(`data: ${JSON.stringify(errorEvent)}
 
 `);
       reply.raw.end();
     }
   });
 
-  // Get execution status\n  server.get('/status/:executionId', {
+  // Get execution status
+  server.get('/status/:executionId', {
     schema: {
       params: Type.Object({
         executionId: Type.String({ format: 'uuid' })
@@ -212,7 +219,8 @@ const executeRoute: FastifyPluginAsync = async (fastify) => {
     });
   });
 
-  // Cancel execution\n  server.delete('/:executionId', {
+  // Cancel execution
+  server.delete('/:executionId', {
     schema: {
       params: Type.Object({
         executionId: Type.String({ format: 'uuid' })

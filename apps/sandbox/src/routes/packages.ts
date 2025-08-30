@@ -1,4 +1,6 @@
-import { FastifyPluginAsync } from 'fastify';\nimport { Type } from '@sinclair/typebox';\nimport { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
+import { FastifyPluginAsync } from 'fastify';
+import { Type } from '@sinclair/typebox';
+import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { spawn } from 'child_process';
 
 const PackageSchema = Type.Object({
@@ -155,7 +157,8 @@ const packagesRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Install packages\n  server.post('/install', {
+  // Install packages
+  server.post('/install', {
     schema: {
       body: InstallRequestSchema,
       response: {
@@ -194,7 +197,8 @@ const packagesRoute: FastifyPluginAsync = async (fastify) => {
       const allowedPackages = await validatePackagesForInstallation(packages);
       if (allowedPackages.blocked.length > 0) {
         return reply.status(400).send({
-          error: 'Security Violation',\n          message: `Blocked packages: ${allowedPackages.blocked.join(', ')}`
+          error: 'Security Violation',
+          message: `Blocked packages: ${allowedPackages.blocked.join(', ')}`
         });
       }
 
@@ -217,7 +221,8 @@ const packagesRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Uninstall packages\n  server.post('/uninstall', {
+  // Uninstall packages
+  server.post('/uninstall', {
     schema: {
       body: UninstallRequestSchema,
       response: {
@@ -266,7 +271,8 @@ const packagesRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // List installed packages in a session\n  server.get('/session/:sessionId', {
+  // List installed packages in a session
+  server.get('/session/:sessionId', {
     schema: {
       params: Type.Object({
         sessionId: Type.String({ format: 'uuid' })
@@ -323,7 +329,8 @@ async function getAvailablePackages(): Promise<Array<{
   // This would typically query a package registry or cache
   return [
     {
-      name: 'numpy',\n      version: '1.24.3',
+      name: 'numpy',
+      version: '1.24.3',
       description: 'Fundamental package for scientific computing',
       installed: true,
       size: 15000000,
@@ -364,7 +371,8 @@ async function getPackageInfo(packageName: string) {
     name: pkg.name,
     version: pkg.version,\n    description: pkg.description || '',
     author: 'Package Author',
-    license: 'MIT',\n    homepage: `https://pypi.org/project/${pkg.name}/`,\n    repository: `https://github.com/project/${pkg.name}`,
+    license: 'MIT',\n    homepage: `https://pypi.org/project/${pkg.name}/`,
+    repository: `https://github.com/project/${pkg.name}`,
     dependencies: pkg.dependencies || [],
     size: pkg.size || 0,
     installed: pkg.installed,
@@ -423,9 +431,12 @@ async function validatePackagesForInstallation(packages: string[]): Promise<{
       case 'safe':
         allowed.push(packageName);
         break;
-      case 'caution':\n        allowed.push(packageName);\n        warnings.push(`Package '${packageName}' requires caution due to potential security implications`);
+      case 'caution':
+        allowed.push(packageName);
+        warnings.push(`Package '${packageName}' requires caution due to potential security implications`);
         break;
-      case 'restricted':\n        warnings.push(`Package '${packageName}' has restrictions`);
+      case 'restricted':
+        warnings.push(`Package '${packageName}' has restrictions`);
         allowed.push(packageName);
         break;
       case 'blocked':
@@ -479,7 +490,8 @@ async function installSinglePackage(
   force: boolean
 ): Promise<{ success: boolean; error?: string; logs: string[] }> {
   return new Promise((resolve) => {
-    const args = ['exec', containerName, 'pip', 'install'];\n    if (force) args.push('--force-reinstall');
+    const args = ['exec', containerName, 'pip', 'install'];
+    if (force) args.push('--force-reinstall');
     args.push(packageName);
 
     const process = spawn('docker', args);
@@ -495,7 +507,8 @@ async function installSinglePackage(
 
     process.on('close', (code) => {
       resolve({
-        success: code === 0,\n        error: code !== 0 ? `Installation failed with exit code ${code}` : undefined,
+        success: code === 0,
+        error: code !== 0 ? `Installation failed with exit code ${code}` : undefined,
         logs
       });
     });
@@ -555,7 +568,8 @@ async function uninstallSinglePackage(
 
     process.on('close', (code) => {
       resolve({
-        success: code === 0,\n        error: code !== 0 ? `Uninstallation failed with exit code ${code}` : undefined,
+        success: code === 0,
+        error: code !== 0 ? `Uninstallation failed with exit code ${code}` : undefined,
         logs
       });
     });
@@ -571,7 +585,8 @@ async function getInstalledPackagesInContainer(containerName: string): Promise<A
   dependencies?: string[];
 }>> {
   return new Promise((resolve, reject) => {
-    const process = spawn('docker', ['exec', containerName, 'pip', 'list', '--format=json']);\n    let output = '';
+    const process = spawn('docker', ['exec', containerName, 'pip', 'list', '--format=json']);
+    let output = '';
 
     process.stdout?.on('data', (data) => {
       output += data.toString();
@@ -589,7 +604,8 @@ async function getInstalledPackagesInContainer(containerName: string): Promise<A
         } catch (error) {
           reject(error);
         }
-      } else {\n        reject(new Error(`Failed to list packages: exit code ${code}`));
+      } else {
+        reject(new Error(`Failed to list packages: exit code ${code}`));
       }
     });
   });

@@ -1,4 +1,7 @@
-import { Artifact, ArtifactAction, ArtifactCollection, ArtifactSchema } from '@penny/types';\nimport { ArtifactStorageService } from './ArtifactStorageService';\nimport { ArtifactVersionService } from './ArtifactVersionService';\nimport { ArtifactProcessingService } from './ArtifactProcessingService';
+import { Artifact, ArtifactAction, ArtifactCollection, ArtifactSchema } from '@penny/types';
+import { ArtifactStorageService } from './ArtifactStorageService';
+import { ArtifactVersionService } from './ArtifactVersionService';
+import { ArtifactProcessingService } from './ArtifactProcessingService';
 
 export interface ArtifactQueryOptions {
   tenantId: string;
@@ -236,7 +239,8 @@ export class ArtifactService {
       return null;
     }
 
-    if (!artifact.exportFormats.includes(format)) {\n      throw new Error(`Export format ${format} not supported for this artifact type`);
+    if (!artifact.exportFormats.includes(format)) {
+      throw new Error(`Export format ${format} not supported for this artifact type`);
     }
 
     // Generate export
@@ -359,7 +363,8 @@ export class ArtifactService {
 
     if (updates.title && updates.title !== existing.title) {
       changes.push({
-        type: 'modified',\n        path: '/title',
+        type: 'modified',
+        path: '/title',
         oldValue: existing.title,
         newValue: updates.title
       });

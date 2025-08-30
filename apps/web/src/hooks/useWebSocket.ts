@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { io, Socket } from 'socket.io-client';\nimport { useAuth } from './useAuth';
+import { io, Socket } from 'socket.io-client';
+import { useAuth } from './useAuth';
 
 export interface WebSocketConfig {
   url?: string;
@@ -266,7 +267,8 @@ export function useWebSocket(config: WebSocketConfig = {}): WebSocketHookReturn 
   const emit = useCallback((event: string, data?: any) => {
     if (socketRef.current?.connected) {
       socketRef.current.emit(event, data);
-    } else {\n      console.warn(`Cannot emit ${event}: WebSocket not connected`);
+    } else {
+      console.warn(`Cannot emit ${event}: WebSocket not connected`);
     }
   }, []);
 

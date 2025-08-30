@@ -110,7 +110,11 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
   };
 
   if (loading) {
-    return (\n      <div className="p-6 bg-white rounded-lg shadow-sm border">\n        <div className="animate-pulse">\n          <div className="h-6 bg-gray-200 rounded mb-4"></div>\n          <div className="space-y-3">\n            <div className="h-4 bg-gray-200 rounded"></div>\n            <div className="h-4 bg-gray-200 rounded"></div>\n            <div className="h-4 bg-gray-200 rounded"></div>
+    return (
+      <div className="p-6 bg-white rounded-lg shadow-sm border">
+        <div className="animate-pulse">\n          <div className="h-6 bg-gray-200 rounded mb-4"></div>
+          <div className="space-y-3">\n            <div className="h-4 bg-gray-200 rounded"></div>
+            <div className="h-4 bg-gray-200 rounded"></div>\n            <div className="h-4 bg-gray-200 rounded"></div>
           </div>
         </div>
       </div>
@@ -118,7 +122,10 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
   }
 
   return (\n    <div className="space-y-6">
-      {/* Overall Status Header */}\n      <div className={`p-4 rounded-lg border-2 ${getStatusColor(overallStatus)}`}>\n        <div className="flex items-center justify-between">\n          <div className="flex items-center space-x-3">
+      {/* Overall Status Header */}
+      <div className={`p-4 rounded-lg border-2 ${getStatusColor(overallStatus)}`}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
             {getStatusIcon(overallStatus)}
             <div>\n              <h2 className="text-lg font-semibold capitalize">
                 System {overallStatus}
@@ -128,7 +135,8 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
             </div>
           </div>
           <button
-            onClick={fetchHealthData}\n            className="px-3 py-1 text-sm bg-white bg-opacity-20 rounded hover:bg-opacity-30 transition-colors"
+            onClick={fetchHealthData}
+            className="px-3 py-1 text-sm bg-white bg-opacity-20 rounded hover:bg-opacity-30 transition-colors"
           >
             Refresh
           </button>
@@ -137,7 +145,10 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
 
       {/* System Metrics */}
       {systemMetrics && (\n        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* CPU Usage */}\n          <div className="p-4 bg-white rounded-lg shadow-sm border">\n            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">\n                <Cpu className="w-5 h-5 text-blue-500" />\n                <span className="font-medium">CPU Usage</span>
+          {/* CPU Usage */}
+          <div className="p-4 bg-white rounded-lg shadow-sm border">
+            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">
+                <Cpu className="w-5 h-5 text-blue-500" />\n                <span className="font-medium">CPU Usage</span>
               </div>\n              <span className={`text-sm px-2 py-1 rounded ${
                 getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'critical' ? 'bg-red-100 text-red-800' :
                 getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'warning' ? 'bg-yellow-100 text-yellow-800' :
@@ -145,19 +156,25 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
               }`}>
                 {systemMetrics.cpu.usage.toFixed(1)}%
               </span>
-            </div>\n            <div className="w-full bg-gray-200 rounded-full h-2">
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
               <div\n                className={`h-2 rounded-full ${
                   getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'critical' ? 'bg-red-500' :
                   getMetricStatus(systemMetrics.cpu.usage, 'cpu') === 'warning' ? 'bg-yellow-500' :
                   'bg-green-500'
-                }`}\n                style={{ width: `${systemMetrics.cpu.usage}%` }}
+                }`}
+                style={{ width: `${systemMetrics.cpu.usage}%` }}
               ></div>
-            </div>\n            <p className="text-xs text-gray-500 mt-1">
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
               {systemMetrics.cpu.cores} cores available
             </p>
           </div>
 
-          {/* Memory Usage */}\n          <div className="p-4 bg-white rounded-lg shadow-sm border">\n            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">\n                <Activity className="w-5 h-5 text-green-500" />\n                <span className="font-medium">Memory</span>
+          {/* Memory Usage */}
+          <div className="p-4 bg-white rounded-lg shadow-sm border">
+            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">
+                <Activity className="w-5 h-5 text-green-500" />\n                <span className="font-medium">Memory</span>
               </div>\n              <span className={`text-sm px-2 py-1 rounded ${
                 getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'critical' ? 'bg-red-100 text-red-800' :
                 getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'warning' ? 'bg-yellow-100 text-yellow-800' :
@@ -165,19 +182,25 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
               }`}>
                 {systemMetrics.memory.percentage.toFixed(1)}%
               </span>
-            </div>\n            <div className="w-full bg-gray-200 rounded-full h-2">
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
               <div\n                className={`h-2 rounded-full ${
                   getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'critical' ? 'bg-red-500' :
                   getMetricStatus(systemMetrics.memory.percentage, 'memory') === 'warning' ? 'bg-yellow-500' :
                   'bg-green-500'
-                }`}\n                style={{ width: `${systemMetrics.memory.percentage}%` }}
+                }`}
+                style={{ width: `${systemMetrics.memory.percentage}%` }}
               ></div>
-            </div>\n            <p className="text-xs text-gray-500 mt-1">
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
               {formatBytes(systemMetrics.memory.used)} / {formatBytes(systemMetrics.memory.total)}
             </p>
           </div>
 
-          {/* Disk Usage */}\n          <div className="p-4 bg-white rounded-lg shadow-sm border">\n            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">\n                <HardDrive className="w-5 h-5 text-purple-500" />\n                <span className="font-medium">Disk Usage</span>
+          {/* Disk Usage */}
+          <div className="p-4 bg-white rounded-lg shadow-sm border">
+            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">
+                <HardDrive className="w-5 h-5 text-purple-500" />\n                <span className="font-medium">Disk Usage</span>
               </div>\n              <span className={`text-sm px-2 py-1 rounded ${
                 getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'critical' ? 'bg-red-100 text-red-800' :
                 getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'warning' ? 'bg-yellow-100 text-yellow-800' :
@@ -185,21 +208,28 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
               }`}>
                 {systemMetrics.disk.percentage.toFixed(1)}%
               </span>
-            </div>\n            <div className="w-full bg-gray-200 rounded-full h-2">
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
               <div\n                className={`h-2 rounded-full ${
                   getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'critical' ? 'bg-red-500' :
                   getMetricStatus(systemMetrics.disk.percentage, 'disk') === 'warning' ? 'bg-yellow-500' :
                   'bg-green-500'
-                }`}\n                style={{ width: `${systemMetrics.disk.percentage}%` }}
+                }`}
+                style={{ width: `${systemMetrics.disk.percentage}%` }}
               ></div>
-            </div>\n            <p className="text-xs text-gray-500 mt-1">
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
               {formatBytes(systemMetrics.disk.used)} / {formatBytes(systemMetrics.disk.total)}
             </p>
           </div>
 
-          {/* Network I/O */}\n          <div className="p-4 bg-white rounded-lg shadow-sm border">\n            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">\n                <Wifi className="w-5 h-5 text-orange-500" />\n                <span className="font-medium">Network I/O</span>
+          {/* Network I/O */}
+          <div className="p-4 bg-white rounded-lg shadow-sm border">
+            <div className="flex items-center justify-between mb-3">\n              <div className="flex items-center space-x-2">
+                <Wifi className="w-5 h-5 text-orange-500" />\n                <span className="font-medium">Network I/O</span>
               </div>
-            </div>\n            <div className="space-y-2">\n              <div className="flex justify-between text-sm">
+            </div>\n            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
                 <span>Received:</span>\n                <span className="font-medium">
                   {formatBytes(systemMetrics.network.bytesReceived)}
                 </span>
@@ -213,9 +243,12 @@ export const SystemHealth: React.FC<SystemHealthProps> = ({
         </div>
       )}
 
-      {/* Health Checks */}\n      <div className="bg-white rounded-lg shadow-sm border">\n        <div className="p-4 border-b">\n          <h3 className="text-lg font-semibold">Service Health Checks</h3>
+      {/* Health Checks */}
+      <div className="bg-white rounded-lg shadow-sm border">
+        <div className="p-4 border-b">\n          <h3 className="text-lg font-semibold">Service Health Checks</h3>
         </div>\n        <div className="divide-y">
-          {healthChecks.map((check) => (\n            <div key={check.name} className="p-4">\n              <div className="flex items-center justify-between">\n                <div className="flex items-center space-x-3">
+          {healthChecks.map((check) => (\n            <div key={check.name} className="p-4">
+              <div className="flex items-center justify-between">\n                <div className="flex items-center space-x-3">
                   {getStatusIcon(check.status)}
                   <div>\n                    <h4 className="font-medium">{check.name}</h4>
                     {check.message && (\n                      <p className="text-sm text-gray-600">{check.message}</p>

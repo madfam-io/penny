@@ -1,4 +1,7 @@
-import { PrismaClient } from '@prisma/client';\nimport { AIService } from './AIService';\nimport { ToolService } from './ToolService';\nimport { UsageService } from './UsageService';
+import { PrismaClient } from '@prisma/client';
+import { AIService } from './AIService';
+import { ToolService } from './ToolService';
+import { UsageService } from './UsageService';
 import { Readable } from 'stream';
 
 interface GetMessagesOptions {
@@ -379,7 +382,8 @@ export class MessageService {
       metadata,
     } = options;
 
-    try {\n      let assistantContent = '';
+    try {
+      let assistantContent = '';
       let toolCalls: any[] = [];
 
       // Stream AI completion
@@ -797,8 +801,10 @@ export class MessageService {
   async getMessageStats(options: {
     tenantId: string;
     userId?: string;
-    conversationId?: string;\n    period?: '7d' | '30d' | '90d';
-  }) {\n    const { tenantId, userId, conversationId, period = '30d' } = options;
+    conversationId?: string;
+    period?: '7d' | '30d' | '90d';
+  }) {
+    const { tenantId, userId, conversationId, period = '30d' } = options;
 \n    const periodDays = period === '7d' ? 7 : period === '30d' ? 30 : 90;
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - periodDays);

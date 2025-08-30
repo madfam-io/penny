@@ -1,4 +1,5 @@
-import { useState, useCallback, useEffect, useRef } from 'react';\nimport { useWebSocket } from './useWebSocket';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { useWebSocket } from './useWebSocket';
 
 export interface Notification {
   id: string;
@@ -92,7 +93,8 @@ export function useNotifications(options: UseNotificationsOptions = {}): UseNoti
 
   // Initialize audio for notification sounds
   useEffect(() => {
-    if (enableSound) {\n      audioRef.current = new Audio('/sounds/notification.mp3');
+    if (enableSound) {
+      audioRef.current = new Audio('/sounds/notification.mp3');
       audioRef.current.volume = 0.3;
     }
     

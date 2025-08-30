@@ -1,4 +1,5 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';\nimport { Artifact } from '@penny/types';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
+import { Artifact } from '@penny/types';
 
 interface ModelRendererProps {
   artifact: Artifact;
@@ -69,7 +70,8 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({
     // Mock 3D scene initialization
     if (!canvasRef.current) return;
     
-    const canvas = canvasRef.current;\n    const ctx = canvas.getContext('2d');
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     // Set canvas size
@@ -94,7 +96,8 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({
     ctx.translate(centerX, centerY);
 
     // Draw a simple 3D-looking cube
-    if (wireframe) {\n      ctx.strokeStyle = isDarkMode ? '#60a5fa' : '#3b82f6';
+    if (wireframe) {
+      ctx.strokeStyle = isDarkMode ? '#60a5fa' : '#3b82f6';
       ctx.lineWidth = 2;
       
       // Front face
@@ -117,7 +120,9 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({
       ctx.stroke();
     } else {
       // Solid faces with basic shading
-      const gradient = ctx.createLinearGradient(-size/2, -size/2, size/2, size/2);\n      gradient.addColorStop(0, isDarkMode ? '#4f46e5' : '#6366f1');\n      gradient.addColorStop(1, isDarkMode ? '#1e1b4b' : '#312e81');
+      const gradient = ctx.createLinearGradient(-size/2, -size/2, size/2, size/2);
+      gradient.addColorStop(0, isDarkMode ? '#4f46e5' : '#6366f1');
+      gradient.addColorStop(1, isDarkMode ? '#1e1b4b' : '#312e81');
       
       ctx.fillStyle = gradient;
       ctx.fillRect(-size/2, -size/2, size, size);
@@ -199,8 +204,10 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({
   return (
     <div className={containerClasses}>
       {/* Model Controls */}
-      <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">\n        <div className="flex items-center space-x-4">
-          {/* View controls */}\n          <div className="flex items-center space-x-2">
+      <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center space-x-4">
+          {/* View controls */}
+          <div className="flex items-center space-x-2">
             <button
               onClick={() => setWireframe(!wireframe)}
               className={`px-3 py-1 text-sm rounded border transition-colors ${
@@ -224,46 +231,59 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({
             </button>
           </div>
 
-          {/* Zoom info */}\n          <div className="text-sm text-gray-600 dark:text-gray-400">
+          {/* Zoom info */}
+          <div className="text-sm text-gray-600 dark:text-gray-400">
             Zoom: {Math.round(zoom * 100)}%
           </div>
         </div>
 \n        <div className="flex items-center space-x-2">
           <button
-            onClick={resetView}\n            className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+            onClick={resetView}
+            className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             Reset View
           </button>
           
           <button
-            onClick={() => setShowControls(!showControls)}\n            className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"\n            title="Toggle controls"
-          >\n            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
+            onClick={() => setShowControls(!showControls)}
+            className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+            title="Toggle controls"
+          >\n            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
             </svg>
           </button>
         </div>
       </div>
 
-      {/* 3D Viewer */}\n      <div className="flex-1 relative overflow-hidden">
-        {loading && (\n          <div className="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-gray-900/80 z-10">\n            <div className="flex items-center space-x-2">\n              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>\n              <span className="text-sm">Loading 3D model...</span>
+      {/* 3D Viewer */}
+      <div className="flex-1 relative overflow-hidden">
+        {loading && (\n          <div className="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-gray-900/80 z-10">
+            <div className="flex items-center space-x-2">\n              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+              <span className="text-sm">Loading 3D model...</span>
             </div>
           </div>
         )}
         
         {modelUrl ? (
           <canvas
-            ref={canvasRef}\n            className="w-full h-full cursor-grab active:cursor-grabbing"
+            ref={canvasRef}
+            className="w-full h-full cursor-grab active:cursor-grabbing"
             onMouseDown={handleMouseDown}
             onWheel={handleWheel}
           />
-        ) : (\n          <div className="flex items-center justify-center h-full">\n            <div className="text-center">\n              <div className="text-gray-400 mb-2">\n                <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+        ) : (\n          <div className="flex items-center justify-center h-full">
+            <div className="text-center">\n              <div className="text-gray-400 mb-2">
+                <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                 </svg>
-              </div>\n              <h3 className="text-lg font-medium mb-2">No 3D Model to Display</h3>\n              <p className="text-sm text-gray-600 dark:text-gray-400">3D model content is not available</p>
+              </div>\n              <h3 className="text-lg font-medium mb-2">No 3D Model to Display</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">3D model content is not available</p>
             </div>
           </div>
         )}
 
         {/* Control instructions */}
-        {showControls && interactive && !loading && modelUrl && (\n          <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs p-3 rounded">\n            <div className="space-y-1">
+        {showControls && interactive && !loading && modelUrl && (\n          <div className="absolute bottom-4 left-4 bg-black/70 text-white text-xs p-3 rounded">
+            <div className="space-y-1">
               <div>• Click and drag to rotate</div>
               <div>• Scroll to zoom</div>
               <div>• Use controls above for options</div>
@@ -272,14 +292,17 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({
         )}
       </div>
 
-      {/* Model information */}\n      <div className="p-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 text-sm">\n        <div className="flex items-center justify-between">\n          <div className="flex items-center space-x-4">
+      {/* Model information */}
+      <div className="p-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 text-sm">
+        <div className="flex items-center justify-between">\n          <div className="flex items-center space-x-4">
             <span>Model: {artifact.title}</span>
             {artifact.metadata?.format && (\n              <span className="text-gray-600 dark:text-gray-400">
                 Format: {artifact.metadata.format}
               </span>
             )}
           </div>
-          \n          <div className="flex items-center space-x-4 text-gray-600 dark:text-gray-400">
+         
+         <div className="flex items-center space-x-4 text-gray-600 dark:text-gray-400">
             <span>X: {Math.round(rotation.x)}°</span>
             <span>Y: {Math.round(rotation.y)}°</span>
             <span>Z: {Math.round(rotation.z)}°</span>

@@ -235,11 +235,13 @@ export class TenantService {
     };
   }
 
-  async getTenantStats(tenantId: string, options: {\n    period: '7d' | '30d' | '90d';
+  async getTenantStats(tenantId: string, options: {
+    period: '7d' | '30d' | '90d';
     granularity: 'day' | 'week' | 'month';
   }) {
     const { period, granularity } = options;
-    \n    const periodDays = period === '7d' ? 7 : period === '30d' ? 30 : 90;
+   
+   const periodDays = period === '7d' ? 7 : period === '30d' ? 30 : 90;
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - periodDays);
 

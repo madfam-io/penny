@@ -1,5 +1,8 @@
 import { create } from 'zustand';
-import { devtools, subscribeWithSelector } from 'zustand/middleware';\nimport { Artifact, ArtifactCollection } from '@penny/types';\nimport { ArtifactDetector } from '../utils/artifacts/detector';\nimport { ArtifactTransformer } from '../utils/artifacts/transformer';
+import { devtools, subscribeWithSelector } from 'zustand/middleware';
+import { Artifact, ArtifactCollection } from '@penny/types';
+import { ArtifactDetector } from '../utils/artifacts/detector';
+import { ArtifactTransformer } from '../utils/artifacts/transformer';
 
 export interface User {
   id: string;
@@ -93,7 +96,8 @@ const api = {
     return new Promise<Artifact[]>(resolve => {
       setTimeout(() => {
         const mockArtifacts: Artifact[] = [
-          {\n            id: '1',
+          {
+            id: '1',
             title: 'Sales Dashboard',
             description: 'Q4 2023 sales performance metrics',
             type: 'chart',
@@ -112,7 +116,8 @@ const api = {
             tenantId: 'tenant1',
             exportFormats: ['png', 'svg', 'pdf', 'json']
           },
-          {\n            id: '2',
+          {
+            id: '2',
             title: 'User Data Table',
             description: 'Active user statistics',
             type: 'table',
@@ -384,7 +389,8 @@ export const useArtifactStore = create<ArtifactState>()()
         
         try {
           const duplicateId = await get().createArtifact({
-            ...artifact,\n            title: `${artifact.title} (Copy)`,
+            ...artifact,
+            title: `${artifact.title} (Copy)`,
             isPublic: false
           });
           
@@ -644,7 +650,8 @@ export const useArtifactStore = create<ArtifactState>()()
             });
             
             imported.push(id);
-          } catch (error) {\n            console.error(`Failed to import ${file.name}:`, error);
+          } catch (error) {
+            console.error(`Failed to import ${file.name}:`, error);
           }
         }
         

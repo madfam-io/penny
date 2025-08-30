@@ -9,7 +9,8 @@ import {
   Users,
   DollarSign,
   Activity,
-} from 'lucide-react';\nimport { cn } from '../utils/cn';
+} from 'lucide-react';
+import { cn } from '../utils/cn';
 
 export interface Artifact {
   id: string;
@@ -64,7 +65,10 @@ export default function ArtifactViewer({
   };
   return (
     <div className={cn('h-full flex flex-col bg-white dark:bg-gray-800', className)}>
-      {/* Header */}\n      <div className="h-16 px-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">\n        <div className="flex items-center gap-3">\n          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+      {/* Header */}
+      <div className="h-16 px-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-3">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
             {artifact.name}
           </h2>\n          <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
             {artifact.type}
@@ -72,7 +76,8 @@ export default function ArtifactViewer({
         </div>
 \n        <div className="flex items-center gap-2">
           <button
-            onClick={handleRefresh}\n            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            onClick={handleRefresh}
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             disabled={isRefreshing}
           >
             <RefreshCw
@@ -83,25 +88,30 @@ export default function ArtifactViewer({
             />
           </button>
           <button
-            onClick={() => {}}\n            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            onClick={() => {}}
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           >\n            <Share2 className="h-5 w-5 text-gray-600 dark:text-gray-400" />
           </button>
           <button
-            onClick={handleDownload}\n            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            onClick={handleDownload}
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           >\n            <Download className="h-5 w-5 text-gray-600 dark:text-gray-400" />
           </button>
           <button
-            onClick={onFullscreen}\n            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            onClick={onFullscreen}
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           >\n            <Maximize2 className="h-5 w-5 text-gray-600 dark:text-gray-400" />
           </button>
           <button
-            onClick={onClose}\n            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            onClick={onClose}
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           >\n            <X className="h-5 w-5 text-gray-600 dark:text-gray-400" />
           </button>
         </div>
       </div>
 
-      {/* Content */}\n      <div className="flex-1 p-6 overflow-auto">
+      {/* Content */}
+      <div className="flex-1 p-6 overflow-auto">
         {artifact.type === 'dashboard' && <DashboardRenderer content={artifact.content} />}
         {artifact.type === 'chart' && <ChartRenderer content={artifact.content} />}
         {artifact.type === 'table' && <TableRenderer content={artifact.content} />}
@@ -137,7 +147,9 @@ function WidgetRenderer({ widget }: { widget: any }) {
   };
 
   if (widget.type === 'metric') {
-    return (\n      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">\n        <div className="flex items-center justify-between mb-2">\n          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">{widget.title}</h3>\n          <span className="text-gray-400">{getIcon()}</span>
+    return (\n      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
+        <div className="flex items-center justify-between mb-2">\n          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">{widget.title}</h3>
+          <span className="text-gray-400">{getIcon()}</span>
         </div>\n        <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">
           {formatValue(widget.value, widget.format)}
         </p>
@@ -162,7 +174,8 @@ function WidgetRenderer({ widget }: { widget: any }) {
   }
 
   if (widget.type === 'chart') {
-    return (\n      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 col-span-2">\n        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+    return (\n      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 col-span-2">
+        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
           {widget.title}
         </h3>\n        <div className="h-48 flex items-center justify-center text-gray-400">
           {/* In production, integrate with Chart.js or Recharts */}
@@ -174,15 +187,18 @@ function WidgetRenderer({ widget }: { widget: any }) {
 
   if (widget.type === 'gauge') {
     const percentage = (widget.value / widget.max) * 100;
-    return (\n      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">\n        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+    return (\n      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
+        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
           {widget.title}
-        </h3>\n        <div className="relative h-32">\n          <div className="absolute inset-0 flex items-center justify-center">\n            <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        </h3>\n        <div className="relative h-32">
+          <div className="absolute inset-0 flex items-center justify-center">\n            <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
               {widget.value}%
             </span>
           </div>\n          <svg className="w-full h-full transform -rotate-90">
             <circle\n              cx="50%"\n              cy="50%"\n              r="40%"\n              stroke="currentColor"\n              strokeWidth="8"\n              fill="none"\n              className="text-gray-200 dark:text-gray-700"
             />
-            <circle\n              cx="50%"\n              cy="50%"\n              r="40%"\n              stroke="currentColor"\n              strokeWidth="8"\n              fill="none"\n              strokeDasharray={`${percentage * 2.51} 251`}\n              className="text-blue-600 dark:text-blue-400"
+            <circle\n              cx="50%"\n              cy="50%"\n              r="40%"\n              stroke="currentColor"\n              strokeWidth="8"\n              fill="none"\n              strokeDasharray={`${percentage * 2.51} 251`}
+              className="text-blue-600 dark:text-blue-400"
             />
           </svg>
         </div>
@@ -195,7 +211,9 @@ function WidgetRenderer({ widget }: { widget: any }) {
 
 // Chart Renderer Component
 function ChartRenderer({ content }: { content: any }) {
-  return (\n    <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">\n      <div className="h-64 flex items-center justify-center text-gray-400">
+  return (
+    <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
+      <div className="h-64 flex items-center justify-center text-gray-400">
         <p>Chart visualization will be rendered here</p>
       </div>
     </div>
@@ -206,11 +224,13 @@ function ChartRenderer({ content }: { content: any }) {
 function TableRenderer({ content }: { content: any }) {
   const { columns = [], rows = [] } = content;
 
-  return (\n    <div className="overflow-x-auto">\n      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">\n        <thead className="bg-gray-50 dark:bg-gray-900">
+  return (\n    <div className="overflow-x-auto">
+      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">\n        <thead className="bg-gray-50 dark:bg-gray-900">
           <tr>
             {columns.map((col: string, i: number) => (
               <th
-                key={i}\n                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                key={i}
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
                 {col}
               </th>
@@ -221,7 +241,8 @@ function TableRenderer({ content }: { content: any }) {
             <tr key={i}>
               {row.map((cell: any, j: number) => (
                 <td
-                  key={j}\n                  className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100"
+                  key={j}
+                  className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100"
                 >
                   {cell}
                 </td>
@@ -253,9 +274,11 @@ function CodeRenderer({ content }: { content: any }) {
     typeof content === 'string' ? content : content.code || JSON.stringify(content, null, 2);
   const language = content.language || 'javascript';
 
-  return (\n    <div className="bg-gray-900 rounded-lg p-4">\n      <div className="flex items-center justify-between mb-2">\n        <span className="text-xs text-gray-400">{language}</span>
+  return (\n    <div className="bg-gray-900 rounded-lg p-4">
+      <div className="flex items-center justify-between mb-2">\n        <span className="text-xs text-gray-400">{language}</span>
         <button
-          onClick={() => navigator.clipboard.writeText(code)}\n          className="text-xs text-gray-400 hover:text-gray-200"
+          onClick={() => navigator.clipboard.writeText(code)}
+          className="text-xs text-gray-400 hover:text-gray-200"
         >
           Copy
         </button>
@@ -271,7 +294,8 @@ function ImageRenderer({ content }: { content: any }) {
   const src = typeof content === 'string' ? content : content.url || content.src;
   const alt = content.alt || 'Generated image';
 
-  return (\n    <div className="flex items-center justify-center">\n      <img src={src} alt={alt} className="max-w-full h-auto rounded-lg shadow-lg" />
+  return (\n    <div className="flex items-center justify-center">
+      <img src={src} alt={alt} className="max-w-full h-auto rounded-lg shadow-lg" />
     </div>
   );
 }
@@ -286,7 +310,8 @@ function formatValue(value: any, format?: string): string {
       maximumFractionDigits: 0,
     }).format(value);
   }
-  if (format === 'percentage') {\n    return `${value}%`;
+  if (format === 'percentage') {
+    return `${value}%`;
   }
   if (format === 'number') {
     return new Intl.NumberFormat('en-US').format(value);

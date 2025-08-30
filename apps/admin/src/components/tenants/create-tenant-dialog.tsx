@@ -26,7 +26,8 @@ interface CreateTenantDialogProps {
 
 export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({\n    name: '',\n    slug: '',
+  const [formData, setFormData] = useState({
+    name: '',\n    slug: '',
     plan: 'starter',\n    adminEmail: '',\n    adminName: '',
     enableSso: false,
     enableMfa: false,
@@ -42,7 +43,8 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
     setIsLoading(false);
     onOpenChange(false);
     // Reset form
-    setFormData({\n      name: '',\n      slug: '',
+    setFormData({
+      name: '',\n      slug: '',
       plan: 'starter',\n      adminEmail: '',\n      adminName: '',
       enableSso: false,
       enableMfa: false,
@@ -51,7 +53,9 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
 
   const generateSlug = (name: string) => {
     return name
-      .toLowerCase()\n      .replace(/[^a-z0-9]+/g, '-')\n      .replace(/^-|-$/g, '');
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
   };
 
   return (
@@ -64,7 +68,8 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
               Set up a new tenant organization with initial configuration
             </DialogDescription>
           </DialogHeader>
-\n          <div className="grid gap-4 py-4">\n            <div className="grid gap-2">\n              <Label htmlFor="name">Organization Name</Label>
+\n          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">\n              <Label htmlFor="name">Organization Name</Label>
               <Input\n                id="name"
                 value={formData.name}
                 onChange={(e) => {
@@ -73,20 +78,24 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
                     name: e.target.value,
                     slug: generateSlug(e.target.value),
                   });
-                }}\n                placeholder="Acme Corporation"
+                }}
+                placeholder="Acme Corporation"
                 required
               />
             </div>
-\n            <div className="grid gap-2">\n              <Label htmlFor="slug">URL Slug</Label>
+\n            <div className="grid gap-2">
+              <Label htmlFor="slug">URL Slug</Label>
               <Input\n                id="slug"
                 value={formData.slug}
-                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}\n                placeholder="acme-corp"\n                pattern="[a-z0-9-]+"
+                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                placeholder="acme-corp"\n                pattern="[a-z0-9-]+"
                 required
               />\n              <p className="text-sm text-muted-foreground">
                 This will be used in URLs: {formData.slug || 'your-org'}.penny.ai
               </p>
             </div>
-\n            <div className="grid gap-2">\n              <Label htmlFor="plan">Subscription Plan</Label>
+\n            <div className="grid gap-2">
+              <Label htmlFor="plan">Subscription Plan</Label>
               <Select
                 value={formData.plan}
                 onValueChange={(value) => setFormData({ ...formData, plan: value })}
@@ -97,27 +106,33 @@ export function CreateTenantDialog({ open, onOpenChange }: CreateTenantDialogPro
                 </SelectContent>
               </Select>
             </div>
-\n            <div className="grid gap-2">\n              <Label htmlFor="adminEmail">Admin Email</Label>
+\n            <div className="grid gap-2">
+              <Label htmlFor="adminEmail">Admin Email</Label>
               <Input\n                id="adminEmail"\n                type="email"
                 value={formData.adminEmail}
-                onChange={(e) => setFormData({ ...formData, adminEmail: e.target.value })}\n                placeholder="admin@example.com"
+                onChange={(e) => setFormData({ ...formData, adminEmail: e.target.value })}
+                placeholder="admin@example.com"
                 required
               />
             </div>
-\n            <div className="grid gap-2">\n              <Label htmlFor="adminName">Admin Name</Label>
+\n            <div className="grid gap-2">
+              <Label htmlFor="adminName">Admin Name</Label>
               <Input\n                id="adminName"
                 value={formData.adminName}
-                onChange={(e) => setFormData({ ...formData, adminName: e.target.value })}\n                placeholder="John Doe"
+                onChange={(e) => setFormData({ ...formData, adminName: e.target.value })}
+                placeholder="John Doe"
                 required
               />
             </div>
-\n            <div className="space-y-4">\n              <div className="flex items-center justify-between">\n                <Label htmlFor="enableSso">Enable SSO</Label>
+\n            <div className="space-y-4">
+              <div className="flex items-center justify-between">\n                <Label htmlFor="enableSso">Enable SSO</Label>
                 <Switch\n                  id="enableSso"
                   checked={formData.enableSso}
                   onCheckedChange={(checked) => setFormData({ ...formData, enableSso: checked })}
                 />
               </div>
-\n              <div className="flex items-center justify-between">\n                <Label htmlFor="enableMfa">Require MFA</Label>
+\n              <div className="flex items-center justify-between">
+                <Label htmlFor="enableMfa">Require MFA</Label>
                 <Switch\n                  id="enableMfa"
                   checked={formData.enableMfa}
                   onCheckedChange={(checked) => setFormData({ ...formData, enableMfa: checked })}

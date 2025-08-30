@@ -1,7 +1,12 @@
 import { spawn, ChildProcess } from 'child_process';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
-import fs from 'fs/promises';\nimport { SandboxSecurity } from './security.js';\nimport { ResourceMonitor } from './utils/resourceMonitor.js';\nimport { CodeAnalyzer } from './utils/codeAnalyzer.js';\nimport { OutputCapture } from './utils/outputCapture.js';\nimport { VirtualFileSystem } from './utils/fileSystem.js';
+import fs from 'fs/promises';
+import { SandboxSecurity } from './security.js';
+import { ResourceMonitor } from './utils/resourceMonitor.js';
+import { CodeAnalyzer } from './utils/codeAnalyzer.js';
+import { OutputCapture } from './utils/outputCapture.js';
+import { VirtualFileSystem } from './utils/fileSystem.js';
 
 export interface ExecutionRequest {
   code: string;
@@ -74,7 +79,9 @@ export class SandboxExecutor {
       }
 
       // Static code analysis
-      const analysisResult = await this.codeAnalyzer.analyze(request.code);\n      if (analysisResult.hasHighRiskPatterns) {\n        throw new Error(`Code analysis failed: ${analysisResult.risks.join(', ')}`);
+      const analysisResult = await this.codeAnalyzer.analyze(request.code);
+      if (analysisResult.hasHighRiskPatterns) {
+        throw new Error(`Code analysis failed: ${analysisResult.risks.join(', ')}`);
       }
 
       // Get or create session
@@ -104,7 +111,9 @@ export class SandboxExecutor {
         success: false,
         sessionId,
         executionId,
-        output: {\n          stdout: '',\n          stderr: '',
+        output: {
+          stdout: '',
+          stderr: '',
           plots: [],
           variables: {}
         },
@@ -131,7 +140,8 @@ export class SandboxExecutor {
     try {
       // Security and analysis checks (same as execute)
       const securityCheck = await this.security.validateCode(request.code);
-      if (!securityCheck.allowed) {\n        throw new Error(`Security violation: ${securityCheck.reason}`);
+      if (!securityCheck.allowed) {
+        throw new Error(`Security violation: ${securityCheck.reason}`);
       }
 
       const session = await this.getOrCreateSession(sessionId, request);
@@ -150,7 +160,8 @@ export class SandboxExecutor {
       return {
         success: false,
         sessionId,
-        executionId,\n        output: { stdout: '', stderr: '', plots: [], variables: {} },
+        executionId,
+        output: { stdout: '', stderr: '', plots: [], variables: {} },
         metrics: { executionTime: 0, memoryUsage: 0, cpuUsage: 0 },
         error: {
           type: error.constructor.name,
@@ -211,7 +222,8 @@ export class SandboxExecutor {
         lastActivity: new Date(),
         variables: request.variables || {},
         installedPackages: request.packages || [],
-        filesystem: new VirtualFileSystem(),\n        containerName: `sandbox-${sessionId}`
+        filesystem: new VirtualFileSystem(),
+        containerName: `sandbox-${sessionId}`
       };
 
       this.sessions.set(sessionId, session);
@@ -224,7 +236,8 @@ export class SandboxExecutor {
   private async prepareExecutionEnvironment(
     session: Session, 
     request: ExecutionRequest
-  ): Promise<string> {\n    const executionDir = `/tmp/sandbox/${session.id}`;
+  ): Promise<string> {
+    const executionDir = `/tmp/sandbox/${session.id}`;
     
     // Create execution directory structure
     await fs.mkdir(executionDir, { recursive: true });
@@ -242,7 +255,8 @@ export class SandboxExecutor {
     return executionDir;
   }
 
-  private wrapUserCode(userCode: string, session: Session): string {\n    return `
+  private wrapUserCode(userCode: string, session: Session): string {
+    return `
 import sys
 import os
 import json
@@ -253,7 +267,8 @@ import matplotlib
 matplotlib.use('Agg')  # Use non-interactive backend
 import matplotlib.pyplot as plt
 
-# Import runtime helpers\nsys.path.insert(0, '/sandbox/python')
+# Import runtime helpers
+sys.path.insert(0, '/sandbox/python')
 from runtime import SandboxRuntime
 from output_handler import OutputHandler
 
@@ -275,7 +290,8 @@ sys.stderr = StringIO()
 
 try:
     # User code execution\n${userCode.split('
-').map(line => `    ${line}`).join('\n')}
+').map(line => `    ${line}`).join('
+')}
     
     execution_success = True
     execution_error = None
@@ -297,7 +313,8 @@ finally:
     # Save plots
     plot_files = []
     for i in plt.get_fignums():
-        fig = plt.figure(i)\n        plot_path = f'/tmp/plots/plot_{i}.png'
+        fig = plt.figure(i)
+        plot_path = f'/tmp/plots/plot_{i}.png'
         fig.savefig(plot_path, dpi=150, bbox_inches='tight')
         plot_files.append(plot_path)
     
@@ -305,7 +322,8 @@ finally:
     
     # Extract variables (excluding built-ins and imports)
     user_variables = {
-        k: v for k, v in globals().items() \n        if not k.startswith('_') and k not in [
+        k: v for k, v in globals().items()
+       if not k.startswith('_') and k not in [
             'sys', 'os', 'json', 'pickle', 'traceback', 'StringIO',
             'matplotlib', 'plt', 'runtime', 'output_handler',
             'old_stdout', 'old_stderr', 'execution_success', 'execution_error',
@@ -326,7 +344,8 @@ finally:
         'error': execution_error
     }
     
-    print(json.dumps(result, indent=2))\n`;
+    print(json.dumps(result, indent=2))
+`;
   }
 
   private async executeInContainer(
@@ -354,7 +373,9 @@ finally:
 
       this.activeExecutions.set(executionId, process);
 
-      const outputCapture = new OutputCapture();\n      let stdout = '';\n      let stderr = '';
+      const outputCapture = new OutputCapture();
+      let stdout = '';
+      let stderr = '';
 
       process.stdout?.on('data', (data) => {
         stdout += data.toString();
@@ -378,13 +399,15 @@ finally:
         const metrics = await this.resourceMonitor.getContainerMetrics(session.containerName);
 
         try {
-          // Parse execution result\n          const result = JSON.parse(stdout || '{}');
+          // Parse execution result
+          const result = JSON.parse(stdout || '{}');
           
           resolve({
             success: result.success || false,
             sessionId: session.id,
             executionId,
-            output: {\n              stdout: result.stdout || '',
+            output: {
+              stdout: result.stdout || '',
               stderr: result.stderr || stderr,
               plots: result.plots || [],
               variables: result.variables || {}
@@ -455,7 +478,8 @@ finally:
       process.on('close', (code) => {
         if (code === 0) {
           resolve();
-        } else {\n          reject(new Error(`Failed to create container: exit code ${code}`));
+        } else {
+          reject(new Error(`Failed to create container: exit code ${code}`));
         }
       });
 
@@ -484,13 +508,15 @@ finally:
 
   private async cleanupOrphanedSessions(): Promise<void> {
     // Clean up any Docker containers that might be left over
-    const process = spawn('docker', ['ps', '-a', '--filter', 'name=sandbox-', '--format', '{{.Names}}']);\n    let output = '';
+    const process = spawn('docker', ['ps', '-a', '--filter', 'name=sandbox-', '--format', '{{.Names}}']);
+    let output = '';
     
     process.stdout?.on('data', (data) => {
       output += data.toString();
     });
 
-    process.on('close', async () => {\n      const containerNames = output.trim().split('
+    process.on('close', async () => {
+      const containerNames = output.trim().split('
 ').filter(name => name.startsWith('sandbox-'));
       for (const containerName of containerNames) {
         spawn('docker', ['rm', '-f', containerName]);

@@ -1,5 +1,6 @@
 import type { FastifyPluginAsync } from 'fastify';
-import fp from 'fastify-plugin';\nimport type { TenantId, UserId, Role } from '@penny/shared';
+import fp from 'fastify-plugin';
+import type { TenantId, UserId, Role } from '@penny/shared';
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -28,7 +29,8 @@ const requestContext: FastifyPluginAsync = async (fastify) => {
 
     // Extract tenant from subdomain or header
     const host = request.headers.host;
-    if (host) {\n      const subdomain = host.split('.')[0];
+    if (host) {
+      const subdomain = host.split('.')[0];
       if (subdomain && subdomain !== 'www' && subdomain !== 'api') {
         // This would be validated against the database in production
         request.context.tenantId = subdomain as TenantId;

@@ -306,9 +306,12 @@ export class ArtifactVersionService {
   }
 
   private calculateSimilarity(oldContent: any, newContent: any): number {
-    // Simple similarity calculation (would use a proper algorithm in production)\n    const oldStr = JSON.stringify(oldContent || '');\n    const newStr = JSON.stringify(newContent || '');
+    // Simple similarity calculation (would use a proper algorithm in production)
+    const oldStr = JSON.stringify(oldContent || '');
+    const newStr = JSON.stringify(newContent || '');
 
-    if (oldStr === newStr) return 1;\n    if (oldStr === '' || newStr === '') return 0;
+    if (oldStr === newStr) return 1;
+    if (oldStr === '' || newStr === '') return 0;
 
     const maxLength = Math.max(oldStr.length, newStr.length);
     let matches = 0;

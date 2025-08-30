@@ -39,7 +39,8 @@ interface ImportedUser {
 }
 
 export function BulkImportDialog({ open, onOpenChange }: BulkImportDialogProps) {
-  const [isLoading, setIsLoading] = useState(false);\n  const [tenant, setTenant] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [tenant, setTenant] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [importedUsers, setImportedUsers] = useState<ImportedUser[]>([]);
   const [showResults, setShowResults] = useState(false);
@@ -54,12 +55,15 @@ export function BulkImportDialog({ open, onOpenChange }: BulkImportDialogProps) 
   };
 
   const parseCSV = async (file: File) => {
-    const text = await file.text();\n    const lines = text.split('
-').filter((line) => line.trim());\n    const headers = lines[0].split(',').map((h) => h.trim());
+    const text = await file.text();
+    const lines = text.split('
+').filter((line) => line.trim());
+    const headers = lines[0].split(',').map((h) => h.trim());
 
     const users: ImportedUser[] = lines
       .slice(1)
-      .map((line) => {\n        const values = line.split(',').map((v) => v.trim());
+      .map((line) => {
+        const values = line.split(',').map((v) => v.trim());
         return {
           email: values[headers.indexOf('email')] || '',
           name: values[headers.indexOf('name')] || '',
@@ -111,7 +115,8 @@ user1@example.com,John Doe,member\nuser2@example.com,Jane Smith,admin';
   const reset = () => {
     setFile(null);
     setImportedUsers([]);
-    setShowResults(false);\n    setTenant('');
+    setShowResults(false);
+    setTenant('');
   };
 
   return (
@@ -122,7 +127,8 @@ user1@example.com,John Doe,member\nuser2@example.com,Jane Smith,admin';
           <DialogDescription>Import multiple users from a CSV file</DialogDescription>
         </DialogHeader>
 
-        {!showResults ? (\n          <div className="space-y-4">\n            <div className="grid gap-2">\n              <Label htmlFor="tenant">Tenant</Label>
+        {!showResults ? (\n          <div className="space-y-4">
+            <div className="grid gap-2">\n              <Label htmlFor="tenant">Tenant</Label>
               <Select value={tenant} onValueChange={setTenant}>\n                <SelectTrigger id="tenant">\n                  <SelectValue placeholder="Select tenant" />
                 </SelectTrigger>
                 <SelectContent>\n                  <SelectItem value="acme">Acme Corporation</SelectItem>\n                  <SelectItem value="techstart">TechStart Inc</SelectItem>\n                  <SelectItem value="digital">Digital Agency</SelectItem>
@@ -130,7 +136,8 @@ user1@example.com,John Doe,member\nuser2@example.com,Jane Smith,admin';
               </Select>
             </div>
 \n            <div className="space-y-2">
-              <Label>CSV File</Label>\n              <div className="flex items-center gap-2">\n                <Button variant="outline" size="sm" onClick={downloadTemplate}>\n                  <Download className="mr-2 h-4 w-4" />
+              <Label>CSV File</Label>\n              <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm" onClick={downloadTemplate}>\n                  <Download className="mr-2 h-4 w-4" />
                   Download Template
                 </Button>\n                <span className="text-sm text-muted-foreground">
                   Use this template to format your data
@@ -138,8 +145,11 @@ user1@example.com,John Doe,member\nuser2@example.com,Jane Smith,admin';
               </div>
 \n              <div className="mt-4 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-6">
                 <input\n                  type="file"\n                  accept=".csv"
-                  onChange={handleFileChange}\n                  className="hidden"\n                  id="csv-upload"
-                />\n                <label htmlFor="csv-upload" className="flex flex-col items-center cursor-pointer">\n                  <Upload className="h-12 w-12 text-gray-400 mb-2" />\n                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                  onChange={handleFileChange}
+                  className="hidden"
+                  id="csv-upload"
+                />\n                <label htmlFor="csv-upload" className="flex flex-col items-center cursor-pointer">
+                  <Upload className="h-12 w-12 text-gray-400 mb-2" />\n                  <span className="text-sm text-gray-600 dark:text-gray-400">
                     {file ? file.name : 'Click to upload or drag and drop'}
                   </span>\n                  <span className="text-xs text-gray-500 dark:text-gray-500">CSV files only</span>
                 </label>

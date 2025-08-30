@@ -1,4 +1,5 @@
-import { prisma, Prisma } from '@penny/database';\nimport { generateId } from '@penny/shared';
+import { prisma, Prisma } from '@penny/database';
+import { generateId } from '@penny/shared';
 import Redis from 'ioredis';
 
 export interface CreateConversationParams {
@@ -209,7 +210,8 @@ export class ConversationService {
     await this.cacheMessage(conversationId, message);
 
     // Emit event for real-time updates
-    await this.redis.publish(\n      `conversation:${conversationId}`,
+    await this.redis.publish(
+      `conversation:${conversationId}`,
       JSON.stringify({
         type: 'message.created',
         data: message,
@@ -234,7 +236,8 @@ export class ConversationService {
     await this.invalidateMessageCache(message.conversationId);
 
     // Emit event for real-time updates
-    await this.redis.publish(\n      `conversation:${message.conversationId}`,
+    await this.redis.publish(
+      `conversation:${message.conversationId}`,
       JSON.stringify({
         type: 'message.updated',
         data: message,
@@ -324,7 +327,8 @@ export class ConversationService {
     await this.clearConversationCache(conversationId);
 
     // Emit event
-    await this.redis.publish(\n      `tenant:${tenantId}:conversations`,
+    await this.redis.publish(
+      `tenant:${tenantId}:conversations`,
       JSON.stringify({
         type: 'conversation.deleted',
         data: { id: conversationId },
@@ -342,7 +346,8 @@ export class ConversationService {
       },
     });
 
-    // Emit event\n    const conversation = await this.getConversation(conversationId, ownerId, '');
+    // Emit event
+    const conversation = await this.getConversation(conversationId, ownerId, '');
     await this.redis.publish(\n      `user:${shareWithUserId}`,
       JSON.stringify({
         type: 'conversation.shared',
@@ -365,7 +370,8 @@ export class ConversationService {
     const firstUserMessage = messages.find((m) => m.role === 'user');
     if (!firstUserMessage) return 'New Conversation';
 
-    // Simple title generation - in production, use AI\n    const words = firstUserMessage.content.split(' ').slice(0, 5);
+    // Simple title generation - in production, use AI
+    const words = firstUserMessage.content.split(' ').slice(0, 5);
     const title =\n      words.join(' ') + (words.length < firstUserMessage.content.split(' ').length ? '...' : '');
 
     await prisma.conversation.update({
@@ -377,16 +383,19 @@ export class ConversationService {
   }
 
   // Cache management methods
-  private async cacheConversation(conversation: any) {\n    const key = `conversation:${conversation.id}`;
+  private async cacheConversation(conversation: any) {
+    const key = `conversation:${conversation.id}`;
     await this.redis.setex(key, 3600, JSON.stringify(conversation));
   }
 
-  private async getCachedConversation(conversationId: string) {\n    const key = `conversation:${conversationId}`;
+  private async getCachedConversation(conversationId: string) {
+    const key = `conversation:${conversationId}`;
     const cached = await this.redis.get(key);
     return cached ? JSON.parse(cached) : null;
   }
 
-  private async cacheMessage(conversationId: string, message: any) {\n    const key = `conversation:${conversationId}:messages`;
+  private async cacheMessage(conversationId: string, message: any) {
+    const key = `conversation:${conversationId}:messages`;
     await this.redis.lpush(key, JSON.stringify(message));
     await this.redis.ltrim(key, 0, 49); // Keep last 50 messages
     await this.redis.expire(key, 3600);
@@ -394,7 +403,8 @@ export class ConversationService {
 
   private async cacheMessages(conversationId: string, messages: any[]) {
     if (messages.length === 0) return;
-\n    const key = `conversation:${conversationId}:messages`;
+
+    const key = `conversation:${conversationId}:messages`;
     const pipeline = this.redis.pipeline();
 
     pipeline.del(key);
@@ -406,16 +416,19 @@ export class ConversationService {
     await pipeline.exec();
   }
 
-  private async getCachedMessages(conversationId: string) {\n    const key = `conversation:${conversationId}:messages`;
+  private async getCachedMessages(conversationId: string) {
+    const key = `conversation:${conversationId}:messages`;
     const cached = await this.redis.lrange(key, 0, -1);
     return cached.map((c) => JSON.parse(c));
   }
 
-  private async invalidateMessageCache(conversationId: string) {\n    const key = `conversation:${conversationId}:messages`;
+  private async invalidateMessageCache(conversationId: string) {
+    const key = `conversation:${conversationId}:messages`;
     await this.redis.del(key);
   }
 
-  private async clearConversationCache(conversationId: string) {\n    const keys = [`conversation:${conversationId}`, `conversation:${conversationId}:messages`];
+  private async clearConversationCache(conversationId: string) {
+    const keys = [`conversation:${conversationId}`, `conversation:${conversationId}:messages`];
     await this.redis.del(...keys);
   }
 

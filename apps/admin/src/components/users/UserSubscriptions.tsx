@@ -1,6 +1,10 @@
 'use client';
 
-import { useState } from 'react';\nimport { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { Badge } from '@/components/ui/badge';\nimport { Button } from '@/components/ui/button';\nimport { Progress } from '@/components/ui/progress';
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
 import { 
   CreditCard, 
   Calendar, 
@@ -82,11 +86,13 @@ export function UserSubscriptions({ userId }: UserSubscriptionsProps) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">\n            <CreditCard className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2">
+            <CreditCard className="h-5 w-5" />
             Subscriptions
           </CardTitle>
         </CardHeader>
-        <CardContent>\n          <div className="text-center py-8 text-muted-foreground">\n            <CreditCard className="h-12 w-12 mx-auto mb-4 opacity-50" />\n            <h3 className="text-lg font-medium mb-2">No Active Subscriptions</h3>
+        <CardContent>\n          <div className="text-center py-8 text-muted-foreground">
+            <CreditCard className="h-12 w-12 mx-auto mb-4 opacity-50" />\n            <h3 className="text-lg font-medium mb-2">No Active Subscriptions</h3>
             <p>This user doesn't have any active subscriptions.</p>
           </div>
         </CardContent>
@@ -114,9 +120,11 @@ export function UserSubscriptions({ userId }: UserSubscriptionsProps) {
         return (\n          <div key={subscription.id} className="space-y-6">
             {/* Subscription Overview */}
             <Card>
-              <CardHeader>\n                <div className="flex items-center justify-between">\n                  <CardTitle className="flex items-center gap-2">\n                    <CreditCard className="h-5 w-5" />
+              <CardHeader>\n                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center gap-2">\n                    <CreditCard className="h-5 w-5" />
                     Current Subscription
-                  </CardTitle>\n                  <div className="flex items-center gap-2">\n                    <StatusIcon className="h-4 w-4" />
+                  </CardTitle>\n                  <div className="flex items-center gap-2">
+                    <StatusIcon className="h-4 w-4" />
                     <Badge className={getStatusColor(subscription.status)}>
                       {subscription.status}
                     </Badge>
@@ -124,7 +132,8 @@ export function UserSubscriptions({ userId }: UserSubscriptionsProps) {
                 </div>
               </CardHeader>
               <CardContent>\n                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div>\n                    <h3 className="font-medium text-lg mb-2">{subscription.plan} Plan</h3>\n                    <div className="flex items-baseline gap-1">\n                      <span className="text-2xl font-bold">
+                  <div>\n                    <h3 className="font-medium text-lg mb-2">{subscription.plan} Plan</h3>
+                    <div className="flex items-baseline gap-1">\n                      <span className="text-2xl font-bold">
                         ${subscription.amount}
                       </span>\n                      <span className="text-muted-foreground">
                         /{subscription.billingCycle === 'monthly' ? 'mo' : 'yr'}
@@ -132,12 +141,14 @@ export function UserSubscriptions({ userId }: UserSubscriptionsProps) {
                     </div>
                   </div>
                   
-                  <div>\n                    <h4 className="font-medium mb-2">Next Billing</h4>\n                    <div className="flex items-center gap-2">\n                      <Calendar className="h-4 w-4 text-muted-foreground" />
+                  <div>\n                    <h4 className="font-medium mb-2">Next Billing</h4>
+                    <div className="flex items-center gap-2">\n                      <Calendar className="h-4 w-4 text-muted-foreground" />
                       <span>{format(subscription.nextBillingDate, 'MMM d, yyyy')}</span>
                     </div>
                   </div>
                   
-                  <div>\n                    <h4 className="font-medium mb-2">Subscription ID</h4>\n                    <span className="font-mono text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                  <div>\n                    <h4 className="font-medium mb-2">Subscription ID</h4>
+                    <span className="font-mono text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
                       {subscription.id}
                     </span>
                   </div>
@@ -147,37 +158,47 @@ export function UserSubscriptions({ userId }: UserSubscriptionsProps) {
 
             {/* Usage Statistics */}
             <Card>
-              <CardHeader>\n                <CardTitle className="flex items-center gap-2">\n                  <BarChart3 className="h-5 w-5" />
+              <CardHeader>\n                <CardTitle className="flex items-center gap-2">
+                  <BarChart3 className="h-5 w-5" />
                   Usage This Month
                 </CardTitle>
               </CardHeader>
               <CardContent>\n                <div className="space-y-6">
                   {/* API Calls */}
-                  <div>\n                    <div className="flex items-center justify-between mb-2">\n                      <div className="flex items-center gap-2">\n                        <Zap className="h-4 w-4 text-blue-600" />\n                        <span className="font-medium">API Calls</span>
+                  <div>\n                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">\n                        <Zap className="h-4 w-4 text-blue-600" />
+                        <span className="font-medium">API Calls</span>
                       </div>\n                      <span className="text-sm text-muted-foreground">
                         {apiUsage.current.toLocaleString()} / {apiUsage.limit.toLocaleString()}
                       </span>
-                    </div>\n                    <Progress value={apiUsage.percentage} className="h-2" />\n                    <p className="text-xs text-muted-foreground mt-1">
+                    </div>\n                    <Progress value={apiUsage.percentage} className="h-2" />
+                    <p className="text-xs text-muted-foreground mt-1">
                       {apiUsage.percentage.toFixed(1)}% used
                     </p>
                   </div>
 
                   {/* Storage */}
-                  <div>\n                    <div className="flex items-center justify-between mb-2">\n                      <div className="flex items-center gap-2">\n                        <BarChart3 className="h-4 w-4 text-green-600" />\n                        <span className="font-medium">Storage</span>
+                  <div>\n                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">\n                        <BarChart3 className="h-4 w-4 text-green-600" />
+                        <span className="font-medium">Storage</span>
                       </div>\n                      <span className="text-sm text-muted-foreground">
                         {storageUsage.current} / {storageUsage.limit} GB
                       </span>
-                    </div>\n                    <Progress value={storageUsage.percentage} className="h-2" />\n                    <p className="text-xs text-muted-foreground mt-1">
+                    </div>\n                    <Progress value={storageUsage.percentage} className="h-2" />
+                    <p className="text-xs text-muted-foreground mt-1">
                       {storageUsage.percentage.toFixed(1)}% used
                     </p>
                   </div>
 
                   {/* Messages */}
-                  <div>\n                    <div className="flex items-center justify-between mb-2">\n                      <div className="flex items-center gap-2">\n                        <DollarSign className="h-4 w-4 text-purple-600" />\n                        <span className="font-medium">Messages</span>
+                  <div>\n                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">\n                        <DollarSign className="h-4 w-4 text-purple-600" />
+                        <span className="font-medium">Messages</span>
                       </div>\n                      <span className="text-sm text-muted-foreground">
                         {messageUsage.current.toLocaleString()} / {messageUsage.limit.toLocaleString()}
                       </span>
-                    </div>\n                    <Progress value={messageUsage.percentage} className="h-2" />\n                    <p className="text-xs text-muted-foreground mt-1">
+                    </div>\n                    <Progress value={messageUsage.percentage} className="h-2" />
+                    <p className="text-xs text-muted-foreground mt-1">
                       {messageUsage.percentage.toFixed(1)}% used
                     </p>
                   </div>
@@ -187,20 +208,29 @@ export function UserSubscriptions({ userId }: UserSubscriptionsProps) {
 
             {/* Billing History */}
             <Card>
-              <CardHeader>\n                <CardTitle className="flex items-center gap-2">\n                  <DollarSign className="h-5 w-5" />
+              <CardHeader>\n                <CardTitle className="flex items-center gap-2">
+                  <DollarSign className="h-5 w-5" />
                   Recent Billing History
                 </CardTitle>
               </CardHeader>
-              <CardContent>\n                <div className="space-y-3">\n                  <div className="flex items-center justify-between p-3 rounded-lg border">
-                    <div>\n                      <p className="font-medium">August 2024</p>\n                      <p className="text-sm text-muted-foreground">Professional Plan</p>
-                    </div>\n                    <div className="text-right">\n                      <p className="font-medium">${subscription.amount}</p>\n                      <Badge variant="outline" className="text-xs">\n                        <CheckCircle className="h-3 w-3 mr-1" />
+              <CardContent>\n                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 rounded-lg border">
+                    <div>\n                      <p className="font-medium">August 2024</p>
+                      <p className="text-sm text-muted-foreground">Professional Plan</p>
+                    </div>\n                    <div className="text-right">
+                      <p className="font-medium">${subscription.amount}</p>\n                      <Badge variant="outline" className="text-xs">
+                        <CheckCircle className="h-3 w-3 mr-1" />
                         Paid
                       </Badge>
                     </div>
                   </div>
-                  \n                  <div className="flex items-center justify-between p-3 rounded-lg border">
-                    <div>\n                      <p className="font-medium">July 2024</p>\n                      <p className="text-sm text-muted-foreground">Professional Plan</p>
-                    </div>\n                    <div className="text-right">\n                      <p className="font-medium">${subscription.amount}</p>\n                      <Badge variant="outline" className="text-xs">\n                        <CheckCircle className="h-3 w-3 mr-1" />
+                 
+                 <div className="flex items-center justify-between p-3 rounded-lg border">
+                    <div>\n                      <p className="font-medium">July 2024</p>
+                      <p className="text-sm text-muted-foreground">Professional Plan</p>
+                    </div>\n                    <div className="text-right">
+                      <p className="font-medium">${subscription.amount}</p>\n                      <Badge variant="outline" className="text-xs">
+                        <CheckCircle className="h-3 w-3 mr-1" />
                         Paid
                       </Badge>
                     </div>

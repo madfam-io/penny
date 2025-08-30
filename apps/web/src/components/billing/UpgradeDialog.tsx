@@ -1,4 +1,7 @@
-import React, { useState } from 'react';\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';\nimport { Button } from '../ui/button';\nimport { Badge } from '../ui/badge';
+import React, { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
+import { Badge } from '../ui/badge';
 import { 
   X, 
   Check, 
@@ -84,7 +87,8 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
   const handleUpgrade = async () => {
     try {
       setProcessing(true);
-      \n      const response = await fetch('/api/billing/subscription/upgrade', {
+     
+     const response = await fetch('/api/billing/subscription/upgrade', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
@@ -133,9 +137,11 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
     if (typeof value === 'boolean') {
       return value ? (
         <Check className="h-4 w-4 text-green-600" />
-      ) : (\n        <X className="h-4 w-4 text-gray-400" />
+      ) : (
+        <X className="h-4 w-4 text-gray-400" />
       );
-    }\n    return <span className="text-sm font-medium">{value}</span>;
+    }
+    return <span className="text-sm font-medium">{value}</span>;
   };
 
   const isCurrentPlanLower = (planType: 'pro' | 'enterprise') => {
@@ -148,9 +154,12 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
 
   if (!open) return null;
 
-  return (\n    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">\n      <div className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-        {/* Header */}\n        <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between">
-          <div>\n            <h2 className="text-2xl font-bold text-gray-900">Upgrade Your Plan</h2>\n            <p className="text-gray-600">Choose the plan that fits your needs</p>
+  return (\n    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+        {/* Header */}
+        <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between">
+          <div>\n            <h2 className="text-2xl font-bold text-gray-900">Upgrade Your Plan</h2>
+            <p className="text-gray-600">Choose the plan that fits your needs</p>
           </div>
           <Button\n            variant="ghost"\n            size="sm"
             onClick={() => onOpenChange(false)}
@@ -158,9 +167,12 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
           </Button>
         </div>
 \n        <div className="p-6 space-y-8">
-          {/* Billing Toggle */}\n          <div className="flex justify-center">\n            <div className="flex items-center bg-gray-100 rounded-lg p-1">
+          {/* Billing Toggle */}
+          <div className="flex justify-center">
+            <div className="flex items-center bg-gray-100 rounded-lg p-1">
               <button
-                onClick={() => setBillingInterval('month')}\n                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                onClick={() => setBillingInterval('month')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   billingInterval === 'month'
                     ? 'bg-white text-gray-900 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
@@ -169,18 +181,21 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
                 Monthly
               </button>
               <button
-                onClick={() => setBillingInterval('year')}\n                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                onClick={() => setBillingInterval('year')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   billingInterval === 'year'
                     ? 'bg-white text-gray-900 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
-                Yearly\n                <Badge variant="secondary" className="ml-2 text-xs">Save 20%</Badge>
+                Yearly
+                <Badge variant="secondary" className="ml-2 text-xs">Save 20%</Badge>
               </button>
             </div>
           </div>
 
-          {/* Plan Selection */}\n          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {/* Plan Selection */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {Object.entries(plans).map(([planKey, plan]) => {
               const PlanIcon = plan.icon;
               const price = billingInterval === 'year' ? plan.yearlyPrice : plan.monthlyPrice;
@@ -190,26 +205,36 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
 
               return (
                 <Card 
-                  key={planKey}\n                  className={`relative cursor-pointer transition-all ${
+                  key={planKey}
+                  className={`relative cursor-pointer transition-all ${
                     isSelected 
                       ? `border-${plan.color}-500 shadow-lg ring-2 ring-${plan.color}-200` 
                       : 'border-gray-200 hover:border-gray-300'
                   } ${plan.popular ? 'transform scale-105' : ''}`}
                   onClick={() => setSelectedPlan(planKey as 'pro' | 'enterprise')}
                 >
-                  {plan.popular && (\n                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                      <Badge className={`bg-${plan.color}-600 text-white`}>\n                        <Star className="h-3 w-3 mr-1" />
+                  {plan.popular && (
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                      <Badge className={`bg-${plan.color}-600 text-white`}>
+                        <Star className="h-3 w-3 mr-1" />
                         Most Popular
                       </Badge>
                     </div>
                   )}
-\n                  <CardHeader className="text-center pb-4">\n                    <div className="flex justify-center mb-3">\n                      <div className={`p-3 rounded-full bg-${plan.color}-100`}>\n                        <PlanIcon className={`h-8 w-8 text-${plan.color}-600`} />
+\n                  <CardHeader className="text-center pb-4">
+                    <div className="flex justify-center mb-3">\n                      <div className={`p-3 rounded-full bg-${plan.color}-100`}>
+                        <PlanIcon className={`h-8 w-8 text-${plan.color}-600`} />
                       </div>
                     </div>
-                    \n                    <CardTitle className="text-xl">{plan.name}</CardTitle>\n                    <CardDescription className="text-sm">{plan.description}</CardDescription>
-                    \n                    <div className="mt-4">\n                      <div className="text-3xl font-bold">
+                   
+                   <CardTitle className="text-xl">{plan.name}</CardTitle>
+                    <CardDescription className="text-sm">{plan.description}</CardDescription>
+                   
+                   <div className="mt-4">
+                      <div className="text-3xl font-bold">
                         {formatCurrency(price)}
-                      </div>\n                      <div className="text-sm text-gray-600">
+                      </div>
+                      <div className="text-sm text-gray-600">
                         per {billingInterval}
                         {billingInterval === 'year' && (\n                          <div className="text-green-600 font-medium">
                             Save ${savings.savings}/year ({savings.percentage}% off)
@@ -226,25 +251,30 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
                         </li>
                       ))}
                     </ul>
-\n                    <div className="mt-6">
+
+                    <div className="mt-6">
                       {canUpgrade ? (\n                        <div className={`w-full p-3 rounded-md border-2 border-dashed transition-colors ${
                           isSelected 
                             ? `border-${plan.color}-500 bg-${plan.color}-50` 
-                            : 'border-gray-300'\n                        }`}>\n                          <div className="flex items-center justify-center text-sm">
+                            : 'border-gray-300'
+                        }`}>\n                          <div className="flex items-center justify-center text-sm">
                             {isSelected && (
                               <>
-                                <Check className={`h-4 w-4 text-${plan.color}-600 mr-2`} />\n                                <span className={`text-${plan.color}-700 font-medium`}>
+                                <Check className={`h-4 w-4 text-${plan.color}-600 mr-2`} />
+                                <span className={`text-${plan.color}-700 font-medium`}>
                                   Selected for upgrade
                                 </span>
                               </>
                             )}
-                            {!isSelected && (\n                              <span className="text-gray-600">
+                            {!isSelected && (
+                              <span className="text-gray-600">
                                 Click to select
                               </span>
                             )}
                           </div>
                         </div>
-                      ) : (\n                        <div className="w-full p-3 rounded-md bg-gray-100 text-center">\n                          <span className="text-sm text-gray-600">
+                      ) : (\n                        <div className="w-full p-3 rounded-md bg-gray-100 text-center">
+                          <span className="text-sm text-gray-600">
                             {currentPlan === planKey ? 'Current Plan' : 'Downgrade not available'}
                           </span>
                         </div>
@@ -256,25 +286,32 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
             })}
           </div>
 
-          {/* Feature Comparison Table */}\n          <div className="max-w-4xl mx-auto">
+          {/* Feature Comparison Table */}
+          <div className="max-w-4xl mx-auto">
             <Card>
               <CardHeader>
                 <CardTitle>Feature Comparison</CardTitle>
                 <CardDescription>Compare features across all plans</CardDescription>
               </CardHeader>
-              <CardContent>\n                <div className="overflow-x-auto">\n                  <table className="w-full">
-                    <thead>\n                      <tr className="border-b">\n                        <th className="text-left py-3 px-4 font-medium">Feature</th>\n                        <th className="text-center py-3 px-4">\n                          <div className="text-gray-600">Free</div>
-                        </th>\n                        <th className="text-center py-3 px-4">\n                          <div className="text-blue-600 font-semibold">Pro</div>
+              <CardContent>\n                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>\n                      <tr className="border-b">
+                        <th className="text-left py-3 px-4 font-medium">Feature</th>\n                        <th className="text-center py-3 px-4">
+                          <div className="text-gray-600">Free</div>
+                        </th>\n                        <th className="text-center py-3 px-4">
+                          <div className="text-blue-600 font-semibold">Pro</div>
                           {selectedPlan === 'pro' && (\n                            <Badge variant="secondary" className="mt-1 text-xs">Selected</Badge>
                           )}
-                        </th>\n                        <th className="text-center py-3 px-4">\n                          <div className="text-purple-600 font-semibold">Enterprise</div>
+                        </th>\n                        <th className="text-center py-3 px-4">
+                          <div className="text-purple-600 font-semibold">Enterprise</div>
                           {selectedPlan === 'enterprise' && (\n                            <Badge variant="secondary" className="mt-1 text-xs">Selected</Badge>
                           )}
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {planComparisons.map((comparison, index) => (\n                        <tr key={index} className="border-b last:border-b-0">\n                          <td className="py-3 px-4 font-medium text-gray-900">
+                      {planComparisons.map((comparison, index) => (\n                        <tr key={index} className="border-b last:border-b-0">
+                          <td className="py-3 px-4 font-medium text-gray-900">
                             {comparison.feature}
                           </td>\n                          <td className="py-3 px-4 text-center">
                             {renderFeatureValue(comparison.free)}
@@ -282,7 +319,8 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
                             selectedPlan === 'pro' ? 'bg-blue-50' : ''
                           }`}>
                             {renderFeatureValue(comparison.pro)}
-                          </td>\n                          <td className={`py-3 px-4 text-center ${
+                          </td>
+                          <td className={`py-3 px-4 text-center ${
                             selectedPlan === 'enterprise' ? 'bg-purple-50' : ''
                           }`}>
                             {renderFeatureValue(comparison.enterprise)}
@@ -296,14 +334,18 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
             </Card>
           </div>
 
-          {/* Upgrade Actions */}\n          <div className="max-w-md mx-auto">\n            <div className="bg-gray-50 rounded-lg p-6 text-center">\n              <div className="mb-4">\n                <h3 className="font-semibold text-gray-900 mb-2">
+          {/* Upgrade Actions */}
+          <div className="max-w-md mx-auto">
+            <div className="bg-gray-50 rounded-lg p-6 text-center">\n              <div className="mb-4">
+                <h3 className="font-semibold text-gray-900 mb-2">
                   Ready to upgrade to {plans[selectedPlan].name}?
                 </h3>\n                <div className="text-2xl font-bold text-gray-900">
                   {formatCurrency(
                     billingInterval === 'year' 
                       ? plans[selectedPlan].yearlyPrice 
                       : plans[selectedPlan].monthlyPrice
-                  )}\n                  <span className="text-base font-normal text-gray-600">
+                  )}
+                  <span className="text-base font-normal text-gray-600">
                     /{billingInterval}
                   </span>
                 </div>
@@ -315,7 +357,9 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
 \n              <div className="space-y-3">
                 <Button
                   onClick={handleUpgrade}
-                  disabled={processing || !isCurrentPlanLower(selectedPlan)}\n                  className="w-full"\n                  size="lg"
+                  disabled={processing || !isCurrentPlanLower(selectedPlan)}
+                  className="w-full"
+                  size="lg"
                 >
                   {processing ? (
                     <>\n                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -323,7 +367,8 @@ export const UpgradeDialog: React.FC<UpgradeDialogProps> = ({
                     </>
                   ) : (
                     <>\n                      <TrendingUp className="h-4 w-4 mr-2" />
-                      Upgrade to {plans[selectedPlan].name}\n                      <ArrowRight className="h-4 w-4 ml-2" />
+                      Upgrade to {plans[selectedPlan].name}
+                      <ArrowRight className="h-4 w-4 ml-2" />
                     </>
                   )}
                 </Button>

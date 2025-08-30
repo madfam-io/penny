@@ -23,25 +23,29 @@ interface Invoice {
 }
 
 const invoices: Invoice[] = [
-  {\n    id: '1',
+  {
+    id: '1',
     number: 'INV-2024-001',
     tenant: 'Acme Corporation',
     amount: 2499,
     status: 'paid',\n    dueDate: new Date('2024-02-15'),\n    paidDate: new Date('2024-02-14'),
   },
-  {\n    id: '2',
+  {
+    id: '2',
     number: 'INV-2024-002',
     tenant: 'TechStart Inc',
     amount: 999,
     status: 'pending',\n    dueDate: new Date('2024-03-10'),
   },
-  {\n    id: '3',
+  {
+    id: '3',
     number: 'INV-2024-003',
     tenant: 'Digital Agency',
     amount: 299,
     status: 'overdue',\n    dueDate: new Date('2024-02-20'),
   },
-  {\n    id: '4',
+  {
+    id: '4',
     number: 'INV-2024-004',
     tenant: 'CloudFirst',
     amount: 1599,
@@ -81,7 +85,8 @@ export function InvoicesTable() {
             <TableCell>{format(invoice.dueDate, 'MMM d, yyyy')}</TableCell>
             <TableCell>
               {invoice.paidDate ? format(invoice.paidDate, 'MMM d, yyyy') : '-'}
-            </TableCell>\n            <TableCell className="text-right">\n              <div className="flex justify-end gap-2">\n                <Button variant="ghost" size="icon">\n                  <ExternalLink className="h-4 w-4" />
+            </TableCell>\n            <TableCell className="text-right">
+              <div className="flex justify-end gap-2">\n                <Button variant="ghost" size="icon">\n                  <ExternalLink className="h-4 w-4" />
                 </Button>\n                <Button variant="ghost" size="icon">\n                  <Download className="h-4 w-4" />
                 </Button>
               </div>

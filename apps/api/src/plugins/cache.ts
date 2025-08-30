@@ -1,6 +1,7 @@
 import type { FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
-import Redis from 'ioredis';\nimport { CacheService } from '@penny/core';
+import Redis from 'ioredis';
+import { CacheService } from '@penny/core';
 import crypto from 'crypto';
 
 declare module 'fastify' {

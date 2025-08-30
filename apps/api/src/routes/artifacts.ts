@@ -1,4 +1,5 @@
-import type { FastifyPluginAsync } from 'fastify';\nimport { Role, createArtifactSchema } from '@penny/shared';
+import type { FastifyPluginAsync } from 'fastify';
+import { Role, createArtifactSchema } from '@penny/shared';
 
 const routes: FastifyPluginAsync = async (fastify) => {
   // List artifacts
@@ -78,7 +79,8 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Get artifact
-  fastify.get(\n    '/:artifactId',
+  fastify.get(
+    '/:artifactId',
     {
       schema: {
         description: 'Get artifact details',
@@ -113,7 +115,8 @@ const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   // Get artifact content
-  fastify.get(\n    '/:artifactId/content',
+  fastify.get(
+    '/:artifactId/content',
     {
       schema: {
         description: 'Get artifact content (redirects to storage URL)',

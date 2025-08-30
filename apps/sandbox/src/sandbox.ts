@@ -1,4 +1,7 @@
-import { EventEmitter } from 'events';\nimport { SandboxExecutor, ExecutionRequest, ExecutionResult } from './executor.js';\nimport { SandboxSecurity } from './security.js';\nimport { ResourceMonitor } from './utils/resourceMonitor.js';
+import { EventEmitter } from 'events';
+import { SandboxExecutor, ExecutionRequest, ExecutionResult } from './executor.js';
+import { SandboxSecurity } from './security.js';
+import { ResourceMonitor } from './utils/resourceMonitor.js';
 
 export interface SandboxConfig {
   maxConcurrentExecutions: number;
@@ -173,10 +176,13 @@ export class Sandbox extends EventEmitter {
   async installPackage(sessionId: string, packageName: string): Promise<boolean> {
     // Check if package is allowed
     if (this.config.allowedPackages.length > 0 && 
-        !this.config.allowedPackages.includes(packageName)) {\n      throw new Error(`Package '${packageName}' is not allowed`);
+        !this.config.allowedPackages.includes(packageName)) {
+      throw new Error(`Package '${packageName}' is not allowed`);
     }
 
-    const session = await this.executor.getSession(sessionId);\n    if (!session) {\n      throw new Error(`Session '${sessionId}' not found`);
+    const session = await this.executor.getSession(sessionId);
+    if (!session) {
+      throw new Error(`Session '${sessionId}' not found`);
     }
 
     // TODO: Implement package installation in container

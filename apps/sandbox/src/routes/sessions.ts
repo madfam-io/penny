@@ -1,4 +1,6 @@
-import { FastifyPluginAsync } from 'fastify';\nimport { Type } from '@sinclair/typebox';\nimport { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
+import { FastifyPluginAsync } from 'fastify';
+import { Type } from '@sinclair/typebox';
+import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 
 const SessionSchema = Type.Object({
   id: Type.String({ format: 'uuid' }),
@@ -210,7 +212,8 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Update a session\n  server.patch('/:sessionId', {
+  // Update a session
+  server.patch('/:sessionId', {
     schema: {
       params: Type.Object({
         sessionId: Type.String({ format: 'uuid' })
@@ -257,7 +260,8 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Delete a session\n  server.delete('/:sessionId', {
+  // Delete a session
+  server.delete('/:sessionId', {
     schema: {
       params: Type.Object({
         sessionId: Type.String({ format: 'uuid' })
@@ -287,7 +291,9 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
 
       await server.executor.destroySession(sessionId);
 
-      return {\n        success: true,\n        message: `Session '${sessionId}' deleted successfully`
+      return {
+        success: true,
+        message: `Session '${sessionId}' deleted successfully`
       };
 
     } catch (error) {
@@ -300,7 +306,8 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Get session variables\n  server.get('/:sessionId/variables', {
+  // Get session variables
+  server.get('/:sessionId/variables', {
     schema: {
       params: Type.Object({
         sessionId: Type.String({ format: 'uuid' })
@@ -345,7 +352,8 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Update session variables\n  server.put('/:sessionId/variables', {
+  // Update session variables
+  server.put('/:sessionId/variables', {
     schema: {
       params: Type.Object({
         sessionId: Type.String({ format: 'uuid' })
@@ -396,7 +404,8 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Clear session variables\n  server.delete('/:sessionId/variables', {
+  // Clear session variables
+  server.delete('/:sessionId/variables', {
     schema: {
       params: Type.Object({
         sessionId: Type.String({ format: 'uuid' })
@@ -442,7 +451,8 @@ const sessionsRoute: FastifyPluginAsync = async (fastify) => {
     }
   });
 
-  // Get session statistics\n  server.get('/:sessionId/stats', {
+  // Get session statistics
+  server.get('/:sessionId/stats', {
     schema: {
       params: Type.Object({
         sessionId: Type.String({ format: 'uuid' })

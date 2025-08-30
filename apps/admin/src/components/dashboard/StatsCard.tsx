@@ -1,5 +1,7 @@
 'use client';
-\nimport { Card, CardContent } from '@/components/ui/card';\nimport { cn } from '@/utils/cn';
+
+import { Card, CardContent } from '@/components/ui/card';
+import { cn } from '@/utils/cn';
 import { LucideIcon, TrendingUp, TrendingDown } from 'lucide-react';
 
 interface StatsCardProps {
@@ -36,13 +38,17 @@ export function StatsCard({
 }: StatsCardProps) {
   return (
     <Card className={cn('relative overflow-hidden', className)}>
-      <CardContent className="p-6">\n        <div className="flex items-center">
+      <CardContent className="p-6">
+        <div className="flex items-center">
           <div className={cn(
             'flex h-12 w-12 items-center justify-center rounded-lg',
             colorVariants[color]
           )}>\n            <Icon className="h-6 w-6" />
           </div>
-          \n          <div className="ml-4 flex-1">\n            <p className="text-sm font-medium text-muted-foreground">{title}</p>\n            <div className="flex items-baseline gap-2">\n              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+         
+         <div className="ml-4 flex-1">
+            <p className="text-sm font-medium text-muted-foreground">{title}</p>\n            <div className="flex items-baseline gap-2">
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
                 {typeof value === 'number' ? value.toLocaleString() : value}
               </p>
               {trend && (

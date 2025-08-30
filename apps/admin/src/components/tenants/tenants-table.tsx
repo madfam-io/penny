@@ -32,7 +32,8 @@ interface Tenant {
 
 // Mock data
 const tenants: Tenant[] = [
-  {\n    id: '1',
+  {
+    id: '1',
     name: 'Acme Corporation',
     slug: 'acme-corp',
     plan: 'enterprise',
@@ -40,7 +41,8 @@ const tenants: Tenant[] = [
     users: 250,
     storage: 128.5,\n    createdAt: new Date('2024-01-15'),
   },
-  {\n    id: '2',
+  {
+    id: '2',
     name: 'TechStart Inc',
     slug: 'techstart',
     plan: 'pro',
@@ -48,7 +50,8 @@ const tenants: Tenant[] = [
     users: 45,
     storage: 23.8,\n    createdAt: new Date('2024-02-01'),
   },
-  {\n    id: '3',
+  {
+    id: '3',
     name: 'Digital Agency',
     slug: 'digital-agency',
     plan: 'starter',
@@ -95,7 +98,8 @@ export function TenantsTable({ searchQuery }: { searchQuery: string }) {
         {filteredTenants.map((tenant) => (
           <TableRow key={tenant.id}>
             <TableCell>
-              <div>\n                <div className="font-medium">{tenant.name}</div>\n                <div className="text-sm text-muted-foreground">{tenant.slug}</div>
+              <div>\n                <div className="font-medium">{tenant.name}</div>
+                <div className="text-sm text-muted-foreground">{tenant.slug}</div>
               </div>
             </TableCell>
             <TableCell>
@@ -108,7 +112,8 @@ export function TenantsTable({ searchQuery }: { searchQuery: string }) {
             <TableCell>{tenant.storage} GB</TableCell>
             <TableCell>{format(tenant.createdAt, 'MMM d, yyyy')}</TableCell>\n            <TableCell className="text-right">
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>\n                  <Button variant="ghost" className="h-8 w-8 p-0">\n                    <span className="sr-only">Open menu</span>\n                    <MoreHorizontal className="h-4 w-4" />
+                <DropdownMenuTrigger asChild>\n                  <Button variant="ghost" className="h-8 w-8 p-0">
+                    <span className="sr-only">Open menu</span>\n                    <MoreHorizontal className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>\n                <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
@@ -122,7 +127,8 @@ export function TenantsTable({ searchQuery }: { searchQuery: string }) {
                   <DropdownMenuItem>\n                    <Shield className="mr-2 h-4 w-4" />
                     <span>Security</span>
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />\n                  <DropdownMenuItem className="text-red-600">\n                    <Trash className="mr-2 h-4 w-4" />
+                  <DropdownMenuSeparator />\n                  <DropdownMenuItem className="text-red-600">
+                    <Trash className="mr-2 h-4 w-4" />
                     <span>Delete</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>

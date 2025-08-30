@@ -1,5 +1,6 @@
 'use client';
-\nimport { Badge } from '@penny/ui';
+
+import { Badge } from '@penny/ui';
 import { format, formatDistanceToNow } from 'date-fns';
 import { AlertTriangle, CheckCircle, Clock } from 'lucide-react';
 
@@ -15,7 +16,8 @@ interface Incident {
 }
 
 const incidents: Incident[] = [
-  {\n    id: '1',
+  {
+    id: '1',
     title: 'Increased WebSocket latency',
     description: 'Some users experiencing delayed real-time updates',
     severity: 'minor',
@@ -23,7 +25,8 @@ const incidents: Incident[] = [
     service: 'WebSocket Service',
     startedAt: new Date(Date.now() - 1000 * 60 * 45),
   },
-  {\n    id: '2',
+  {
+    id: '2',
     title: 'Database connection spike',
     description: 'Temporary spike in database connections causing slowdowns',
     severity: 'major',
@@ -32,7 +35,8 @@ const incidents: Incident[] = [
     startedAt: new Date(Date.now() - 1000 * 60 * 60 * 3),
     resolvedAt: new Date(Date.now() - 1000 * 60 * 60 * 2),
   },
-  {\n    id: '3',
+  {
+    id: '3',
     title: 'API rate limiting issues',
     description: 'Rate limiting incorrectly triggered for some tenants',
     severity: 'minor',
@@ -72,8 +76,10 @@ export function IncidentsList() {
                   incident.status === 'resolved' ? 'text-green-600' : 'text-yellow-600'
                 }`}
               />
-\n              <div className="flex-1 space-y-1">\n                <div className="flex items-start justify-between">
-                  <div>\n                    <h4 className="font-medium">{incident.title}</h4>\n                    <p className="text-sm text-muted-foreground">{incident.description}</p>
+\n              <div className="flex-1 space-y-1">
+                <div className="flex items-start justify-between">
+                  <div>\n                    <h4 className="font-medium">{incident.title}</h4>
+                    <p className="text-sm text-muted-foreground">{incident.description}</p>
                   </div>\n                  <div className="flex gap-2">
                     <Badge variant={severityColors[incident.severity]}>{incident.severity}</Badge>\n                    <Badge variant="outline">{incident.service}</Badge>
                   </div>

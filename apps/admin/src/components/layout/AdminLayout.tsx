@@ -1,6 +1,9 @@
 'use client';
 
-import { useState } from 'react';\nimport { Sidebar } from './Sidebar';\nimport { Header } from './Header';\nimport { cn } from '@/utils/cn';
+import { useState } from 'react';
+import { Sidebar } from './Sidebar';
+import { Header } from './Header';
+import { cn } from '@/utils/cn';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -22,12 +25,14 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       
       {/* Mobile Sidebar Overlay */}
       {mobileSidebarOpen && (
-        <div \n          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+        <div
+         className="fixed inset-0 z-40 bg-black/50 lg:hidden"
           onClick={() => setMobileSidebarOpen(false)}
         />
       )}
       
-      {/* Main Content */}\n      <div className="flex-1 flex flex-col overflow-hidden">
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col overflow-hidden">
         <Header 
           onMobileMenuClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
           onSidebarToggle={() => setSidebarCollapsed(!sidebarCollapsed)}

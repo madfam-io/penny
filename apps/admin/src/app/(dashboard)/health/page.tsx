@@ -9,7 +9,10 @@ import {
   Badge,
   Alert,
   AlertDescription,\n} from '@penny/ui';
-import { Activity, Database, Server, Wifi, AlertTriangle, CheckCircle } from 'lucide-react';\nimport { ServiceStatus } from '@/components/health/service-status';\nimport { MetricsChart } from '@/components/health/metrics-chart';\nimport { IncidentsList } from '@/components/health/incidents-list';
+import { Activity, Database, Server, Wifi, AlertTriangle, CheckCircle } from 'lucide-react';
+import { ServiceStatus } from '@/components/health/service-status';
+import { MetricsChart } from '@/components/health/metrics-chart';
+import { IncidentsList } from '@/components/health/incidents-list';
 
 const services = [
   {
@@ -47,14 +50,17 @@ export default function HealthPage() {
 
   return (
     <div className="space-y-8">
-      <div>\n        <h1 className="text-3xl font-bold tracking-tight">System Health</h1>\n        <p className="text-muted-foreground">Monitor system status and performance metrics</p>
+      <div>\n        <h1 className="text-3xl font-bold tracking-tight">System Health</h1>
+        <p className="text-muted-foreground">Monitor system status and performance metrics</p>
       </div>
 
-      {hasIssues ? (\n        <Alert className="border-yellow-600 bg-yellow-50 dark:bg-yellow-950/20">\n          <AlertTriangle className="h-4 w-4 text-yellow-600" />\n          <AlertDescription className="text-yellow-800 dark:text-yellow-200">
+      {hasIssues ? (\n        <Alert className="border-yellow-600 bg-yellow-50 dark:bg-yellow-950/20">
+          <AlertTriangle className="h-4 w-4 text-yellow-600" />\n          <AlertDescription className="text-yellow-800 dark:text-yellow-200">
             Some services are experiencing degraded performance. Our team is investigating.
           </AlertDescription>
         </Alert>
-      ) : (\n        <Alert className="border-green-600 bg-green-50 dark:bg-green-950/20">\n          <CheckCircle className="h-4 w-4 text-green-600" />\n          <AlertDescription className="text-green-800 dark:text-green-200">
+      ) : (\n        <Alert className="border-green-600 bg-green-50 dark:bg-green-950/20">
+          <CheckCircle className="h-4 w-4 text-green-600" />\n          <AlertDescription className="text-green-800 dark:text-green-200">
             All systems are operational. No issues detected.
           </AlertDescription>
         </Alert>

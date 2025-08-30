@@ -103,7 +103,8 @@ export async function rateLimitingPlugin(fastify: FastifyInstance) {
   fastify.decorate('ipRateLimiting', function(config?: RateLimitConfig) {
     const rateLimitConfig = config || defaultConfigs.global;
     rateLimitConfig.keyGenerator = (request: FastifyRequest) => {
-      const forwarded = request.headers['x-forwarded-for'];\n      const ip = forwarded ? (forwarded as string).split(',')[0] : request.ip;
+      const forwarded = request.headers['x-forwarded-for'];
+      const ip = forwarded ? (forwarded as string).split(',')[0] : request.ip;
       return `ip:${ip}`;
     };
 
@@ -115,8 +116,11 @@ export async function rateLimitingPlugin(fastify: FastifyInstance) {
     const rateLimitConfig = config || defaultConfigs.api;
     rateLimitConfig.keyGenerator = (request: FastifyRequest) => {
       if (!request.user?.id) {
-        const forwarded = request.headers['x-forwarded-for'];\n        const ip = forwarded ? (forwarded as string).split(',')[0] : request.ip;\n        return `ip:${ip}`;
-      }\n      return `user:${request.user.id}`;
+        const forwarded = request.headers['x-forwarded-for'];
+        const ip = forwarded ? (forwarded as string).split(',')[0] : request.ip;
+        return `ip:${ip}`;
+      }
+      return `user:${request.user.id}`;
     };
 
     return fastify.rateLimiting(rateLimitConfig);
@@ -127,8 +131,11 @@ export async function rateLimitingPlugin(fastify: FastifyInstance) {
     const rateLimitConfig = config || defaultConfigs.api;
     rateLimitConfig.keyGenerator = (request: FastifyRequest) => {
       if (!request.user?.tenantId) {
-        const forwarded = request.headers['x-forwarded-for'];\n        const ip = forwarded ? (forwarded as string).split(',')[0] : request.ip;\n        return `ip:${ip}`;
-      }\n      return `tenant:${request.user.tenantId}`;
+        const forwarded = request.headers['x-forwarded-for'];
+        const ip = forwarded ? (forwarded as string).split(',')[0] : request.ip;
+        return `ip:${ip}`;
+      }
+      return `tenant:${request.user.tenantId}`;
     };
 
     return fastify.rateLimiting(rateLimitConfig);
@@ -141,7 +148,8 @@ export async function rateLimitingPlugin(fastify: FastifyInstance) {
   ) {
     const rateLimitConfig = config || defaultConfigs.api;
     rateLimitConfig.keyGenerator = (request: FastifyRequest) => {
-      const userId = request.user?.id || 'anonymous';\n      return `endpoint:${endpoint}:${userId}`;
+      const userId = request.user?.id || 'anonymous';
+      return `endpoint:${endpoint}:${userId}`;
     };
 
     return fastify.rateLimiting(rateLimitConfig);
@@ -156,9 +164,11 @@ export async function rateLimitingPlugin(fastify: FastifyInstance) {
       const key = generateDefaultKey(request);
       
       try {
-        // Check burst limit first\n        const burstInfo = await checkRateLimit(`${key}:burst`, burstConfig);
+        // Check burst limit first
+        const burstInfo = await checkRateLimit(`${key}:burst`, burstConfig);
         
-        // Check sustained limit\n        const sustainedInfo = await checkRateLimit(`${key}:sustained`, sustainedConfig);
+        // Check sustained limit
+        const sustainedInfo = await checkRateLimit(`${key}:sustained`, sustainedConfig);
 
         // Use the more restrictive limit
         const rateLimitInfo = burstInfo.remaining < sustainedInfo.remaining ? burstInfo : sustainedInfo;
@@ -231,7 +241,8 @@ export async function rateLimitingPlugin(fastify: FastifyInstance) {
     // Count current requests in window
     pipeline.zcard(key);
     
-    // Add current request\n    pipeline.zadd(key, now, `${now}-${Math.random()}`);
+    // Add current request
+    pipeline.zadd(key, now, `${now}-${Math.random()}`);
     
     // Set expiry for cleanup
     pipeline.expire(key, window + 60);
@@ -256,16 +267,21 @@ export async function rateLimitingPlugin(fastify: FastifyInstance) {
 
   // Generate default key based on user, tenant, or IP
   function generateDefaultKey(request: FastifyRequest): string {
-    if (request.user?.id) {\n      return `user:${request.user.id}`;
+    if (request.user?.id) {
+      return `user:${request.user.id}`;
     }
     
-    if (request.user?.tenantId) {\n      return `tenant:${request.user.tenantId}`;
+    if (request.user?.tenantId) {
+      return `tenant:${request.user.tenantId}`;
     }
 
-    const forwarded = request.headers['x-forwarded-for'];\n    const ip = forwarded ? (forwarded as string).split(',')[0] : request.ip;\n    return `ip:${ip}`;
+    const forwarded = request.headers['x-forwarded-for'];
+    const ip = forwarded ? (forwarded as string).split(',')[0] : request.ip;
+    return `ip:${ip}`;
   }
 
-  // Rate limit status endpoint\n  fastify.get('/rate-limit/status', {
+  // Rate limit status endpoint
+  fastify.get('/rate-limit/status', {
     schema: {
       response: {
         200: {
@@ -290,18 +306,22 @@ export async function rateLimitingPlugin(fastify: FastifyInstance) {
     preHandler: [fastify.authenticate],
   }, async (request, reply) => {
     const userId = request.user.id;
-    const keys = [\n      `user:${userId}`,\n      `tenant:${request.user.tenantId}`,\n      `endpoint:ai:${userId}`,
+    const keys = [\n      `user:${userId}`,
+      `tenant:${request.user.tenantId}`,
+      `endpoint:ai:${userId}`,
     ];
 
     const limits = await Promise.all(
       keys.map(async (key) => {
         try {
           const info = await checkRateLimit(key, defaultConfigs.api);
-          return {\n            key: key.replace(`${userId}`, 'self'),
+          return {
+            key: key.replace(`${userId}`, 'self'),
             ...info,
           };
         } catch (error) {
-          return {\n            key: key.replace(`${userId}`, 'self'),
+          return {
+            key: key.replace(`${userId}`, 'self'),
             limit: 0,
             remaining: 0,
             resetTime: 0,
@@ -313,7 +333,8 @@ export async function rateLimitingPlugin(fastify: FastifyInstance) {
     return { limits };
   });
 
-  // Rate limit reset endpoint (admin only)\n  fastify.post('/rate-limit/reset', {
+  // Rate limit reset endpoint (admin only)
+  fastify.post('/rate-limit/reset', {
     schema: {
       body: {
         type: 'object',
@@ -331,8 +352,10 @@ export async function rateLimitingPlugin(fastify: FastifyInstance) {
     let resetKey: string;
     if (key) {
       resetKey = key;
-    } else if (userId) {\n      resetKey = `user:${userId}`;
-    } else if (tenantId) {\n      resetKey = `tenant:${tenantId}`;
+    } else if (userId) {
+      resetKey = `user:${userId}`;
+    } else if (tenantId) {
+      resetKey = `tenant:${tenantId}`;
     } else {
       return reply.code(400).send({
         error: 'Bad Request',
@@ -341,7 +364,8 @@ export async function rateLimitingPlugin(fastify: FastifyInstance) {
     }
 
     try {
-      await redis.del(resetKey);\n      return { success: true, message: `Rate limit reset for ${resetKey}` };
+      await redis.del(resetKey);
+      return { success: true, message: `Rate limit reset for ${resetKey}` };
     } catch (error) {
       request.log.error(error, 'Failed to reset rate limit');
       return reply.code(500).send({

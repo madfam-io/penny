@@ -18,7 +18,9 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,\n} from '@/components/ui/table';\nimport { Button } from '@/components/ui/button';\nimport { Input } from '@/components/ui/input';
+  TableRow,\n} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -34,7 +36,8 @@ import {
   ArrowUpDown,
   ArrowUp,
   ArrowDown
-} from 'lucide-react';\nimport { cn } from '@/utils/cn';
+} from 'lucide-react';
+import { cn } from '@/utils/cn';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -75,7 +78,8 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = useState({});\n  const [globalFilter, setGlobalFilter] = useState('');
+  const [rowSelection, setRowSelection] = useState({});
+  const [globalFilter, setGlobalFilter] = useState('');
 
   // Enhanced columns with sorting icons
   const enhancedColumns = useMemo(() => {
@@ -145,29 +149,36 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className={cn('w-full space-y-4', className)}>
-      {/* Controls */}\n      <div className="flex items-center justify-between">\n        <div className="flex flex-1 items-center space-x-2">
-          {enableSearch && (\n            <div className="relative">\n              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+      {/* Controls */}
+      <div className="flex items-center justify-between">
+        <div className="flex flex-1 items-center space-x-2">
+          {enableSearch && (\n            <div className="relative">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder={searchPlaceholder}
                 value={globalFilter}
-                onChange={(event) => setGlobalFilter(event.target.value)}\n                className="pl-8 max-w-sm"
+                onChange={(event) => setGlobalFilter(event.target.value)}
+                className="pl-8 max-w-sm"
               />
             </div>
           )}
           
           {searchKey && (
             <Input
-              placeholder={`Filter by ${searchKey}...`}\n              value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''}
+              placeholder={`Filter by ${searchKey}...`}
+              value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''}
               onChange={(event) =>
                 table.getColumn(searchKey)?.setFilterValue(event.target.value)
-              }\n              className="max-w-sm"
+              }
+              className="max-w-sm"
             />
           )}
         </div>
         
         {enableColumnVisibility && (
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>\n              <Button variant="outline" size="sm" className="ml-auto">\n                <Settings className="mr-2 h-4 w-4" />
+            <DropdownMenuTrigger asChild>\n              <Button variant="outline" size="sm" className="ml-auto">
+                <Settings className="mr-2 h-4 w-4" />
                 View
               </Button>
             </DropdownMenuTrigger>\n            <DropdownMenuContent align="end" className="w-[150px]">
@@ -177,7 +188,8 @@ export function DataTable<TData, TValue>({
                 .map((column) => {
                   return (
                     <DropdownMenuCheckboxItem
-                      key={column.id}\n                      className="capitalize"
+                      key={column.id}
+                      className="capitalize"
                       checked={column.getIsVisible()}
                       onCheckedChange={(value) => column.toggleVisibility(!!value)}
                     >
@@ -203,7 +215,8 @@ export function DataTable<TData, TValue>({
         </div>
       )}
 
-      {/* Table */}\n      <div className="rounded-md border">
+      {/* Table */}
+      <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -223,7 +236,9 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {loading ? (
-              <TableRow>\n                <TableCell colSpan={columns.length} className="h-24 text-center">\n                  <div className="flex items-center justify-center">\n                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900"></div>\n                    <span className="ml-2">Loading...</span>
+              <TableRow>\n                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  <div className="flex items-center justify-center">\n                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900"></div>
+                    <span className="ml-2">Loading...</span>
                   </div>
                 </TableCell>
               </TableRow>
@@ -250,7 +265,8 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}\n                  className="h-24 text-center text-muted-foreground"
+                  colSpan={columns.length}
+                  className="h-24 text-center text-muted-foreground"
                 >
                   {emptyMessage}
                 </TableCell>
@@ -260,9 +276,12 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
 
-      {/* Pagination */}\n      <div className="flex items-center justify-between space-x-2 py-4">\n        <div className="text-sm text-muted-foreground">
+      {/* Pagination */}
+      <div className="flex items-center justify-between space-x-2 py-4">
+        <div className="text-sm text-muted-foreground">
           {pagination ? (
-            <>\n              Showing {pagination.pageIndex * pagination.pageSize + 1} to{' '}\n              {Math.min((pagination.pageIndex + 1) * pagination.pageSize, pagination.total)} of{' '}
+            <>\n              Showing {pagination.pageIndex * pagination.pageSize + 1} to{' '}
+              {Math.min((pagination.pageIndex + 1) * pagination.pageSize, pagination.total)} of{' '}
               {pagination.total} entries
             </>
           ) : (
@@ -271,7 +290,8 @@ export function DataTable<TData, TValue>({
             </>
           )}
         </div>
-        \n        <div className="flex items-center space-x-2">
+       
+       <div className="flex items-center space-x-2">
           {pagination ? (
             <>
               <Button\n                variant="outline"\n                size="sm"

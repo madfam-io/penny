@@ -73,7 +73,7 @@ export class PrometheusExporter implements MetricExporter {
   }
 
   private escapeValue(value: string): string {
-    return value.replace(/\/g, '\\').replace(/"/g, '\"').replace(/
+    return value.replace(/\/g, '\').replace(/"/g, '"').replace(/
 /g, '\
 ');
   }

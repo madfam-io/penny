@@ -1,11 +1,16 @@
-import React from 'react';\nimport { render, screen, fireEvent, waitFor } from '@testing-library/react';\nimport '@testing-library/jest-dom';\nimport { ArtifactViewer } from '../../components/ArtifactViewer';
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { ArtifactViewer } from '../../components/ArtifactViewer';
 
 // Mock child components\njest.mock('../../components/artifacts/DashboardViewer', () => ({
   DashboardViewer: ({ data }: any) => <div data-testid="dashboard-viewer">{JSON.stringify(data)}</div>,
 }));
-\njest.mock('../../components/artifacts/ChartViewer', () => ({\n  ChartViewer: ({ data }: any) => <div data-testid="chart-viewer">{JSON.stringify(data)}</div>,
+\njest.mock('../../components/artifacts/ChartViewer', () => ({
+  ChartViewer: ({ data }: any) => <div data-testid="chart-viewer">{JSON.stringify(data)}</div>,
 }));
-\njest.mock('../../components/artifacts/TableViewer', () => ({\n  TableViewer: ({ data }: any) => <div data-testid="table-viewer">{JSON.stringify(data)}</div>,
+\njest.mock('../../components/artifacts/TableViewer', () => ({
+  TableViewer: ({ data }: any) => <div data-testid="table-viewer">{JSON.stringify(data)}</div>,
 }));
 
 describe('ArtifactViewer', () => {
@@ -20,7 +25,8 @@ describe('ArtifactViewer', () => {
       ],
     },
     mimeType: 'application/json',
-    metadata: {\n      createdAt: '2024-01-01T00:00:00Z',
+    metadata: {
+      createdAt: '2024-01-01T00:00:00Z',
     },
   };
 
@@ -107,7 +113,9 @@ describe('ArtifactViewer', () => {
     const mockDownload = jest.fn();
     window.URL.createObjectURL = jest.fn();
     
-    const { container } = render(<ArtifactViewer artifacts={[mockArtifact]} />);\n    \n    const downloadButton = container.querySelector('[aria-label="Download"]');
+    const { container } = render(<ArtifactViewer artifacts={[mockArtifact]} />);
+   
+   const downloadButton = container.querySelector('[aria-label="Download"]');
     if (downloadButton) {
       fireEvent.click(downloadButton);
       expect(window.URL.createObjectURL).toHaveBeenCalled();
@@ -118,7 +126,9 @@ describe('ArtifactViewer', () => {
     const mockRequestFullscreen = jest.fn();
     document.documentElement.requestFullscreen = mockRequestFullscreen;
     
-    const { container } = render(<ArtifactViewer artifacts={[mockArtifact]} />);\n    \n    const fullscreenButton = container.querySelector('[aria-label="Fullscreen"]');
+    const { container } = render(<ArtifactViewer artifacts={[mockArtifact]} />);
+   
+   const fullscreenButton = container.querySelector('[aria-label="Fullscreen"]');
     if (fullscreenButton) {
       fireEvent.click(fullscreenButton);
       expect(mockRequestFullscreen).toHaveBeenCalled();
@@ -129,7 +139,9 @@ describe('ArtifactViewer', () => {
     const mockShare = jest.fn();
     navigator.share = mockShare;
     
-    const { container } = render(<ArtifactViewer artifacts={[mockArtifact]} />);\n    \n    const shareButton = container.querySelector('[aria-label="Share"]');
+    const { container } = render(<ArtifactViewer artifacts={[mockArtifact]} />);
+   
+   const shareButton = container.querySelector('[aria-label="Share"]');
     if (shareButton) {
       fireEvent.click(shareButton);
       expect(mockShare).toHaveBeenCalled();

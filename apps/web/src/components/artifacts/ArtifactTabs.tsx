@@ -1,4 +1,5 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';\nimport { Artifact } from '@penny/types';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { Artifact } from '@penny/types';
 
 interface ArtifactTabsProps {
   artifacts: Artifact[];
@@ -18,39 +19,48 @@ const getArtifactIcon = (type: string) => {
   switch (type) {
     case 'chart':
       return (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
         </svg>
       );
     case 'table':
-      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0V4a1 1 0 011-1h16a1 1 0 011 1v16a1 1 0 01-1 1H4a1 1 0 01-1-1z" />
+      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0V4a1 1 0 011-1h16a1 1 0 011 1v16a1 1 0 01-1 1H4a1 1 0 01-1-1z" />
         </svg>
       );
     case 'code':
-      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
         </svg>
       );
     case 'image':
-      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
       );
     case 'video':
-      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
         </svg>
       );
     case 'audio':
-      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M9 21H5a2 2 0 01-2-2v-8a2 2 0 012-2h4l7-7v22l-7-7z" />
+      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M9 21H5a2 2 0 01-2-2v-8a2 2 0 012-2h4l7-7v22l-7-7z" />
         </svg>
       );
     case 'pdf':
-      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
       );
     case 'map':
-      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
         </svg>
       );
     default:
-      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+      return (\n        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
         </svg>
       );
   }
@@ -174,7 +184,8 @@ export const ArtifactTabs: React.FC<ArtifactTabsProps> = ({
   }, [artifacts, closeable, onTabChange, onTabClose]);
 
   // Truncate tab title
-  const truncateTitle = useCallback((title: string, maxLength: number) => {\n    return title.length > maxLength ? title.substring(0, maxLength - 3) + '...' : title;
+  const truncateTitle = useCallback((title: string, maxLength: number) => {
+    return title.length > maxLength ? title.substring(0, maxLength - 3) + '...' : title;
   }, []);
 
   const tabsClasses = [
@@ -191,15 +202,18 @@ export const ArtifactTabs: React.FC<ArtifactTabsProps> = ({
         <button
           onClick={scrollLeft}
           disabled={!canScrollLeft}
-          className={scrollButtonClasses}\n          aria-label="Scroll tabs left"
-        >\n          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          className={scrollButtonClasses}
+          aria-label="Scroll tabs left"
+        >\n          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
       )}
 
       {/* Tabs container */}
       <div
-        ref={tabsRef}\n        className="flex-1 flex overflow-x-auto scrollbar-hide"
+        ref={tabsRef}
+        className="flex-1 flex overflow-x-auto scrollbar-hide"
         onScroll={handleScroll}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
@@ -222,15 +236,18 @@ export const ArtifactTabs: React.FC<ArtifactTabsProps> = ({
             reorderable ? 'cursor-move' : 'cursor-pointer'\n          ].filter(Boolean).join(' ');
 
           const tabStyle: React.CSSProperties = {
-            maxWidth: `${maxTabWidth}px`,\n            minWidth: '120px',
+            maxWidth: `${maxTabWidth}px`,
+            minWidth: '120px',
             flexShrink: 0
           };
 
           return (
             <button
               key={artifact.id}
-              ref={el => tabRefs.current[index] = el}\n              role="tab"
-              aria-selected={isActive}\n              aria-controls={`artifact-panel-${artifact.id}`}
+              ref={el => tabRefs.current[index] = el}
+              role="tab"
+              aria-selected={isActive}
+              aria-controls={`artifact-panel-${artifact.id}`}
               className={tabClasses}
               style={tabStyle}
               onClick={() => handleTabClick(artifact)}
@@ -242,21 +259,25 @@ export const ArtifactTabs: React.FC<ArtifactTabsProps> = ({
               title={artifact.title}
             >
               {/* Icon */}
-              {showIcons && (\n                <span className="flex-shrink-0">
+              {showIcons && (
+                <span className="flex-shrink-0">
                   {getArtifactIcon(artifact.type)}
                 </span>
               )}
 
-              {/* Title */}\n              <span className="truncate">
+              {/* Title */}
+              <span className="truncate">
                 {truncateTitle(artifact.title, 20)}
               </span>
 
               {/* Close button */}
               {closeable && (
                 <button
-                  onClick={(e) => handleTabClose(e, artifact.id)}\n                  className="flex-shrink-0 ml-1 p-1 rounded hover:bg-gray-200 hover:text-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-400"\n                  aria-label={`Close ${artifact.title}`}
+                  onClick={(e) => handleTabClose(e, artifact.id)}
+                  className="flex-shrink-0 ml-1 p-1 rounded hover:bg-gray-200 hover:text-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-400"\n                  aria-label={`Close ${artifact.title}`}
                   tabIndex={-1}
-                >\n                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                >\n                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               )}
@@ -270,8 +291,10 @@ export const ArtifactTabs: React.FC<ArtifactTabsProps> = ({
         <button
           onClick={scrollRight}
           disabled={!canScrollRight}
-          className={scrollButtonClasses}\n          aria-label="Scroll tabs right"
-        >\n          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\n            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          className={scrollButtonClasses}
+          aria-label="Scroll tabs right"
+        >\n          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
       )}

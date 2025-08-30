@@ -1,5 +1,7 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';\nimport { ConversationService } from '../services/ConversationService';\nimport { PaginationSchema, ErrorResponseSchema } from '../schemas/common';
+import { z } from 'zod';
+import { ConversationService } from '../services/ConversationService';
+import { PaginationSchema, ErrorResponseSchema } from '../schemas/common';
 
 // Request/Response Schemas
 const CreateConversationSchema = z.object({
@@ -229,7 +231,8 @@ export async function conversationRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Delete conversation (soft delete)\n  fastify.delete('/conversations/:id', {
+  // Delete conversation (soft delete)
+  fastify.delete('/conversations/:id', {
     schema: {
       params: z.object({
         id: z.string(),

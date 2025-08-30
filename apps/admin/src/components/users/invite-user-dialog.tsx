@@ -27,7 +27,8 @@ interface InviteUserDialogProps {
 
 export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({\n    email: '',\n    name: '',\n    tenant: '',\n    workspace: '',
+  const [formData, setFormData] = useState({
+    email: '',\n    name: '',\n    tenant: '',\n    workspace: '',
     role: 'member',
     sendWelcomeEmail: true,\n    customMessage: '',
   });
@@ -42,7 +43,8 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
     setIsLoading(false);
     onOpenChange(false);
     // Reset form
-    setFormData({\n      email: '',\n      name: '',\n      tenant: '',\n      workspace: '',
+    setFormData({
+      email: '',\n      name: '',\n      tenant: '',\n      workspace: '',
       role: 'member',
       sendWelcomeEmail: true,\n      customMessage: '',
     });
@@ -56,20 +58,25 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
             <DialogTitle>Invite New User</DialogTitle>
             <DialogDescription>Send an invitation to join the platform</DialogDescription>
           </DialogHeader>
-\n          <div className="grid gap-4 py-4">\n            <div className="grid gap-2">\n              <Label htmlFor="email">Email Address</Label>
+\n          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">\n              <Label htmlFor="email">Email Address</Label>
               <Input\n                id="email"\n                type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}\n                placeholder="user@example.com"
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                placeholder="user@example.com"
                 required
               />
             </div>
-\n            <div className="grid gap-2">\n              <Label htmlFor="name">Full Name</Label>
+\n            <div className="grid gap-2">
+              <Label htmlFor="name">Full Name</Label>
               <Input\n                id="name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}\n                placeholder="John Doe"
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="John Doe"
               />
             </div>
-\n            <div className="grid gap-2">\n              <Label htmlFor="tenant">Tenant</Label>
+\n            <div className="grid gap-2">
+              <Label htmlFor="tenant">Tenant</Label>
               <Select
                 value={formData.tenant}
                 onValueChange={(value) => setFormData({ ...formData, tenant: value })}
@@ -79,7 +86,8 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
                 </SelectContent>
               </Select>
             </div>
-\n            <div className="grid gap-2">\n              <Label htmlFor="workspace">Workspace (Optional)</Label>
+\n            <div className="grid gap-2">
+              <Label htmlFor="workspace">Workspace (Optional)</Label>
               <Select
                 value={formData.workspace}
                 onValueChange={(value) => setFormData({ ...formData, workspace: value })}
@@ -89,7 +97,8 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
                 </SelectContent>
               </Select>
             </div>
-\n            <div className="grid gap-2">\n              <Label htmlFor="role">Role</Label>
+\n            <div className="grid gap-2">
+              <Label htmlFor="role">Role</Label>
               <Select
                 value={formData.role}
                 onValueChange={(value) => setFormData({ ...formData, role: value })}
@@ -109,10 +118,12 @@ export function InviteUserDialog({ open, onOpenChange }: InviteUserDialogProps) 
               />\n              <Label htmlFor="sendWelcomeEmail">Send welcome email with login instructions</Label>
             </div>
 
-            {formData.sendWelcomeEmail && (\n              <div className="grid gap-2">\n                <Label htmlFor="customMessage">Custom Message (Optional)</Label>
+            {formData.sendWelcomeEmail && (\n              <div className="grid gap-2">
+                <Label htmlFor="customMessage">Custom Message (Optional)</Label>
                 <Textarea\n                  id="customMessage"
                   value={formData.customMessage}
-                  onChange={(e) => setFormData({ ...formData, customMessage: e.target.value })}\n                  placeholder="Add a personal message to the invitation..."
+                  onChange={(e) => setFormData({ ...formData, customMessage: e.target.value })}
+                  placeholder="Add a personal message to the invitation..."
                   rows={3}
                 />
               </div>

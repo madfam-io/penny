@@ -30,7 +30,8 @@ export const MessageListQuerySchema = z.object({
   before: z.string().optional(), // cursor-based pagination
   after: z.string().optional(),
   search: z.string().min(1).optional(),
-  include: z.string()\n    .transform(val => val.split(',').map(s => s.trim()))
+  include: z.string()
+    .transform(val => val.split(',').map(s => s.trim()))
     .pipe(z.array(z.enum(['replies', 'artifacts', 'toolCalls'])))
     .optional(),
 });

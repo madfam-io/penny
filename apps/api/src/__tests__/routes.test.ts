@@ -1,4 +1,8 @@
-import fastify, { FastifyInstance } from 'fastify';\nimport { authRoutes } from '../routes/auth';\nimport { chatRoutes } from '../routes/chat';\nimport { toolRoutes } from '../routes/tools';\nimport { artifactRoutes } from '../routes/artifacts';
+import fastify, { FastifyInstance } from 'fastify';
+import { authRoutes } from '../routes/auth';
+import { chatRoutes } from '../routes/chat';
+import { toolRoutes } from '../routes/tools';
+import { artifactRoutes } from '../routes/artifacts';
 
 describe('API Routes', () => {
   let app: FastifyInstance;

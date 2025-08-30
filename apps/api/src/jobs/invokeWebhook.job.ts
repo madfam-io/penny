@@ -1,4 +1,5 @@
-import { Job, Worker, Queue } from 'bullmq';\nimport { PrismaClient } from '@prisma/client';
+import { Job, Worker, Queue } from 'bullmq';
+import { PrismaClient } from '@prisma/client';
 import axios, { AxiosResponse } from 'axios';
 import crypto from 'crypto';
 
@@ -201,7 +202,8 @@ export class InvokeWebhookJob {
       await this.updateDelivery(delivery.id, {
         status: isSuccess ? 'delivered' : 'failed',
         httpStatus: response.status,
-        response: responseBody,\n        error: isSuccess ? null : `HTTP ${response.status}`,
+        response: responseBody,
+        error: isSuccess ? null : `HTTP ${response.status}`,
         deliveredAt: isSuccess ? new Date() : null,
         completedAt: new Date(),
       });
@@ -217,7 +219,8 @@ export class InvokeWebhookJob {
       }
 
       // Schedule retry if failed and within limits
-      if (!isSuccess && this.shouldRetry(data.attempt || 1, webhook.maxRetries)) {\n        await this.scheduleRetry(data, webhook, `HTTP ${response.status}`);
+      if (!isSuccess && this.shouldRetry(data.attempt || 1, webhook.maxRetries)) {
+        await this.scheduleRetry(data, webhook, `HTTP ${response.status}`);
       }
 
       job.updateProgress(100);
@@ -229,7 +232,8 @@ export class InvokeWebhookJob {
         response: responseBody,
         responseHeaders: response.headers,
         deliveredAt: isSuccess ? new Date().toISOString() : undefined,
-        ...(isSuccess ? {} : { \n          error: `HTTP ${response.status}`,
+        ...(isSuccess ? {} : {
+         error: `HTTP ${response.status}`,
           retryAfter: this.shouldRetry(data.attempt || 1, webhook.maxRetries)
             ? this.calculateRetryDelay(data.attempt || 1, webhook.retryInterval)
             : undefined,
@@ -239,7 +243,8 @@ export class InvokeWebhookJob {
     } catch (error) {
       console.error('Webhook job processing failed:', error);
 
-      // Try to update delivery if we have the ID\n      const deliveryId = `webhook-${data.webhookId}-${Date.now()}`;
+      // Try to update delivery if we have the ID
+      const deliveryId = `webhook-${data.webhookId}-${Date.now()}`;
       
       try {
         await this.prisma.webhookDelivery.create({
@@ -311,7 +316,8 @@ export class InvokeWebhookJob {
         attempt: nextAttempt,
       },
       {
-        delay: retryDelay,\n        jobId: `webhook-${originalData.webhookId}-${nextAttempt}-${Date.now()}`,
+        delay: retryDelay,
+        jobId: `webhook-${originalData.webhookId}-${nextAttempt}-${Date.now()}`,
       }
     );
   }
@@ -335,13 +341,16 @@ export class InvokeWebhookJob {
   }
 
   private setupEventHandlers(): void {
-    this.worker.on('completed', (job) => {\n      console.log(`Webhook job ${job.id} completed`);
+    this.worker.on('completed', (job) => {
+      console.log(`Webhook job ${job.id} completed`);
     });
 
-    this.worker.on('failed', (job, err) => {\n      console.error(`Webhook job ${job?.id} failed:`, err.message);
+    this.worker.on('failed', (job, err) => {
+      console.error(`Webhook job ${job?.id} failed:`, err.message);
     });
 
-    this.worker.on('stalled', (jobId) => {\n      console.warn(`Webhook job ${jobId} stalled`);
+    this.worker.on('stalled', (jobId) => {
+      console.warn(`Webhook job ${jobId} stalled`);
     });
 
     this.worker.on('error', (err) => {

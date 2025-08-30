@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';\nimport { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState, useCallback } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 export interface User {
   id: string;
@@ -44,7 +45,8 @@ export interface AuthResponse {
   expiresIn: number;
 }
 
-class AuthService {\n  private baseUrl = '/api/v1/auth';
+class AuthService {
+  private baseUrl = '/api/v1/auth';
   private accessToken: string | null = null;
   private refreshToken: string | null = null;
 
@@ -63,7 +65,8 @@ class AuthService {\n  private baseUrl = '/api/v1/auth';
     if (this.accessToken) {
       headers.Authorization = `Bearer ${this.accessToken}`;
     }
-\n    const response = await fetch(`${this.baseUrl}${url}`, {
+
+    const response = await fetch(`${this.baseUrl}${url}`, {
       ...options,
       headers,
     });
@@ -72,7 +75,9 @@ class AuthService {\n  private baseUrl = '/api/v1/auth';
       // Try to refresh the token
       const refreshed = await this.refreshTokens();
       if (refreshed) {
-        // Retry the original request with new token\n        headers.Authorization = `Bearer ${this.accessToken}`;\n        const retryResponse = await fetch(`${this.baseUrl}${url}`, {
+        // Retry the original request with new token
+        headers.Authorization = `Bearer ${this.accessToken}`;
+        const retryResponse = await fetch(`${this.baseUrl}${url}`, {
           ...options,
           headers,
         });
@@ -86,7 +91,8 @@ class AuthService {\n  private baseUrl = '/api/v1/auth';
   private async handleResponse<T>(response: Response): Promise<T> {
     const data = await response.json();
     
-    if (!response.ok) {\n      throw new Error(data.message || `HTTP ${response.status}`);
+    if (!response.ok) {
+      throw new Error(data.message || `HTTP ${response.status}`);
     }
 
     return data;
@@ -106,7 +112,8 @@ class AuthService {\n  private baseUrl = '/api/v1/auth';
     localStorage.removeItem('refreshToken');
   }
 
-  async login(data: LoginData): Promise<AuthResponse> {\n    const response = await this.makeRequest<AuthResponse>('/login', {
+  async login(data: LoginData): Promise<AuthResponse> {
+    const response = await this.makeRequest<AuthResponse>('/login', {
       method: 'POST',
       body: JSON.stringify(data),
     });
@@ -115,7 +122,8 @@ class AuthService {\n  private baseUrl = '/api/v1/auth';
     return response;
   }
 
-  async register(data: RegisterData): Promise<AuthResponse> {\n    const response = await this.makeRequest<AuthResponse>('/register', {
+  async register(data: RegisterData): Promise<AuthResponse> {
+    const response = await this.makeRequest<AuthResponse>('/register', {
       method: 'POST',
       body: JSON.stringify(data),
     });
@@ -126,7 +134,8 @@ class AuthService {\n  private baseUrl = '/api/v1/auth';
 
   async logout(): Promise<void> {
     try {
-      if (this.accessToken) {\n        await this.makeRequest('/logout', {
+      if (this.accessToken) {
+        await this.makeRequest('/logout', {
           method: 'POST',
         });
       }
@@ -135,7 +144,8 @@ class AuthService {\n  private baseUrl = '/api/v1/auth';
     }
   }
 
-  async getCurrentUser(): Promise<{ user: User; tenant: Tenant }> {\n    return this.makeRequest('/me');
+  async getCurrentUser(): Promise<{ user: User; tenant: Tenant }> {
+    return this.makeRequest('/me');
   }
 
   async refreshTokens(): Promise<boolean> {
@@ -143,7 +153,8 @@ class AuthService {\n  private baseUrl = '/api/v1/auth';
       return false;
     }
 
-    try {\n      const response = await fetch(`${this.baseUrl}/refresh`, {
+    try {
+      const response = await fetch(`${this.baseUrl}/refresh`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -165,19 +176,22 @@ class AuthService {\n  private baseUrl = '/api/v1/auth';
     }
   }
 
-  async changePassword(currentPassword: string, newPassword: string): Promise<void> {\n    await this.makeRequest('/change-password', {
+  async changePassword(currentPassword: string, newPassword: string): Promise<void> {
+    await this.makeRequest('/change-password', {
       method: 'POST',
       body: JSON.stringify({ currentPassword, newPassword }),
     });
   }
 
-  async requestPasswordReset(email: string): Promise<void> {\n    await this.makeRequest('/forgot-password', {
+  async requestPasswordReset(email: string): Promise<void> {
+    await this.makeRequest('/forgot-password', {
       method: 'POST',
       body: JSON.stringify({ email }),
     });
   }
 
-  async resetPassword(token: string, password: string): Promise<void> {\n    await this.makeRequest('/reset-password', {
+  async resetPassword(token: string, password: string): Promise<void> {
+    await this.makeRequest('/reset-password', {
       method: 'POST',
       body: JSON.stringify({ token, password }),
     });

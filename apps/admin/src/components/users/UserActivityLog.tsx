@@ -1,6 +1,11 @@
 'use client';
 
-import { useState } from 'react';\nimport { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { Badge } from '@/components/ui/badge';\nimport { Button } from '@/components/ui/button';\nimport { ScrollArea } from '@/components/ui/scroll-area';\nimport { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Clock, 
   Shield, 
@@ -33,41 +38,47 @@ interface UserActivityLogProps {
 // Mock data generator
 function generateActivityLog(userId: string): ActivityLogEntry[] {
   const activities: ActivityLogEntry[] = [
-    {\n      id: '1',
+    {
+      id: '1',
       type: 'auth',
       action: 'login',
       description: 'User logged in successfully',
       timestamp: new Date(Date.now() - 1000 * 60 * 30),\n      ip: '192.168.1.100',
       userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
     },
-    {\n      id: '2',
+    {
+      id: '2',
       type: 'conversation',
       action: 'conversation.created',
       description: 'Started new conversation',
       timestamp: new Date(Date.now() - 1000 * 60 * 45),
       metadata: { conversationId: 'conv-123', title: 'Data Analysis Query' }
     },
-    {\n      id: '3',
+    {
+      id: '3',
       type: 'tool',
       action: 'tool.invoked',
       description: 'Invoked weather tool',
       timestamp: new Date(Date.now() - 1000 * 60 * 60),
       metadata: { toolName: 'get_weather', location: 'San Francisco', duration: 1200 }
     },
-    {\n      id: '4',
+    {
+      id: '4',
       type: 'profile',
       action: 'profile.updated',
       description: 'Updated profile information',
       timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
       metadata: { fields: ['jobTitle', 'department'] }
     },
-    {\n      id: '5',
+    {
+      id: '5',
       type: 'security',
       action: 'mfa.enabled',
       description: 'Enabled multi-factor authentication',
       timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24),\n      ip: '192.168.1.100'
     },
-    {\n      id: '6',
+    {
+      id: '6',
       type: 'auth',
       action: 'password.changed',
       description: 'Password changed successfully',
@@ -121,9 +132,11 @@ export function UserActivityLog({ userId }: UserActivityLogProps) {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">\n          <CardTitle className="flex items-center gap-2">\n            <Clock className="h-5 w-5" />
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">\n            <Clock className="h-5 w-5" />
             Activity Log
-          </CardTitle>\n          <div className="flex items-center gap-2">\n            <Button variant="outline" size="sm">\n              <Download className="h-4 w-4 mr-2" />
+          </CardTitle>\n          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm">\n              <Download className="h-4 w-4 mr-2" />
               Export
             </Button>\n            <Button variant="outline" size="sm">\n              <RefreshCw className="h-4 w-4 mr-2" />
               Refresh
@@ -131,7 +144,8 @@ export function UserActivityLog({ userId }: UserActivityLogProps) {
           </div>
         </div>
       </CardHeader>
-      <CardContent>\n        <Tabs value={filter} onValueChange={setFilter} className="w-full">\n          <TabsList className="grid w-full grid-cols-5">\n            <TabsTrigger value="all">
+      <CardContent>\n        <Tabs value={filter} onValueChange={setFilter} className="w-full">
+          <TabsList className="grid w-full grid-cols-5">\n            <TabsTrigger value="all">
               All ({activityCounts.all})
             </TabsTrigger>\n            <TabsTrigger value="auth">
               Auth ({activityCounts.auth})
@@ -143,8 +157,10 @@ export function UserActivityLog({ userId }: UserActivityLogProps) {
               Security ({activityCounts.security})
             </TabsTrigger>
           </TabsList>
-\n          <TabsContent value={filter} className="mt-6">\n            <ScrollArea className="h-96">\n              <div className="space-y-4">
-                {filteredActivities.length === 0 ? (\n                  <div className="text-center py-8 text-muted-foreground">\n                    <Clock className="h-8 w-8 mx-auto mb-2 opacity-50" />
+\n          <TabsContent value={filter} className="mt-6">
+            <ScrollArea className="h-96">\n              <div className="space-y-4">
+                {filteredActivities.length === 0 ? (\n                  <div className="text-center py-8 text-muted-foreground">
+                    <Clock className="h-8 w-8 mx-auto mb-2 opacity-50" />
                     <p>No activity found for this filter</p>
                   </div>
                 ) : (
@@ -153,12 +169,16 @@ export function UserActivityLog({ userId }: UserActivityLogProps) {
                     
                     return (
                       <div
-                        key={activity.id}\n                        className="flex items-start gap-4 p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
+                        key={activity.id}
+                        className="flex items-start gap-4 p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
                       >
                         <div className={`p-2 rounded-full ${getTypeColor(activity.type)}`}>\n                          <Icon className="h-4 w-4" />
                         </div>
-                        \n                        <div className="flex-1 space-y-2">\n                          <div className="flex items-start justify-between">
-                            <div>\n                              <p className="font-medium">{activity.description}</p>\n                              <div className="flex items-center gap-2 mt-1">\n                                <Badge variant="outline" className="text-xs">
+                       
+                       <div className="flex-1 space-y-2">
+                          <div className="flex items-start justify-between">
+                            <div>\n                              <p className="font-medium">{activity.description}</p>
+                              <div className="flex items-center gap-2 mt-1">\n                                <Badge variant="outline" className="text-xs">
                                   {activity.type}
                                 </Badge>\n                                <span className="text-xs text-muted-foreground">
                                   {formatDistanceToNow(activity.timestamp, { addSuffix: true })}
@@ -172,7 +192,8 @@ export function UserActivityLog({ userId }: UserActivityLogProps) {
                             </p>
                           )}
                           
-                          {activity.metadata && Object.keys(activity.metadata).length > 0 && (\n                            <div className="text-xs text-muted-foreground">\n                              <details className="cursor-pointer">\n                                <summary className="hover:text-foreground">
+                          {activity.metadata && Object.keys(activity.metadata).length > 0 && (\n                            <div className="text-xs text-muted-foreground">
+                              <details className="cursor-pointer">\n                                <summary className="hover:text-foreground">
                                   Show details
                                 </summary>\n                                <div className="mt-2 p-2 bg-muted rounded text-xs font-mono">
                                   {JSON.stringify(activity.metadata, null, 2)}

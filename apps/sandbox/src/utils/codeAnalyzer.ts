@@ -71,12 +71,14 @@ export class CodeAnalyzer {
     return new Promise((resolve, reject) => {
       // Create temporary file for analysis
       const tempFile = `/tmp/code_analysis_${Date.now()}.py`;
-      \n      const analysisScript = `
+     
+     const analysisScript = `
 import ast
 import json
 import sys
 from collections import defaultdict
-\ncode = '''${code.replace(/'''/g, '\"""')}'''
+
+code = '''${code.replace(/'''/g, '"""')}'''
 
 class CodeAnalyzer(ast.NodeVisitor):
     def __init__(self):
@@ -187,7 +189,8 @@ except Exception as e:
     }))
 `;
 
-      const process = spawn('python', ['-c', analysisScript]);\n      let output = '';
+      const process = spawn('python', ['-c', analysisScript]);
+      let output = '';
 
       process.stdout?.on('data', (data) => {
         output += data.toString();
@@ -237,13 +240,15 @@ except Exception as e:
 
     // Check high-risk patterns
     for (const { pattern, message } of highRiskPatterns) {
-      if (pattern.test(code)) {\n        risks.push(`HIGH RISK: ${message}`);
+      if (pattern.test(code)) {
+        risks.push(`HIGH RISK: ${message}`);
       }
     }
 
     // Check medium-risk patterns
     for (const { pattern, message } of mediumRiskPatterns) {
-      if (pattern.test(code)) {\n        risks.push(`MEDIUM RISK: ${message}`);
+      if (pattern.test(code)) {
+        risks.push(`MEDIUM RISK: ${message}`);
       }
     }
 
@@ -298,7 +303,8 @@ except Exception as e:
     const functionMatches = code.match(/def\s+(\w+)/g);
     if (functionMatches) {
       for (const funcMatch of functionMatches) {
-        const funcName = funcMatch.replace('def ', '').trim();\n        const funcPattern = new RegExp(`\b${funcName}\s*\(`, 'g');
+        const funcName = funcMatch.replace('def ', '').trim();
+        const funcPattern = new RegExp(`\b${funcName}\s*\(`, 'g');
         const callMatches = code.match(funcPattern) || [];
         if (callMatches.length > 1) { // Function definition + at least one call
           hasRecursion = true;
@@ -309,8 +315,10 @@ except Exception as e:
     return { complexity, loopCount, hasRecursion };
   }
 
-  private countLinesOfCode(code: string): number {\n    return code.split('
-')\n      .filter(line => line.trim() !== '' && !line.trim().startsWith('#'))
+  private countLinesOfCode(code: string): number {
+    return code.split('
+')
+      .filter(line => line.trim() !== '' && !line.trim().startsWith('#'))
       .length;
   }
 
@@ -430,7 +438,8 @@ except Exception as e:
   }
 
   private fallbackAnalysis(code: string): AnalysisResult {
-    return {\n      complexity: Math.min(code.split('
+    return {
+      complexity: Math.min(code.split('
 ').length / 10, 20),
       linesOfCode: this.countLinesOfCode(code),
       imports: this.extractImportsRegex(code),
@@ -451,7 +460,8 @@ except Exception as e:
   }
 
   private extractImportsRegex(code: string): string[] {
-    const imports: string[] = [];\n    const lines = code.split('
+    const imports: string[] = [];
+    const lines = code.split('
 ');
     
     for (const line of lines) {
@@ -477,7 +487,8 @@ except Exception as e:
   }
 
   private extractVariablesRegex(code: string): string[] {
-    const variables: string[] = [];\n    const lines = code.split('
+    const variables: string[] = [];
+    const lines = code.split('
 ');
     
     for (const line of lines) {

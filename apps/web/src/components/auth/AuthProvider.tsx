@@ -1,4 +1,6 @@
-import React, { createContext, useContext, ReactNode } from 'react';\nimport { QueryClient, QueryClientProvider } from '@tanstack/react-query';\nimport { useAuth, type User, type Tenant } from '../../hooks/useAuth';
+import React, { createContext, useContext, ReactNode } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useAuth, type User, type Tenant } from '../../hooks/useAuth';
 
 // Create a query client
 const queryClient = new QueryClient({

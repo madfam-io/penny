@@ -1,5 +1,6 @@
 import type { FastifyRequest, FastifyReply, HookHandlerDoneFunction } from 'fastify';
-import { z } from 'zod';\nimport { sanitizeInput } from '@penny/security';
+import { z } from 'zod';
+import { sanitizeInput } from '@penny/security';
 
 // Common validation schemas
 export const paginationSchema = z.object({
@@ -56,7 +57,8 @@ export function validateRequest(schema: {
           error: {
             code: 'VALIDATION_ERROR',
             message: 'Invalid request data',
-            details: error.errors.map((err) => ({\n              path: err.path.join('.'),
+            details: error.errors.map((err) => ({
+              path: err.path.join('.'),
               message: err.message,
               code: err.code,
             })),
@@ -163,7 +165,8 @@ export function validateFileUpload(file: any) {
   }
 
   // Validate MIME type matches extension
-  const mimeTypeMap: Record<string, string[]> = {\n    '.jpg': ['image/jpeg'],\n    '.jpeg': ['image/jpeg'],\n    '.png': ['image/png'],\n    '.gif': ['image/gif'],\n    '.webp': ['image/webp'],\n    '.pdf': ['application/pdf'],\n    '.doc': ['application/msword'],\n    '.docx': ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'],\n    '.txt': ['text/plain'],\n    '.csv': ['text/csv'],\n    '.xlsx': ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],\n    '.xls': ['application/vnd.ms-excel'],\n    '.json': ['application/json'],\n    '.xml': ['application/xml', 'text/xml'],\n    '.yaml': ['application/x-yaml', 'text/yaml'],\n    '.yml': ['application/x-yaml', 'text/yaml'],
+  const mimeTypeMap: Record<string, string[]> = {
+    '.jpg': ['image/jpeg'],\n    '.jpeg': ['image/jpeg'],\n    '.png': ['image/png'],\n    '.gif': ['image/gif'],\n    '.webp': ['image/webp'],\n    '.pdf': ['application/pdf'],\n    '.doc': ['application/msword'],\n    '.docx': ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'],\n    '.txt': ['text/plain'],\n    '.csv': ['text/csv'],\n    '.xlsx': ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],\n    '.xls': ['application/vnd.ms-excel'],\n    '.json': ['application/json'],\n    '.xml': ['application/xml', 'text/xml'],\n    '.yaml': ['application/x-yaml', 'text/yaml'],\n    '.yml': ['application/x-yaml', 'text/yaml'],
   };
 
   const allowedMimeTypes = mimeTypeMap[ext];

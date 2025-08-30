@@ -1,7 +1,27 @@
-import Fastify from 'fastify';\nimport cors from '@fastify/cors';\nimport helmet from '@fastify/helmet';\nimport rateLimit from '@fastify/rate-limit';\nimport compress from '@fastify/compress';\nimport swagger from '@fastify/swagger';\nimport swaggerUi from '@fastify/swagger-ui';\nimport websocket from '@fastify/websocket';
-\nimport { errorHandler } from './plugins/error-handler.js';\nimport { requestContext } from './plugins/request-context.js';\nimport { authentication } from './plugins/authentication.js';\nimport { telemetry } from './plugins/telemetry.js';\nimport metrics from './plugins/metrics.js';
-\nimport healthRoutes from './routes/health.js';\nimport authRoutes from './routes/auth.js';\nimport chatRoutes from './routes/chat.js';\nimport toolRoutes from './routes/tools/index.js';\nimport artifactRoutes from './routes/artifacts.js';\nimport fileRoutes from './routes/files/index.js';\nimport wsRoutes from './routes/ws/index.js';
-\nimport { logger } from './utils/logger.js';
+import Fastify from 'fastify';
+import cors from '@fastify/cors';
+import helmet from '@fastify/helmet';
+import rateLimit from '@fastify/rate-limit';
+import compress from '@fastify/compress';
+import swagger from '@fastify/swagger';
+import swaggerUi from '@fastify/swagger-ui';
+import websocket from '@fastify/websocket';
+
+import { errorHandler } from './plugins/error-handler.js';
+import { requestContext } from './plugins/request-context.js';
+import { authentication } from './plugins/authentication.js';
+import { telemetry } from './plugins/telemetry.js';
+import metrics from './plugins/metrics.js';
+
+import healthRoutes from './routes/health.js';
+import authRoutes from './routes/auth.js';
+import chatRoutes from './routes/chat.js';
+import toolRoutes from './routes/tools/index.js';
+import artifactRoutes from './routes/artifacts.js';
+import fileRoutes from './routes/files/index.js';
+import wsRoutes from './routes/ws/index.js';
+
+import { logger } from './utils/logger.js';
 
 export async function createServer() {
   const server = Fastify({
@@ -16,7 +36,8 @@ export async function createServer() {
 
   // Core plugins
   await server.register(cors, {
-    origin: (origin, cb) => {\n      const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS?.split(',') || [
+    origin: (origin, cb) => {
+      const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS?.split(',') || [
         'http://localhost:5173',
       ];
       if (!origin || allowedOrigins.includes(origin)) {
@@ -36,7 +57,8 @@ export async function createServer() {
     },
   });
 
-  await server.register(rateLimit, {\n    max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100', 10),\n    timeWindow: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '60000', 10),
+  await server.register(rateLimit, {
+    max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100', 10),\n    timeWindow: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '60000', 10),
     cache: 10000,\n    allowList: ['127.0.0.1'],
     redis: process.env.REDIS_URL ? new URL(process.env.REDIS_URL).toString() : undefined,
   });
@@ -82,7 +104,8 @@ export async function createServer() {
     },
   });
 
-  await server.register(swaggerUi, {\n    routePrefix: '/docs',
+  await server.register(swaggerUi, {
+    routePrefix: '/docs',
     uiConfig: {
       docExpansion: 'list',
       deepLinking: true,
@@ -93,10 +116,16 @@ export async function createServer() {
   await server.register(errorHandler);
   await server.register(requestContext);
   await server.register(telemetry);
-  await server.register(metrics);\n  await server.register(import('./plugins/cache.js'));
+  await server.register(metrics);
+  await server.register(import('./plugins/cache.js'));
   await server.register(authentication);
 
-  // Routes\n  await server.register(healthRoutes, { prefix: '/health' });\n  await server.register(authRoutes, { prefix: '/api/v1/auth' });\n  await server.register(chatRoutes, { prefix: '/api/v1/chat' });\n  await server.register(toolRoutes, { prefix: '/api/v1/tools' });\n  await server.register(artifactRoutes, { prefix: '/api/v1/artifacts' });\n  await server.register(fileRoutes, { prefix: '/api/v1/files' });
+  // Routes\n  await server.register(healthRoutes, { prefix: '/health' });
+  await server.register(authRoutes, { prefix: '/api/v1/auth' });
+  await server.register(chatRoutes, { prefix: '/api/v1/chat' });
+  await server.register(toolRoutes, { prefix: '/api/v1/tools' });
+  await server.register(artifactRoutes, { prefix: '/api/v1/artifacts' });
+  await server.register(fileRoutes, { prefix: '/api/v1/files' });
   await server.register(wsRoutes); // WebSocket routes don't need a prefix
 
   // Default 404 handler

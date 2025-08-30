@@ -1,5 +1,7 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';\nimport { TenantService } from '../services/TenantService';\nimport { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
+import { z } from 'zod';
+import { TenantService } from '../services/TenantService';
+import { PaginationSchema, ErrorResponseSchema, MetadataSchema } from '../schemas/common';
 
 // Request/Response Schemas
 const CreateTenantSchema = z.object({
@@ -345,7 +347,8 @@ export async function tenantRoutes(fastify: FastifyInstance) {
 
   // Get tenant statistics\n  fastify.get('/tenant/stats', {
     schema: {
-      querystring: z.object({\n        period: z.enum(['7d', '30d', '90d', '1y']).default('30d'),
+      querystring: z.object({
+        period: z.enum(['7d', '30d', '90d', '1y']).default('30d'),
         granularity: z.enum(['day', 'week', 'month']).default('day'),
       }),
       response: {
@@ -360,7 +363,8 @@ export async function tenantRoutes(fastify: FastifyInstance) {
     preHandler: [fastify.authenticate, fastify.requireTenantAdmin],
   }, async (request: FastifyRequest, reply: FastifyReply) => {
     const { tenantId } = request.user;
-    const { period, granularity } = z.object({\n      period: z.enum(['7d', '30d', '90d', '1y']).default('30d'),
+    const { period, granularity } = z.object({
+      period: z.enum(['7d', '30d', '90d', '1y']).default('30d'),
       granularity: z.enum(['day', 'week', 'month']).default('day'),
     }).parse(request.query);
     

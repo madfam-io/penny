@@ -1,5 +1,12 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';\nimport { AuthProvider } from './components/auth/AuthProvider';\nimport { SessionManager } from './components/auth/SessionManager';\nimport { ProtectedRoute } from './components/auth/ProtectedRoute';\nimport { ThemeProvider } from './contexts/ThemeContext';\nimport { AuthRoutes } from './routes/AuthRoutes';\nimport Layout from './components/Layout';\nimport ChatView from './pages/ChatView';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './components/auth/AuthProvider';
+import { SessionManager } from './components/auth/SessionManager';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { AuthRoutes } from './routes/AuthRoutes';
+import Layout from './components/Layout';
+import ChatView from './pages/ChatView';
 
 function App() {
   return (
@@ -14,7 +21,8 @@ function App() {
             <Route path="/auth/*" element={<AuthRoutes />} />
             
             {/* Protected application routes */}
-            <Route \n              path="/dashboard" 
+            <Route
+              path="/dashboard" 
               element={
                 <ProtectedRoute>
                   <Layout>
@@ -24,7 +32,8 @@ function App() {
               } 
             />
             
-            <Route \n              path="/chat" 
+            <Route
+              path="/chat" 
               element={
                 <ProtectedRoute>
                   <Layout>
@@ -35,11 +44,15 @@ function App() {
             />
             
             {/* Root redirect */}
-            <Route \n              path="/" \n              element={<Navigate to="/dashboard" replace />} 
+            <Route
+              path="/"
+              element={<Navigate to="/dashboard" replace />} 
             />
             
             {/* Catch all - redirect to dashboard */}
-            <Route \n              path="/*" \n              element={<Navigate to="/dashboard" replace />} 
+            <Route
+              path="/*"
+              element={<Navigate to="/dashboard" replace />} 
             />
           </Routes>
         </AuthProvider>

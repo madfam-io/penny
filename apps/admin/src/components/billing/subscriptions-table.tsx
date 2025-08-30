@@ -31,7 +31,8 @@ interface Subscription {
 }
 
 const subscriptions: Subscription[] = [
-  {\n    id: '1',
+  {
+    id: '1',
     tenant: 'Acme Corporation',
     plan: 'enterprise',
     status: 'active',
@@ -40,7 +41,8 @@ const subscriptions: Subscription[] = [
     users: 250,
     maxUsers: 500,
   },
-  {\n    id: '2',
+  {
+    id: '2',
     tenant: 'TechStart Inc',
     plan: 'pro',
     status: 'active',
@@ -49,7 +51,8 @@ const subscriptions: Subscription[] = [
     users: 45,
     maxUsers: 100,
   },
-  {\n    id: '3',
+  {
+    id: '3',
     tenant: 'Digital Agency',
     plan: 'starter',
     status: 'past_due',
@@ -108,7 +111,8 @@ export function SubscriptionsTable() {
             </TableCell>
             <TableCell>{format(subscription.currentPeriodEnd, 'MMM d, yyyy')}</TableCell>\n            <TableCell className="text-right">
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>\n                  <Button variant="ghost" className="h-8 w-8 p-0">\n                    <span className="sr-only">Open menu</span>\n                    <MoreHorizontal className="h-4 w-4" />
+                <DropdownMenuTrigger asChild>\n                  <Button variant="ghost" className="h-8 w-8 p-0">
+                    <span className="sr-only">Open menu</span>\n                    <MoreHorizontal className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>\n                <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
@@ -122,7 +126,8 @@ export function SubscriptionsTable() {
                   <DropdownMenuItem>\n                    <RefreshCw className="mr-2 h-4 w-4" />
                     <span>Change Plan</span>
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />\n                  <DropdownMenuItem className="text-red-600">\n                    <Ban className="mr-2 h-4 w-4" />
+                  <DropdownMenuSeparator />\n                  <DropdownMenuItem className="text-red-600">
+                    <Ban className="mr-2 h-4 w-4" />
                     <span>Cancel Subscription</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>

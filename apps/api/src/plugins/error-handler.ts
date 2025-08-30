@@ -1,5 +1,6 @@
 import type { FastifyPluginAsync } from 'fastify';
-import fp from 'fastify-plugin';\nimport { PennyError, ValidationError } from '@penny/shared';
+import fp from 'fastify-plugin';
+import { PennyError, ValidationError } from '@penny/shared';
 import { ZodError } from 'zod';
 
 const errorHandler: FastifyPluginAsync = async (fastify) => {
