@@ -366,4 +366,4 @@ export function useSession() {
     session,
     status: isLoading ? 'loading' : isAuthenticated ? 'authenticated' : 'unauthenticated',
   };
-}"
+}

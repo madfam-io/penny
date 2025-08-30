@@ -42,8 +42,7 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
     
     // Simulate syntax highlighting load
     const timer = setTimeout(() => {
-      setTotalLines(code.split('
-').length);
+      setTotalLines(code.split('\n').length);
       setLoading(false);
       onLoadEnd?.();
     }, 100);
@@ -102,8 +101,7 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
       onAnnotate({
         type: 'line',
         line: lineNumber,
-        code: code.split('
-')[lineNumber - 1]
+        code: code.split('\n')[lineNumber - 1]
       });
     }
   }, [code, onAnnotate]);
@@ -151,8 +149,7 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
   };
 
   const renderLineNumbers = () => {
-    const lines = code.split('
-');
+    const lines = code.split('\n');
     return lines.map((_, index) => (
       <div
         key={index + 1}
@@ -168,8 +165,7 @@ const CodeRenderer: React.FC<CodeRendererProps> = ({
   };
 
   const renderCode = () => {
-    const lines = code.split('
-');
+    const lines = code.split('\n');
     return lines.map((line, index) => (
       <div
         key={index}

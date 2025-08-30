@@ -160,4 +160,4 @@ export function SessionManager({
       </div>
     </Modal>
   );
-}"
+}

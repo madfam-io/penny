@@ -153,8 +153,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
           <div className="flex items-center space-x-2">
 <span className="text-sm font-medium">Markdown</span>
             <span className="text-xs text-gray-500 dark:text-gray-400">
-{content.split('
-').length} lines • {content.split(/\s+/).length} words
+{content.split('\n').length} lines • {content.split(/\s+/).length} words
             </span>
           </div>
          

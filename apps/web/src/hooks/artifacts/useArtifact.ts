@@ -339,4 +339,4 @@ export function useArtifact(artifactId: string, options: UseArtifactOptions = {}
     canDelete,
     canShare
   };
-}"
+}

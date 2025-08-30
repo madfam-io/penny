@@ -708,4 +708,4 @@ export const subscribeToArtifacts = (callback: (artifacts: Artifact[]) => void) 
     callback,
     { equalityFn: (a, b) => a.length === b.length && a.every((item, index) => item.id === b[index].id) }
   );
-};"
+};

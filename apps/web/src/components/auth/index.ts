@@ -11,4 +11,4 @@ export type { User, Tenant, AuthState, LoginData, RegisterData, AuthResponse } f
 export { LoginPage } from '../../pages/auth/LoginPage';
 export { RegisterPage } from '../../pages/auth/RegisterPage';
 export { ForgotPasswordPage } from '../../pages/auth/ForgotPasswordPage';
-export { ResetPasswordPage } from '../../pages/auth/ResetPasswordPage';"
+export { ResetPasswordPage } from '../../pages/auth/ResetPasswordPage';

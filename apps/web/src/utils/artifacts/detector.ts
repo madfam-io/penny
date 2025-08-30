@@ -290,10 +290,8 @@ export class ArtifactDetector {
     }
 
     // Check for CSV-like content
-    if (trimmed.includes(',') && trimmed.split('
-').length > 1) {
-      const lines = trimmed.split('
-');
+    if (trimmed.includes(',') && trimmed.split('\n').length > 1) {
+      const lines = trimmed.split('\n');
       const firstLine = lines[0];
       const secondLine = lines[1];
       

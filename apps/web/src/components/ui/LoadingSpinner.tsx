@@ -43,4 +43,4 @@ export function LoadingSpinner({
   }
 
   return spinner;
-}"
+}

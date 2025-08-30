@@ -293,9 +293,7 @@ const OutputPanel: React.FC<OutputPanelProps> = ({
        <div className="metric-item">
           <span className="metric-label">Output Lines</span>
 <span className="metric-value">
-{(output.stdout?.split('
-').length || 0) + (output.stderr?.split('
-').length || 0)}
+{(output.stdout?.split('\n').length || 0) + (output.stderr?.split('\n').length || 0)}
           </span>
         </div>
        
