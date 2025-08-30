@@ -1,56 +1,77 @@
 {
   "name": "@penny/root",
   "version": "0.0.1",
-  "description": "PENNY - Multi-tenant AI-first workbench platform",
   "private": true,
-  "packageManager": "npm@10.8.2",
+  "description": "PENNY - Multi-tenant AI-first workbench platform",
+  "keywords": [
+    "ai",
+    "assistant",
+    "enterprise",
+    "multi-tenant",
+    "saas"
+  ],
+  "homepage": "https://github.com/madfam-io/penny#readme",
+  "bugs": {
+    "url": "https://github.com/madfam-io/penny/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madfam-io/penny.git"
+  },
+  "license": "UNLICENSED",
+  "author": "MADFAM IO",
   "workspaces": [
     "packages/*",
     "apps/*",
     "tools/*"
   ],
   "scripts": {
-    "dev": "turbo run dev",
     "build": "turbo run build",
-    "test": "jest --coverage --passWithNoTests",
-    "test:watch": "jest --watch",
-    "test:unit": "jest --testPathPattern=\\.test\\.(ts|tsx)$ --coverage",
-    "test:integration": "jest --testPathPattern=\\.integration\\.test\\.(ts|tsx)$ --coverage",
-    "test:e2e": "cypress run",
-    "test:e2e:open": "cypress open",
-    "test:turbo": "turbo run test",
-    "test:coverage": "jest --coverage --config jest.config.js",
-    "test:integration:coverage": "jest --testPathPattern=\\.integration\\.test\\.(ts|tsx)$ --coverage --config jest.integration.config.js",
-    "test:e2e:coverage": "cypress run --env coverage=true",
-    "test:all": "npm run test:unit && npm run test:integration && npm run test:e2e",
-    "coverage:clean": "node scripts/coverage.js clean",
-    "coverage:merge": "node scripts/coverage.js merge",
-    "coverage:check": "node scripts/coverage.js check",
+    "changeset": "changeset",
+    "clean": "turbo run clean && rm -rf node_modules && npm run coverage:clean",
     "coverage:badge": "node scripts/coverage.js badge",
+    "coverage:check": "node scripts/coverage.js check",
+    "coverage:clean": "node scripts/coverage.js clean",
     "coverage:markdown": "node scripts/coverage.js markdown",
-    "coverage:report": "node scripts/coverage.js all",
+    "coverage:merge": "node scripts/coverage.js merge",
     "coverage:merge:all": "nyc merge coverage coverage/merged.json",
+    "coverage:report": "node scripts/coverage.js all",
     "coverage:report:final": "nyc report --reporter=html --reporter=lcov --reporter=text-summary --temp-dir=coverage --report-dir=coverage/final",
     "coverage:summary:markdown": "node -e \"const fs=require('fs'); const path='coverage/merged/coverage-summary.json'; if(fs.existsSync(path)) { const data=JSON.parse(fs.readFileSync(path)); const t=data.total; console.log('| Lines | Functions | Branches | Statements |'); console.log('|-------|-----------|----------|------------|'); console.log('| '+t.lines.pct+'% | '+t.functions.pct+'% | '+t.branches.pct+'% | '+t.statements.pct+'% |'); } else { console.log('Coverage data not found'); }\"",
     "db:migrate": "turbo run db:migrate",
     "db:migrate:test": "DATABASE_URL=$DATABASE_URL_TEST npx prisma migrate deploy",
     "db:seed": "turbo run db:seed",
     "db:seed:test": "DATABASE_URL=$DATABASE_URL_TEST node scripts/seed-test-db.js",
-    "start:test": "NODE_ENV=test turbo run start --parallel",
-    "job:cleanup": "node apps/worker/dist/jobs/cleanup.js",
-    "job:metrics": "node apps/worker/dist/jobs/metrics.js",
-    "job:usage": "node apps/worker/dist/jobs/calculateUsage.js",
-    "job:invoices": "node apps/worker/dist/jobs/generateInvoices.js",
-    "job:webhooks": "node apps/worker/dist/jobs/invokeWebhook.js",
-    "lint": "turbo run lint",
-    "typecheck": "turbo run typecheck",
+    "dev": "turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
-    "clean": "turbo run clean && rm -rf node_modules && npm run coverage:clean",
-    "prepare": "husky install",
-    "changeset": "changeset",
-    "version": "changeset version",
-    "release": "turbo run build --filter='./packages/*' && changeset publish"
+    "job:cleanup": "node apps/worker/dist/jobs/cleanup.js",
+    "job:invoices": "node apps/worker/dist/jobs/generateInvoices.js",
+    "job:metrics": "node apps/worker/dist/jobs/metrics.js",
+    "job:usage": "node apps/worker/dist/jobs/calculateUsage.js",
+    "job:webhooks": "node apps/worker/dist/jobs/invokeWebhook.js",
+    "lint": "turbo run lint",
+    "prepare": "husky init",
+    "release": "turbo run build --filter='./packages/*' && changeset publish",
+    "start:test": "NODE_ENV=test turbo run start --parallel",
+    "test": "jest --coverage --passWithNoTests",
+    "test:all": "npm run test:unit && npm run test:integration && npm run test:e2e",
+    "test:coverage": "jest --coverage --config jest.config.js",
+    "test:e2e": "cypress run",
+    "test:e2e:coverage": "cypress run --env coverage=true",
+    "test:e2e:open": "cypress open",
+    "test:integration": "jest --testPathPattern=\\.integration\\.test\\.(ts|tsx)$ --coverage",
+    "test:integration:coverage": "jest --testPathPattern=\\.integration\\.test\\.(ts|tsx)$ --coverage --config jest.integration.config.js",
+    "test:turbo": "turbo run test",
+    "test:unit": "jest --testPathPattern=\\.test\\.(ts|tsx)$ --coverage",
+    "test:watch": "jest --watch",
+    "typecheck": "turbo run typecheck",
+    "version": "changeset version"
+  },
+  "overrides": {
+    "glob": "^10.0.0",
+    "inflight": "npm:lru-cache@^10.0.0",
+    "rimraf": "^5.0.0"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
@@ -90,30 +111,9 @@
     "turbo": "^1.13.4",
     "typescript": "^5.3.3"
   },
-  "overrides": {
-    "glob": "^10.0.0",
-    "rimraf": "^5.0.0",
-    "inflight": "npm:lru-cache@^10.0.0"
-  },
+  "packageManager": "npm@10.8.2",
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/madfam-io/penny.git"
-  },
-  "keywords": [
-    "ai",
-    "assistant",
-    "enterprise",
-    "multi-tenant",
-    "saas"
-  ],
-  "author": "MADFAM IO",
-  "license": "UNLICENSED",
-  "bugs": {
-    "url": "https://github.com/madfam-io/penny/issues"
-  },
-  "homepage": "https://github.com/madfam-io/penny#readme"
+  }
 }
